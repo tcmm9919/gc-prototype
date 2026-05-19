@@ -1,0 +1,96 @@
+import type { ScenarioPreset } from "./types";
+import {
+  seedAgents,
+  seedAlerts,
+  seedAudit,
+  seedCases,
+  seedClients,
+  seedLLMUsage,
+  seedRiskFactors,
+  seedRules,
+  seedScenarios,
+  seedTransactions,
+  seedUsers,
+} from "./seeds";
+import {
+  killerFlowAlert,
+  killerFlowAuditEvents,
+  killerFlowCase,
+  killerFlowClient,
+  killerFlowLLMUsage,
+  killerFlowRule,
+  killerFlowTransaction,
+  killerFlowWorkflow,
+} from "./scenarios/killer-flow-demo";
+
+export interface ScenarioBundle {
+  clients: typeof seedClients;
+  transactions: typeof seedTransactions;
+  alerts: typeof seedAlerts;
+  cases: typeof seedCases;
+  rules: typeof seedRules;
+  scenarios: typeof seedScenarios;
+  agents: typeof seedAgents;
+  audit: typeof seedAudit;
+  llmUsage: typeof seedLLMUsage;
+  riskFactors: typeof seedRiskFactors;
+  users: typeof seedUsers;
+}
+
+const full: ScenarioBundle = {
+  clients: seedClients,
+  transactions: seedTransactions,
+  alerts: seedAlerts,
+  cases: seedCases,
+  rules: seedRules,
+  scenarios: seedScenarios,
+  agents: seedAgents,
+  audit: seedAudit,
+  llmUsage: seedLLMUsage,
+  riskFactors: seedRiskFactors,
+  users: seedUsers,
+};
+
+/**
+ * killerFlow preset — preloads the canonical demo storyboard (Дягилев Михаил)
+ * at the top of each collection so it's the first thing visible in lists.
+ */
+const killerFlow: ScenarioBundle = {
+  ...full,
+  clients: [killerFlowClient, ...full.clients],
+  transactions: [killerFlowTransaction, ...full.transactions],
+  alerts: [killerFlowAlert, ...full.alerts],
+  cases: [killerFlowCase, ...full.cases],
+  rules: [killerFlowRule, ...full.rules],
+  scenarios: [killerFlowWorkflow, ...full.scenarios],
+  llmUsage: [...killerFlowLLMUsage, ...full.llmUsage],
+  audit: [...killerFlowAuditEvents, ...full.audit],
+};
+
+export const scenarioPresets: Record<ScenarioPreset, ScenarioBundle> = {
+  normalDay: full,
+  busyDay: {
+    ...full,
+    alerts: [...full.alerts, ...full.alerts.slice(0, 30).map((a) => ({ ...a, id: `${a.id}-x`, status: "new" as const }))],
+    cases: [...full.cases, ...full.cases.slice(0, 10).map((c) => ({ ...c, id: `${c.id}-x` }))],
+  },
+  emptyInbox: {
+    ...full,
+    alerts: [],
+    cases: full.cases.filter((c) => c.status === "closed"),
+  },
+  criticalAlert: {
+    ...full,
+    alerts: full.alerts.map((a, i) => (i < 5 ? { ...a, severity: "critical" as const, status: "new" as const } : a)),
+    clients: full.clients.map((c, i) => (i < 5 ? { ...c, riskLevel: "critical" as const, status: "review" as const } : c)),
+  },
+  killerFlow,
+};
+
+export const scenarioLabels: Record<ScenarioPreset, string> = {
+  normalDay: "Обычный день",
+  busyDay: "Загруженный день",
+  emptyInbox: "Пустой инбокс",
+  criticalAlert: "Критический алерт",
+  killerFlow: "Killer flow — демо",
+};
