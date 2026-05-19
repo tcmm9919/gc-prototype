@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import type { MockState } from "@/lib/mock/types";
 import { EmptyState } from "./empty-state";
@@ -24,8 +25,26 @@ interface StateSwitchProps {
 /**
  * Renders the correct state based on ?state= URL param.
  * Default: render children (data state).
+ *
+ * Wraps the inner component in Suspense — required for useSearchParams
+ * to work with static export. Without Suspense, Next.js static export
+ * bails on prerender.
  */
-export function StateSwitch({
+export function StateSwitch(props: StateSwitchProps) {
+  return (
+    <Suspense fallback={<StateSwitchFallback skeleton={props.skeleton} />}>
+      <StateSwitchInner {...props} />
+    </Suspense>
+  );
+}
+
+function StateSwitchFallback({ skeleton = "table" }: { skeleton?: "table" | "list" | "detail" }) {
+  if (skeleton === "list") return <ListSkeleton />;
+  if (skeleton === "detail") return <DetailSkeleton />;
+  return <TableSkeleton />;
+}
+
+function StateSwitchInner({
   emptyTitle = "Здесь пока пусто",
   emptyDescription = "Данные появятся по мере работы платформы.",
   emptyAction,

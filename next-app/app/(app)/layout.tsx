@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/shell/app-sidebar";
 import { AppHeader } from "@/components/shell/app-header";
@@ -14,11 +15,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <AppSidebar />
           <SidebarInset className="overflow-hidden md:peer-data-[variant=inset]:my-5 md:peer-data-[variant=inset]:mr-5 md:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:rounded-2xl">
             <main className="flex-1 min-w-0 min-h-0 overflow-y-auto">
-              <AppHeader />
-              <div className="px-8 pt-8">{children}</div>
+              <Suspense fallback={null}>
+                <AppHeader />
+              </Suspense>
+              <Suspense fallback={null}>
+                <div className="px-8 pt-8">{children}</div>
+              </Suspense>
             </main>
           </SidebarInset>
-          <DevToolbar />
+          <Suspense fallback={null}>
+            <DevToolbar />
+          </Suspense>
           <GlobalAssistantTrigger />
         </SidebarProvider>
       </CommandPaletteProvider>
