@@ -196,28 +196,6 @@ function QueueRow({ alert }: { alert: Alert }) {
 
   const openAlert = () => router.push(`/alerts/${alert.id}`);
 
-  const handleTakeToWork = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    const alertSnapshot = { ...alert };
-    const newCaseIds = useMockStore.getState().takeAlertsToWork([alert.id]);
-    toast.success(`Взято в работу: #${alert.id}`, {
-      action: {
-        label: "Отменить",
-        onClick: () => {
-          useMockStore.getState().bulkRemoveCases(newCaseIds);
-          useMockStore.getState().bulkUpsertAlerts([alertSnapshot]);
-        },
-      },
-    });
-  };
-
-  const handleOpenButton = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    openAlert();
-  };
-
   return (
     <div
       role="button"
@@ -271,13 +249,47 @@ function QueueRow({ alert }: { alert: Alert }) {
         <span className={cn("text-[13px] font-medium tabular-nums", zoneTimeColor)}>
           {formatRelativeFuture(alert.deadline)}
         </span>
-        <Button
-          size="sm"
-          variant={isInProgress ? "outline" : "default"}
-          onClick={isInProgress ? handleOpenButton : handleTakeToWork}
-        >
-          {isInProgress ? "Открыть" : "Взять в работу"}
-        </Button>
+        {isInProgress ? (
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              router.push(`/alerts/${alert.id}`);
+            }}
+          >
+            Открыть
+          </Button>
+        ) : (
+          <Button
+            size="sm"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const store = useMockStore.getState();
+              const oldAlert = store.data.alerts.find((a) => a.id === alert.id);
+              if (!oldAlert) return;
+              const caseIds = useMockStore.getState().takeAlertsToWork([alert.id]);
+              toast.success("Оповещение взято в работу", {
+                description: `Создан кейс ${caseIds[0]}`,
+                action: {
+                  label: "Открыть /cases",
+                  onClick: () => router.push("/cases"),
+                },
+                cancel: {
+                  label: "Отменить",
+                  onClick: () => {
+                    useMockStore.getState().bulkUpsertAlerts([oldAlert]);
+                    useMockStore.getState().bulkRemoveCases(caseIds);
+                  },
+                },
+              });
+            }}
+          >
+            Взять в работу
+          </Button>
+        )}
       </div>
     </div>
   );
