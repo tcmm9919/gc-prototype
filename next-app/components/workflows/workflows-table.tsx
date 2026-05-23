@@ -70,7 +70,7 @@ export function WorkflowsTable() {
   const clientWorkflows = workflowsByType(data.scenarios, "client");
 
   return (
-    <Tabs defaultValue="client" className="px-6 pb-12">
+    <Tabs defaultValue="client" className="pb-12">
       <div className="flex items-center justify-between gap-3 mb-4">
         <TabsList className="grid w-fit grid-cols-3">
           <TabsTrigger value="client">Клиентский</TabsTrigger>

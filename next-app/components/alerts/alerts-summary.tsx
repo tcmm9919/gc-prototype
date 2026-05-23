@@ -38,7 +38,7 @@ export function AlertsSummary() {
   ];
 
   return (
-    <div className="grid gap-2 px-6 pt-4 sm:grid-cols-3 lg:grid-cols-6">
+    <div className="grid gap-2 pb-4 sm:grid-cols-3 lg:grid-cols-6">
       {items.map((it, i) => {
         const meta = SEVERITY_META[it.key];
         const Icon = meta.icon;
