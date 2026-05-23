@@ -87,7 +87,7 @@ export function DataTable<T>({
   const gridTemplate = `repeat(${visibleColumnsCount}, minmax(0, 1fr))`;
 
   return (
-    <div className="flex flex-col gap-4 py-6">
+    <div className="flex flex-col gap-4 pb-6">
       {/* Toolbar: [search + filters] left, [actions] right */}
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-2 flex-1 min-w-0">
