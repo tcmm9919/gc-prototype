@@ -7,7 +7,8 @@ import { AnimatePresence, motion } from "framer-motion";
 
 import { useClient, useMockData } from "@/lib/mock";
 import { initialsFromName } from "@/lib/format";
-import { EntityHeader, AvatarCircle } from "@/components/ext/entity-header";
+import { AvatarCircle } from "@/components/ext/entity-header";
+import { DetailHeader } from "@/components/ext/block";
 import { RiskBadge } from "@/components/ext/risk-badge";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { AssistantPanel } from "@/components/ext/assistant-panel";
@@ -57,7 +58,6 @@ export function ClientCard({ id }: { id: string }) {
   const data = useMockData();
 
   if (!client) {
-    // Fallback for unknown id — pick first available so prototype keeps working
     const first = data.clients[0];
     if (!first) return notFound();
     return <ClientCard id={first.id} />;
@@ -75,15 +75,23 @@ export function ClientCard({ id }: { id: string }) {
   };
 
   return (
-    <>
-      <EntityHeader
-        avatar={<AvatarCircle initials={initialsFromName(client.fullName)} size="lg" hue={(client.id.charCodeAt(3) * 47) % 360} />}
+    <div className="flex flex-col gap-4 px-6 pb-6">
+      <DetailHeader
+        avatar={
+          <AvatarCircle
+            initials={initialsFromName(client.fullName)}
+            size="lg"
+            hue={(client.id.charCodeAt(3) * 47) % 360}
+          />
+        }
         title={client.fullName}
         subtitle={`${client.id} · ${client.type === "legal" ? "Юр. лицо" : "Физ. лицо"} · ${client.segment} · ответственный ${responsible?.fullName ?? "—"}`}
         badges={
           <>
             <RiskBadge level={client.riskLevel} />
-            <StatusBadge tone={STATUS_TONE[client.status]}>{STATUS_LABELS[client.status]}</StatusBadge>
+            <StatusBadge tone={STATUS_TONE[client.status]}>
+              {STATUS_LABELS[client.status]}
+            </StatusBadge>
             {client.pep ? (
               <StatusBadge tone="warning">
                 <ShieldAlert className="size-3" />
@@ -117,19 +125,13 @@ export function ClientCard({ id }: { id: string }) {
       />
 
       <Tabs value={currentTab} onValueChange={setTab}>
-        <div className="border-b border-border px-6">
-          <TabsList className="-mb-px h-10 bg-transparent p-0">
-            {TABS.map((t) => (
-              <TabsTrigger
-                key={t.value}
-                value={t.value}
-                className="rounded-none border-b-2 border-transparent bg-transparent px-3 py-2 data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
-              >
-                {t.label}
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </div>
+        <TabsList variant="line" className="w-full justify-start overflow-x-auto">
+          {TABS.map((t) => (
+            <TabsTrigger key={t.value} value={t.value}>
+              {t.label}
+            </TabsTrigger>
+          ))}
+        </TabsList>
 
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
@@ -151,6 +153,6 @@ export function ClientCard({ id }: { id: string }) {
           </motion.div>
         </AnimatePresence>
       </Tabs>
-    </>
+    </div>
   );
 }
