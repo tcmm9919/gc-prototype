@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Download, Filter } from "lucide-react";
+import { Ban, Bell, Check, Download, Filter, RotateCcw } from "lucide-react";
 
 import { useMockData, type RiskLevel, type Transaction } from "@/lib/mock";
 import { DataTable } from "@/components/ext/data-table";
@@ -208,6 +208,58 @@ export function TransactionsTable() {
           t.purposeDescription.toLowerCase().includes(q)
         );
       }}
+      bulkActions={(selected, clear) => (
+        <>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-background hover:bg-background/10 h-7"
+            onClick={() => {
+              console.log("Approve:", selected.map((t) => t.id));
+              clear();
+            }}
+          >
+            <Check className="size-3.5" />
+            Одобрить
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-background hover:bg-background/10 h-7"
+            onClick={() => {
+              console.log("Create alert from:", selected.map((t) => t.id));
+              clear();
+            }}
+          >
+            <Bell className="size-3.5" />
+            Создать алерт
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-background hover:bg-background/10 h-7"
+            onClick={() => {
+              console.log("Recheck rules:", selected.map((t) => t.id));
+              clear();
+            }}
+          >
+            <RotateCcw className="size-3.5" />
+            Перепроверить
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-red-400 hover:bg-red-400/10 h-7"
+            onClick={() => {
+              console.log("Reject:", selected.map((t) => t.id));
+              clear();
+            }}
+          >
+            <Ban className="size-3.5" />
+            Отклонить
+          </Button>
+        </>
+      )}
       filters={
         <>
           <DropdownMenu>
