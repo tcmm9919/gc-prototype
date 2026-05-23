@@ -17,48 +17,42 @@ export function RuleDetail({ id }: { id: string }) {
   if (!rule) return null;
 
   return (
-    <>
-      <div className="px-6 py-6">
-        <DetailHeader
-          title={rule.name}
-          subtitle={`${rule.id} · ${rule.description}`}
-          badges={
-            !editing ? (
+    <div className="flex flex-col gap-4 px-6 pb-6">
+      <DetailHeader
+        title={rule.name}
+        subtitle={`${rule.id} · ${rule.description}`}
+        actions={
+          editing ? (
+            <>
+              <Button variant="outline" size="lg" onClick={() => setEditing(false)}>
+                <X className="size-4" />
+                Отмена
+              </Button>
+              <Button size="lg" onClick={() => setEditing(false)}>
+                Сохранить изменения
+              </Button>
+            </>
+          ) : (
+            <>
               <StatusBadge tone={rule.enabled ? "success" : "muted"}>
                 {rule.enabled ? "Включено" : "Выключено"}
               </StatusBadge>
-            ) : undefined
-          }
-          actions={
-            editing ? (
-              <>
-                <Button variant="outline" size="sm" onClick={() => setEditing(false)}>
-                  <X className="size-4" />
-                  Отмена
-                </Button>
-                <Button size="sm" onClick={() => setEditing(false)}>
-                  Сохранить изменения
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button variant="outline" size="sm">
-                  <Copy className="size-4" />
-                  Клонировать
-                </Button>
-                <Button variant="outline" size="sm">
-                  <Download className="size-4" />
-                  JSON
-                </Button>
-                <Button size="sm" onClick={() => setEditing(true)}>
-                  <Pencil className="size-4" />
-                  Редактировать
-                </Button>
-              </>
-            )
-          }
-        />
-      </div>
+              <Button variant="outline" size="lg">
+                <Copy className="size-4" />
+                Клонировать
+              </Button>
+              <Button variant="outline" size="lg">
+                <Download className="size-4" />
+                JSON
+              </Button>
+              <Button size="lg" onClick={() => setEditing(true)}>
+                <Pencil className="size-4" />
+                Редактировать
+              </Button>
+            </>
+          )
+        }
+      />
       <RuleBuilder
         key={`${rule.id}-${editing ? "edit" : "view"}`}
         rule={rule}
@@ -66,6 +60,6 @@ export function RuleDetail({ id }: { id: string }) {
         onCancel={() => setEditing(false)}
         onSave={() => setEditing(false)}
       />
-    </>
+    </div>
   );
 }
