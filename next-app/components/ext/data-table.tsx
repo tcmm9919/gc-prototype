@@ -25,6 +25,7 @@ interface DataTableProps<T> {
   columns: ColumnDef<T>[];
   globalFilterPlaceholder?: string;
   globalFilterFn?: (row: Row<T>, columnId: string, filterValue: string) => boolean;
+  filters?: React.ReactNode;
   toolbar?: React.ReactNode;
   emptyMessage?: string;
   onRowClick?: (row: T) => void;
@@ -36,7 +37,7 @@ interface DataTableProps<T> {
  * DataTable — единый block с zebra rows (Revolut-inspired).
  *
  * Структура:
- * - Toolbar (search + custom slot) — снаружи block сверху
+ * - Toolbar: [search + filters] слева, [actions/toolbar] справа — снаружи block сверху
  * - Block (rounded-2xl bg-white overflow-hidden):
  *   - Headers: normal-case серый текст, БЕЗ border'а внизу
  *   - Rows: zebra via even:bg, no gaps, no inner dividers
@@ -52,6 +53,7 @@ export function DataTable<T>({
   columns,
   globalFilterPlaceholder = "Поиск...",
   globalFilterFn,
+  filters,
   toolbar,
   emptyMessage = "Ничего не найдено",
   onRowClick,
@@ -86,18 +88,21 @@ export function DataTable<T>({
 
   return (
     <div className="flex flex-col gap-4 py-6">
-      {/* Toolbar */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="relative w-full max-w-sm">
-          <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            placeholder={globalFilterPlaceholder}
-            value={globalFilter ?? ""}
-            onChange={(e) => setGlobalFilter(e.target.value)}
-            className="pl-9 h-10 rounded-full bg-white dark:bg-white/[0.04] border-foreground/[0.06] focus-visible:ring-1"
-          />
+      {/* Toolbar: [search + filters] left, [actions] right */}
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-2 flex-1 min-w-0">
+          <div className="relative w-72 max-w-full shrink-0">
+            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              placeholder={globalFilterPlaceholder}
+              value={globalFilter ?? ""}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              className="pl-9 h-10 rounded-full bg-white dark:bg-white/[0.04] border-foreground/[0.06] focus-visible:ring-1"
+            />
+          </div>
+          {filters && <div className="flex items-center gap-2 flex-wrap">{filters}</div>}
         </div>
-        <div className="flex items-center gap-2">{toolbar}</div>
+        {toolbar && <div className="flex items-center gap-2 shrink-0">{toolbar}</div>}
       </div>
 
       {/* Block */}

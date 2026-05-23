@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Filter } from "lucide-react";
+import { Download, Filter, Plus } from "lucide-react";
 
 import { DataTable } from "@/components/ext/data-table";
 import { RiskBadge } from "@/components/ext/risk-badge";
@@ -149,7 +149,7 @@ export function ClientsTable() {
         const q = String(value).toLowerCase();
         return c.fullName.toLowerCase().includes(q) || c.id.toLowerCase().includes(q) || (c.iin ?? c.bin ?? "").includes(q);
       }}
-      toolbar={
+      filters={
         <>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -222,6 +222,18 @@ export function ClientsTable() {
               </DropdownMenuCheckboxItem>
             </DropdownMenuContent>
           </DropdownMenu>
+        </>
+      }
+      toolbar={
+        <>
+          <Button size="sm" variant="outline">
+            <Download className="size-4" />
+            Экспорт
+          </Button>
+          <Button size="sm">
+            <Plus className="size-4" />
+            Добавить клиента
+          </Button>
         </>
       }
     />

@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Filter } from "lucide-react";
+import { Download, Filter } from "lucide-react";
 
 import { useMockData, type RiskLevel, type Transaction } from "@/lib/mock";
 import { DataTable } from "@/components/ext/data-table";
@@ -208,7 +208,7 @@ export function TransactionsTable() {
           t.purposeDescription.toLowerCase().includes(q)
         );
       }}
-      toolbar={
+      filters={
         <>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -306,6 +306,12 @@ export function TransactionsTable() {
             </DropdownMenuContent>
           </DropdownMenu>
         </>
+      }
+      toolbar={
+        <Button size="sm" variant="outline">
+          <Download className="size-4" />
+          Экспорт
+        </Button>
       }
     />
   );
