@@ -185,7 +185,7 @@ function QueueRow({ alert }: { alert: Alert }) {
   const zoneBarColor = {
     red: "bg-risk-critical",
     amber: "bg-risk-medium",
-    green: "bg-foreground/[0.10]",
+    green: "bg-foreground/[0.15] dark:bg-white/[0.15]",
   }[zone];
 
   const zoneTimeColor = {
@@ -207,7 +207,7 @@ function QueueRow({ alert }: { alert: Alert }) {
           openAlert();
         }
       }}
-      className="relative grid grid-cols-[4px_1fr_auto] gap-4 p-4 rounded-xl bg-foreground/[0.06] hover:bg-foreground/[0.10] transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="relative grid grid-cols-[4px_1fr_auto] gap-4 p-4 rounded-xl bg-foreground/[0.03] hover:bg-foreground/[0.06] dark:bg-white/[0.05] dark:hover:bg-white/[0.08] transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <span className={cn("w-1 rounded-full", zoneBarColor)} aria-hidden />
       <div className="flex flex-col gap-1.5 min-w-0">
@@ -221,17 +221,17 @@ function QueueRow({ alert }: { alert: Alert }) {
         </div>
         <div className="flex flex-wrap items-center gap-1.5">
           {scenario?.code && (
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono bg-foreground/[0.10] text-foreground">
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono bg-foreground/[0.08] dark:bg-white/[0.10] text-foreground">
               {scenario.code}
             </span>
           )}
           {scenario?.risk_attributes?.[0] && (
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] bg-foreground/[0.06] text-muted-foreground">
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] bg-foreground/[0.05] dark:bg-white/[0.06] text-muted-foreground">
               {scenario.risk_attributes[0]}
             </span>
           )}
           {alert.cash_flag && (
-            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] bg-foreground/[0.06] text-muted-foreground">
+            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] bg-foreground/[0.05] dark:bg-white/[0.06] text-muted-foreground">
               наличные
             </span>
           )}
@@ -312,11 +312,11 @@ function MyQueue({ alerts }: { alerts: Alert[] }) {
 
   if (isEmpty) {
     return (
-      <div className="rounded-2xl bg-foreground/[0.04] p-2 h-full flex flex-col">
+      <div className="rounded-2xl bg-white dark:bg-white/[0.04] p-2 h-full flex flex-col">
         <h2 className="font-heading text-[20px] font-bold tracking-[-0.02em] px-4 pt-3 pb-3">
           Моя очередь
         </h2>
-        <div className="rounded-xl bg-foreground/[0.06] p-10 text-center flex-1 flex flex-col items-center justify-center">
+        <div className="rounded-xl bg-foreground/[0.03] dark:bg-white/[0.05] p-10 text-center flex-1 flex flex-col items-center justify-center">
           <p className="text-[15px] font-medium">Очередь пуста · отличная работа</p>
           <p className="text-[12px] text-muted-foreground mt-1">
             Новые заявки появятся когда сработают сценарии или менеджер передаст вам кейс
@@ -327,13 +327,13 @@ function MyQueue({ alerts }: { alerts: Alert[] }) {
   }
 
   return (
-    <div className="rounded-2xl bg-foreground/[0.04] p-2 h-full flex flex-col w-full">
+    <div className="rounded-2xl bg-white dark:bg-white/[0.04] p-2 h-full flex flex-col w-full">
       <div className="flex items-end justify-between px-4 pt-3 pb-3">
         <div className="space-y-1">
           <h2 className="font-heading text-[20px] font-bold tracking-[-0.02em]">Моя очередь</h2>
           <p className="text-[12px] text-muted-foreground">отсортировано по SLA × риску</p>
         </div>
-        <button className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-foreground/[0.06] hover:bg-foreground/[0.10] text-[12px] text-foreground transition-colors">
+        <button className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-foreground/[0.04] hover:bg-foreground/[0.08] dark:bg-white/[0.06] dark:hover:bg-white/[0.10] text-[12px] text-foreground transition-colors">
           Все типы
           <ChevronDown className="size-3.5" />
         </button>
