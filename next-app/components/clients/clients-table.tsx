@@ -153,7 +153,7 @@ export function ClientsTable() {
         <>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 Риск
                 {riskFilter.size ? <span className="ml-1 rounded-sm bg-primary/15 px-1 text-xs">{riskFilter.size}</span> : null}
@@ -176,7 +176,7 @@ export function ClientsTable() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 Статус
                 {statusFilter.size ? <span className="ml-1 rounded-sm bg-primary/15 px-1 text-xs">{statusFilter.size}</span> : null}
@@ -199,7 +199,7 @@ export function ClientsTable() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 Тип
                 {typeFilter.size ? <span className="ml-1 rounded-sm bg-primary/15 px-1 text-xs">{typeFilter.size}</span> : null}
@@ -226,11 +226,11 @@ export function ClientsTable() {
       }
       toolbar={
         <>
-          <Button size="sm" variant="outline">
+          <Button size="xl" variant="outline">
             <Download className="size-4" />
             Экспорт
           </Button>
-          <Button size="sm">
+          <Button size="xl">
             <Plus className="size-4" />
             Добавить клиента
           </Button>

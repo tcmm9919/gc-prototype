@@ -212,7 +212,7 @@ export function TransactionsTable() {
         <>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 Статус
                 {complianceFilter.size ? (
@@ -237,7 +237,7 @@ export function TransactionsTable() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 Приоритет
                 {priorityFilter.size ? (
@@ -262,7 +262,7 @@ export function TransactionsTable() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 Риск
                 {riskFilter.size ? (
@@ -283,7 +283,7 @@ export function TransactionsTable() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 {currencyFilter || "Currency"}
               </Button>
@@ -308,7 +308,7 @@ export function TransactionsTable() {
         </>
       }
       toolbar={
-        <Button size="sm" variant="outline">
+        <Button size="xl" variant="outline">
           <Download className="size-4" />
           Экспорт
         </Button>
