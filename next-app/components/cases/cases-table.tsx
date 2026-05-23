@@ -4,9 +4,10 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { ChevronUp, Filter, Flag, Plus, UserPlus, X as XIcon } from "lucide-react";
+import { CheckCheck, ChevronUp, Clock, Filter, Flag, Plus, User, UserPlus, X as XIcon } from "lucide-react";
 
-import { useMockData, useMockStore, currentUser, type Case, type CaseStatus } from "@/lib/mock";
+import { currentUser, useMockData, useMockStore, type Case, type CaseStatus } from "@/lib/mock";
+import { type DataTableView } from "@/components/ext/data-table";
 import { toast } from "sonner";
 import { DataTable } from "@/components/ext/data-table";
 import { StatusBadge } from "@/components/ext/status-badge";
@@ -38,6 +39,40 @@ const STATUS_TONE: Record<CaseStatus, "info" | "warning" | "success" | "muted" |
   resolved: "success",
   closed: "muted",
 };
+
+const CASES_VIEWS: DataTableView<Case>[] = [
+  { id: "all", label: "Все" },
+  {
+    id: "my-queue",
+    label: "На мне",
+    icon: <User className="size-3.5" />,
+    predicate: (c) => c.responsibleId === currentUser.id && c.status !== "closed",
+  },
+  {
+    id: "overdue",
+    label: "Просроченные",
+    icon: <Clock className="size-3.5 text-risk-critical" />,
+    predicate: (c) => {
+      if (!c.slaDueAt) return false;
+      return new Date(c.slaDueAt).getTime() < Date.now() && c.status !== "closed" && c.status !== "resolved";
+    },
+  },
+  {
+    id: "escalated",
+    label: "Эскалированные",
+    icon: <ChevronUp className="size-3.5" />,
+    predicate: (c) => c.status === "escalated",
+  },
+  {
+    id: "closed-today",
+    label: "Закрыто сегодня",
+    icon: <CheckCheck className="size-3.5 text-primary" />,
+    predicate: (c) => {
+      if (!c.closed_at) return false;
+      return new Date(c.closed_at).toDateString() === new Date().toDateString();
+    },
+  },
+];
 
 export function CasesTable() {
   const router = useRouter();
@@ -104,6 +139,7 @@ export function CasesTable() {
   return (
     <DataTable<Case>
       data={filtered}
+      views={CASES_VIEWS}
       columns={columns}
       globalFilterPlaceholder="Поиск по ID, типу, клиенту..."
       onRowClick={(c) => router.push(`/cases/${c.id}`)}
@@ -127,10 +163,14 @@ export function CasesTable() {
               size="sm"
               className="text-background hover:bg-background/10 h-7"
               onClick={() => {
-                useMockStore.getState().bulkUpdateCases(ids, {
-                  responsibleId: currentUser.id,
+                const snapshot = [...selected];
+                useMockStore.getState().bulkUpdateCases(ids, { responsibleId: currentUser.id });
+                toast.success(`Назначено вам: ${ids.length}`, {
+                  action: {
+                    label: "Отменить",
+                    onClick: () => useMockStore.getState().bulkUpsertCases(snapshot),
+                  },
                 });
-                toast.success(`Назначено вам: ${ids.length}`);
                 clear();
               }}
             >
@@ -142,11 +182,17 @@ export function CasesTable() {
               size="sm"
               className="text-background hover:bg-background/10 h-7"
               onClick={() => {
+                const snapshot = [...selected];
                 useMockStore.getState().bulkUpdateCases(ids, {
                   status: "escalated",
                   priority: "critical",
                 });
-                toast.success(`${ids.length} кейсов эскалированы`);
+                toast.success(`${ids.length} кейсов эскалированы`, {
+                  action: {
+                    label: "Отменить",
+                    onClick: () => useMockStore.getState().bulkUpsertCases(snapshot),
+                  },
+                });
                 clear();
               }}
             >
@@ -158,8 +204,14 @@ export function CasesTable() {
               size="sm"
               className="text-background hover:bg-background/10 h-7"
               onClick={() => {
+                const snapshot = [...selected];
                 useMockStore.getState().bulkUpdateCases(ids, { priority: "high" });
-                toast.success(`Приоритет повышен: ${ids.length}`);
+                toast.success(`Приоритет повышен: ${ids.length}`, {
+                  action: {
+                    label: "Отменить",
+                    onClick: () => useMockStore.getState().bulkUpsertCases(snapshot),
+                  },
+                });
                 clear();
               }}
             >
@@ -171,11 +223,14 @@ export function CasesTable() {
               size="sm"
               className="text-red-400 hover:bg-red-400/10 h-7"
               onClick={() => {
-                useMockStore.getState().bulkUpdateCases(ids, {
-                  status: "closed",
-                  closed_at: new Date().toISOString(),
+                const snapshot = [...selected];
+                useMockStore.getState().bulkRemoveCases(ids);
+                toast.warning(`${ids.length} кейсов закрыты`, {
+                  action: {
+                    label: "Отменить",
+                    onClick: () => useMockStore.getState().bulkUpsertCases(snapshot),
+                  },
                 });
-                toast.warning(`${ids.length} кейсов закрыты`);
                 clear();
               }}
             >

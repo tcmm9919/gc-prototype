@@ -22,6 +22,13 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 
+export interface DataTableView<T> {
+  id: string;
+  label: string;
+  icon?: React.ReactNode;
+  predicate?: (item: T) => boolean;
+}
+
 interface DataTableProps<T> {
   data: T[];
   columns: ColumnDef<T>[];
@@ -31,6 +38,7 @@ interface DataTableProps<T> {
   toolbar?: React.ReactNode;
   emptyMessage?: string;
   emptyAction?: React.ReactNode;
+  views?: DataTableView<T>[];
   onRowClick?: (row: T) => void;
   pageSize?: number;
   rowClassName?: (row: T) => string;
@@ -62,6 +70,7 @@ export function DataTable<T>({
   toolbar,
   emptyMessage = "Ничего не найдено",
   emptyAction,
+  views,
   onRowClick,
   pageSize = 25,
   rowClassName,
@@ -72,9 +81,23 @@ export function DataTable<T>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+  const [activeViewId, setActiveViewId] = React.useState<string | undefined>(views?.[0]?.id);
+
+  const activeView = views?.find((v) => v.id === activeViewId);
+  const viewFilteredData = React.useMemo(() => {
+    if (!activeView?.predicate) return data;
+    return data.filter(activeView.predicate);
+  }, [data, activeView]);
+
+  const viewCounts = React.useMemo(() => {
+    if (!views) return {} as Record<string, number>;
+    return Object.fromEntries(
+      views.map((v) => [v.id, v.predicate ? data.filter(v.predicate).length : data.length]),
+    );
+  }, [data, views]);
 
   const table = useReactTable({
-    data,
+    data: viewFilteredData,
     columns,
     state: { sorting, columnFilters, columnVisibility, globalFilter, rowSelection },
     onSortingChange: setSorting,
@@ -102,6 +125,35 @@ export function DataTable<T>({
   return (
     <>
       <div className="flex flex-col gap-4 pb-6">
+        {/* Saved views */}
+        {views && views.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2">
+            {views.map((v) => {
+              const isActive = v.id === activeViewId;
+              const count = viewCounts[v.id] ?? 0;
+              return (
+                <button
+                  key={v.id}
+                  type="button"
+                  onClick={() => setActiveViewId(v.id)}
+                  className={cn(
+                    "inline-flex items-center gap-1.5 px-3 h-9 rounded-full text-[13px] font-medium transition-colors",
+                    isActive
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-white dark:bg-white/[0.04] text-foreground hover:bg-foreground/[0.04] dark:hover:bg-white/[0.06]",
+                  )}
+                >
+                  {v.icon && <span>{v.icon}</span>}
+                  <span>{v.label}</span>
+                  <span className={cn("tabular-nums", isActive ? "text-primary-foreground/80" : "text-muted-foreground")}>
+                    · {count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+
         {/* Toolbar: [search + filters] left, [actions] right */}
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-2 flex-1 min-w-0">

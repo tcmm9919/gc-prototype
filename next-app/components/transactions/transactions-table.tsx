@@ -4,9 +4,10 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Ban, Bell, Check, Download, Filter, RotateCcw } from "lucide-react";
+import { AlertCircle, Ban, Bell, Check, Download, Filter, Flame, RotateCcw, TrendingUp } from "lucide-react";
 
 import { useMockData, useMockStore, type RiskLevel, type Transaction } from "@/lib/mock";
+import { type DataTableView } from "@/components/ext/data-table";
 import { toast } from "sonner";
 import { DataTable } from "@/components/ext/data-table";
 import { RiskBadge } from "@/components/ext/risk-badge";
@@ -55,6 +56,28 @@ function shortId(id: string): string {
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("ru-RU");
 }
+
+const TRANSACTIONS_VIEWS: DataTableView<Transaction>[] = [
+  { id: "all", label: "Все" },
+  {
+    id: "pending-review",
+    label: "Ожидают review",
+    icon: <AlertCircle className="size-3.5 text-risk-medium" />,
+    predicate: (t) => t.complianceStatus === "Ожидание",
+  },
+  {
+    id: "high-risk",
+    label: "Высокий риск",
+    icon: <Flame className="size-3.5 text-risk-critical" />,
+    predicate: (t) => t.riskLevel === "critical" || t.riskLevel === "high",
+  },
+  {
+    id: "large-amount",
+    label: "> 1 млн KZT",
+    icon: <TrendingUp className="size-3.5" />,
+    predicate: (t) => t.amountKZT > 1_000_000,
+  },
+];
 
 export function TransactionsTable() {
   const router = useRouter();
@@ -185,6 +208,7 @@ export function TransactionsTable() {
   return (
     <DataTable<Transaction>
       data={filtered}
+      views={TRANSACTIONS_VIEWS}
       columns={columns}
       globalFilterPlaceholder="Поиск по ID, клиенту, назначению..."
       onRowClick={(t) => router.push(`/transactions/${t.id}`)}
@@ -218,10 +242,14 @@ export function TransactionsTable() {
               size="sm"
               className="text-background hover:bg-background/10 h-7"
               onClick={() => {
-                useMockStore.getState().bulkUpdateTransactions(ids, {
-                  complianceStatus: "Обработана",
+                const snapshot = [...selected];
+                useMockStore.getState().bulkRemoveTransactions(ids);
+                toast.success(`Одобрено: ${ids.length} транзакций`, {
+                  action: {
+                    label: "Отменить",
+                    onClick: () => useMockStore.getState().bulkUpsertTransactions(snapshot),
+                  },
                 });
-                toast.success(`Одобрено транзакций: ${ids.length}`);
                 clear();
               }}
             >
@@ -233,11 +261,12 @@ export function TransactionsTable() {
               size="sm"
               className="text-background hover:bg-background/10 h-7"
               onClick={() => {
-                const alertIds = useMockStore
-                  .getState()
-                  .createAlertsFromTransactions(ids);
+                const alertIds = useMockStore.getState().createAlertsFromTransactions(ids);
                 toast.success(`Создано оповещений: ${alertIds.length}`, {
-                  description: "Открыть /alerts",
+                  action: {
+                    label: "Открыть",
+                    onClick: () => router.push("/alerts"),
+                  },
                 });
                 clear();
               }}
@@ -262,11 +291,14 @@ export function TransactionsTable() {
               size="sm"
               className="text-red-400 hover:bg-red-400/10 h-7"
               onClick={() => {
-                useMockStore.getState().bulkUpdateTransactions(ids, {
-                  complianceStatus: "Отклонена",
-                  status: "blocked",
+                const snapshot = [...selected];
+                useMockStore.getState().bulkRemoveTransactions(ids);
+                toast.warning(`Отклонено: ${ids.length} транзакций`, {
+                  action: {
+                    label: "Отменить",
+                    onClick: () => useMockStore.getState().bulkUpsertTransactions(snapshot),
+                  },
                 });
-                toast.warning(`${ids.length} транзакций отклонены`);
                 clear();
               }}
             >

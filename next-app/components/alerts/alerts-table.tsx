@@ -4,9 +4,10 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Check, ChevronUp, Filter, X as XIcon } from "lucide-react";
+import { AlertOctagon, Check, ChevronUp, Filter, Flame, MessageCircle, User, X as XIcon } from "lucide-react";
 
-import { useMockData, useMockStore, type Alert, type AlertSeverity, type AlertStatus } from "@/lib/mock";
+import { currentUser, useMockData, useMockStore, type Alert, type AlertSeverity, type AlertStatus } from "@/lib/mock";
+import { type DataTableView } from "@/components/ext/data-table";
 import { toast } from "sonner";
 import { DataTable } from "@/components/ext/data-table";
 import { StatusBadge } from "@/components/ext/status-badge";
@@ -52,6 +53,40 @@ const STATUS_TONE: Record<AlertStatus, "info" | "warning" | "muted" | "danger" |
   escalated: "danger",
   closed: "muted",
 };
+
+function isInRedSLAZone(deadlineIso: string | undefined): boolean {
+  if (!deadlineIso) return false;
+  const remaining = (new Date(deadlineIso).getTime() - Date.now()) / 60000;
+  return remaining < 60 && remaining >= 0;
+}
+
+const ALERTS_VIEWS: DataTableView<Alert>[] = [
+  { id: "all", label: "Все" },
+  {
+    id: "red-zone",
+    label: "Красная зона",
+    icon: <AlertOctagon className="size-3.5 text-risk-critical" />,
+    predicate: (a) => isInRedSLAZone(a.deadline) && a.status !== "closed",
+  },
+  {
+    id: "my-queue",
+    label: "На мне",
+    icon: <User className="size-3.5" />,
+    predicate: (a) => a.responsibleId === currentUser.id && a.status !== "closed",
+  },
+  {
+    id: "critical",
+    label: "Критические",
+    icon: <Flame className="size-3.5 text-risk-critical" />,
+    predicate: (a) => a.severity === "critical",
+  },
+  {
+    id: "client-responded",
+    label: "Клиент ответил",
+    icon: <MessageCircle className="size-3.5" />,
+    predicate: (a) => (a as Alert & { client_chat_status?: string }).client_chat_status === "client_responded",
+  },
+];
 
 export function AlertsTable() {
   const router = useRouter();
@@ -144,6 +179,7 @@ export function AlertsTable() {
   return (
     <DataTable<Alert>
       data={filtered}
+      views={ALERTS_VIEWS}
       columns={columns}
       globalFilterPlaceholder="Поиск по ID, клиенту, правилу..."
       onRowClick={(a) => router.push(`/alerts/${a.id}`)}
@@ -167,9 +203,17 @@ export function AlertsTable() {
               size="sm"
               className="text-background hover:bg-background/10 h-7"
               onClick={() => {
+                const snapshot = [...selected];
                 const caseIds = useMockStore.getState().takeAlertsToWork(ids);
-                toast.success(`${ids.length} оповещений в работе`, {
-                  description: `Создано кейсов: ${caseIds.length}. Открыть /cases.`,
+                toast.success(`${ids.length} оповещений взяты в работу`, {
+                  description: `Создано кейсов: ${caseIds.length}`,
+                  action: {
+                    label: "Отменить",
+                    onClick: () => {
+                      useMockStore.getState().bulkRemoveCases(caseIds);
+                      useMockStore.getState().bulkUpsertAlerts(snapshot);
+                    },
+                  },
                 });
                 clear();
               }}
@@ -182,11 +226,17 @@ export function AlertsTable() {
               size="sm"
               className="text-background hover:bg-background/10 h-7"
               onClick={() => {
+                const snapshot = [...selected];
                 useMockStore.getState().bulkUpdateAlerts(ids, {
                   severity: "critical",
                   status: "escalated",
                 });
-                toast.success(`${ids.length} оповещений эскалированы`);
+                toast.success(`${ids.length} оповещений эскалированы`, {
+                  action: {
+                    label: "Отменить",
+                    onClick: () => useMockStore.getState().bulkUpsertAlerts(snapshot),
+                  },
+                });
                 clear();
               }}
             >
@@ -198,8 +248,14 @@ export function AlertsTable() {
               size="sm"
               className="text-red-400 hover:bg-red-400/10 h-7"
               onClick={() => {
-                useMockStore.getState().bulkUpdateAlerts(ids, { status: "closed" });
-                toast.warning(`${ids.length} оповещений закрыты`);
+                const snapshot = [...selected];
+                useMockStore.getState().bulkRemoveAlerts(ids);
+                toast.warning(`${ids.length} оповещений закрыты`, {
+                  action: {
+                    label: "Отменить",
+                    onClick: () => useMockStore.getState().bulkUpsertAlerts(snapshot),
+                  },
+                });
                 clear();
               }}
             >
