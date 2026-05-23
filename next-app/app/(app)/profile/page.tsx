@@ -1,6 +1,5 @@
 "use client";
 
-import { PageHeader } from "@/components/ext/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,11 +14,9 @@ import { initialsFromName } from "@/lib/format";
 export default function Page() {
   return (
     <>
-      <PageHeader
-        title="Профиль"
-        description="Личные данные и собственные лимиты потребления (стикер 7)"
-        actions={<Button size="lg">Сохранить</Button>}
-      />
+      <div className="flex items-center justify-end gap-2 pb-4">
+        <Button size="lg">Сохранить</Button>
+      </div>
       <div className="grid gap-4 p-6 lg:grid-cols-3">
         <Card>
           <CardHeader>

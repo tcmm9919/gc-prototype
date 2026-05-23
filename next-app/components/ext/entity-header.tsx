@@ -32,6 +32,8 @@ interface AvatarCircleProps {
   hue?: number;
   size?: "sm" | "md" | "lg";
   className?: string;
+  src?: string;
+  alt?: string;
 }
 
 const SIZE: Record<NonNullable<AvatarCircleProps["size"]>, string> = {
@@ -40,7 +42,21 @@ const SIZE: Record<NonNullable<AvatarCircleProps["size"]>, string> = {
   lg: "size-14 text-base",
 };
 
-export function AvatarCircle({ initials, hue = 200, size = "md", className }: AvatarCircleProps) {
+export function AvatarCircle({ initials, hue = 200, size = "md", className, src, alt }: AvatarCircleProps) {
+  if (src) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={src}
+        alt={alt ?? initials}
+        className={cn(
+          "shrink-0 rounded-full object-cover shadow-[inset_0_-1px_2px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.4)]",
+          SIZE[size],
+          className,
+        )}
+      />
+    );
+  }
   const bg = `linear-gradient(135deg, oklch(0.86 0.12 ${hue}) 0%, oklch(0.74 0.14 ${(hue + 35) % 360}) 100%)`;
   return (
     <div

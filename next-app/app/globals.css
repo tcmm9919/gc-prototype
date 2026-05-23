@@ -27,10 +27,12 @@
     --font-heading: "Geist Variable", "Inter Variable", system-ui, sans-serif;
     --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
-    /* Surfaces — pure white, never grey */
-    --background: oklch(1 0 0);                      /* near-white */
+    /* Surfaces — greyish canvas, white blocks (Linear/Notion-style depth) */
+    --background: oklch(0.965 0.003 250);            /* soft cool grey canvas */
     --foreground: oklch(0.20 0.008 250);           /* warm black */
-    --surface: oklch(1 0 0);                        /* pure white */
+    --surface: oklch(1 0 0);                        /* pure white — cards stand out */
+    --surface-alpha: oklch(1 0 0 / 1);              /* light: solid white */
+    --surface-alpha-border: oklch(0.92 0.004 250);  /* light: regular border */
     --surface-elevated: oklch(1 0 0);
     --surface-tint: oklch(0.985 0.003 250);         /* hover hover */
     --card: var(--surface);
@@ -69,9 +71,10 @@
     --chart-5: oklch(0.55 0.18 25);
 
     --radius: 0.625rem;                             /* 10px — between Linear and Airbnb */
+    --sidebar-width: 5.5rem;                        /* 88px tile sidebar */
 
     /* Sidebar — pure white, blends with content (Linear-style) */
-    --sidebar: oklch(0.98 0.003 250);
+    --sidebar: transparent;
     --sidebar-foreground: oklch(0.20 0.008 250);
     --sidebar-primary: var(--primary);
     --sidebar-primary-foreground: var(--primary-foreground);
@@ -103,55 +106,67 @@
 }
 
 .dark {
-    --background: oklch(0.13 0.008 250);
-    --foreground: oklch(0.97 0.003 250);
-    --surface: oklch(0.16 0.008 250);
-    --surface-elevated: oklch(0.18 0.008 250);
-    --surface-tint: oklch(0.18 0.008 250);
+    /* Revolut-style dark canonical */
+    --background: oklch(0.11 0.020 158);          /* near-black with faint forest undertone */
+    --foreground: oklch(0.96 0.005 250);          /* near-white */
+    --surface: oklch(0.17 0.025 158);             /* slightly lifted dark green */
+    --surface-elevated: oklch(0.20 0.025 158);
+    --surface-tint: oklch(0.22 0.025 158);
+    --surface-alpha: oklch(1 0 0 / 0.04);         /* alpha card bg over dark gradient */
+    --surface-alpha-border: oklch(1 0 0 / 0.10);  /* alpha card border */
     --card: var(--surface);
     --card-foreground: var(--foreground);
-    --popover: oklch(0.18 0.008 250);
+    --popover: oklch(0.20 0.025 158);
     --popover-foreground: var(--foreground);
-    --primary: oklch(0.72 0.16 150);
-    --primary-foreground: oklch(0.12 0.05 150);
-    --primary-soft: oklch(0.78 0.14 150);
-    --primary-glow: oklch(0.72 0.16 150 / 0.30);
-    --primary-tint: oklch(0.25 0.06 150);
-    --secondary: oklch(0.20 0.008 250);
-    --secondary-foreground: oklch(0.97 0.003 250);
-    --muted: oklch(0.19 0.008 250);
+
+    /* Bright mint primary for dark */
+    --primary: oklch(0.78 0.20 145);              /* punchier green for dark */
+    --primary-foreground: oklch(0.12 0.05 145);
+    --primary-soft: oklch(0.82 0.18 145);
+    --primary-glow: oklch(0.78 0.20 145 / 0.35);
+    --primary-tint: oklch(0.30 0.10 145);
+
+    --secondary: oklch(0.21 0.025 158);
+    --secondary-foreground: oklch(0.96 0.005 250);
+    --muted: oklch(0.20 0.025 158);
     --muted-foreground: oklch(0.62 0.008 250);
     --subtle-foreground: oklch(0.48 0.008 250);
     --ink-soft: oklch(0.74 0.008 250);
-    --accent: oklch(0.20 0.008 250);
-    --accent-foreground: oklch(0.97 0.003 250);
-    --destructive: oklch(0.65 0.18 25);
+    --accent: oklch(0.21 0.025 158);
+    --accent-foreground: oklch(0.96 0.005 250);
+    --destructive: oklch(0.68 0.20 25);
+
     --border: oklch(1 0 0 / 0.08);
     --border-strong: oklch(1 0 0 / 0.14);
-    --hairline: oklch(1 0 0 / 0.04);
+    --hairline: oklch(1 0 0 / 0.05);
     --input: oklch(1 0 0 / 0.10);
-    --ring: oklch(0.72 0.16 150);
-    --chart-1: oklch(0.72 0.16 150);
-    --chart-2: oklch(0.70 0.09 150);
-    --chart-3: oklch(0.78 0.14 85);
+    --ring: oklch(0.78 0.20 145);
+
+    --chart-1: oklch(0.78 0.20 145);
+    --chart-2: oklch(0.70 0.12 195);
+    --chart-3: oklch(0.78 0.14 75);
     --chart-4: oklch(0.72 0.16 35);
-    --chart-5: oklch(0.65 0.18 25);
-    --sidebar: oklch(0.11 0.008 250);
-    --sidebar-foreground: oklch(0.92 0.003 250);
+    --chart-5: oklch(0.68 0.20 25);
+
+    /* Sidebar — slightly deeper than body for depth */
+    --sidebar: transparent;
+    --sidebar-foreground: oklch(0.92 0.005 250);
     --sidebar-primary: var(--primary);
     --sidebar-primary-foreground: var(--primary-foreground);
-    --sidebar-accent: oklch(0.18 0.008 250);
-    --sidebar-accent-foreground: oklch(0.97 0.003 250);
-    --sidebar-hover: oklch(0.17 0.008 250);
-    --sidebar-border: oklch(1 0 0 / 0.05);
+    --sidebar-accent: oklch(1 0 0 / 0.08);
+    --sidebar-accent-foreground: oklch(0.96 0.005 250);
+    --sidebar-hover: oklch(1 0 0 / 0.05);
+    --sidebar-border: oklch(1 0 0 / 0.06);
     --sidebar-ring: var(--ring);
-    --risk-low: oklch(0.68 0.11 150);
+
+    /* Risk scale punchier on dark */
+    --risk-low: oklch(0.72 0.12 150);
     --risk-low-foreground: oklch(0.14 0.05 150);
-    --risk-medium: oklch(0.78 0.14 75);
+    --risk-medium: oklch(0.82 0.16 75);
     --risk-medium-foreground: oklch(0.18 0.05 75);
-    --risk-high: oklch(0.70 0.16 35);
+    --risk-high: oklch(0.74 0.18 35);
     --risk-high-foreground: oklch(0.12 0.05 35);
-    --risk-critical: oklch(0.65 0.18 25);
+    --risk-critical: oklch(0.68 0.20 25);
     --risk-critical-foreground: oklch(0.99 0.02 25);
 }
 
@@ -165,6 +180,8 @@
     --color-surface: var(--surface);
     --color-surface-elevated: var(--surface-elevated);
     --color-surface-tint: var(--surface-tint);
+    --color-surface-alpha: var(--surface-alpha);
+    --color-surface-alpha-border: var(--surface-alpha-border);
     --color-card: var(--card);
     --color-card-foreground: var(--card-foreground);
     --color-popover: var(--popover);
@@ -225,11 +242,18 @@
     }
 
     body {
-        @apply bg-sidebar text-foreground;
+        @apply bg-background text-foreground;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
         font-feature-settings: "cv11", "ss01", "ss03", "cv02";
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: optimizeLegibility;
+    }
+
+    .dark body {
+        background-image:
+            radial-gradient(ellipse 90% 35% at 50% 0%, oklch(0.78 0.20 145 / 0.08) 0%, transparent 70%);
     }
 
     html {
@@ -355,5 +379,18 @@
     /* Linear-tight focus ring */
     .focus-ring {
         @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    }
+
+    /* Alpha surface — Revolut-style semi-transparent card */
+    .surface-alpha {
+        background-color: var(--color-surface-alpha);
+        border: 1px solid var(--color-surface-alpha-border);
+    }
+
+    /* Gradient helper class */
+    .bg-gradient-app {
+        background-image:
+            radial-gradient(ellipse 60% 80% at 0% 0%, var(--primary-glow) 0%, transparent 50%),
+            radial-gradient(ellipse 50% 60% at 100% 100%, oklch(0.30 0.05 195 / 0.10) 0%, transparent 60%);
     }
 }

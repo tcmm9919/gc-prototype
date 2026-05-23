@@ -150,7 +150,21 @@ export interface Alert {
   scenarioId?: string;
   severity: AlertSeverity;
   status: AlertStatus;
-  responsibleId: string;
+  responsibleId?: string;
+  /** SLA-дедлайн (ISO). Используется ExecutorDashboard для ранжирования очереди по SLA × риску. */
+  deadline?: string;
+  /** Канал клиента-источника (для очереди ЦПК). */
+  channel?: Channel;
+  /** Флаг «наличные» — чип в QueueRow. */
+  cash_flag?: boolean;
+  /** [from, to] — гео-маршрут операции (страна-страна). */
+  geo_route?: [string, string];
+  /** Статус чата клиента — для блока «Клиент ответил». */
+  client_chat_status?: "client_responded" | "awaiting_client" | "closed" | "none";
+  /** Последнее действие клиента в чате. */
+  client_chat_last_action?: string;
+  /** Сколько минут назад было последнее действие в чате. */
+  client_chat_last_action_minutes_ago?: number;
 }
 
 export interface Case {
@@ -174,6 +188,12 @@ export interface Case {
   subtaskCount: number;
   /** Метка авто-кейса (создан Compliance Officer AI) */
   autoCase?: boolean;
+  /** Резюме AI-решения по авто-кейсу (для блока AI review). */
+  ai_decision_summary?: string;
+  /** Уверенность AI в авто-решении, 0-100. */
+  ai_confidence_pct?: number;
+  /** ISO timestamp закрытия кейса. */
+  closed_at?: string;
 }
 
 export type RuleOp = "eq" | "ne" | "gt" | "lt" | "in" | "nin" | "contains" | "between";
@@ -211,6 +231,10 @@ export interface ComplianceScenario {
   createdAt?: string;
   /** Pipeline шагов для workflow builder'а */
   pipeline?: WorkflowStep[];
+  /** Короткий код сценария (IES-1, BCK-2, ...) — для чипов в очереди. */
+  code?: string;
+  /** Риск-атрибуты сценария — чипы в QueueRow. */
+  risk_attributes?: string[];
 }
 
 export interface WorkflowStep {
@@ -333,4 +357,4 @@ export interface RiskFactor {
 }
 
 export type MockState = "data" | "empty" | "loading" | "error";
-export type ScenarioPreset = "normalDay" | "busyDay" | "emptyInbox" | "criticalAlert" | "killerFlow";
+export type ScenarioPreset = "normalDay" | "busyDay" | "emptyInbox" | "criticalAlert" | "killerFlow" | "morningShiftBusy";

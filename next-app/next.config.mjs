@@ -2,12 +2,16 @@
 const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig = {
-  // Static export for GitHub Pages
-  output: "export",
-
-  // GitHub Pages serves under /gc-prototype/
-  basePath: isProd ? "/gc-prototype" : "",
-  assetPrefix: isProd ? "/gc-prototype/" : "",
+  // Static export ТОЛЬКО при production build (для GitHub Pages).
+  // В dev — обычные dynamic routes без enforcement generateStaticParams,
+  // чтобы несуществующие ID показывали empty state, а не runtime error.
+  ...(isProd
+    ? {
+        output: "export",
+        basePath: "/gc-prototype",
+        assetPrefix: "/gc-prototype/",
+      }
+    : {}),
 
   // Required for static export (no Next.js image optimizer)
   images: { unoptimized: true },

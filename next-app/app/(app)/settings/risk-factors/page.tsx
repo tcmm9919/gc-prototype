@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { Plus } from "lucide-react";
-import { PageHeader } from "@/components/ext/page-header";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
@@ -21,10 +20,6 @@ export default function Page() {
 
   return (
     <>
-      <PageHeader
-        title="Настройки"
-        description="Риск-факторы · Динамические факторы риска"
-      />
       <div className="px-6 pb-12 space-y-4">
         <Card className="overflow-hidden">
           <div className="flex items-start justify-between gap-4 border-b border-border px-4 py-3">

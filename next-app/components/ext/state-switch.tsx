@@ -18,7 +18,7 @@ interface StateSwitchProps {
   emptyTitle?: string;
   emptyDescription?: string;
   emptyAction?: React.ReactNode;
-  skeleton?: "table" | "list" | "detail";
+  skeleton?: "table" | "list" | "detail" | "dashboard";
   children: React.ReactNode;
 }
 
@@ -38,9 +38,9 @@ export function StateSwitch(props: StateSwitchProps) {
   );
 }
 
-function StateSwitchFallback({ skeleton = "table" }: { skeleton?: "table" | "list" | "detail" }) {
+function StateSwitchFallback({ skeleton = "table" }: { skeleton?: "table" | "list" | "detail" | "dashboard" }) {
   if (skeleton === "list") return <ListSkeleton />;
-  if (skeleton === "detail") return <DetailSkeleton />;
+  if (skeleton === "detail" || skeleton === "dashboard") return <DetailSkeleton />;
   return <TableSkeleton />;
 }
 
@@ -53,7 +53,9 @@ function StateSwitchInner({
 }: StateSwitchProps) {
   const state = useStateParam();
   if (state === "loading") {
-    return skeleton === "list" ? <ListSkeleton /> : skeleton === "detail" ? <DetailSkeleton /> : <TableSkeleton />;
+    if (skeleton === "list") return <ListSkeleton />;
+    if (skeleton === "detail" || skeleton === "dashboard") return <DetailSkeleton />;
+    return <TableSkeleton />;
   }
   if (state === "empty") return <EmptyState title={emptyTitle} description={emptyDescription} action={emptyAction} />;
   if (state === "error") return <ErrorState />;

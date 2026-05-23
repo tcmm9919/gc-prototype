@@ -30,7 +30,13 @@ export function ProfileMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
-          <AvatarCircle initials={initialsFromName(currentUser.fullName)} size="sm" hue={currentUser.avatarHue ?? 200} />
+          <AvatarCircle
+            initials={initialsFromName(currentUser.fullName)}
+            size="sm"
+            hue={currentUser.avatarHue ?? 200}
+            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=face"
+            alt={currentUser.fullName}
+          />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">

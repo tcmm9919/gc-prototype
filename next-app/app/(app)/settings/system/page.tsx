@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { PageHeader } from "@/components/ext/page-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -109,7 +108,6 @@ export default function Page() {
 
   return (
     <>
-      <PageHeader title="Настройки" description="Система · JSON-конфигурация платформы" />
       <div className="px-6 pb-12 space-y-4">
         <Card>
           <div className="grid grid-cols-[1fr_1.5fr_1fr_140px] gap-3 border-b border-border px-4 py-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">

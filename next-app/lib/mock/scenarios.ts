@@ -22,6 +22,12 @@ import {
   killerFlowTransaction,
   killerFlowWorkflow,
 } from "./scenarios/killer-flow-demo";
+import {
+  morningShiftAlerts,
+  morningShiftChatAlerts,
+  morningShiftAIcases,
+  morningShiftScenarios,
+} from "./scenarios/morning-shift-busy";
 
 export interface ScenarioBundle {
   clients: typeof seedClients;
@@ -67,6 +73,13 @@ const killerFlow: ScenarioBundle = {
   audit: [...killerFlowAuditEvents, ...full.audit],
 };
 
+const morningShiftBusy: ScenarioBundle = {
+  ...full,
+  alerts: [...morningShiftAlerts, ...morningShiftChatAlerts, ...full.alerts],
+  cases: [...morningShiftAIcases, ...full.cases],
+  scenarios: [...morningShiftScenarios, ...full.scenarios],
+};
+
 export const scenarioPresets: Record<ScenarioPreset, ScenarioBundle> = {
   normalDay: full,
   busyDay: {
@@ -85,6 +98,7 @@ export const scenarioPresets: Record<ScenarioPreset, ScenarioBundle> = {
     clients: full.clients.map((c, i) => (i < 5 ? { ...c, riskLevel: "critical" as const, status: "review" as const } : c)),
   },
   killerFlow,
+  morningShiftBusy,
 };
 
 export const scenarioLabels: Record<ScenarioPreset, string> = {
@@ -93,4 +107,5 @@ export const scenarioLabels: Record<ScenarioPreset, string> = {
   emptyInbox: "Пустой инбокс",
   criticalAlert: "Критический алерт",
   killerFlow: "Killer flow — демо",
+  morningShiftBusy: "Утренняя смена ЦПК",
 };

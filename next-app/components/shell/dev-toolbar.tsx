@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Sparkles, Wrench } from "lucide-react";
+import { History, Sparkles, Wrench } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { KILLER_FLOW_LINK } from "@/lib/mock/scenarios/killer-flow-demo";
@@ -106,6 +106,17 @@ export function DevToolbar() {
             >
               <Sparkles className="size-3.5 text-primary" />
               Открыть killer flow
+            </Button>
+            <Button
+              size="sm"
+              variant="secondary"
+              className="w-full justify-start gap-2"
+              onClick={() => {
+                router.push("/styleguide/dashboard-legacy");
+              }}
+            >
+              <History className="size-3.5 text-muted-foreground" />
+              Старый дашборд
             </Button>
             <p className="text-[11px] text-muted-foreground">
               Переключатель видим только в dev-режиме. ⌘K — поиск и быстрый переход.

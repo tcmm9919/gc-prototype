@@ -11,18 +11,32 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <AuthGuard>
       <CommandPaletteProvider>
-        <SidebarProvider className="h-svh overflow-hidden">
+        <SidebarProvider
+          defaultOpen={false}
+          className="h-svh overflow-hidden !bg-transparent"
+          style={{ "--sidebar-width": "5.5rem" } as React.CSSProperties}
+        >
           <AppSidebar />
-          <SidebarInset className="overflow-hidden md:peer-data-[variant=inset]:my-5 md:peer-data-[variant=inset]:mr-5 md:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:rounded-2xl">
+          <SidebarInset className="overflow-hidden bg-transparent">
             <main className="flex-1 min-w-0 min-h-0 overflow-y-auto">
               <Suspense fallback={null}>
                 <AppHeader />
               </Suspense>
               <Suspense fallback={null}>
-                <div className="px-8 pt-8">{children}</div>
+                <div className="px-8 pt-4">{children}</div>
               </Suspense>
             </main>
           </SidebarInset>
+          <div
+            aria-hidden
+            className="pointer-events-none fixed inset-x-0 top-0 h-32 z-20 backdrop-blur-xl bg-background/40"
+            style={{
+              WebkitMaskImage:
+                "linear-gradient(to bottom, black 0%, black 55%, rgba(0,0,0,0.75) 70%, rgba(0,0,0,0.35) 85%, transparent 100%)",
+              maskImage:
+                "linear-gradient(to bottom, black 0%, black 55%, rgba(0,0,0,0.75) 70%, rgba(0,0,0,0.35) 85%, transparent 100%)",
+            }}
+          />
           <Suspense fallback={null}>
             <DevToolbar />
           </Suspense>
