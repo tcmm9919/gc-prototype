@@ -4,10 +4,11 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { AlertCircle, Ban, Bell, Check, Download, Filter, Flame, RotateCcw, TrendingUp } from "lucide-react";
+import { AlertCircle, ArrowUpRight, Ban, Bell, Check, Download, Filter, Flame, RotateCcw, TrendingUp } from "lucide-react";
 
 import { useMockData, useMockStore, type RiskLevel, type Transaction } from "@/lib/mock";
 import { type DataTableView } from "@/components/ext/data-table";
+import { ExpandedPanel, Field, ExpandedActions } from "@/components/ext/expanded-panel";
 import { toast } from "sonner";
 import { DataTable } from "@/components/ext/data-table";
 import { RiskBadge } from "@/components/ext/risk-badge";
@@ -212,6 +213,44 @@ export function TransactionsTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по ID, клиенту, назначению..."
       onRowClick={(t) => router.push(`/transactions/${t.id}`)}
+      renderExpanded={(tx) => {
+        const client = data.clients.find((c) => c.id === tx.clientId);
+        const t = tx as Transaction & { branchName?: string; type?: string; channel?: string; additionalInfo?: string };
+        return (
+          <ExpandedPanel>
+            <Field label="Код назначения">{tx.purposeCode}</Field>
+            <Field label="Описание">{tx.purposeDescription}</Field>
+            <Field label="Филиал">
+              {t.branchName ? `${t.branchName} (${tx.branchCode})` : tx.branchCode}
+            </Field>
+            <Field label="Тип">{t.type ?? "—"}</Field>
+            <Field label="Канал">{t.channel ?? "—"}</Field>
+            <Field label="Контрагент">{tx.counterparty.name}</Field>
+            <Field label="Клиент">
+              {client ? (
+                <Link href={`/clients/${client.id}`} className="hover:underline">
+                  {client.fullName}
+                </Link>
+              ) : (
+                "—"
+              )}
+            </Field>
+            {t.additionalInfo && (
+              <Field label="Доп. инфо" className="col-span-full">
+                {t.additionalInfo}
+              </Field>
+            )}
+            <ExpandedActions>
+              <Button asChild size="sm" variant="outline">
+                <Link href={`/transactions/${tx.id}`}>
+                  <ArrowUpRight className="size-3.5" />
+                  Открыть полностью
+                </Link>
+              </Button>
+            </ExpandedActions>
+          </ExpandedPanel>
+        );
+      }}
       pageSize={25}
       rowClassName={(t) =>
         t.riskLevel === "critical"

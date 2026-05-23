@@ -16,6 +16,7 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,7 @@ interface DataTableProps<T> {
   emptyMessage?: string;
   emptyAction?: React.ReactNode;
   views?: DataTableView<T>[];
+  renderExpanded?: (item: T) => React.ReactNode;
   onRowClick?: (row: T) => void;
   pageSize?: number;
   rowClassName?: (row: T) => string;
@@ -71,6 +73,7 @@ export function DataTable<T>({
   emptyMessage = "Ничего не найдено",
   emptyAction,
   views,
+  renderExpanded,
   onRowClick,
   pageSize = 25,
   rowClassName,
@@ -81,6 +84,16 @@ export function DataTable<T>({
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+  const [expandedIds, setExpandedIds] = React.useState<Set<string>>(new Set());
+
+  const toggleExpanded = React.useCallback((id: string) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
   const [activeViewId, setActiveViewId] = React.useState<string | undefined>(views?.[0]?.id);
 
   const activeView = views?.find((v) => v.id === activeViewId);
@@ -117,9 +130,9 @@ export function DataTable<T>({
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
   const visibleColumnsCount = headerGroups[0]?.headers.length ?? columns.length;
-  const gridTemplate = bulkActions
-    ? `44px repeat(${visibleColumnsCount}, minmax(0, 1fr))`
-    : `repeat(${visibleColumnsCount}, minmax(0, 1fr))`;
+  let gridTemplate = `repeat(${visibleColumnsCount}, minmax(0, 1fr))`;
+  if (bulkActions) gridTemplate = `44px ${gridTemplate}`;
+  if (renderExpanded) gridTemplate = `${gridTemplate} 36px`;
   const selectedRows = table.getFilteredSelectedRowModel().rows.map((r) => r.original);
 
   return (
@@ -218,6 +231,7 @@ export function DataTable<T>({
                   </div>
                 );
               })}
+              {renderExpanded && <div style={{ width: 36 }} aria-hidden />}
             </div>
           )}
 
@@ -225,47 +239,103 @@ export function DataTable<T>({
           {rows.length > 0 ? (
             rows.map((row) => {
               const isSelected = row.getIsSelected();
+              const rowId = String((row.original as { id?: unknown }).id ?? row.id);
+              const isExpanded = expandedIds.has(rowId);
+
               return (
                 <div
                   key={row.id}
-                  role={onRowClick ? "button" : undefined}
-                  tabIndex={onRowClick ? 0 : undefined}
-                  onClick={() => onRowClick?.(row.original)}
-                  onKeyDown={(e) => {
-                    if (onRowClick && (e.key === "Enter" || e.key === " ")) {
-                      e.preventDefault();
-                      onRowClick(row.original);
-                    }
-                  }}
                   data-state={isSelected ? "selected" : undefined}
                   className={cn(
-                    "grid gap-4 px-6 py-4 transition-colors text-[14px]",
+                    "transition-colors",
                     "even:bg-foreground/[0.025] dark:even:bg-white/[0.025]",
-                    onRowClick &&
-                      "cursor-pointer hover:bg-foreground/[0.05] dark:hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40",
                     isSelected && "!bg-primary/[0.06] dark:!bg-primary/[0.08]",
-                    rowClassName?.(row.original)
+                    rowClassName?.(row.original),
                   )}
-                  style={{ gridTemplateColumns: gridTemplate }}
                 >
-                  {bulkActions && (
-                    <div
-                      className="min-w-0 flex items-center"
-                      style={{ width: 44 }}
-                      onClick={(e) => e.stopPropagation()}
-                    >
-                      <Checkbox
-                        checked={row.getIsSelected()}
-                        onCheckedChange={(value) => row.toggleSelected(!!value)}
-                        aria-label="Выбрать строку"
-                      />
-                    </div>
-                  )}
-                  {row.getVisibleCells().map((cell) => (
-                    <div key={cell.id} className="min-w-0 flex items-center">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </div>
-                  ))}
+                  {/* Main row */}
+                  <div
+                    role={onRowClick ? "button" : undefined}
+                    tabIndex={onRowClick ? 0 : undefined}
+                    onClick={() => onRowClick?.(row.original)}
+                    onKeyDown={(e) => {
+                      if (onRowClick && (e.key === "Enter" || e.key === " ")) {
+                        e.preventDefault();
+                        onRowClick(row.original);
+                      }
+                    }}
+                    className={cn(
+                      "grid gap-4 px-6 py-4 transition-colors text-[14px]",
+                      onRowClick &&
+                        "cursor-pointer hover:bg-foreground/[0.03] dark:hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40",
+                    )}
+                    style={{ gridTemplateColumns: gridTemplate }}
+                  >
+                    {bulkActions && (
+                      <div
+                        className="min-w-0 flex items-center"
+                        style={{ width: 44 }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <Checkbox
+                          checked={row.getIsSelected()}
+                          onCheckedChange={(value) => row.toggleSelected(!!value)}
+                          aria-label="Выбрать строку"
+                        />
+                      </div>
+                    )}
+                    {row.getVisibleCells().map((cell) => (
+                      <div key={cell.id} className="min-w-0 flex items-center">
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </div>
+                    ))}
+                    {renderExpanded && (
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        aria-label={isExpanded ? "Свернуть" : "Раскрыть"}
+                        aria-expanded={isExpanded}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleExpanded(rowId);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" || e.key === " ") {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            toggleExpanded(rowId);
+                          }
+                        }}
+                        className="flex items-center justify-center min-w-0 cursor-pointer hover:bg-foreground/[0.05] dark:hover:bg-white/[0.06] rounded-md transition-colors"
+                        style={{ width: 36 }}
+                      >
+                        <ChevronDown
+                          className={cn(
+                            "size-4 text-muted-foreground transition-transform duration-200",
+                            isExpanded && "rotate-180",
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Expanded panel */}
+                  <AnimatePresence initial={false}>
+                    {renderExpanded && isExpanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                        className="overflow-hidden"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className="px-6 py-4 border-t border-foreground/[0.06] dark:border-white/[0.06]">
+                          {renderExpanded(row.original)}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })

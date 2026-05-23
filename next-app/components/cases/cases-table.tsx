@@ -4,10 +4,11 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { CheckCheck, ChevronUp, Clock, Filter, Flag, Plus, User, UserPlus, X as XIcon } from "lucide-react";
+import { ArrowUpRight, CheckCheck, ChevronUp, Clock, Filter, Flag, Plus, User, UserPlus, X as XIcon } from "lucide-react";
 
 import { currentUser, useMockData, useMockStore, type Case, type CaseStatus } from "@/lib/mock";
 import { type DataTableView } from "@/components/ext/data-table";
+import { ExpandedPanel, Field, ExpandedActions } from "@/components/ext/expanded-panel";
 import { toast } from "sonner";
 import { DataTable } from "@/components/ext/data-table";
 import { StatusBadge } from "@/components/ext/status-badge";
@@ -143,6 +144,45 @@ export function CasesTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по ID, типу, клиенту..."
       onRowClick={(c) => router.push(`/cases/${c.id}`)}
+      renderExpanded={(kase) => {
+        const client = data.clients.find((c) => c.id === kase.clientId);
+        return (
+          <ExpandedPanel>
+            <Field label="Описание" className="col-span-full">
+              {kase.description}
+            </Field>
+            <Field label="Клиент">
+              {client ? (
+                <Link href={`/clients/${client.id}`} className="hover:underline">
+                  {client.fullName}
+                </Link>
+              ) : (
+                "—"
+              )}
+            </Field>
+            <Field label="SLA до">
+              {new Date(kase.slaDueAt).toLocaleString("ru-RU", {
+                day: "numeric",
+                month: "short",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </Field>
+            <Field label="Связанные алерты">{kase.linkedAlertIds.length || "—"}</Field>
+            <Field label="Связанные транзакции">{kase.linkedTransactionIds.length || "—"}</Field>
+            <Field label="Комментарии">{kase.commentCount}</Field>
+            <Field label="Доказательства">{kase.evidenceCount}</Field>
+            <ExpandedActions>
+              <Button asChild size="sm" variant="outline">
+                <Link href={`/cases/${kase.id}`}>
+                  <ArrowUpRight className="size-3.5" />
+                  Открыть полностью
+                </Link>
+              </Button>
+            </ExpandedActions>
+          </ExpandedPanel>
+        );
+      }}
       pageSize={20}
       globalFilterFn={(row, _col, value) => {
         const c = row.original;

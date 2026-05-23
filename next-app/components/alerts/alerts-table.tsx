@@ -4,10 +4,11 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { AlertOctagon, Check, ChevronUp, Filter, Flame, MessageCircle, User, X as XIcon } from "lucide-react";
+import { AlertOctagon, ArrowUpRight, Check, ChevronUp, Filter, Flame, MessageCircle, User, X as XIcon } from "lucide-react";
 
 import { currentUser, useMockData, useMockStore, type Alert, type AlertSeverity, type AlertStatus } from "@/lib/mock";
 import { type DataTableView } from "@/components/ext/data-table";
+import { ExpandedPanel, Field, ExpandedActions } from "@/components/ext/expanded-panel";
 import { toast } from "sonner";
 import { DataTable } from "@/components/ext/data-table";
 import { StatusBadge } from "@/components/ext/status-badge";
@@ -183,6 +184,42 @@ export function AlertsTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по ID, клиенту, правилу..."
       onRowClick={(a) => router.push(`/alerts/${a.id}`)}
+      renderExpanded={(alert) => {
+        const tx = data.transactions.find((t) => t.id === alert.transactionId);
+        const client = data.clients.find((c) => c.id === alert.clientId);
+        const scenario = data.scenarios?.find(
+          (s) => s.id === (alert as Alert & { scenarioId?: string }).scenarioId,
+        );
+        const a = alert as Alert & { channel?: string; geo_route?: string[]; cash_flag?: boolean };
+        return (
+          <ExpandedPanel>
+            <Field label="Сумма">
+              {tx ? `${new Intl.NumberFormat("ru-RU").format(tx.amount)} ${tx.currency}` : "—"}
+            </Field>
+            <Field label="Канал">{a.channel ?? "—"}</Field>
+            <Field label="Гео">{a.geo_route ? `${a.geo_route[0]} → ${a.geo_route[1]}` : "—"}</Field>
+            <Field label="Cash flag">{a.cash_flag ? "Да" : "Нет"}</Field>
+            <Field label="Сценарий">{scenario?.name ?? "—"}</Field>
+            <Field label="Клиент">
+              {client ? (
+                <Link href={`/clients/${client.id}`} className="hover:underline">
+                  {client.fullName}
+                </Link>
+              ) : (
+                "—"
+              )}
+            </Field>
+            <ExpandedActions>
+              <Button asChild size="sm" variant="outline">
+                <Link href={`/alerts/${alert.id}`}>
+                  <ArrowUpRight className="size-3.5" />
+                  Открыть полностью
+                </Link>
+              </Button>
+            </ExpandedActions>
+          </ExpandedPanel>
+        );
+      }}
       pageSize={25}
       globalFilterFn={(row, _col, value) => {
         const a = row.original;
