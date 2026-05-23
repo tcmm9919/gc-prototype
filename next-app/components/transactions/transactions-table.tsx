@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Ban, Bell, Check, Download, Filter, RotateCcw } from "lucide-react";
 
-import { useMockData, type RiskLevel, type Transaction } from "@/lib/mock";
+import { useMockData, useMockStore, type RiskLevel, type Transaction } from "@/lib/mock";
+import { toast } from "sonner";
 import { DataTable } from "@/components/ext/data-table";
 import { RiskBadge } from "@/components/ext/risk-badge";
 import { StatusBadge } from "@/components/ext/status-badge";
@@ -208,58 +209,73 @@ export function TransactionsTable() {
           t.purposeDescription.toLowerCase().includes(q)
         );
       }}
-      bulkActions={(selected, clear) => (
-        <>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-background hover:bg-background/10 h-7"
-            onClick={() => {
-              console.log("Approve:", selected.map((t) => t.id));
-              clear();
-            }}
-          >
-            <Check className="size-3.5" />
-            Одобрить
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-background hover:bg-background/10 h-7"
-            onClick={() => {
-              console.log("Create alert from:", selected.map((t) => t.id));
-              clear();
-            }}
-          >
-            <Bell className="size-3.5" />
-            Создать алерт
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-background hover:bg-background/10 h-7"
-            onClick={() => {
-              console.log("Recheck rules:", selected.map((t) => t.id));
-              clear();
-            }}
-          >
-            <RotateCcw className="size-3.5" />
-            Перепроверить
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-red-400 hover:bg-red-400/10 h-7"
-            onClick={() => {
-              console.log("Reject:", selected.map((t) => t.id));
-              clear();
-            }}
-          >
-            <Ban className="size-3.5" />
-            Отклонить
-          </Button>
-        </>
-      )}
+      bulkActions={(selected, clear) => {
+        const ids = selected.map((t) => t.id);
+        return (
+          <>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-background hover:bg-background/10 h-7"
+              onClick={() => {
+                useMockStore.getState().bulkUpdateTransactions(ids, {
+                  complianceStatus: "Обработана",
+                });
+                toast.success(`Одобрено транзакций: ${ids.length}`);
+                clear();
+              }}
+            >
+              <Check className="size-3.5" />
+              Одобрить
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-background hover:bg-background/10 h-7"
+              onClick={() => {
+                const alertIds = useMockStore
+                  .getState()
+                  .createAlertsFromTransactions(ids);
+                toast.success(`Создано оповещений: ${alertIds.length}`, {
+                  description: "Открыть /alerts",
+                });
+                clear();
+              }}
+            >
+              <Bell className="size-3.5" />
+              Создать алерт
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-background hover:bg-background/10 h-7"
+              onClick={() => {
+                toast.info(`Перепроверка запущена для ${ids.length} транзакций`);
+                clear();
+              }}
+            >
+              <RotateCcw className="size-3.5" />
+              Перепроверить
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-red-400 hover:bg-red-400/10 h-7"
+              onClick={() => {
+                useMockStore.getState().bulkUpdateTransactions(ids, {
+                  complianceStatus: "Отклонена",
+                  status: "blocked",
+                });
+                toast.warning(`${ids.length} транзакций отклонены`);
+                clear();
+              }}
+            >
+              <Ban className="size-3.5" />
+              Отклонить
+            </Button>
+          </>
+        );
+      }}
       filters={
         <>
           <DropdownMenu>

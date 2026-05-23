@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { ChevronUp, Filter, Flag, Plus, UserPlus, X as XIcon } from "lucide-react";
 
-import { useMockData, type Case, type CaseStatus } from "@/lib/mock";
+import { useMockData, useMockStore, currentUser, type Case, type CaseStatus } from "@/lib/mock";
+import { toast } from "sonner";
 import { DataTable } from "@/components/ext/data-table";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { RelativeTime } from "@/components/ext/relative-time";
@@ -117,58 +118,73 @@ export function CasesTable() {
           (client?.fullName ?? "").toLowerCase().includes(q)
         );
       }}
-      bulkActions={(selected, clear) => (
-        <>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-background hover:bg-background/10 h-7"
-            onClick={() => {
-              console.log("Assign:", selected.map((c) => c.id));
-              clear();
-            }}
-          >
-            <UserPlus className="size-3.5" />
-            Назначить
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-background hover:bg-background/10 h-7"
-            onClick={() => {
-              console.log("Escalate:", selected.map((c) => c.id));
-              clear();
-            }}
-          >
-            <ChevronUp className="size-3.5" />
-            Эскалировать
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-background hover:bg-background/10 h-7"
-            onClick={() => {
-              console.log("Change priority:", selected.map((c) => c.id));
-              clear();
-            }}
-          >
-            <Flag className="size-3.5" />
-            Приоритет
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-red-400 hover:bg-red-400/10 h-7"
-            onClick={() => {
-              console.log("Close without action:", selected.map((c) => c.id));
-              clear();
-            }}
-          >
-            <XIcon className="size-3.5" />
-            Закрыть
-          </Button>
-        </>
-      )}
+      bulkActions={(selected, clear) => {
+        const ids = selected.map((c) => c.id);
+        return (
+          <>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-background hover:bg-background/10 h-7"
+              onClick={() => {
+                useMockStore.getState().bulkUpdateCases(ids, {
+                  responsibleId: currentUser.id,
+                });
+                toast.success(`Назначено вам: ${ids.length}`);
+                clear();
+              }}
+            >
+              <UserPlus className="size-3.5" />
+              Назначить
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-background hover:bg-background/10 h-7"
+              onClick={() => {
+                useMockStore.getState().bulkUpdateCases(ids, {
+                  status: "escalated",
+                  priority: "critical",
+                });
+                toast.success(`${ids.length} кейсов эскалированы`);
+                clear();
+              }}
+            >
+              <ChevronUp className="size-3.5" />
+              Эскалировать
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-background hover:bg-background/10 h-7"
+              onClick={() => {
+                useMockStore.getState().bulkUpdateCases(ids, { priority: "high" });
+                toast.success(`Приоритет повышен: ${ids.length}`);
+                clear();
+              }}
+            >
+              <Flag className="size-3.5" />
+              Приоритет
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-red-400 hover:bg-red-400/10 h-7"
+              onClick={() => {
+                useMockStore.getState().bulkUpdateCases(ids, {
+                  status: "closed",
+                  closed_at: new Date().toISOString(),
+                });
+                toast.warning(`${ids.length} кейсов закрыты`);
+                clear();
+              }}
+            >
+              <XIcon className="size-3.5" />
+              Закрыть
+            </Button>
+          </>
+        );
+      }}
       filters={
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

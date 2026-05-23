@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Check, ChevronUp, Filter, X as XIcon } from "lucide-react";
 
-import { useMockData, type Alert, type AlertSeverity, type AlertStatus } from "@/lib/mock";
+import { useMockData, useMockStore, type Alert, type AlertSeverity, type AlertStatus } from "@/lib/mock";
+import { toast } from "sonner";
 import { DataTable } from "@/components/ext/data-table";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { RelativeTime } from "@/components/ext/relative-time";
@@ -157,46 +158,57 @@ export function AlertsTable() {
           (client?.fullName ?? "").toLowerCase().includes(q)
         );
       }}
-      bulkActions={(selected, clear) => (
-        <>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-background hover:bg-background/10 h-7"
-            onClick={() => {
-              console.log("Take to work:", selected.map((a) => a.id));
-              clear();
-            }}
-          >
-            <Check className="size-3.5" />
-            Взять в работу
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-background hover:bg-background/10 h-7"
-            onClick={() => {
-              console.log("Escalate:", selected.map((a) => a.id));
-              clear();
-            }}
-          >
-            <ChevronUp className="size-3.5" />
-            Эскалировать
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-background hover:bg-background/10 h-7"
-            onClick={() => {
-              console.log("Close:", selected.map((a) => a.id));
-              clear();
-            }}
-          >
-            <XIcon className="size-3.5" />
-            Закрыть
-          </Button>
-        </>
-      )}
+      bulkActions={(selected, clear) => {
+        const ids = selected.map((a) => a.id);
+        return (
+          <>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-background hover:bg-background/10 h-7"
+              onClick={() => {
+                const caseIds = useMockStore.getState().takeAlertsToWork(ids);
+                toast.success(`${ids.length} оповещений в работе`, {
+                  description: `Создано кейсов: ${caseIds.length}. Открыть /cases.`,
+                });
+                clear();
+              }}
+            >
+              <Check className="size-3.5" />
+              Взять в работу
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-background hover:bg-background/10 h-7"
+              onClick={() => {
+                useMockStore.getState().bulkUpdateAlerts(ids, {
+                  severity: "critical",
+                  status: "escalated",
+                });
+                toast.success(`${ids.length} оповещений эскалированы`);
+                clear();
+              }}
+            >
+              <ChevronUp className="size-3.5" />
+              Эскалировать
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-red-400 hover:bg-red-400/10 h-7"
+              onClick={() => {
+                useMockStore.getState().bulkUpdateAlerts(ids, { status: "closed" });
+                toast.warning(`${ids.length} оповещений закрыты`);
+                clear();
+              }}
+            >
+              <XIcon className="size-3.5" />
+              Закрыть
+            </Button>
+          </>
+        );
+      }}
       filters={
         <>
           <DropdownMenu>

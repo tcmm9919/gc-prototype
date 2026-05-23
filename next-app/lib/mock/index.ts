@@ -11,8 +11,7 @@ export * from "./types";
 export * from "./factories";
 
 export function useMockData(): ScenarioBundle {
-  const scenario = useMockStore((s) => s.scenario);
-  return scenarioPresets[scenario];
+  return useMockStore((s) => s.data);
 }
 
 export function useClient(id: string) {
