@@ -2,6 +2,9 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 import {
   AlertOctagon,
   ArrowUpRight,
@@ -12,6 +15,8 @@ import {
   Sparkles,
 } from "lucide-react";
 import { useMockData } from "@/lib/mock";
+import { useMockStore } from "@/lib/mock/store";
+import { currentUser } from "@/lib/mock/seeds";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import type { Alert, Case } from "@/lib/mock/types";
@@ -171,6 +176,7 @@ function SLABanner({ alerts }: { alerts: Alert[] }) {
 function QueueRow({ alert }: { alert: Alert }) {
   const zone = getSLAZone(alert.deadline);
   const data = useMockData();
+  const router = useRouter();
   const client = data.clients.find((c) => c.id === alert.clientId);
   const transaction = data.transactions.find((t) => t.id === alert.transactionId);
   const scenario = data.scenarios.find((s) => s.id === alert.scenarioId);
@@ -188,10 +194,42 @@ function QueueRow({ alert }: { alert: Alert }) {
     green: "text-muted-foreground",
   }[zone];
 
+  const openAlert = () => router.push(`/alerts/${alert.id}`);
+
+  const handleTakeToWork = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const alertSnapshot = { ...alert };
+    const newCaseIds = useMockStore.getState().takeAlertsToWork([alert.id]);
+    toast.success(`Взято в работу: #${alert.id}`, {
+      action: {
+        label: "Отменить",
+        onClick: () => {
+          useMockStore.getState().bulkRemoveCases(newCaseIds);
+          useMockStore.getState().bulkUpsertAlerts([alertSnapshot]);
+        },
+      },
+    });
+  };
+
+  const handleOpenButton = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    openAlert();
+  };
+
   return (
-    <Link
-      href={`/alerts/${alert.id}`}
-      className="relative grid grid-cols-[4px_1fr_auto] gap-4 p-4 rounded-xl bg-foreground/[0.06] hover:bg-foreground/[0.10] transition-colors"
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={openAlert}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openAlert();
+        }
+      }}
+      className="relative grid grid-cols-[4px_1fr_auto] gap-4 p-4 rounded-xl bg-foreground/[0.06] hover:bg-foreground/[0.10] transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <span className={cn("w-1 rounded-full", zoneBarColor)} aria-hidden />
       <div className="flex flex-col gap-1.5 min-w-0">
@@ -233,11 +271,15 @@ function QueueRow({ alert }: { alert: Alert }) {
         <span className={cn("text-[13px] font-medium tabular-nums", zoneTimeColor)}>
           {formatRelativeFuture(alert.deadline)}
         </span>
-        <Button size="sm" variant={isInProgress ? "outline" : "default"}>
+        <Button
+          size="sm"
+          variant={isInProgress ? "outline" : "default"}
+          onClick={isInProgress ? handleOpenButton : handleTakeToWork}
+        >
           {isInProgress ? "Открыть" : "Взять в работу"}
         </Button>
       </div>
-    </Link>
+    </div>
   );
 }
 
@@ -246,13 +288,22 @@ function QueueRow({ alert }: { alert: Alert }) {
 // ═══════════════════════════════════════════════════════════════
 
 function MyQueue({ alerts }: { alerts: Alert[] }) {
-  const top5 = alerts.slice(0, 5);
-  const moreCount = Math.max(0, alerts.length - top5.length);
+  const mine = alerts.filter((a) => a.responsibleId === currentUser.id);
+  const available = alerts.filter((a) => !a.responsibleId);
 
-  if (top5.length === 0) {
+  const mineTop = mine.slice(0, 3);
+  const availableTop = available.slice(0, 3);
+  const mineMore = Math.max(0, mine.length - mineTop.length);
+  const availableMore = Math.max(0, available.length - availableTop.length);
+
+  const isEmpty = mineTop.length === 0 && availableTop.length === 0;
+
+  if (isEmpty) {
     return (
-      <div className="rounded-2xl bg-white dark:bg-white/[0.04] p-2 h-full flex flex-col">
-        <h2 className="font-heading text-[20px] font-bold tracking-[-0.02em] px-4 pt-3 pb-3">Моя очередь</h2>
+      <div className="rounded-2xl bg-foreground/[0.04] p-2 h-full flex flex-col">
+        <h2 className="font-heading text-[20px] font-bold tracking-[-0.02em] px-4 pt-3 pb-3">
+          Моя очередь
+        </h2>
         <div className="rounded-xl bg-foreground/[0.06] p-10 text-center flex-1 flex flex-col items-center justify-center">
           <p className="text-[15px] font-medium">Очередь пуста · отличная работа</p>
           <p className="text-[12px] text-muted-foreground mt-1">
@@ -264,7 +315,7 @@ function MyQueue({ alerts }: { alerts: Alert[] }) {
   }
 
   return (
-    <div className="rounded-2xl bg-white dark:bg-white/[0.04] p-2 h-full flex flex-col w-full">
+    <div className="rounded-2xl bg-foreground/[0.04] p-2 h-full flex flex-col w-full">
       <div className="flex items-end justify-between px-4 pt-3 pb-3">
         <div className="space-y-1">
           <h2 className="font-heading text-[20px] font-bold tracking-[-0.02em]">Моя очередь</h2>
@@ -275,17 +326,67 @@ function MyQueue({ alerts }: { alerts: Alert[] }) {
           <ChevronDown className="size-3.5" />
         </button>
       </div>
-      <div className="space-y-1.5 flex-1">
-        {top5.map((alert) => (
+
+      <div className="flex flex-col gap-4 flex-1">
+        {mineTop.length > 0 && (
+          <QueueSection
+            label="На мне"
+            count={mine.length}
+            rows={mineTop}
+            moreCount={mineMore}
+          />
+        )}
+        {availableTop.length > 0 && (
+          <QueueSection
+            label="Доступные"
+            count={available.length}
+            rows={availableTop}
+            moreCount={availableMore}
+          />
+        )}
+      </div>
+
+      <Link
+        href="/alerts"
+        className="block text-center py-3 px-4 mt-1.5 text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+      >
+        Открыть всю очередь →
+      </Link>
+    </div>
+  );
+}
+
+function QueueSection({
+  label,
+  count,
+  rows,
+  moreCount,
+}: {
+  label: string;
+  count: number;
+  rows: Alert[];
+  moreCount: number;
+}) {
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-baseline gap-2 px-4">
+        <span className="text-[11px] uppercase tracking-wider font-medium text-muted-foreground">
+          {label}
+        </span>
+        <span className="text-[11px] tabular-nums text-muted-foreground/60">·</span>
+        <span className="text-[11px] tabular-nums text-muted-foreground">{count}</span>
+      </div>
+      <div className="space-y-1.5">
+        {rows.map((alert) => (
           <QueueRow key={alert.id} alert={alert} />
         ))}
       </div>
       {moreCount > 0 && (
         <Link
           href="/alerts"
-          className="block text-center py-3 px-4 mt-1.5 text-[13px] text-muted-foreground hover:text-foreground transition-colors"
+          className="block text-center pt-1.5 px-4 text-[12px] text-muted-foreground/80 hover:text-foreground transition-colors"
         >
-          Открыть всю очередь · ещё {moreCount} {moreCount === 1 ? "заявка" : "заявок"} →
+          + ещё {moreCount} {moreCount === 1 ? "заявка" : "заявок"}
         </Link>
       )}
     </div>
@@ -506,9 +607,37 @@ function ClientResponded({ chatAlerts, className }: { chatAlerts: Alert[]; class
 // ═══════════════════════════════════════════════════════════════
 
 function AIReviewRow({ kase }: { kase: Case }) {
+  const router = useRouter();
   const isEscalated = kase.status === "escalated";
   const confidence = kase.ai_confidence_pct ?? 100;
   const isLowConfidence = confidence < 70;
+
+  const handleConfirm = () => {
+    const snapshot = { ...kase };
+    if (isEscalated) {
+      useMockStore.getState().bulkUpdateCases([kase.id], {
+        ai_decision_summary: undefined,
+        responsibleId: currentUser.id,
+        status: "in_progress",
+      });
+      toast.success(`Эскалация принята · ${kase.id}`, {
+        action: {
+          label: "Отменить",
+          onClick: () => useMockStore.getState().bulkUpsertCases([snapshot]),
+        },
+      });
+    } else {
+      useMockStore.getState().bulkUpdateCases([kase.id], {
+        ai_decision_summary: undefined,
+      });
+      toast.success(`Решение AI подтверждено · ${kase.id}`, {
+        action: {
+          label: "Отменить",
+          onClick: () => useMockStore.getState().bulkUpsertCases([snapshot]),
+        },
+      });
+    }
+  };
 
   return (
     <div className="grid grid-cols-[140px_1fr_auto] items-center gap-4 px-4 py-3 rounded-xl hover:bg-foreground/[0.03] transition-colors">
@@ -526,11 +655,11 @@ function AIReviewRow({ kase }: { kase: Case }) {
         </p>
       </div>
       <div className="flex items-center gap-2 shrink-0">
-        <Button size="sm" className="gap-1.5">
+        <Button size="sm" className="gap-1.5" onClick={handleConfirm}>
           <Check className="size-3.5" />
           {isEscalated ? "Принять" : "Согласен"}
         </Button>
-        <Button size="sm" variant="outline">
+        <Button size="sm" variant="outline" onClick={() => router.push(`/cases/${kase.id}`)}>
           Открыть
         </Button>
       </div>
@@ -564,9 +693,20 @@ function AIReviewBlock({ cases }: { cases: Case[] }) {
         </Button>
       </div>
       <div className="space-y-1">
-        {cases.slice(0, 4).map((kase) => (
-          <AIReviewRow key={kase.id} kase={kase} />
-        ))}
+        <AnimatePresence initial={false}>
+          {cases.slice(0, 4).map((kase) => (
+            <motion.div
+              key={kase.id}
+              layout
+              initial={{ opacity: 0, y: -4 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, x: 16, height: 0, marginTop: 0, marginBottom: 0 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+            >
+              <AIReviewRow kase={kase} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
       </div>
     </div>
   );
@@ -604,15 +744,98 @@ export function ExecutorDashboard() {
     queueAlerts.length === 0 && chatAlerts.length === 0 && aiCases.length === 0;
 
   if (isEmpty) {
+    const today = new Date().toDateString();
+    const closedToday = data.cases.filter(
+      (c) => c.closed_at && new Date(c.closed_at).toDateString() === today,
+    ).length;
+    const aiClosedToday = data.cases.filter(
+      (c) =>
+        c.autoCase === true &&
+        c.closed_at &&
+        new Date(c.closed_at).toDateString() === today,
+    ).length;
+    const hoursSaved = ((aiClosedToday * 30) / 60).toFixed(1).replace(".", ",");
+    const myInProgress = data.cases.filter(
+      (c) =>
+        c.responsibleId === currentUser.id &&
+        (c.status === "in_progress" || c.status === "in_review"),
+    ).length;
+
     return (
-      <div className="flex flex-col items-center justify-center py-24 text-center gap-3">
-        <div className="size-16 rounded-2xl bg-primary/10 flex items-center justify-center">
-          <Sparkles className="size-7 text-primary" />
+      <div className="flex flex-col gap-6 pb-12 max-w-2xl mx-auto pt-12 w-full">
+        <div className="rounded-2xl bg-white dark:bg-white/[0.04] p-8 flex flex-col gap-6">
+          <div className="flex items-start gap-4">
+            <div className="size-12 rounded-2xl bg-primary/15 flex items-center justify-center shrink-0">
+              <Check className="size-6 text-primary" />
+            </div>
+            <div className="space-y-1">
+              <h2 className="font-heading text-[22px] font-bold tracking-[-0.02em]">
+                Очередь чиста · смена закрыта
+              </h2>
+              <p className="text-[13px] text-muted-foreground">
+                {myInProgress > 0
+                  ? `У вас ${myInProgress} ${pluralize(
+                      myInProgress,
+                      "кейс",
+                      "кейса",
+                      "кейсов",
+                    )} в работе. Новые заявки появятся когда сработают сценарии.`
+                  : "Все заявки закрыты. Новые появятся когда сработают сценарии."}
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3">
+            <div className="rounded-xl bg-foreground/[0.04] p-4 space-y-1">
+              <span className="text-[11px] text-muted-foreground uppercase tracking-wider">
+                Закрыто сегодня
+              </span>
+              <div className="font-heading text-[26px] font-semibold tabular-nums leading-none">
+                {closedToday}
+              </div>
+              <span className="text-[11px] text-muted-foreground">
+                {pluralize(closedToday, "кейс", "кейса", "кейсов")}
+              </span>
+            </div>
+            <div className="rounded-xl bg-foreground/[0.04] p-4 space-y-1">
+              <span className="text-[11px] text-muted-foreground uppercase tracking-wider">
+                Сэкономлено
+              </span>
+              <div className="font-heading text-[26px] font-semibold tabular-nums leading-none text-primary">
+                ~{hoursSaved} ч
+              </div>
+              <span className="text-[11px] text-muted-foreground">ручной работы</span>
+            </div>
+            <div className="rounded-xl bg-foreground/[0.04] p-4 space-y-1">
+              <span className="text-[11px] text-muted-foreground uppercase tracking-wider">
+                AI закрыл
+              </span>
+              <div className="font-heading text-[26px] font-semibold tabular-nums leading-none">
+                {aiClosedToday}
+              </div>
+              <span className="text-[11px] text-muted-foreground">
+                {pluralize(aiClosedToday, "кейс", "кейса", "кейсов")} автоматически
+              </span>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {myInProgress > 0 && (
+              <Button asChild>
+                <Link href="/cases">
+                  К моим кейсам в работе
+                  <ArrowUpRight className="size-4" />
+                </Link>
+              </Button>
+            )}
+            <Button asChild variant="outline">
+              <Link href="/agents/compliance-officer">
+                Отчёт ассистента
+                <ArrowUpRight className="size-4" />
+              </Link>
+            </Button>
+          </div>
         </div>
-        <h2 className="font-heading text-[20px] font-bold">Очередь пуста · отличная работа</h2>
-        <p className="text-[13px] text-muted-foreground max-w-md">
-          Новые заявки появятся когда сработают сценарии. Сейчас можно проверить отчёты или взять перерыв.
-        </p>
       </div>
     );
   }
@@ -621,18 +844,17 @@ export function ExecutorDashboard() {
     <div className="flex flex-col gap-6 pb-12">
       <SLABanner alerts={queueAlerts} />
 
-      <div className="grid lg:grid-cols-3 gap-6 items-stretch">
-        <div className="lg:col-span-2">
+      <div className="grid lg:grid-cols-3 gap-6 items-start">
+        <div className="lg:col-span-2 flex flex-col gap-6">
           <MyQueue alerts={queueAlerts} />
+          <AIReviewBlock cases={aiCases} />
         </div>
         <div className="flex flex-col gap-4">
           <AIValueCard aiCases={aiCases} />
           <StatusTabs cases={data.cases} alerts={queueAlerts} />
-          <ClientResponded chatAlerts={chatAlerts} className="flex-1" />
+          <ClientResponded chatAlerts={chatAlerts} />
         </div>
       </div>
-
-      <AIReviewBlock cases={aiCases} />
     </div>
   );
 }
