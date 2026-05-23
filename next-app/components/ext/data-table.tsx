@@ -33,19 +33,19 @@ interface DataTableProps<T> {
 }
 
 /**
- * DataTable — Revolut-inspired card-row table.
+ * DataTable — единый block с zebra rows (Revolut-inspired).
  *
- * Структура (вместо классической HTML-таблицы):
- * - Toolbar: search + кастомный slot (filters, кнопки)
- * - Headers row: серый uppercase text, sortable buttons, без заливки
- * - Rows: каждая строка — независимая `bg-white` карточка с rounded-xl,
- *   разделённые gap'ом (а не border'ами).
- * - Pagination: text-only внизу.
+ * Структура:
+ * - Toolbar (search + custom slot) — снаружи block сверху
+ * - Block (rounded-2xl bg-white overflow-hidden):
+ *   - Headers: normal-case серый текст, БЕЗ border'а внизу
+ *   - Rows: zebra via even:bg, no gaps, no inner dividers
+ *   - Hover: чуть темнее зебры; Selected: primary tint
+ *   - Empty state: внутри block, по центру
+ * - Pagination — снаружи block снизу, text-only ghost
  *
- * Контракт с консьюмерами не изменился: тот же ColumnDef[], тот же
- * onRowClick, rowClassName, globalFilterFn. Все existing tables
- * (clients, transactions, alerts, cases, rules, scenarios, workflows,
- * audit, users, risk-factors) получают новый look без правок.
+ * Контракт props не меняется — все 10 консьюмер-таблиц получают
+ * новый look без правок.
  */
 export function DataTable<T>({
   data,
@@ -82,14 +82,11 @@ export function DataTable<T>({
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
   const visibleColumnsCount = headerGroups[0]?.headers.length ?? columns.length;
-
-  // CSS grid template — равные колонки с возможностью truncate.
-  // Каждая колонка получает min 0 (чтобы truncate работал) и flex 1fr.
   const gridTemplate = `repeat(${visibleColumnsCount}, minmax(0, 1fr))`;
 
   return (
     <div className="flex flex-col gap-4 py-6">
-      {/* Toolbar: search + custom slot */}
+      {/* Toolbar */}
       <div className="flex items-center justify-between gap-3">
         <div className="relative w-full max-w-sm">
           <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -103,41 +100,42 @@ export function DataTable<T>({
         <div className="flex items-center gap-2">{toolbar}</div>
       </div>
 
-      {/* Headers — light gray text, no backing */}
-      {rows.length > 0 && (
-        <div
-          className="grid gap-4 px-5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground"
-          style={{ gridTemplateColumns: gridTemplate }}
-        >
-          {headerGroups[0]?.headers.map((h) => {
-            const canSort = h.column.getCanSort();
-            const sortDir = h.column.getIsSorted();
-            return (
-              <div key={h.id} className="min-w-0 flex items-center">
-                {h.isPlaceholder ? null : canSort ? (
-                  <button
-                    onClick={h.column.getToggleSortingHandler()}
-                    className="-mx-1 inline-flex items-center gap-1 rounded px-1 py-0.5 hover:text-foreground transition-colors uppercase tracking-wider"
-                  >
-                    {flexRender(h.column.columnDef.header, h.getContext())}
-                    <ArrowUpDown
-                      className={cn(
-                        "size-3 transition-opacity",
-                        sortDir ? "opacity-100 text-foreground" : "opacity-40"
-                      )}
-                    />
-                  </button>
-                ) : (
-                  flexRender(h.column.columnDef.header, h.getContext())
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
+      {/* Block */}
+      <div className="rounded-2xl bg-white dark:bg-white/[0.04] overflow-hidden">
+        {/* Header row */}
+        {rows.length > 0 && (
+          <div
+            className="grid gap-4 px-6 py-4 text-[13px] font-normal text-muted-foreground"
+            style={{ gridTemplateColumns: gridTemplate }}
+          >
+            {headerGroups[0]?.headers.map((h) => {
+              const canSort = h.column.getCanSort();
+              const sortDir = h.column.getIsSorted();
+              return (
+                <div key={h.id} className="min-w-0 flex items-center">
+                  {h.isPlaceholder ? null : canSort ? (
+                    <button
+                      onClick={h.column.getToggleSortingHandler()}
+                      className="-mx-1 inline-flex items-center gap-1 rounded px-1 py-0.5 hover:text-foreground transition-colors"
+                    >
+                      {flexRender(h.column.columnDef.header, h.getContext())}
+                      <ArrowUpDown
+                        className={cn(
+                          "size-3 transition-opacity",
+                          sortDir ? "opacity-100 text-foreground" : "opacity-40"
+                        )}
+                      />
+                    </button>
+                  ) : (
+                    flexRender(h.column.columnDef.header, h.getContext())
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
 
-      {/* Rows — каждая строка отдельная карточка */}
-      <div className="flex flex-col gap-1.5">
+        {/* Data rows (zebra) */}
         {rows.length > 0 ? (
           rows.map((row) => {
             const isSelected = row.getIsSelected();
@@ -155,9 +153,11 @@ export function DataTable<T>({
                 }}
                 data-state={isSelected ? "selected" : undefined}
                 className={cn(
-                  "grid gap-4 px-5 py-3 rounded-xl bg-white dark:bg-white/[0.04] transition-colors text-[14px]",
-                  onRowClick && "cursor-pointer hover:bg-foreground/[0.02] dark:hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
-                  isSelected && "bg-primary/[0.06] dark:bg-primary/[0.08]",
+                  "grid gap-4 px-6 py-4 transition-colors text-[14px]",
+                  "even:bg-foreground/[0.025] dark:even:bg-white/[0.025]",
+                  onRowClick &&
+                    "cursor-pointer hover:bg-foreground/[0.05] dark:hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40",
+                  isSelected && "!bg-primary/[0.06] dark:!bg-primary/[0.08]",
                   rowClassName?.(row.original)
                 )}
                 style={{ gridTemplateColumns: gridTemplate }}
@@ -171,13 +171,13 @@ export function DataTable<T>({
             );
           })
         ) : (
-          <div className="rounded-xl bg-white dark:bg-white/[0.04] px-5 py-12 text-center text-[14px] text-muted-foreground">
+          <div className="px-6 py-20 text-center text-[14px] text-muted-foreground">
             {emptyMessage}
           </div>
         )}
       </div>
 
-      {/* Pagination — text-only, без border'ов */}
+      {/* Pagination */}
       <div className="flex items-center justify-between text-[12px] text-muted-foreground px-1">
         <span>
           {table.getFilteredRowModel().rows.length}{" "}
