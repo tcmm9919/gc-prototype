@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Filter } from "lucide-react";
+import { Filter, Plus } from "lucide-react";
 
 import { useMockData, type Case, type CaseStatus } from "@/lib/mock";
 import { DataTable } from "@/components/ext/data-table";
@@ -117,10 +117,10 @@ export function CasesTable() {
           (client?.fullName ?? "").toLowerCase().includes(q)
         );
       }}
-      toolbar={
+      filters={
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="xl">
               <Filter className="size-4" />
               Статус
               {statusFilter.size ? <span className="ml-1 rounded-sm bg-primary/15 px-1 text-xs">{statusFilter.size}</span> : null}
@@ -136,6 +136,14 @@ export function CasesTable() {
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
+      }
+      toolbar={
+        <Button asChild size="xl">
+          <Link href="/cases/new">
+            <Plus className="size-4" />
+            Новый кейс
+          </Link>
+        </Button>
       }
     />
   );

@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Trash2 } from "lucide-react";
+import { Plus, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useMockData, type ComplianceScenario } from "@/lib/mock";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -70,15 +71,23 @@ export function WorkflowsTable() {
 
   return (
     <Tabs defaultValue="client" className="px-6 pb-12">
-      <TabsList className="mb-4 grid w-fit grid-cols-3">
-        <TabsTrigger value="client">Клиентский</TabsTrigger>
-        <TabsTrigger value="group" disabled title="В разработке">
-          Групповой
-        </TabsTrigger>
-        <TabsTrigger value="embedded" disabled title="В разработке">
-          Встроенный
-        </TabsTrigger>
-      </TabsList>
+      <div className="flex items-center justify-between gap-3 mb-4">
+        <TabsList className="grid w-fit grid-cols-3">
+          <TabsTrigger value="client">Клиентский</TabsTrigger>
+          <TabsTrigger value="group" disabled title="В разработке">
+            Групповой
+          </TabsTrigger>
+          <TabsTrigger value="embedded" disabled title="В разработке">
+            Встроенный
+          </TabsTrigger>
+        </TabsList>
+        <Button asChild size="xl">
+          <Link href="/workflows/builder">
+            <Plus className="size-4" />
+            Создать
+          </Link>
+        </Button>
+      </div>
 
       <TabsContent value="client" className="m-0">
         <WorkflowsTab

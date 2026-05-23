@@ -162,11 +162,11 @@ export function AlertsTable() {
           (client?.fullName ?? "").toLowerCase().includes(q)
         );
       }}
-      toolbar={
+      filters={
         <>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 Серьёзность
                 {sevFilter.size ? <span className="ml-1 rounded-sm bg-primary/15 px-1 text-xs">{sevFilter.size}</span> : null}
@@ -185,7 +185,7 @@ export function AlertsTable() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 Статус
                 {statusFilter.size ? <span className="ml-1 rounded-sm bg-primary/15 px-1 text-xs">{statusFilter.size}</span> : null}

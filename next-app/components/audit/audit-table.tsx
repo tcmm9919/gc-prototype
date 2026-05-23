@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Filter } from "lucide-react";
+import { Download, Filter } from "lucide-react";
 import { useMockData, type AuditAction, type AuditEvent, type AuditResource } from "@/lib/mock";
 import { DataTable } from "@/components/ext/data-table";
 import { StatusBadge } from "@/components/ext/status-badge";
@@ -160,11 +160,11 @@ export function AuditTable() {
           (e.entityType ?? "").toLowerCase().includes(q)
         );
       }}
-      toolbar={
+      filters={
         <>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 Все действия
                 {actionFilter.size ? (
@@ -189,7 +189,7 @@ export function AuditTable() {
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="xl">
                 <Filter className="size-4" />
                 Все ресурсы
                 {resourceFilter.size ? (
@@ -212,6 +212,12 @@ export function AuditTable() {
             </DropdownMenuContent>
           </DropdownMenu>
         </>
+      }
+      toolbar={
+        <Button variant="outline" size="xl">
+          <Download className="size-4" />
+          Экспорт CSV
+        </Button>
       }
     />
   );

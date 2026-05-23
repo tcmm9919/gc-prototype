@@ -216,11 +216,11 @@ export function LLMUsageContent() {
           const r = row.original;
           return r.agentName.toLowerCase().includes(q) || r.model.toLowerCase().includes(q);
         }}
-        toolbar={
+        filters={
           <>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="xl">
                   <Filter className="size-4" />
                   Все модели
                   {modelFilter.size ? (
@@ -245,7 +245,7 @@ export function LLMUsageContent() {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="xl">
                   <Filter className="size-4" />
                   Все агенты
                   {agentFilter.size ? (
@@ -270,7 +270,7 @@ export function LLMUsageContent() {
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="xl">
                   <Filter className="size-4" />
                   Все статусы
                   {statusFilter.size ? (

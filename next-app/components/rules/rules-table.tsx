@@ -4,8 +4,10 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
+import { Plus } from "lucide-react";
 import { useMockData, type Rule, type RuleEntity } from "@/lib/mock";
 import { DataTable } from "@/components/ext/data-table";
+import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { RelativeTime } from "@/components/ext/relative-time";
 
@@ -65,6 +67,14 @@ export function RulesTable() {
       globalFilterPlaceholder="Поиск по названию или описанию..."
       onRowClick={(r) => router.push(`/rules/${r.id}`)}
       pageSize={20}
+      toolbar={
+        <Button asChild size="xl">
+          <Link href="/rules/new">
+            <Plus className="size-4" />
+            Новое правило
+          </Link>
+        </Button>
+      }
     />
   );
 }
