@@ -11,13 +11,15 @@ import {
   type ColumnDef,
   type ColumnFiltersState,
   type Row,
+  type RowSelectionState,
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, ChevronLeft, ChevronRight, Search } from "lucide-react";
+import { ArrowUpDown, ChevronDown, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 
 interface DataTableProps<T> {
@@ -31,6 +33,7 @@ interface DataTableProps<T> {
   onRowClick?: (row: T) => void;
   pageSize?: number;
   rowClassName?: (row: T) => string;
+  bulkActions?: (selectedRows: T[], clearSelection: () => void) => React.ReactNode;
 }
 
 /**
@@ -44,6 +47,7 @@ interface DataTableProps<T> {
  *   - Hover: чуть темнее зебры; Selected: primary tint
  *   - Empty state: внутри block, по центру
  * - Pagination — снаружи block снизу, text-only ghost
+ * - Floating bulk action bar — fixed bottom при ≥1 выбранной строке
  *
  * Контракт props не меняется — все 10 консьюмер-таблиц получают
  * новый look без правок.
@@ -59,20 +63,24 @@ export function DataTable<T>({
   onRowClick,
   pageSize = 25,
   rowClassName,
+  bulkActions,
 }: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
   const [globalFilter, setGlobalFilter] = React.useState("");
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 
   const table = useReactTable({
     data,
     columns,
-    state: { sorting, columnFilters, columnVisibility, globalFilter },
+    state: { sorting, columnFilters, columnVisibility, globalFilter, rowSelection },
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     onGlobalFilterChange: setGlobalFilter,
+    onRowSelectionChange: setRowSelection,
+    enableRowSelection: Boolean(bulkActions),
     globalFilterFn: globalFilterFn as never,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -84,139 +92,194 @@ export function DataTable<T>({
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
   const visibleColumnsCount = headerGroups[0]?.headers.length ?? columns.length;
-  const gridTemplate = `repeat(${visibleColumnsCount}, minmax(0, 1fr))`;
+  const gridTemplate = bulkActions
+    ? `44px repeat(${visibleColumnsCount}, minmax(0, 1fr))`
+    : `repeat(${visibleColumnsCount}, minmax(0, 1fr))`;
+  const selectedRows = table.getFilteredSelectedRowModel().rows.map((r) => r.original);
 
   return (
-    <div className="flex flex-col gap-4 pb-6">
-      {/* Toolbar: [search + filters] left, [actions] right */}
-      <div className="flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex items-center gap-2 flex-1 min-w-0">
-          <div className="relative w-72 max-w-full shrink-0">
-            <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              placeholder={globalFilterPlaceholder}
-              value={globalFilter ?? ""}
-              onChange={(e) => setGlobalFilter(e.target.value)}
-              className="pl-9 h-10 rounded-full bg-white dark:bg-white/[0.04] border-foreground/[0.06] focus-visible:ring-1"
-            />
+    <>
+      <div className="flex flex-col gap-4 pb-6">
+        {/* Toolbar: [search + filters] left, [actions] right */}
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <div className="relative w-72 max-w-full shrink-0">
+              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Input
+                placeholder={globalFilterPlaceholder}
+                value={globalFilter ?? ""}
+                onChange={(e) => setGlobalFilter(e.target.value)}
+                className="pl-9 h-10 rounded-full bg-white dark:bg-white/[0.04] border-foreground/[0.06] focus-visible:ring-1"
+              />
+            </div>
+            {filters && <div className="flex items-center gap-2 flex-wrap">{filters}</div>}
           </div>
-          {filters && <div className="flex items-center gap-2 flex-wrap">{filters}</div>}
+          {toolbar && <div className="flex items-center gap-2 shrink-0">{toolbar}</div>}
         </div>
-        {toolbar && <div className="flex items-center gap-2 shrink-0">{toolbar}</div>}
-      </div>
 
-      {/* Block */}
-      <div className="rounded-2xl bg-white dark:bg-white/[0.04] overflow-x-hidden overflow-y-auto max-h-[calc(100vh-15rem)]">
-        {/* Header row */}
-        {rows.length > 0 && (
-          <div
-            className="sticky top-0 z-10 grid gap-4 px-6 py-4 text-[13px] font-normal text-muted-foreground bg-white dark:bg-white/[0.04]"
-            style={{ gridTemplateColumns: gridTemplate }}
-          >
-            {headerGroups[0]?.headers.map((h) => {
-              const canSort = h.column.getCanSort();
-              const sortDir = h.column.getIsSorted();
+        {/* Block */}
+        <div className="rounded-2xl bg-white dark:bg-white/[0.04] overflow-x-hidden overflow-y-auto max-h-[calc(100vh-15rem)]">
+          {/* Header row */}
+          {rows.length > 0 && (
+            <div
+              className="sticky top-0 z-10 grid gap-4 px-6 py-4 text-[13px] font-normal text-muted-foreground bg-white dark:bg-white/[0.04]"
+              style={{ gridTemplateColumns: gridTemplate }}
+            >
+              {bulkActions && (
+                <div className="min-w-0 flex items-center" style={{ width: 44 }}>
+                  <Checkbox
+                    checked={
+                      table.getIsAllRowsSelected()
+                        ? true
+                        : table.getIsSomeRowsSelected()
+                        ? "indeterminate"
+                        : false
+                    }
+                    onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
+                    aria-label="Выбрать все"
+                  />
+                </div>
+              )}
+              {headerGroups[0]?.headers.map((h) => {
+                const canSort = h.column.getCanSort();
+                const sortDir = h.column.getIsSorted();
+                return (
+                  <div key={h.id} className="min-w-0 flex items-center">
+                    {h.isPlaceholder ? null : canSort ? (
+                      <button
+                        onClick={h.column.getToggleSortingHandler()}
+                        className="-mx-1 inline-flex items-center gap-1 rounded px-1 py-0.5 hover:text-foreground transition-colors"
+                      >
+                        {flexRender(h.column.columnDef.header, h.getContext())}
+                        <ArrowUpDown
+                          className={cn(
+                            "size-3 transition-opacity",
+                            sortDir ? "opacity-100 text-foreground" : "opacity-40"
+                          )}
+                        />
+                      </button>
+                    ) : (
+                      flexRender(h.column.columnDef.header, h.getContext())
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {/* Data rows (zebra) */}
+          {rows.length > 0 ? (
+            rows.map((row) => {
+              const isSelected = row.getIsSelected();
               return (
-                <div key={h.id} className="min-w-0 flex items-center">
-                  {h.isPlaceholder ? null : canSort ? (
-                    <button
-                      onClick={h.column.getToggleSortingHandler()}
-                      className="-mx-1 inline-flex items-center gap-1 rounded px-1 py-0.5 hover:text-foreground transition-colors"
-                    >
-                      {flexRender(h.column.columnDef.header, h.getContext())}
-                      <ArrowUpDown
-                        className={cn(
-                          "size-3 transition-opacity",
-                          sortDir ? "opacity-100 text-foreground" : "opacity-40"
-                        )}
-                      />
-                    </button>
-                  ) : (
-                    flexRender(h.column.columnDef.header, h.getContext())
+                <div
+                  key={row.id}
+                  role={onRowClick ? "button" : undefined}
+                  tabIndex={onRowClick ? 0 : undefined}
+                  onClick={() => onRowClick?.(row.original)}
+                  onKeyDown={(e) => {
+                    if (onRowClick && (e.key === "Enter" || e.key === " ")) {
+                      e.preventDefault();
+                      onRowClick(row.original);
+                    }
+                  }}
+                  data-state={isSelected ? "selected" : undefined}
+                  className={cn(
+                    "grid gap-4 px-6 py-4 transition-colors text-[14px]",
+                    "even:bg-foreground/[0.025] dark:even:bg-white/[0.025]",
+                    onRowClick &&
+                      "cursor-pointer hover:bg-foreground/[0.05] dark:hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40",
+                    isSelected && "!bg-primary/[0.06] dark:!bg-primary/[0.08]",
+                    rowClassName?.(row.original)
                   )}
+                  style={{ gridTemplateColumns: gridTemplate }}
+                >
+                  {bulkActions && (
+                    <div
+                      className="min-w-0 flex items-center"
+                      style={{ width: 44 }}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Checkbox
+                        checked={row.getIsSelected()}
+                        onCheckedChange={(value) => row.toggleSelected(!!value)}
+                        aria-label="Выбрать строку"
+                      />
+                    </div>
+                  )}
+                  {row.getVisibleCells().map((cell) => (
+                    <div key={cell.id} className="min-w-0 flex items-center">
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </div>
+                  ))}
                 </div>
               );
-            })}
-          </div>
-        )}
+            })
+          ) : (
+            <div className="px-6 py-20 text-center text-[14px] text-muted-foreground">
+              {emptyMessage}
+            </div>
+          )}
+        </div>
 
-        {/* Data rows (zebra) */}
-        {rows.length > 0 ? (
-          rows.map((row) => {
-            const isSelected = row.getIsSelected();
-            return (
-              <div
-                key={row.id}
-                role={onRowClick ? "button" : undefined}
-                tabIndex={onRowClick ? 0 : undefined}
-                onClick={() => onRowClick?.(row.original)}
-                onKeyDown={(e) => {
-                  if (onRowClick && (e.key === "Enter" || e.key === " ")) {
-                    e.preventDefault();
-                    onRowClick(row.original);
-                  }
-                }}
-                data-state={isSelected ? "selected" : undefined}
-                className={cn(
-                  "grid gap-4 px-6 py-4 transition-colors text-[14px]",
-                  "even:bg-foreground/[0.025] dark:even:bg-white/[0.025]",
-                  onRowClick &&
-                    "cursor-pointer hover:bg-foreground/[0.05] dark:hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40",
-                  isSelected && "!bg-primary/[0.06] dark:!bg-primary/[0.08]",
-                  rowClassName?.(row.original)
-                )}
-                style={{ gridTemplateColumns: gridTemplate }}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <div key={cell.id} className="min-w-0 flex items-center">
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </div>
-                ))}
-              </div>
-            );
-          })
-        ) : (
-          <div className="px-6 py-20 text-center text-[14px] text-muted-foreground">
-            {emptyMessage}
-          </div>
-        )}
-      </div>
-
-      {/* Pagination */}
-      <div className="flex items-center justify-between text-[12px] text-muted-foreground px-1">
-        <span>
-          {table.getFilteredRowModel().rows.length}{" "}
-          {pluralize(table.getFilteredRowModel().rows.length, ["запись", "записи", "записей"])}
-        </span>
-        <div className="flex items-center gap-3">
-          <span className="tabular-nums">
-            Стр. {table.getState().pagination.pageIndex + 1} из {table.getPageCount() || 1}
+        {/* Pagination */}
+        <div className="flex items-center justify-between text-[12px] text-muted-foreground px-1">
+          <span>
+            {table.getFilteredRowModel().rows.length}{" "}
+            {pluralize(table.getFilteredRowModel().rows.length, ["запись", "записи", "записей"])}
           </span>
-          <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-7 rounded-full"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-              aria-label="Предыдущая страница"
-            >
-              <ChevronLeft className="size-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="size-7 rounded-full"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-              aria-label="Следующая страница"
-            >
-              <ChevronRight className="size-4" />
-            </Button>
+          <div className="flex items-center gap-3">
+            <span className="tabular-nums">
+              Стр. {table.getState().pagination.pageIndex + 1} из {table.getPageCount() || 1}
+            </span>
+            <div className="flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-7 rounded-full"
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+                aria-label="Предыдущая страница"
+              >
+                <ChevronLeft className="size-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="size-7 rounded-full"
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+                aria-label="Следующая страница"
+              >
+                <ChevronRight className="size-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      {bulkActions && selectedRows.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3 rounded-full bg-foreground text-background px-4 py-2 shadow-xl animate-in fade-in slide-in-from-bottom-2 duration-200">
+          <span className="text-[13px] tabular-nums">
+            {selectedRows.length}{" "}
+            {pluralize(selectedRows.length, ["выбран", "выбраны", "выбрано"])}
+          </span>
+          <div className="h-4 w-px bg-background/30" />
+          <div className="flex items-center gap-1">
+            {bulkActions(selectedRows, () => table.toggleAllRowsSelected(false))}
+          </div>
+          <div className="h-4 w-px bg-background/30" />
+          <button
+            type="button"
+            onClick={() => table.toggleAllRowsSelected(false)}
+            className="rounded-full p-0.5 hover:bg-background/10 transition-colors"
+            aria-label="Снять выделение"
+          >
+            <X className="size-4" />
+          </button>
+        </div>
+      )}
+    </>
   );
 }
 

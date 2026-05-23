@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Filter } from "lucide-react";
+import { Check, ChevronUp, Filter, X as XIcon } from "lucide-react";
 
 import { useMockData, type Alert, type AlertSeverity, type AlertStatus } from "@/lib/mock";
 import { DataTable } from "@/components/ext/data-table";
@@ -82,11 +82,6 @@ export function AlertsTable() {
 
   const columns: ColumnDef<Alert>[] = [
     {
-      id: "select",
-      header: () => <input type="checkbox" className="size-3.5" aria-label="Выбрать все" />,
-      cell: () => <input type="checkbox" className="size-3.5" onClick={(e) => e.stopPropagation()} aria-label="Выбрать строку" />,
-    },
-    {
       accessorKey: "id",
       header: "Идентификатор",
       cell: ({ getValue }) => (
@@ -162,6 +157,46 @@ export function AlertsTable() {
           (client?.fullName ?? "").toLowerCase().includes(q)
         );
       }}
+      bulkActions={(selected, clear) => (
+        <>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-background hover:bg-background/10 h-7"
+            onClick={() => {
+              console.log("Take to work:", selected.map((a) => a.id));
+              clear();
+            }}
+          >
+            <Check className="size-3.5" />
+            Взять в работу
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-background hover:bg-background/10 h-7"
+            onClick={() => {
+              console.log("Escalate:", selected.map((a) => a.id));
+              clear();
+            }}
+          >
+            <ChevronUp className="size-3.5" />
+            Эскалировать
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-background hover:bg-background/10 h-7"
+            onClick={() => {
+              console.log("Close:", selected.map((a) => a.id));
+              clear();
+            }}
+          >
+            <XIcon className="size-3.5" />
+            Закрыть
+          </Button>
+        </>
+      )}
       filters={
         <>
           <DropdownMenu>
