@@ -1,11 +1,9 @@
 import { StateSwitch } from "@/components/ext/state-switch";
 import { TransactionDetail } from "@/components/transactions/transaction-detail";
-import { seedTransactions } from "@/lib/mock/seeds";
-import { killerFlowTransaction } from "@/lib/mock/scenarios/killer-flow-demo";
+import { getAllTransactionIds } from "@/lib/mock/all-ids";
 
 export async function generateStaticParams() {
-  const ids = new Set<string>([...seedTransactions.map((t) => t.id), killerFlowTransaction.id]);
-  return Array.from(ids).map((id) => ({ id }));
+  return getAllTransactionIds().map((id) => ({ id }));
 }
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {

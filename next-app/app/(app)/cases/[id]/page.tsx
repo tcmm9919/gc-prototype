@@ -1,11 +1,9 @@
 import { StateSwitch } from "@/components/ext/state-switch";
 import { CaseDetail } from "@/components/cases/case-detail";
-import { seedCases } from "@/lib/mock/seeds";
-import { killerFlowCase } from "@/lib/mock/scenarios/killer-flow-demo";
+import { getAllCaseIds } from "@/lib/mock/all-ids";
 
 export async function generateStaticParams() {
-  const ids = new Set<string>([...seedCases.map((c) => c.id), killerFlowCase.id]);
-  return Array.from(ids).map((id) => ({ id }));
+  return getAllCaseIds().map((id) => ({ id }));
 }
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {

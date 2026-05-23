@@ -1,11 +1,9 @@
 import { StateSwitch } from "@/components/ext/state-switch";
 import { AlertDetail } from "@/components/alerts/alert-detail";
-import { seedAlerts } from "@/lib/mock/seeds";
-import { killerFlowAlert } from "@/lib/mock/scenarios/killer-flow-demo";
+import { getAllAlertIds } from "@/lib/mock/all-ids";
 
 export async function generateStaticParams() {
-  const ids = new Set<string>([...seedAlerts.map((a) => a.id), killerFlowAlert.id]);
-  return Array.from(ids).map((id) => ({ id }));
+  return getAllAlertIds().map((id) => ({ id }));
 }
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {

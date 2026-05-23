@@ -1,11 +1,9 @@
 import { StateSwitch } from "@/components/ext/state-switch";
 import { RuleDetail } from "@/components/rules/rule-detail";
-import { seedRules } from "@/lib/mock/seeds";
-import { killerFlowRule } from "@/lib/mock/scenarios/killer-flow-demo";
+import { getAllRuleIds } from "@/lib/mock/all-ids";
 
 export async function generateStaticParams() {
-  const ids = new Set<string>([...seedRules.map((r) => r.id), killerFlowRule.id]);
-  return Array.from(ids).map((id) => ({ id }));
+  return getAllRuleIds().map((id) => ({ id }));
 }
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {

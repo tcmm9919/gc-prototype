@@ -1,11 +1,9 @@
 import { StateSwitch } from "@/components/ext/state-switch";
 import { WorkflowDetail } from "@/components/workflows/workflow-detail";
-import { seedScenarios } from "@/lib/mock/seeds";
-import { killerFlowWorkflow } from "@/lib/mock/scenarios/killer-flow-demo";
+import { getAllScenarioIds } from "@/lib/mock/all-ids";
 
 export async function generateStaticParams() {
-  const ids = new Set<string>([...seedScenarios.map((s) => s.id), killerFlowWorkflow.id]);
-  return Array.from(ids).map((id) => ({ id }));
+  return getAllScenarioIds().map((id) => ({ id }));
 }
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
