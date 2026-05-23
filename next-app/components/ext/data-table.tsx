@@ -38,9 +38,9 @@ interface DataTableProps<T> {
  *
  * Структура:
  * - Toolbar: [search + filters] слева, [actions/toolbar] справа — снаружи block сверху
- * - Block (rounded-2xl bg-white overflow-hidden):
- *   - Headers: normal-case серый текст, БЕЗ border'а внизу
- *   - Rows: zebra via even:bg, no gaps, no inner dividers
+ * - Block (rounded-2xl + overflow-y-auto + max-h):
+ *   - Sticky header: остаётся при скролле rows внутри block'а
+ *   - Rows: zebra via even:bg, scroll вертикальный внутри block'а
  *   - Hover: чуть темнее зебры; Selected: primary tint
  *   - Empty state: внутри block, по центру
  * - Pagination — снаружи block снизу, text-only ghost
@@ -106,11 +106,11 @@ export function DataTable<T>({
       </div>
 
       {/* Block */}
-      <div className="rounded-2xl bg-white dark:bg-white/[0.04] overflow-hidden">
+      <div className="rounded-2xl bg-white dark:bg-white/[0.04] overflow-x-hidden overflow-y-auto max-h-[calc(100vh-15rem)]">
         {/* Header row */}
         {rows.length > 0 && (
           <div
-            className="grid gap-4 px-6 py-4 text-[13px] font-normal text-muted-foreground"
+            className="sticky top-0 z-10 grid gap-4 px-6 py-4 text-[13px] font-normal text-muted-foreground bg-white dark:bg-white/[0.04]"
             style={{ gridTemplateColumns: gridTemplate }}
           >
             {headerGroups[0]?.headers.map((h) => {
