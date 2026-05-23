@@ -303,9 +303,12 @@ function MyQueue({ alerts }: { alerts: Alert[] }) {
   const mine = alerts.filter((a) => a.responsibleId === currentUser.id);
   const available = alerts.filter((a) => !a.responsibleId);
 
-  const mineTop = mine.slice(0, 3);
-  const availableTop = available.slice(0, 3);
-  const mineMore = Math.max(0, mine.length - mineTop.length);
+  // "На мне" — личная ответственность, показываем всё
+  const mineTop = mine;
+  const mineMore = 0;
+
+  // "Доступные" — пул возможностей, top 5 by SLA × risk priority
+  const availableTop = available.slice(0, 5);
   const availableMore = Math.max(0, available.length - availableTop.length);
 
   const isEmpty = mineTop.length === 0 && availableTop.length === 0;
