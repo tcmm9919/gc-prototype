@@ -5,6 +5,7 @@ import { persist } from "zustand/middleware";
 import type {
   ScenarioPreset,
   Alert,
+  AlertStatus,
   Case,
   Client,
   Rule,
@@ -78,10 +79,10 @@ interface MockStore {
 export const useMockStore = create<MockStore>()(
   persist(
     (set, get) => ({
-      scenario: "normalDay",
+      scenario: "morningShiftBusy",
       sidebarCollapsed: false,
       authed: true,
-      data: clonePreset(scenarioPresets.normalDay),
+      data: clonePreset(scenarioPresets.morningShiftBusy),
 
       setScenario: (scenario) =>
         set({
@@ -264,7 +265,15 @@ export const useMockStore = create<MockStore>()(
           data: {
             ...state.data,
             cases: [...newCases, ...state.data.cases],
-            alerts: state.data.alerts.filter((a) => !alertIds.includes(a.id)),
+            alerts: state.data.alerts.map((a) =>
+              alertIds.includes(a.id)
+                ? {
+                    ...a,
+                    responsibleId: currentUser.id,
+                    status: "in_progress" as AlertStatus,
+                  }
+                : a
+            ),
           },
         }));
 

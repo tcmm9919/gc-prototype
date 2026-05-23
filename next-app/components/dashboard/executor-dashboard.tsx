@@ -274,8 +274,8 @@ function QueueRow({ alert }: { alert: Alert }) {
               toast.success("Оповещение взято в работу", {
                 description: `Создан кейс ${caseIds[0]}`,
                 action: {
-                  label: "Открыть /cases",
-                  onClick: () => router.push("/cases"),
+                  label: "Открыть кейс",
+                  onClick: () => router.push(`/cases/${caseIds[0]}`),
                 },
                 cancel: {
                   label: "Отменить",
