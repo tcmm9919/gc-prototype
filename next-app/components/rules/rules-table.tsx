@@ -7,6 +7,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { Plus, Power, PowerOff, RotateCcw, Trash2 } from "lucide-react";
 import { useMockData, useMockStore, type Rule, type RuleEntity } from "@/lib/mock";
 import { toast } from "sonner";
+import { type DataTableView } from "@/components/ext/data-table";
 import { DataTable } from "@/components/ext/data-table";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ext/status-badge";
@@ -17,6 +18,22 @@ const ENTITY_LABEL: Record<RuleEntity, string> = {
   transaction: "Транзакция",
   group: "Группа",
 };
+
+const RULES_VIEWS: DataTableView<Rule>[] = [
+  { id: "all", label: "Все" },
+  {
+    id: "active",
+    label: "Активные",
+    icon: <Power className="size-3.5 text-primary" />,
+    predicate: (r) => r.enabled === true,
+  },
+  {
+    id: "disabled",
+    label: "Выключенные",
+    icon: <PowerOff className="size-3.5 text-muted-foreground" />,
+    predicate: (r) => r.enabled === false,
+  },
+];
 
 export function RulesTable() {
   const router = useRouter();
@@ -64,6 +81,7 @@ export function RulesTable() {
   return (
     <DataTable<Rule>
       data={data.rules}
+      views={RULES_VIEWS}
       columns={columns}
       globalFilterPlaceholder="Поиск по названию или описанию..."
       onRowClick={(r) => router.push(`/rules/${r.id}`)}

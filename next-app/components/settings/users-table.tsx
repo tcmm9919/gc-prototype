@@ -85,6 +85,12 @@ export function UsersTable() {
           Добавить пользователя
         </Button>
       }
+      emptyAction={
+        <Button size="sm" variant="outline">
+          <Plus className="size-4" />
+          Добавить пользователя
+        </Button>
+      }
     />
   );
 }

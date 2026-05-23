@@ -268,6 +268,14 @@ export function CasesTable() {
           </Link>
         </Button>
       }
+      emptyAction={
+        <Button asChild size="sm" variant="outline">
+          <Link href="/cases/new">
+            <Plus className="size-4" />
+            Новый кейс
+          </Link>
+        </Button>
+      }
     />
   );
 }

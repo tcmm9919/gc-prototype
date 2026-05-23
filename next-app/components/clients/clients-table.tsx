@@ -4,7 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Download, Filter, Lock, Play, Plus, Search, ShieldAlert } from "lucide-react";
+import { Download, Filter, Flame, Lock as LockIcon, Play, Plus, Search, ShieldAlert } from "lucide-react";
 
 import { DataTable } from "@/components/ext/data-table";
 import { RiskBadge } from "@/components/ext/risk-badge";
@@ -24,6 +24,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useMockData, useMockStore, type Client, type ClientStatus, type RiskLevel } from "@/lib/mock";
 import { toast } from "sonner";
+import { type DataTableView } from "@/components/ext/data-table";
 import { initialsFromName } from "@/lib/format";
 
 const STATUS_LABELS: Record<ClientStatus, string> = {
@@ -41,6 +42,28 @@ const STATUS_TONE: Record<ClientStatus, StatusTone> = {
 };
 
 const RISK_ORDER: Record<RiskLevel, number> = { low: 0, medium: 1, high: 2, critical: 3 };
+
+const CLIENTS_VIEWS: DataTableView<Client>[] = [
+  { id: "all", label: "Все" },
+  {
+    id: "critical-risk",
+    label: "Critical risk",
+    icon: <Flame className="size-3.5 text-risk-critical" />,
+    predicate: (c) => c.riskLevel === "critical",
+  },
+  {
+    id: "in-edd",
+    label: "В EDD",
+    icon: <ShieldAlert className="size-3.5 text-risk-medium" />,
+    predicate: (c) => c.status === "edd",
+  },
+  {
+    id: "blocked",
+    label: "Заблокированные",
+    icon: <LockIcon className="size-3.5 text-risk-critical" />,
+    predicate: (c) => c.status === "blocked",
+  },
+];
 
 export function ClientsTable() {
   const router = useRouter();
@@ -141,6 +164,7 @@ export function ClientsTable() {
   return (
     <DataTable<Client>
       data={filtered}
+      views={CLIENTS_VIEWS}
       columns={columns}
       globalFilterPlaceholder="Поиск по имени, ID..."
       onRowClick={(c) => router.push(`/clients/${c.id}`)}
@@ -307,7 +331,7 @@ export function ClientsTable() {
                 clear();
               }}
             >
-              <Lock className="size-3.5" />
+              <LockIcon className="size-3.5" />
               Заблокировать
             </Button>
           </>

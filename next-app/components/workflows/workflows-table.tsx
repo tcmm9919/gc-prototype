@@ -22,10 +22,12 @@ function WorkflowsTab({
   data,
   emptyText,
   description,
+  emptyAction,
 }: {
   data: ComplianceScenario[];
   emptyText: string;
   description: string;
+  emptyAction?: React.ReactNode;
 }) {
   return (
     <Card className="overflow-hidden">
@@ -38,7 +40,10 @@ function WorkflowsTab({
         <span></span>
       </div>
       {data.length === 0 ? (
-        <p className="px-4 py-8 text-center text-sm text-muted-foreground">{emptyText}</p>
+        <div className="flex flex-col items-center gap-4 px-4 py-8 text-center">
+          <p className="text-sm text-muted-foreground">{emptyText}</p>
+          {emptyAction}
+        </div>
       ) : (
         data.map((s) => (
           <div
@@ -94,6 +99,14 @@ export function WorkflowsTable() {
           data={clientWorkflows}
           description="Сценарий запускается по одному клиенту"
           emptyText="Сценариев нет — создайте первый."
+          emptyAction={
+            <Button asChild size="sm" variant="outline">
+              <Link href="/workflows/builder">
+                <Plus className="size-4" />
+                Создать сценарий
+              </Link>
+            </Button>
+          }
         />
       </TabsContent>
       <TabsContent value="group" className="m-0">
