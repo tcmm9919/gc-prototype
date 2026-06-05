@@ -184,7 +184,7 @@ export function ClientCard({ id }: { id: string }) {
       </div>
 
       {/* Tab content — у каждого таб-компонента свой px-6, совпадает с header zone */}
-      <div className="mt-2">
+      <div className="mt-6">
         <AnimatePresence mode="wait" initial={false}>
           <motion.div
             key={currentTab}
