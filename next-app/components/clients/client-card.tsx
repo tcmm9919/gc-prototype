@@ -54,14 +54,14 @@ export function ClientCard({ id }: { id: string }) {
 
   return (
     <div className="pb-6">
-      <div className="grid items-start gap-4 lg:grid-cols-[280px_minmax(0,1fr)_280px]">
+      <div className="grid items-start gap-5 lg:grid-cols-[280px_minmax(0,1fr)_280px]">
         {/* LEFT — identity (sticky) */}
         <aside className="self-start lg:sticky lg:top-28">
           <ClientIdentity client={client} />
         </aside>
 
         {/* CENTER — tabs + content (scrolls) */}
-        <div className="flex min-w-0 flex-col gap-4">
+        <div className="flex min-w-0 flex-col gap-5">
           <Tabs value={currentTab} onValueChange={setTab}>
             <TabsList className="flex h-auto flex-wrap justify-start gap-1.5 bg-transparent p-0">
               {TABS.map((t) => (
