@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button"
 import { RiskBadge } from "@/components/ext/risk-badge"
 import { StatusBadge } from "@/components/ext/status-badge"
 import { AssistantPanel } from "@/components/ext/assistant-panel"
-import Lightfall from "@/components/ext/lightfall"
 
 const STATUS_LABELS = {
   active: "Активен",
@@ -127,26 +126,14 @@ export function ClientIdentity({ client }: { client: Client }) {
             contextLabel={client.fullName}
             contextSubtitle={`${client.id} · риск ${client.riskLevel} · скор ${client.internalScore}`}
             triggerOverride={
-              <button
-                type="button"
-                className="relative flex h-10 w-full items-center justify-center gap-2 overflow-hidden rounded-md text-sm font-medium text-white shadow-sm"
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full justify-center"
               >
-                <Lightfall
-                  className="pointer-events-none absolute inset-0"
-                  colors={["#A6C8FF", "#5227FF", "#FF9FFC"]}
-                  backgroundColor="#0A0A2A"
-                  mouseInteraction={false}
-                  speed={0.7}
-                  streakCount={4}
-                  density={0.8}
-                  zoom={3}
-                  glow={1.1}
-                />
-                <span className="relative z-10 flex items-center gap-2">
-                  <Sparkles className="size-4" />
-                  AI Ассистент
-                </span>
-              </button>
+                <Sparkles className="size-4" />
+                AI Ассистент
+              </Button>
             }
           />
         </div>
