@@ -270,7 +270,7 @@ export function ClientOverview({ client }: { client: Client }) {
           </div>
 
           {/* Right: Risk Score */}
-          <div className="flex flex-col gap-2.5 justify-center min-w-0">
+          <div className="rounded-2xl bg-foreground/[0.03] dark:bg-white/[0.05] p-4 flex flex-col gap-2.5 min-w-0">
             <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
               Risk Score
             </span>
