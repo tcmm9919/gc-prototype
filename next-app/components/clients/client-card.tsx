@@ -2,14 +2,7 @@
 
 import * as React from "react"
 import { notFound, useRouter, useSearchParams } from "next/navigation"
-import {
-  ArrowLeftRight,
-  ArrowUp,
-  Bell,
-  Folder,
-  ShieldAlert,
-  UserPlus,
-} from "lucide-react"
+import { ArrowUp, ShieldAlert, UserPlus } from "lucide-react"
 import { AnimatePresence, motion } from "framer-motion"
 
 import { useClient, useMockData } from "@/lib/mock"
@@ -71,17 +64,6 @@ export function ClientCard({ id }: { id: string }) {
   const responsible = data.users.find((u) => u.id === client.responsibleId)
   const currentTab = params?.get("tab") ?? "overview"
 
-  // Counters
-  const openAlerts = data.alerts.filter(
-    (a) => a.clientId === client.id && a.status !== "closed"
-  ).length
-  const openCases = data.cases.filter(
-    (c) => c.clientId === client.id && c.status !== "closed"
-  ).length
-  const totalTx = data.transactions.filter(
-    (t) => t.clientId === client.id
-  ).length
-
   const setTab = (next: string) => {
     const sp = new URLSearchParams(params?.toString() ?? "")
     if (next === "overview") sp.delete("tab")
@@ -133,39 +115,6 @@ export function ClientCard({ id }: { id: string }) {
             </>
           }
         />
-
-        {/* Counter chips */}
-        <div className="flex flex-wrap gap-2">
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs ${openAlerts > 0 ? "bg-risk-medium/15 text-risk-medium" : "bg-foreground/[0.05] text-foreground dark:bg-white/[0.06]"}`}
-          >
-            <Bell className="size-3.5" />
-            <span className="font-semibold tabular-nums">{openAlerts}</span>
-            <span className="opacity-80">
-              {openAlerts === 1 ? "открытый алерт" : "открытых алертов"}
-            </span>
-          </span>
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs ${openCases > 0 ? "bg-primary/15 text-primary" : "bg-foreground/[0.05] text-foreground dark:bg-white/[0.06]"}`}
-          >
-            <Folder className="size-3.5" />
-            <span className="font-semibold tabular-nums">{openCases}</span>
-            <span className="opacity-80">
-              {openCases === 1 ? "активный кейс" : "активных кейсов"}
-            </span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-xs text-foreground dark:bg-white/[0.06]">
-            <ArrowLeftRight className="size-3.5" />
-            <span className="font-semibold tabular-nums">{totalTx}</span>
-            <span className="opacity-80">
-              {totalTx === 1
-                ? "транзакция"
-                : totalTx < 5
-                  ? "транзакции"
-                  : "транзакций"}
-            </span>
-          </span>
-        </div>
 
         {/* Tab chips — горизонтальный wrap-ряд */}
         <Tabs value={currentTab} onValueChange={setTab}>

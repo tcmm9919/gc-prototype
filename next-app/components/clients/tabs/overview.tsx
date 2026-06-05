@@ -2,6 +2,9 @@
 
 import * as React from "react"
 import {
+  Bell,
+  Folder,
+  ArrowLeftRight,
   ShieldAlert,
   ShieldCheck,
   FileText,
@@ -144,6 +147,17 @@ export function ClientOverview({ client }: { client: Client }) {
   const data = useMockData()
   const [aiPrompt, setAiPrompt] = React.useState("")
 
+  // Counters
+  const openAlerts = data.alerts.filter(
+    (a) => a.clientId === client.id && a.status !== "closed"
+  ).length
+  const openCases = data.cases.filter(
+    (c) => c.clientId === client.id && c.status !== "closed"
+  ).length
+  const totalTx = data.transactions.filter(
+    (t) => t.clientId === client.id
+  ).length
+
   // Sparkline
   const sparkline = React.useMemo(
     () => computeSparkline(data.transactions, client.id),
@@ -177,8 +191,41 @@ export function ClientOverview({ client }: { client: Client }) {
 
   return (
     <div className="flex flex-col gap-4 px-6 pb-6">
-      {/* HERO — только активность + скоринг */}
+      {/* HERO — счётчики + активность + скоринг */}
       <Block>
+        {/* Counter chips */}
+        <div className="mb-5 flex flex-wrap gap-2">
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs ${openAlerts > 0 ? "bg-risk-medium/15 text-risk-medium" : "bg-foreground/[0.05] text-foreground dark:bg-white/[0.06]"}`}
+          >
+            <Bell className="size-3.5" />
+            <span className="font-semibold tabular-nums">{openAlerts}</span>
+            <span className="opacity-80">
+              {openAlerts === 1 ? "открытый алерт" : "открытых алертов"}
+            </span>
+          </span>
+          <span
+            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs ${openCases > 0 ? "bg-primary/15 text-primary" : "bg-foreground/[0.05] text-foreground dark:bg-white/[0.06]"}`}
+          >
+            <Folder className="size-3.5" />
+            <span className="font-semibold tabular-nums">{openCases}</span>
+            <span className="opacity-80">
+              {openCases === 1 ? "активный кейс" : "активных кейсов"}
+            </span>
+          </span>
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-xs text-foreground dark:bg-white/[0.06]">
+            <ArrowLeftRight className="size-3.5" />
+            <span className="font-semibold tabular-nums">{totalTx}</span>
+            <span className="opacity-80">
+              {totalTx === 1
+                ? "транзакция"
+                : totalTx < 5
+                  ? "транзакции"
+                  : "транзакций"}
+            </span>
+          </span>
+        </div>
+
         <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_220px]">
           {/* Left: активность */}
           <div className="flex min-w-0 flex-col justify-center gap-1.5">
