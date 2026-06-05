@@ -51,10 +51,12 @@ function CounterRow({
     muted: "text-muted-foreground",
   }[tone]
   return (
-    <div className="flex items-center gap-2 rounded-xl bg-foreground/[0.03] px-3 py-2 text-xs dark:bg-white/[0.03]">
+    <div className="flex min-w-0 flex-col items-center gap-1 rounded-xl bg-foreground/[0.03] px-2 py-2.5 text-center dark:bg-white/[0.03]">
       <Icon className={cn("size-4 shrink-0", iconColor)} />
-      <span className="font-semibold tabular-nums">{value}</span>
-      <span className="text-muted-foreground">{label}</span>
+      <span className="text-sm font-semibold tabular-nums">{value}</span>
+      <span className="text-[10px] leading-tight text-muted-foreground">
+        {label}
+      </span>
     </div>
   )
 }
@@ -116,7 +118,7 @@ export function ClientIdentity({ client }: { client: Client }) {
             </div>
           </div>
 
-          <div className="flex flex-col gap-1.5">
+          <div className="grid grid-cols-3 gap-1.5">
             <CounterRow
               icon={Bell}
               value={openAlerts}
