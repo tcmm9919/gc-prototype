@@ -170,16 +170,12 @@ export function ClientOverview({ client }: { client: Client }) {
   const allDetailFields: Array<{ label: string; value: React.ReactNode }> = [
     { label: "Версия карточки", value: client.cardVersion },
     { label: "Колвир-код", value: client.kolvirCode },
-    { label: "Имя", value: client.firstName },
-    { label: "Фамилия", value: client.lastName },
-    { label: "Отчество", value: client.middleName },
     { label: "Дата регистрации", value: client.registrationDate },
     { label: "Срок обслуживания (дн.)", value: client.serviceDays },
     {
       label: "Страна резидентства",
       value: client.countryFullName ?? client.country,
     },
-    { label: "Место рождения", value: client.birthplace },
     { label: "Филиал открытия счёта", value: client.accountBranch },
   ];
   const filledFields = allDetailFields.filter(
