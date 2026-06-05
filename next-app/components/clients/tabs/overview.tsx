@@ -107,7 +107,7 @@ export function ClientOverview({ client }: { client: Client }) {
   ).filter((key) => flags[key] === true)
 
   return (
-    <div className="flex flex-col gap-5 pb-6">
+    <div className="flex flex-col gap-6 pb-6">
       {/* AI BRIEF */}
       <div className="flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/[0.05] px-5 py-4 dark:bg-primary/[0.08]">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/15">
@@ -138,7 +138,7 @@ export function ClientOverview({ client }: { client: Client }) {
       ) : null}
 
       {/* Details + Channel */}
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className="grid gap-6 lg:grid-cols-2">
         {filledFields.length > 0 ? (
           <Block title="Подробности">
             <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
