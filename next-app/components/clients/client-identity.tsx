@@ -1,24 +1,13 @@
 "use client"
 
-import {
-  ArrowUp,
-  UserPlus,
-  Bell,
-  Folder,
-  ArrowLeftRight,
-  ShieldAlert,
-  Sparkles,
-} from "lucide-react"
+import { ArrowUp, UserPlus, ShieldAlert, Sparkles } from "lucide-react"
 import type { Client } from "@/lib/mock"
 import { useMockData } from "@/lib/mock"
 import { Block } from "@/components/ext/block"
-import { AvatarCircle } from "@/components/ext/entity-header"
 import { Button } from "@/components/ui/button"
 import { RiskBadge } from "@/components/ext/risk-badge"
 import { StatusBadge } from "@/components/ext/status-badge"
 import { AssistantPanel } from "@/components/ext/assistant-panel"
-import { initialsFromName } from "@/lib/format"
-import { cn } from "@/lib/utils"
 
 const STATUS_LABELS = {
   active: "Активен",
@@ -34,28 +23,10 @@ const STATUS_TONE = {
   blocked: "danger",
 } as const
 
-function CounterRow({
-  icon: Icon,
-  value,
-  label,
-  tone,
-}: {
-  icon: React.ComponentType<{ className?: string }>
-  value: number
-  label: string
-  tone: "warning" | "info" | "muted"
-}) {
-  const iconColor = {
-    warning: value > 0 ? "text-risk-medium" : "text-muted-foreground",
-    info: value > 0 ? "text-primary" : "text-muted-foreground",
-    muted: "text-muted-foreground",
-  }[tone]
+function CounterRow({ value, label }: { value: number; label: string }) {
   return (
     <div className="flex min-w-0 flex-col gap-1 rounded-xl bg-foreground/[0.03] px-2.5 py-2.5 text-left dark:bg-white/[0.03]">
-      <div className="flex w-full items-center justify-between gap-1">
-        <span className="text-sm font-semibold tabular-nums">{value}</span>
-        <Icon className={cn("size-3.5 shrink-0", iconColor)} />
-      </div>
+      <span className="text-sm font-semibold tabular-nums">{value}</span>
       <span className="text-[10px] leading-tight text-muted-foreground">
         {label}
       </span>
@@ -75,7 +46,6 @@ export function ClientIdentity({ client }: { client: Client }) {
   const totalTx = data.transactions.filter(
     (t) => t.clientId === client.id
   ).length
-  const hue = (client.id.charCodeAt(3) * 47) % 360
 
   return (
     <div className="flex flex-col gap-4">
@@ -83,11 +53,6 @@ export function ClientIdentity({ client }: { client: Client }) {
       <Block dense>
         <div className="flex flex-col gap-5">
           <div className="flex flex-col items-start gap-3">
-            <AvatarCircle
-              initials={initialsFromName(client.fullName)}
-              size="lg"
-              hue={hue}
-            />
             <div className="flex min-w-0 flex-col items-start gap-1.5">
               <h2 className="font-heading text-[18px] font-bold tracking-[-0.02em]">
                 {client.fullName}
@@ -122,19 +87,14 @@ export function ClientIdentity({ client }: { client: Client }) {
 
           <div className="grid grid-cols-3 gap-1.5">
             <CounterRow
-              icon={Bell}
               value={openAlerts}
               label={openAlerts === 1 ? "Открытый алерт" : "Открытых алертов"}
-              tone="warning"
             />
             <CounterRow
-              icon={Folder}
               value={openCases}
               label={openCases === 1 ? "Активный кейс" : "Активных кейсов"}
-              tone="info"
             />
             <CounterRow
-              icon={ArrowLeftRight}
               value={totalTx}
               label={
                 totalTx === 1
@@ -143,7 +103,6 @@ export function ClientIdentity({ client }: { client: Client }) {
                     ? "Транзакции"
                     : "Транзакций"
               }
-              tone="muted"
             />
           </div>
         </div>
