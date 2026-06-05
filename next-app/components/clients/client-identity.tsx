@@ -51,7 +51,7 @@ function CounterRow({
     muted: "text-muted-foreground",
   }[tone]
   return (
-    <div className="flex min-w-0 flex-col items-center gap-1 rounded-xl bg-foreground/[0.03] px-2 py-2.5 text-center dark:bg-white/[0.03]">
+    <div className="flex min-w-0 flex-col items-start gap-1 rounded-xl bg-foreground/[0.03] px-2.5 py-2.5 text-left dark:bg-white/[0.03]">
       <Icon className={cn("size-4 shrink-0", iconColor)} />
       <span className="text-sm font-semibold tabular-nums">{value}</span>
       <span className="text-[10px] leading-tight text-muted-foreground">
@@ -80,17 +80,17 @@ export function ClientIdentity({ client }: { client: Client }) {
       {/* Identity card */}
       <Block dense>
         <div className="flex flex-col gap-5">
-          <div className="flex flex-col items-center gap-3 text-center">
+          <div className="flex flex-col items-start gap-3">
             <AvatarCircle
               initials={initialsFromName(client.fullName)}
               size="lg"
               hue={hue}
             />
-            <div className="flex min-w-0 flex-col items-center gap-1.5">
+            <div className="flex min-w-0 flex-col items-start gap-1.5">
               <h2 className="font-heading text-[18px] font-bold tracking-[-0.02em]">
                 {client.fullName}
               </h2>
-              <div className="flex flex-wrap justify-center gap-1.5">
+              <div className="flex flex-wrap gap-1.5">
                 <RiskBadge level={client.riskLevel} />
                 <StatusBadge tone={STATUS_TONE[client.status]}>
                   {STATUS_LABELS[client.status]}
