@@ -109,7 +109,7 @@
     /* Revolut-style dark canonical */
     --background: oklch(0.11 0.020 158);          /* near-black with faint forest undertone */
     --foreground: oklch(0.96 0.005 250);          /* near-white */
-    --surface: oklch(0.17 0.025 158);             /* slightly lifted dark green */
+    --surface: oklch(0.185 0.004 250);            /* neutral dark gray */
     --surface-elevated: oklch(0.20 0.025 158);
     --surface-tint: oklch(0.22 0.025 158);
     --surface-alpha: oklch(1 0 0 / 0.04);         /* alpha card bg over dark gradient */
