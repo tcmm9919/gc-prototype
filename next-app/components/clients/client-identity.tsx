@@ -51,9 +51,11 @@ function CounterRow({
     muted: "text-muted-foreground",
   }[tone]
   return (
-    <div className="flex min-w-0 flex-col items-start gap-1 rounded-xl bg-foreground/[0.03] px-2.5 py-2.5 text-left dark:bg-white/[0.03]">
-      <Icon className={cn("size-4 shrink-0", iconColor)} />
-      <span className="text-sm font-semibold tabular-nums">{value}</span>
+    <div className="flex min-w-0 flex-col gap-1 rounded-xl bg-foreground/[0.03] px-2.5 py-2.5 text-left dark:bg-white/[0.03]">
+      <div className="flex w-full items-center justify-between gap-1">
+        <span className="text-sm font-semibold tabular-nums">{value}</span>
+        <Icon className={cn("size-4 shrink-0", iconColor)} />
+      </div>
       <span className="text-[10px] leading-tight text-muted-foreground">
         {label}
       </span>
@@ -122,13 +124,13 @@ export function ClientIdentity({ client }: { client: Client }) {
             <CounterRow
               icon={Bell}
               value={openAlerts}
-              label={openAlerts === 1 ? "открытый алерт" : "открытых алертов"}
+              label={openAlerts === 1 ? "Открытый алерт" : "Открытых алертов"}
               tone="warning"
             />
             <CounterRow
               icon={Folder}
               value={openCases}
-              label={openCases === 1 ? "активный кейс" : "активных кейсов"}
+              label={openCases === 1 ? "Активный кейс" : "Активных кейсов"}
               tone="info"
             />
             <CounterRow
@@ -136,10 +138,10 @@ export function ClientIdentity({ client }: { client: Client }) {
               value={totalTx}
               label={
                 totalTx === 1
-                  ? "транзакция"
+                  ? "Транзакция"
                   : totalTx < 5
-                    ? "транзакции"
-                    : "транзакций"
+                    ? "Транзакции"
+                    : "Транзакций"
               }
               tone="muted"
             />
