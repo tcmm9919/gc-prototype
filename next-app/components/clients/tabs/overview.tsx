@@ -325,9 +325,8 @@ export function ClientOverview({ client }: { client: Client }) {
         </Block>
       ) : null}
 
-      {/* MAIN GRID */}
-      <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
-        {/* Left column */}
+      {/* BLOCKS */}
+      <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-4 min-w-0">
           {filledFields.length > 0 ? (
             <Block title="Подробности">
@@ -384,7 +383,6 @@ export function ClientOverview({ client }: { client: Client }) {
           </Block>
         </div>
 
-        {/* Right column */}
         <div className="flex flex-col gap-4">
           <Block title="Канал уведомлений">
             <p className="text-xs text-muted-foreground -mt-2 mb-3">
