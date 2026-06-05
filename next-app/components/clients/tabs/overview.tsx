@@ -13,6 +13,7 @@ import {
   Crown,
 } from "lucide-react"
 import type { Client, ClientFlags } from "@/lib/mock"
+import { useMockData } from "@/lib/mock"
 import { Button } from "@/components/ui/button"
 import { Block } from "@/components/ext/block"
 import { StatusBadge } from "@/components/ext/status-badge"
@@ -85,7 +86,81 @@ function getAIBrief(client: Client): string {
   return `${riskWord} ${typeWord} клиент. ${pepNote}. ${recommendation}`
 }
 
+function getRiskConfig(score: number) {
+  if (score < 25)
+    return {
+      label: "Низкий риск",
+      barClass: "bg-risk-low",
+      textClass: "text-risk-low",
+    }
+  if (score < 50)
+    return {
+      label: "Средний риск",
+      barClass: "bg-risk-medium",
+      textClass: "text-risk-medium",
+    }
+  if (score < 75)
+    return {
+      label: "Высокий риск",
+      barClass: "bg-risk-high",
+      textClass: "text-risk-high",
+    }
+  return {
+    label: "Критический риск",
+    barClass: "bg-risk-critical",
+    textClass: "text-risk-critical",
+  }
+}
+
+function computeSparkline(
+  transactions: { date: string; clientId: string }[],
+  clientId: string
+): number[] {
+  const now = Date.now()
+  const days = Array(30).fill(0)
+  transactions
+    .filter((t) => t.clientId === clientId)
+    .forEach((t) => {
+      const daysAgo = Math.floor(
+        (now - new Date(t.date).getTime()) / (1000 * 60 * 60 * 24)
+      )
+      if (daysAgo >= 0 && daysAgo < 30) days[29 - daysAgo] += 1
+    })
+  return days
+}
+
+function Sparkline({ data }: { data: number[] }) {
+  const max = Math.max(...data, 1)
+  return (
+    <div className="flex h-10 items-end gap-[2px]">
+      {data.map((v, i) => (
+        <div
+          key={i}
+          className={cn(
+            "flex-1 rounded-sm transition-colors",
+            v > 0
+              ? "bg-primary/60"
+              : "bg-foreground/[0.06] dark:bg-white/[0.06]"
+          )}
+          style={{
+            height: v > 0 ? `${(v / max) * 100}%` : "10%",
+            minHeight: "3px",
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
 export function ClientOverview({ client }: { client: Client }) {
+  const data = useMockData()
+  const sparkline = React.useMemo(
+    () => computeSparkline(data.transactions, client.id),
+    [data.transactions, client.id]
+  )
+  const hasActivity = sparkline.some((v) => v > 0)
+  const riskCfg = getRiskConfig(client.internalScore)
+
   const allDetailFields: Array<{ label: string; value: React.ReactNode }> = [
     { label: "Версия карточки", value: client.cardVersion },
     { label: "Колвир-код", value: client.kolvirCode },
@@ -108,6 +183,52 @@ export function ClientOverview({ client }: { client: Client }) {
 
   return (
     <div className="flex flex-col gap-6 pb-6">
+      {/* Risk Score + Activity */}
+      <div className="grid gap-5 md:grid-cols-2">
+        <Block dense>
+          <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
+            Risk Score
+          </span>
+          <div className="mt-2 flex items-baseline gap-1.5">
+            <span className="font-heading text-[32px] leading-none font-bold tabular-nums">
+              {client.internalScore}
+            </span>
+            <span className="text-sm text-muted-foreground">/100</span>
+          </div>
+          <div className="mt-2.5 h-2 overflow-hidden rounded-full bg-foreground/[0.08] dark:bg-white/[0.06]">
+            <div
+              className={cn(
+                "h-full rounded-full transition-all duration-500",
+                riskCfg.barClass
+              )}
+              style={{ width: `${client.internalScore}%` }}
+            />
+          </div>
+          <span
+            className={cn(
+              "mt-2 block text-sm font-semibold",
+              riskCfg.textClass
+            )}
+          >
+            {riskCfg.label}
+          </span>
+        </Block>
+        <Block dense>
+          <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
+            Активность за 30 дней
+          </span>
+          <div className="mt-3">
+            {hasActivity ? (
+              <Sparkline data={sparkline} />
+            ) : (
+              <div className="py-1 text-xs text-muted-foreground">
+                Нет активности
+              </div>
+            )}
+          </div>
+        </Block>
+      </div>
+
       {/* AI BRIEF */}
       <div className="flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/[0.05] px-4 py-3 dark:bg-primary/[0.08]">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/15">
