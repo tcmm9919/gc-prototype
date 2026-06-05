@@ -1,10 +1,7 @@
-"use client";
+"use client"
 
-import * as React from "react";
+import * as React from "react"
 import {
-  Bell,
-  Folder,
-  ArrowLeftRight,
   ShieldAlert,
   ShieldCheck,
   FileText,
@@ -16,16 +13,14 @@ import {
   AlertTriangle,
   Lock,
   Crown,
-} from "lucide-react";
-import type { Client, ClientFlags } from "@/lib/mock";
-import { useMockData } from "@/lib/mock";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Block } from "@/components/ext/block";
-import { AvatarCircle } from "@/components/ext/entity-header";
-import { StatusBadge } from "@/components/ext/status-badge";
-import { initialsFromName } from "@/lib/format";
-import { cn } from "@/lib/utils";
+} from "lucide-react"
+import type { Client, ClientFlags } from "@/lib/mock"
+import { useMockData } from "@/lib/mock"
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+import { Block } from "@/components/ext/block"
+import { StatusBadge } from "@/components/ext/status-badge"
+import { cn } from "@/lib/utils"
 
 const FLAG_LABELS: Record<keyof ClientFlags, string> = {
   VIP: "VIP",
@@ -42,9 +37,9 @@ const FLAG_LABELS: Record<keyof ClientFlags, string> = {
   Blacklist: "Blacklist",
   iPDL: "iPDL",
   nPDL: "nPDL",
-};
+}
 
-type FlagTone = "info" | "warning" | "danger" | "muted";
+type FlagTone = "info" | "warning" | "danger" | "muted"
 
 const FLAG_META: Record<
   keyof ClientFlags,
@@ -64,14 +59,14 @@ const FLAG_META: Record<
   FATCA_individual: { icon: ShieldCheck, tone: "muted" },
   OESR_group: { icon: ShieldCheck, tone: "muted" },
   OESR_individual: { icon: ShieldCheck, tone: "muted" },
-};
+}
 
 const FAVORITE_SCENARIOS = [
   { id: "block", name: "Блокировка клиента" },
   { id: "doc-report", name: "Отчёт по документации от клиента" },
   { id: "full-check", name: "Полная проверка клиента 6 шагов" },
   { id: "sanction-mail", name: "Санкционная проверка с отправкой на почту" },
-];
+]
 
 const DOCUMENTS = [
   { name: "income_anomaly_remediation.pdf", tag: "income_proof" },
@@ -79,7 +74,7 @@ const DOCUMENTS = [
   { name: "edd_report_20260429_093630.html", tag: "edd_report" },
   { name: "edd_report_20260428_072744.html", tag: "edd_report" },
   { name: "income_report_bad_bb25f2c1.pdf", tag: "employment_letter" },
-];
+]
 
 function getRiskConfig(score: number) {
   if (score < 25)
@@ -87,24 +82,24 @@ function getRiskConfig(score: number) {
       label: "Низкий риск",
       barClass: "bg-risk-low",
       textClass: "text-risk-low",
-    };
+    }
   if (score < 50)
     return {
       label: "Средний риск",
       barClass: "bg-risk-medium",
       textClass: "text-risk-medium",
-    };
+    }
   if (score < 75)
     return {
       label: "Высокий риск",
       barClass: "bg-risk-high",
       textClass: "text-risk-high",
-    };
+    }
   return {
     label: "Критический риск",
     barClass: "bg-risk-critical",
     textClass: "text-risk-critical",
-  };
+  }
 }
 
 function getAIBrief(client: Client): string {
@@ -112,59 +107,49 @@ function getAIBrief(client: Client): string {
     client.internalScore < 25
       ? "Низкорисковый"
       : client.internalScore < 50
-      ? "Среднерисковый"
-      : client.internalScore < 75
-      ? "Высокорисковый"
-      : "Критический";
-  const typeWord = client.type === "legal" ? "корпоративный" : "розничный";
+        ? "Среднерисковый"
+        : client.internalScore < 75
+          ? "Высокорисковый"
+          : "Критический"
+  const typeWord = client.type === "legal" ? "корпоративный" : "розничный"
   const pepNote = client.pep
     ? "PEP-статус активен — повышенное внимание"
-    : "PEP/санкции — не обнаружены";
+    : "PEP/санкции — не обнаружены"
   const recommendation =
     client.internalScore < 50
       ? "Стандартный мониторинг."
-      : "Рекомендован усиленный мониторинг и периодический EDD.";
-  return `${riskWord} ${typeWord} клиент. ${pepNote}. ${recommendation}`;
+      : "Рекомендован усиленный мониторинг и периодический EDD."
+  return `${riskWord} ${typeWord} клиент. ${pepNote}. ${recommendation}`
 }
 
 function computeSparkline(
   transactions: { date: string; clientId: string }[],
   clientId: string
 ): number[] {
-  const now = Date.now();
-  const days = Array(30).fill(0);
+  const now = Date.now()
+  const days = Array(30).fill(0)
   transactions
     .filter((t) => t.clientId === clientId)
     .forEach((t) => {
-      const txDate = new Date(t.date).getTime();
-      const daysAgo = Math.floor((now - txDate) / (1000 * 60 * 60 * 24));
+      const txDate = new Date(t.date).getTime()
+      const daysAgo = Math.floor((now - txDate) / (1000 * 60 * 60 * 24))
       if (daysAgo >= 0 && daysAgo < 30) {
-        days[29 - daysAgo] += 1;
+        days[29 - daysAgo] += 1
       }
-    });
-  return days;
+    })
+  return days
 }
 
 export function ClientOverview({ client }: { client: Client }) {
-  const data = useMockData();
-  const [aiPrompt, setAiPrompt] = React.useState("");
-
-  // Counters
-  const openAlerts = data.alerts.filter(
-    (a) => a.clientId === client.id && a.status !== "closed"
-  ).length;
-  const openCases = data.cases.filter(
-    (c) => c.clientId === client.id && c.status !== "closed"
-  ).length;
-  const totalTx = data.transactions.filter((t) => t.clientId === client.id).length;
-  const isEdd = client.status === "edd";
+  const data = useMockData()
+  const [aiPrompt, setAiPrompt] = React.useState("")
 
   // Sparkline
   const sparkline = React.useMemo(
     () => computeSparkline(data.transactions, client.id),
     [data.transactions, client.id]
-  );
-  const hasActivity = sparkline.some((v) => v > 0);
+  )
+  const hasActivity = sparkline.some((v) => v > 0)
 
   // Filled detail fields only
   const allDetailFields: Array<{ label: string; value: React.ReactNode }> = [
@@ -177,110 +162,50 @@ export function ClientOverview({ client }: { client: Client }) {
       value: client.countryFullName ?? client.country,
     },
     { label: "Филиал открытия счёта", value: client.accountBranch },
-  ];
+  ]
   const filledFields = allDetailFields.filter(
     (f) => f.value !== undefined && f.value !== null && f.value !== ""
-  );
+  )
 
   // Only active flags
-  const flags = client.flags ?? {};
-  const activeFlags = (Object.keys(FLAG_LABELS) as Array<keyof ClientFlags>).filter(
-    (key) => flags[key] === true
-  );
+  const flags = client.flags ?? {}
+  const activeFlags = (
+    Object.keys(FLAG_LABELS) as Array<keyof ClientFlags>
+  ).filter((key) => flags[key] === true)
 
-  const riskCfg = getRiskConfig(client.internalScore);
-  const hue = (client.id.charCodeAt(3) * 47) % 360;
+  const riskCfg = getRiskConfig(client.internalScore)
 
   return (
     <div className="flex flex-col gap-4 px-6 pb-6">
-      {/* HERO */}
+      {/* HERO — только активность + скоринг */}
       <Block>
-        <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_220px]">
-          {/* Left: identity + counters + sparkline */}
-          <div className="flex flex-col gap-5 min-w-0">
-            <div className="flex items-center gap-4 min-w-0">
-              <AvatarCircle
-                initials={initialsFromName(client.fullName)}
-                size="lg"
-                hue={hue}
-              />
-              <div className="flex flex-col gap-1 min-w-0">
-                <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
-                  Контакт
-                </span>
-                <span className="text-sm font-medium text-foreground truncate">
-                  {client.email ?? "—"}
-                </span>
-                <span className="text-xs text-muted-foreground truncate">
-                  {client.iin || client.bin ? `ИИН ${client.iin ?? client.bin}` : ""}
-                  {client.birthDate ? ` · родился ${client.birthDate}` : ""}
-                </span>
+        <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_220px]">
+          {/* Left: активность */}
+          <div className="flex min-w-0 flex-col justify-center gap-1.5">
+            <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
+              Активность за 30 дней
+            </span>
+            {hasActivity ? (
+              <Sparkline data={sparkline} />
+            ) : (
+              <div className="py-1 text-xs text-muted-foreground">
+                Нет транзакционной активности
               </div>
-            </div>
-
-            {/* Counter chips */}
-            <div className="flex flex-wrap gap-2">
-              <CounterChip
-                icon={Bell}
-                value={openAlerts}
-                label={openAlerts === 1 ? "открытый алерт" : "открытых алертов"}
-                tone={openAlerts > 0 ? "warning" : "muted"}
-              />
-              <CounterChip
-                icon={Folder}
-                value={openCases}
-                label={openCases === 1 ? "активный кейс" : "активных кейсов"}
-                tone={openCases > 0 ? "info" : "muted"}
-              />
-              <CounterChip
-                icon={ArrowLeftRight}
-                value={totalTx}
-                label={
-                  totalTx === 1
-                    ? "транзакция"
-                    : totalTx < 5
-                    ? "транзакции"
-                    : "транзакций"
-                }
-                tone="muted"
-              />
-              {isEdd ? (
-                <CounterChip
-                  icon={ShieldAlert}
-                  value="EDD"
-                  label="процесс"
-                  tone="info"
-                />
-              ) : null}
-            </div>
-
-            {/* Sparkline */}
-            <div className="space-y-1.5">
-              <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
-                Активность за 30 дней
-              </span>
-              {hasActivity ? (
-                <Sparkline data={sparkline} />
-              ) : (
-                <div className="text-xs text-muted-foreground py-1">
-                  Нет транзакционной активности
-                </div>
-              )}
-            </div>
+            )}
           </div>
 
           {/* Right: Risk Score */}
-          <div className="rounded-2xl bg-foreground/[0.03] dark:bg-white/[0.05] p-4 flex flex-col gap-2.5 min-w-0">
-            <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
+          <div className="flex min-w-0 flex-col gap-2.5 rounded-2xl bg-foreground/[0.03] p-4 dark:bg-white/[0.05]">
+            <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
               Risk Score
             </span>
             <div className="flex items-baseline gap-1.5">
-              <span className="font-heading text-[36px] font-bold tabular-nums leading-none">
+              <span className="font-heading text-[32px] leading-none font-bold tabular-nums">
                 {client.internalScore}
               </span>
               <span className="text-sm text-muted-foreground">/100</span>
             </div>
-            <div className="h-2 rounded-full bg-foreground/[0.08] dark:bg-white/[0.06] overflow-hidden">
+            <div className="h-2 overflow-hidden rounded-full bg-foreground/[0.08] dark:bg-white/[0.06]">
               <div
                 className={cn(
                   "h-full rounded-full transition-all duration-500",
@@ -297,12 +222,12 @@ export function ClientOverview({ client }: { client: Client }) {
       </Block>
 
       {/* AI BRIEF */}
-      <div className="rounded-2xl bg-primary/[0.05] dark:bg-primary/[0.08] border border-primary/15 px-5 py-4 flex items-start gap-3">
-        <div className="size-9 rounded-xl bg-primary/15 flex items-center justify-center shrink-0">
+      <div className="flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/[0.05] px-5 py-4 dark:bg-primary/[0.08]">
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/15">
           <Sparkles className="size-4 text-primary" />
         </div>
-        <div className="flex flex-col gap-0.5 min-w-0">
-          <span className="text-[11px] uppercase tracking-wider text-primary font-semibold">
+        <div className="flex min-w-0 flex-col gap-0.5">
+          <span className="text-[11px] font-semibold tracking-wider text-primary uppercase">
             Compliance Officer AI
           </span>
           <p className="text-sm text-foreground">{getAIBrief(client)}</p>
@@ -312,8 +237,8 @@ export function ClientOverview({ client }: { client: Client }) {
       {/* ACTIVE FLAGS STRIP — only if any */}
       {activeFlags.length > 0 ? (
         <Block dense>
-          <div className="flex items-center gap-3 flex-wrap">
-            <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
               Активные флаги
             </span>
             <div className="flex flex-wrap gap-1.5">
@@ -327,7 +252,7 @@ export function ClientOverview({ client }: { client: Client }) {
 
       {/* BLOCKS */}
       <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-4 min-w-0">
+        <div className="flex min-w-0 flex-col gap-4">
           {filledFields.length > 0 ? (
             <Block title="Подробности">
               <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
@@ -336,7 +261,7 @@ export function ClientOverview({ client }: { client: Client }) {
                 ))}
               </div>
               {filledFields.length < allDetailFields.length ? (
-                <p className="text-xs text-muted-foreground pt-3 mt-3 border-t border-foreground/[0.06] dark:border-white/[0.06]">
+                <p className="mt-3 border-t border-foreground/[0.06] pt-3 text-xs text-muted-foreground dark:border-white/[0.06]">
                   {allDetailFields.length - filledFields.length}{" "}
                   {allDetailFields.length - filledFields.length === 1
                     ? "поле"
@@ -365,9 +290,11 @@ export function ClientOverview({ client }: { client: Client }) {
               {DOCUMENTS.slice(0, 4).map((d) => (
                 <div
                   key={d.name}
-                  className="flex items-center justify-between gap-2 rounded-xl bg-foreground/[0.03] dark:bg-white/[0.03] px-3 py-2 text-xs"
+                  className="flex items-center justify-between gap-2 rounded-xl bg-foreground/[0.03] px-3 py-2 text-xs dark:bg-white/[0.03]"
                 >
-                  <span className="font-mono text-primary truncate">{d.name}</span>
+                  <span className="truncate font-mono text-primary">
+                    {d.name}
+                  </span>
                   <StatusBadge tone="muted">{d.tag}</StatusBadge>
                 </div>
               ))}
@@ -375,7 +302,7 @@ export function ClientOverview({ client }: { client: Client }) {
             {DOCUMENTS.length > 4 ? (
               <button
                 type="button"
-                className="text-xs text-primary hover:underline pt-3"
+                className="pt-3 text-xs text-primary hover:underline"
               >
                 Все {DOCUMENTS.length} документов →
               </button>
@@ -385,7 +312,7 @@ export function ClientOverview({ client }: { client: Client }) {
 
         <div className="flex flex-col gap-4">
           <Block title="Канал уведомлений">
-            <p className="text-xs text-muted-foreground -mt-2 mb-3">
+            <p className="-mt-2 mb-3 text-xs text-muted-foreground">
               Как клиент получает запросы и решения комплаенса
             </p>
             <div className="space-y-1.5">
@@ -408,9 +335,9 @@ export function ClientOverview({ client }: { client: Client }) {
               onChange={(e) => setAiPrompt(e.target.value)}
               placeholder="Проверить по санкционным спискам, запустить adverse media..."
               rows={2}
-              className="resize-none bg-foreground/[0.03] dark:bg-white/[0.04] border-foreground/[0.06] text-xs"
+              className="resize-none border-foreground/[0.06] bg-foreground/[0.03] text-xs dark:bg-white/[0.04]"
             />
-            <div className="flex items-center justify-between mt-2 mb-3">
+            <div className="mt-2 mb-3 flex items-center justify-between">
               <span className="text-[11px] text-muted-foreground">
                 Shift+Enter — новая строка
               </span>
@@ -419,20 +346,20 @@ export function ClientOverview({ client }: { client: Client }) {
                 Запустить
               </Button>
             </div>
-            <div className="pt-3 border-t border-foreground/[0.06] dark:border-white/[0.06]">
-              <p className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium mb-2">
+            <div className="border-t border-foreground/[0.06] pt-3 dark:border-white/[0.06]">
+              <p className="mb-2 text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
                 Готовые сценарии
               </p>
               <ul className="space-y-1.5">
                 {FAVORITE_SCENARIOS.map((s) => (
                   <li
                     key={s.id}
-                    className="flex items-center justify-between gap-2 rounded-xl bg-foreground/[0.03] dark:bg-white/[0.03] px-3 py-2 hover:bg-foreground/[0.05] dark:hover:bg-white/[0.05] transition"
+                    className="flex items-center justify-between gap-2 rounded-xl bg-foreground/[0.03] px-3 py-2 transition hover:bg-foreground/[0.05] dark:bg-white/[0.03] dark:hover:bg-white/[0.05]"
                   >
                     <span className="text-xs">{s.name}</span>
                     <button
                       type="button"
-                      className="inline-flex size-6 items-center justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/90 transition shrink-0"
+                      className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition hover:bg-primary/90"
                       aria-label="Запустить"
                     >
                       <Play className="size-2.5" fill="currentColor" />
@@ -445,55 +372,24 @@ export function ClientOverview({ client }: { client: Client }) {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="flex flex-col gap-0.5 min-w-0">
-      <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
+    <div className="flex min-w-0 flex-col gap-0.5">
+      <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
         {label}
       </span>
-      <p className="text-sm font-medium truncate">{value}</p>
+      <p className="truncate text-sm font-medium">{value}</p>
     </div>
-  );
-}
-
-function CounterChip({
-  icon: Icon,
-  value,
-  label,
-  tone,
-}: {
-  icon: React.ComponentType<{ className?: string }>;
-  value: React.ReactNode;
-  label: string;
-  tone: "info" | "warning" | "danger" | "muted";
-}) {
-  const toneClass = {
-    info: "bg-primary/15 text-primary",
-    warning: "bg-risk-medium/15 text-risk-medium",
-    danger: "bg-risk-critical/15 text-risk-critical",
-    muted: "bg-foreground/[0.05] dark:bg-white/[0.06] text-foreground",
-  }[tone];
-  return (
-    <span
-      className={cn(
-        "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs",
-        toneClass
-      )}
-    >
-      <Icon className="size-3.5" />
-      <span className="font-semibold tabular-nums">{value}</span>
-      {label ? <span className="opacity-80">{label}</span> : null}
-    </span>
-  );
+  )
 }
 
 function Sparkline({ data }: { data: number[] }) {
-  const max = Math.max(...data, 1);
+  const max = Math.max(...data, 1)
   return (
-    <div className="flex items-end gap-[2px] h-10">
+    <div className="flex h-10 items-end gap-[2px]">
       {data.map((v, i) => (
         <div
           key={i}
@@ -515,18 +411,18 @@ function Sparkline({ data }: { data: number[] }) {
         />
       ))}
     </div>
-  );
+  )
 }
 
 function FlagBadge({ flagKey }: { flagKey: keyof ClientFlags }) {
-  const meta = FLAG_META[flagKey];
-  const Icon = meta.icon;
+  const meta = FLAG_META[flagKey]
+  const Icon = meta.icon
   const toneClass = {
     info: "bg-primary/15 text-primary",
     warning: "bg-risk-medium/15 text-risk-medium",
     danger: "bg-risk-critical/15 text-risk-critical",
     muted: "bg-foreground/[0.06] dark:bg-white/[0.06] text-foreground",
-  }[meta.tone];
+  }[meta.tone]
   return (
     <span
       className={cn(
@@ -537,24 +433,24 @@ function FlagBadge({ flagKey }: { flagKey: keyof ClientFlags }) {
       <Icon className="size-3" />
       {FLAG_LABELS[flagKey]}
     </span>
-  );
+  )
 }
 
 function ChannelCheckbox({
   label,
   defaultChecked,
 }: {
-  label: string;
-  defaultChecked?: boolean;
+  label: string
+  defaultChecked?: boolean
 }) {
-  const [checked, setChecked] = React.useState(defaultChecked ?? false);
+  const [checked, setChecked] = React.useState(defaultChecked ?? false)
   return (
     <label
       className={cn(
-        "flex items-center gap-2 rounded-xl px-3 py-2 text-sm cursor-pointer transition",
+        "flex cursor-pointer items-center gap-2 rounded-xl px-3 py-2 text-sm transition",
         checked
           ? "bg-primary/10 text-foreground"
-          : "bg-foreground/[0.03] dark:bg-white/[0.03] text-muted-foreground hover:bg-foreground/[0.05]"
+          : "bg-foreground/[0.03] text-muted-foreground hover:bg-foreground/[0.05] dark:bg-white/[0.03]"
       )}
     >
       <input
@@ -565,5 +461,5 @@ function ChannelCheckbox({
       />
       {label}
     </label>
-  );
+  )
 }
