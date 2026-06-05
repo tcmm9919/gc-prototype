@@ -7,6 +7,7 @@ import {
   Folder,
   ArrowLeftRight,
   ShieldAlert,
+  Sparkles,
 } from "lucide-react"
 import type { Client } from "@/lib/mock"
 import { useMockData } from "@/lib/mock"
@@ -147,16 +148,26 @@ export function ClientIdentity({ client }: { client: Client }) {
       {/* Actions card */}
       <Block dense>
         <div className="flex flex-col gap-2">
-          <Button variant="outline" size="sm" className="w-full justify-center">
+          <Button variant="outline" size="lg" className="w-full justify-center">
             <ArrowUp className="size-4" />
             Поднять риск
           </Button>
-          <Button variant="outline" size="sm" className="w-full justify-center">
+          <Button variant="outline" size="lg" className="w-full justify-center">
             <UserPlus className="size-4" />В кейс
           </Button>
           <AssistantPanel
             contextLabel={client.fullName}
             contextSubtitle={`${client.id} · риск ${client.riskLevel} · скор ${client.internalScore}`}
+            triggerOverride={
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full justify-center"
+              >
+                <Sparkles className="size-4" />
+                AI Ассистент
+              </Button>
+            }
           />
         </div>
       </Block>
