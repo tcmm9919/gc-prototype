@@ -131,7 +131,7 @@ export function ClientCard({ id }: { id: string }) {
           </TabsList>
 
           {/* Content area */}
-          <div className="min-w-0 lg:-ml-4">
+          <div className="min-w-0">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={currentTab}
