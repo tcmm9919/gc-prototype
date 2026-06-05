@@ -116,7 +116,7 @@ export function ClientCard({ id }: { id: string }) {
       </div>
 
       <Tabs value={currentTab} onValueChange={setTab} orientation="vertical">
-        <div className="grid gap-3 lg:grid-cols-[170px_minmax(0,1fr)]">
+        <div className="grid gap-0 lg:grid-cols-[170px_minmax(0,1fr)]">
           {/* Vertical tabs as chips */}
           <TabsList className="flex flex-col gap-1 bg-transparent p-0 h-auto items-stretch lg:sticky lg:top-28 lg:self-start">
             {TABS.map((t) => (
