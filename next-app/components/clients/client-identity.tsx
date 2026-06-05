@@ -54,7 +54,7 @@ function CounterRow({
     <div className="flex min-w-0 flex-col gap-1 rounded-xl bg-foreground/[0.03] px-2.5 py-2.5 text-left dark:bg-white/[0.03]">
       <div className="flex w-full items-center justify-between gap-1">
         <span className="text-sm font-semibold tabular-nums">{value}</span>
-        <Icon className={cn("size-4 shrink-0", iconColor)} />
+        <Icon className={cn("size-3.5 shrink-0", iconColor)} />
       </div>
       <span className="text-[10px] leading-tight text-muted-foreground">
         {label}
