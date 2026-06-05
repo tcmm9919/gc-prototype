@@ -68,7 +68,7 @@ export function ClientCard({ id }: { id: string }) {
                 <TabsTrigger
                   key={t.value}
                   value={t.value}
-                  className="h-auto flex-none rounded-xl border-none bg-transparent px-4 py-2 text-[14px] font-medium text-muted-foreground transition-all hover:text-foreground data-[state=active]:bg-white data-[state=active]:text-zinc-900 data-[state=active]:shadow-sm"
+                  className="h-auto flex-none rounded-lg border-none bg-transparent px-4 py-2 text-[14px] font-medium text-muted-foreground transition-all hover:text-foreground data-[state=active]:bg-white data-[state=active]:text-zinc-900 data-[state=active]:shadow-sm"
                 >
                   {t.label}
                 </TabsTrigger>
