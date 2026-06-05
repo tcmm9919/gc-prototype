@@ -193,7 +193,7 @@ export function ClientEDD() {
   const progress = (done / STEPS.length) * 100;
 
   return (
-    <div className="flex flex-col gap-4 px-6 pb-6">
+    <div className="flex flex-col gap-4 pb-6">
       <Block
         title="Расширенная проверка (EDD)"
         actions={

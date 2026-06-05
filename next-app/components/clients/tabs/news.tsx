@@ -37,7 +37,7 @@ const TONE_STYLES: Record<NewsItem["tonality"], string> = {
 
 export function ClientNews() {
   return (
-    <div className="flex flex-col gap-4 px-6 pb-6">
+    <div className="flex flex-col gap-4 pb-6">
       <Block
         title={
           <span className="inline-flex items-center gap-2">

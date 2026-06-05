@@ -36,7 +36,7 @@ const COLOR: Record<Doc["type"], string> = {
 
 export function ClientDocuments() {
   return (
-    <div className="flex flex-col gap-4 px-6 pb-6">
+    <div className="flex flex-col gap-4 pb-6">
       <Block
         title="Документы клиента"
         actions={

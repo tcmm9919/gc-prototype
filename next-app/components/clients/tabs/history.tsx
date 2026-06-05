@@ -54,7 +54,7 @@ export function ClientHistory({ clientId }: { clientId: string }) {
   }, [list]);
 
   return (
-    <div className="flex flex-col gap-6 px-6 pb-6">
+    <div className="flex flex-col gap-6 pb-6">
       {grouped.map(([day, items], gIdx) => (
         <Block key={day} title={day}>
           <ol className="relative space-y-2 pl-6">

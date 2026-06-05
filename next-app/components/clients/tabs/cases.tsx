@@ -24,14 +24,14 @@ export function ClientCases({ clientId }: { clientId: string }) {
 
   if (cases.length === 0) {
     return (
-      <div className="px-6 pb-6">
+      <div className="pb-6">
         <EmptyState icon={<Folder className="size-6" />} title="Связанных кейсов нет" description="Расследования будут привязаны сюда." />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-2 px-6 pb-6">
+    <div className="flex flex-col gap-2 pb-6">
       {cases.map((c, idx) => (
         <motion.div
           key={c.id}

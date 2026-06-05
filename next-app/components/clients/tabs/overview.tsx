@@ -2,14 +2,9 @@
 
 import * as React from "react"
 import {
-  Bell,
-  Folder,
-  ArrowLeftRight,
   ShieldAlert,
   ShieldCheck,
   FileText,
-  Play,
-  Send,
   Sparkles,
   Upload,
   User as UserIcon,
@@ -18,9 +13,7 @@ import {
   Crown,
 } from "lucide-react"
 import type { Client, ClientFlags } from "@/lib/mock"
-import { useMockData } from "@/lib/mock"
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
 import { Block } from "@/components/ext/block"
 import { StatusBadge } from "@/components/ext/status-badge"
 import { cn } from "@/lib/utils"
@@ -64,13 +57,6 @@ const FLAG_META: Record<
   OESR_individual: { icon: ShieldCheck, tone: "muted" },
 }
 
-const FAVORITE_SCENARIOS = [
-  { id: "block", name: "Блокировка клиента" },
-  { id: "doc-report", name: "Отчёт по документации от клиента" },
-  { id: "full-check", name: "Полная проверка клиента 6 шагов" },
-  { id: "sanction-mail", name: "Санкционная проверка с отправкой на почту" },
-]
-
 const DOCUMENTS = [
   { name: "income_anomaly_remediation.pdf", tag: "income_proof" },
   { name: "edd_report_20260430_064829.html", tag: "edd_report" },
@@ -78,32 +64,6 @@ const DOCUMENTS = [
   { name: "edd_report_20260428_072744.html", tag: "edd_report" },
   { name: "income_report_bad_bb25f2c1.pdf", tag: "employment_letter" },
 ]
-
-function getRiskConfig(score: number) {
-  if (score < 25)
-    return {
-      label: "Низкий риск",
-      barClass: "bg-risk-low",
-      textClass: "text-risk-low",
-    }
-  if (score < 50)
-    return {
-      label: "Средний риск",
-      barClass: "bg-risk-medium",
-      textClass: "text-risk-medium",
-    }
-  if (score < 75)
-    return {
-      label: "Высокий риск",
-      barClass: "bg-risk-high",
-      textClass: "text-risk-high",
-    }
-  return {
-    label: "Критический риск",
-    barClass: "bg-risk-critical",
-    textClass: "text-risk-critical",
-  }
-}
 
 function getAIBrief(client: Client): string {
   const riskWord =
@@ -125,47 +85,7 @@ function getAIBrief(client: Client): string {
   return `${riskWord} ${typeWord} клиент. ${pepNote}. ${recommendation}`
 }
 
-function computeSparkline(
-  transactions: { date: string; clientId: string }[],
-  clientId: string
-): number[] {
-  const now = Date.now()
-  const days = Array(30).fill(0)
-  transactions
-    .filter((t) => t.clientId === clientId)
-    .forEach((t) => {
-      const txDate = new Date(t.date).getTime()
-      const daysAgo = Math.floor((now - txDate) / (1000 * 60 * 60 * 24))
-      if (daysAgo >= 0 && daysAgo < 30) {
-        days[29 - daysAgo] += 1
-      }
-    })
-  return days
-}
-
 export function ClientOverview({ client }: { client: Client }) {
-  const data = useMockData()
-  const [aiPrompt, setAiPrompt] = React.useState("")
-
-  // Counters
-  const openAlerts = data.alerts.filter(
-    (a) => a.clientId === client.id && a.status !== "closed"
-  ).length
-  const openCases = data.cases.filter(
-    (c) => c.clientId === client.id && c.status !== "closed"
-  ).length
-  const totalTx = data.transactions.filter(
-    (t) => t.clientId === client.id
-  ).length
-
-  // Sparkline
-  const sparkline = React.useMemo(
-    () => computeSparkline(data.transactions, client.id),
-    [data.transactions, client.id]
-  )
-  const hasActivity = sparkline.some((v) => v > 0)
-
-  // Filled detail fields only
   const allDetailFields: Array<{ label: string; value: React.ReactNode }> = [
     { label: "Версия карточки", value: client.cardVersion },
     { label: "Колвир-код", value: client.kolvirCode },
@@ -181,93 +101,13 @@ export function ClientOverview({ client }: { client: Client }) {
     (f) => f.value !== undefined && f.value !== null && f.value !== ""
   )
 
-  // Only active flags
   const flags = client.flags ?? {}
   const activeFlags = (
     Object.keys(FLAG_LABELS) as Array<keyof ClientFlags>
   ).filter((key) => flags[key] === true)
 
-  const riskCfg = getRiskConfig(client.internalScore)
-
   return (
-    <div className="flex flex-col gap-4 px-6 pb-6">
-      {/* HERO — счётчики + активность + скоринг */}
-      <Block>
-        {/* Counter chips */}
-        <div className="mb-5 flex flex-wrap gap-2">
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs ${openAlerts > 0 ? "bg-risk-medium/15 text-risk-medium" : "bg-foreground/[0.05] text-foreground dark:bg-white/[0.06]"}`}
-          >
-            <Bell className="size-3.5" />
-            <span className="font-semibold tabular-nums">{openAlerts}</span>
-            <span className="opacity-80">
-              {openAlerts === 1 ? "открытый алерт" : "открытых алертов"}
-            </span>
-          </span>
-          <span
-            className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs ${openCases > 0 ? "bg-primary/15 text-primary" : "bg-foreground/[0.05] text-foreground dark:bg-white/[0.06]"}`}
-          >
-            <Folder className="size-3.5" />
-            <span className="font-semibold tabular-nums">{openCases}</span>
-            <span className="opacity-80">
-              {openCases === 1 ? "активный кейс" : "активных кейсов"}
-            </span>
-          </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-foreground/[0.05] px-3 py-1.5 text-xs text-foreground dark:bg-white/[0.06]">
-            <ArrowLeftRight className="size-3.5" />
-            <span className="font-semibold tabular-nums">{totalTx}</span>
-            <span className="opacity-80">
-              {totalTx === 1
-                ? "транзакция"
-                : totalTx < 5
-                  ? "транзакции"
-                  : "транзакций"}
-            </span>
-          </span>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_220px]">
-          {/* Left: активность */}
-          <div className="flex min-w-0 flex-col justify-center gap-1.5">
-            <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
-              Активность за 30 дней
-            </span>
-            {hasActivity ? (
-              <Sparkline data={sparkline} />
-            ) : (
-              <div className="py-1 text-xs text-muted-foreground">
-                Нет транзакционной активности
-              </div>
-            )}
-          </div>
-
-          {/* Right: Risk Score */}
-          <div className="flex min-w-0 flex-col gap-2.5 rounded-2xl bg-foreground/[0.03] p-4 dark:bg-white/[0.05]">
-            <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
-              Risk Score
-            </span>
-            <div className="flex items-baseline gap-1.5">
-              <span className="font-heading text-[32px] leading-none font-bold tabular-nums">
-                {client.internalScore}
-              </span>
-              <span className="text-sm text-muted-foreground">/100</span>
-            </div>
-            <div className="h-2 overflow-hidden rounded-full bg-foreground/[0.08] dark:bg-white/[0.06]">
-              <div
-                className={cn(
-                  "h-full rounded-full transition-all duration-500",
-                  riskCfg.barClass
-                )}
-                style={{ width: `${client.internalScore}%` }}
-              />
-            </div>
-            <span className={cn("text-sm font-semibold", riskCfg.textClass)}>
-              {riskCfg.label}
-            </span>
-          </div>
-        </div>
-      </Block>
-
+    <div className="flex flex-col gap-4 pb-6">
       {/* AI BRIEF */}
       <div className="flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/[0.05] px-5 py-4 dark:bg-primary/[0.08]">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/15">
@@ -281,7 +121,7 @@ export function ClientOverview({ client }: { client: Client }) {
         </div>
       </div>
 
-      {/* ACTIVE FLAGS STRIP — only if any */}
+      {/* ACTIVE FLAGS */}
       {activeFlags.length > 0 ? (
         <Block dense>
           <div className="flex flex-wrap items-center gap-3">
@@ -297,127 +137,74 @@ export function ClientOverview({ client }: { client: Client }) {
         </Block>
       ) : null}
 
-      {/* BLOCKS */}
-      <div className="flex flex-col gap-4">
-        <div className="flex min-w-0 flex-col gap-4">
-          {filledFields.length > 0 ? (
-            <Block title="Подробности">
-              <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2 md:grid-cols-3">
-                {filledFields.map((f) => (
-                  <Field key={f.label} label={f.label} value={f.value} />
-                ))}
-              </div>
-              {filledFields.length < allDetailFields.length ? (
-                <p className="mt-3 border-t border-foreground/[0.06] pt-3 text-xs text-muted-foreground dark:border-white/[0.06]">
-                  {allDetailFields.length - filledFields.length}{" "}
-                  {allDetailFields.length - filledFields.length === 1
-                    ? "поле"
-                    : "полей"}{" "}
-                  не заполнено
-                </p>
-              ) : null}
-            </Block>
-          ) : null}
-
-          <Block
-            title={
-              <span className="inline-flex items-center gap-2">
-                <FileText className="size-4 text-muted-foreground" />
-                Документы клиента
-              </span>
-            }
-            actions={
-              <Button size="sm" variant="outline">
-                <Upload className="size-3.5" />
-                Загрузить
-              </Button>
-            }
-          >
-            <div className="grid gap-1.5 md:grid-cols-2">
-              {DOCUMENTS.slice(0, 4).map((d) => (
-                <div
-                  key={d.name}
-                  className="flex items-center justify-between gap-2 rounded-xl bg-foreground/[0.03] px-3 py-2 text-xs dark:bg-white/[0.03]"
-                >
-                  <span className="truncate font-mono text-primary">
-                    {d.name}
-                  </span>
-                  <StatusBadge tone="muted">{d.tag}</StatusBadge>
-                </div>
+      {/* Details + Channel */}
+      <div className="grid gap-4 lg:grid-cols-2">
+        {filledFields.length > 0 ? (
+          <Block title="Подробности">
+            <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
+              {filledFields.map((f) => (
+                <Field key={f.label} label={f.label} value={f.value} />
               ))}
             </div>
-            {DOCUMENTS.length > 4 ? (
-              <button
-                type="button"
-                className="pt-3 text-xs text-primary hover:underline"
-              >
-                Все {DOCUMENTS.length} документов →
-              </button>
+            {filledFields.length < allDetailFields.length ? (
+              <p className="mt-3 border-t border-foreground/[0.06] pt-3 text-xs text-muted-foreground dark:border-white/[0.06]">
+                {allDetailFields.length - filledFields.length}{" "}
+                {allDetailFields.length - filledFields.length === 1
+                  ? "поле"
+                  : "полей"}{" "}
+                не заполнено
+              </p>
             ) : null}
           </Block>
-        </div>
+        ) : null}
 
-        <div className="flex flex-col gap-4">
-          <Block title="Канал уведомлений">
-            <p className="-mt-2 mb-3 text-xs text-muted-foreground">
-              Как клиент получает запросы и решения комплаенса
-            </p>
-            <div className="space-y-1.5">
-              <ChannelCheckbox label="Email" defaultChecked />
-              <ChannelCheckbox label="SMS" />
-              <ChannelCheckbox label="Push на Freedom SuperApp" />
-            </div>
-          </Block>
-
-          <Block
-            title={
-              <span className="inline-flex items-center gap-2">
-                <Sparkles className="size-4 text-primary" />
-                Быстрые действия
-              </span>
-            }
-          >
-            <Textarea
-              value={aiPrompt}
-              onChange={(e) => setAiPrompt(e.target.value)}
-              placeholder="Проверить по санкционным спискам, запустить adverse media..."
-              rows={2}
-              className="resize-none border-foreground/[0.06] bg-foreground/[0.03] text-xs dark:bg-white/[0.04]"
-            />
-            <div className="mt-2 mb-3 flex items-center justify-between">
-              <span className="text-[11px] text-muted-foreground">
-                Shift+Enter — новая строка
-              </span>
-              <Button size="sm" disabled={!aiPrompt.trim()}>
-                <Send className="size-3.5" />
-                Запустить
-              </Button>
-            </div>
-            <div className="border-t border-foreground/[0.06] pt-3 dark:border-white/[0.06]">
-              <p className="mb-2 text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
-                Готовые сценарии
-              </p>
-              <ul className="space-y-1.5">
-                {FAVORITE_SCENARIOS.map((s) => (
-                  <li
-                    key={s.id}
-                    className="flex items-center justify-between gap-2 rounded-xl bg-foreground/[0.03] px-3 py-2 transition hover:bg-foreground/[0.05] dark:bg-white/[0.03] dark:hover:bg-white/[0.05]"
-                  >
-                    <span className="text-xs">{s.name}</span>
-                    <button
-                      type="button"
-                      className="inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground transition hover:bg-primary/90"
-                      aria-label="Запустить"
-                    >
-                      <Play className="size-2.5" fill="currentColor" />
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Block>
-        </div>
+        <Block title="Канал уведомлений">
+          <p className="-mt-2 mb-3 text-xs text-muted-foreground">
+            Как клиент получает запросы и решения комплаенса
+          </p>
+          <div className="space-y-1.5">
+            <ChannelCheckbox label="Email" defaultChecked />
+            <ChannelCheckbox label="SMS" />
+            <ChannelCheckbox label="Push на Freedom SuperApp" />
+          </div>
+        </Block>
       </div>
+
+      {/* Documents */}
+      <Block
+        title={
+          <span className="inline-flex items-center gap-2">
+            <FileText className="size-4 text-muted-foreground" />
+            Документы клиента
+          </span>
+        }
+        actions={
+          <Button size="sm" variant="outline">
+            <Upload className="size-3.5" />
+            Загрузить
+          </Button>
+        }
+      >
+        <div className="grid gap-1.5 md:grid-cols-2">
+          {DOCUMENTS.slice(0, 4).map((d) => (
+            <div
+              key={d.name}
+              className="flex items-center justify-between gap-2 rounded-xl bg-foreground/[0.03] px-3 py-2 text-xs dark:bg-white/[0.03]"
+            >
+              <span className="truncate font-mono text-primary">{d.name}</span>
+              <StatusBadge tone="muted">{d.tag}</StatusBadge>
+            </div>
+          ))}
+        </div>
+        {DOCUMENTS.length > 4 ? (
+          <button
+            type="button"
+            className="pt-3 text-xs text-primary hover:underline"
+          >
+            Все {DOCUMENTS.length} документов →
+          </button>
+        ) : null}
+      </Block>
     </div>
   )
 }
@@ -429,34 +216,6 @@ function Field({ label, value }: { label: string; value: React.ReactNode }) {
         {label}
       </span>
       <p className="truncate text-sm font-medium">{value}</p>
-    </div>
-  )
-}
-
-function Sparkline({ data }: { data: number[] }) {
-  const max = Math.max(...data, 1)
-  return (
-    <div className="flex h-10 items-end gap-[2px]">
-      {data.map((v, i) => (
-        <div
-          key={i}
-          className={cn(
-            "flex-1 rounded-sm transition-colors",
-            v > 0
-              ? "bg-primary/60 hover:bg-primary/80"
-              : "bg-foreground/[0.06] dark:bg-white/[0.06]"
-          )}
-          style={{
-            height: v > 0 ? `${(v / max) * 100}%` : "10%",
-            minHeight: "3px",
-          }}
-          title={
-            v > 0
-              ? `${v} ${v === 1 ? "транзакция" : v < 5 ? "транзакции" : "транзакций"}`
-              : "нет операций"
-          }
-        />
-      ))}
     </div>
   )
 }

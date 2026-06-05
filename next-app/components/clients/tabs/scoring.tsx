@@ -44,7 +44,7 @@ export function ClientScoring({ client }: { client: Client }) {
   const now = new Date().toLocaleString("ru-RU", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric" });
 
   return (
-    <div className="flex flex-col gap-4 px-6 pb-6">
+    <div className="flex flex-col gap-4 pb-6">
       {/* Composite */}
       <Block
         title="Профиль рисков"

@@ -24,14 +24,14 @@ export function ClientAlerts({ clientId }: { clientId: string }) {
 
   if (alerts.length === 0) {
     return (
-      <div className="px-6 pb-6">
+      <div className="pb-6">
         <EmptyState icon={<Bell className="size-6" />} title="Оповещений по клиенту нет" description="Срабатывания правил появятся здесь." />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col gap-2 px-6 pb-6">
+    <div className="flex flex-col gap-2 pb-6">
       {alerts.map((a, idx) => (
         <motion.div
           key={a.id}
