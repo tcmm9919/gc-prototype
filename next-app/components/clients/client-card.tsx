@@ -63,12 +63,12 @@ export function ClientCard({ id }: { id: string }) {
         {/* CENTER — tabs + content (scrolls) */}
         <div className="flex min-w-0 flex-col gap-4">
           <Tabs value={currentTab} onValueChange={setTab}>
-            <TabsList className="flex h-auto flex-wrap justify-start gap-1.5 bg-transparent p-0">
+            <TabsList className="flex h-auto w-full flex-wrap justify-start gap-1 rounded-none border-b border-foreground/[0.06] bg-transparent p-0 dark:border-white/[0.08]">
               {TABS.map((t) => (
                 <TabsTrigger
                   key={t.value}
                   value={t.value}
-                  className="h-auto rounded-full border-none bg-transparent px-3 py-1.5 text-[13px] font-medium text-muted-foreground transition-colors hover:bg-foreground/[0.04] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none dark:hover:bg-white/[0.06]"
+                  className="h-auto flex-none rounded-none border-b-2 border-transparent bg-transparent px-3 py-2.5 text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none"
                 >
                   {t.label}
                 </TabsTrigger>
