@@ -53,7 +53,7 @@ export function ClientCard({ id }: { id: string }) {
   }
 
   return (
-    <div className="pt-2 pb-6">
+    <div className="pb-6">
       <div className="grid items-start gap-4 lg:grid-cols-[280px_minmax(0,1fr)_280px]">
         {/* LEFT — identity (sticky) */}
         <aside className="self-start lg:sticky lg:top-28">
