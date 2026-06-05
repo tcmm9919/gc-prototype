@@ -209,22 +209,15 @@ export function ClientOverview({ client }: { client: Client }) {
                 hue={hue}
               />
               <div className="flex flex-col gap-1 min-w-0">
-                <h2 className="font-heading text-[24px] font-bold tracking-[-0.02em] truncate">
-                  {client.fullName}
-                </h2>
-                {client.latinName ? (
-                  <span className="text-sm text-muted-foreground truncate">
-                    {client.latinName}
-                  </span>
-                ) : null}
+                <span className="text-xs uppercase tracking-wider text-muted-foreground font-medium">
+                  Контакт
+                </span>
+                <span className="text-sm font-medium text-foreground truncate">
+                  {client.email ?? "—"}
+                </span>
                 <span className="text-xs text-muted-foreground truncate">
-                  <span className="font-mono">{client.id}</span> ·{" "}
-                  {client.type === "legal" ? "Юр. лицо" : "Физ. лицо"}
-                  {client.iin || client.bin
-                    ? ` · ИИН ${client.iin ?? client.bin}`
-                    : ""}
-                  {client.email ? ` · ${client.email}` : ""}
-                  {client.birthDate ? ` · ${client.birthDate}` : ""}
+                  {client.iin || client.bin ? `ИИН ${client.iin ?? client.bin}` : ""}
+                  {client.birthDate ? ` · родился ${client.birthDate}` : ""}
                 </span>
               </div>
             </div>

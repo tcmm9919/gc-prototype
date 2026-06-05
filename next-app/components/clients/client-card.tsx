@@ -116,14 +116,14 @@ export function ClientCard({ id }: { id: string }) {
       </div>
 
       <Tabs value={currentTab} onValueChange={setTab} orientation="vertical">
-        <div className="grid gap-6 lg:grid-cols-[200px_minmax(0,1fr)]">
+        <div className="grid gap-3 lg:grid-cols-[170px_minmax(0,1fr)]">
           {/* Vertical tabs as chips */}
           <TabsList className="flex flex-col gap-1 bg-transparent p-0 h-auto items-stretch lg:sticky lg:top-28 lg:self-start">
             {TABS.map((t) => (
               <TabsTrigger
                 key={t.value}
                 value={t.value}
-                className="justify-start rounded-full px-4 py-2.5 h-auto bg-transparent text-muted-foreground hover:bg-foreground/[0.04] dark:hover:bg-white/[0.06] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none transition-colors text-sm font-medium border-none"
+                className="justify-center rounded-full px-3 py-1.5 h-auto bg-transparent text-muted-foreground hover:bg-foreground/[0.04] dark:hover:bg-white/[0.06] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none transition-colors text-[13px] font-medium border-none"
               >
                 {t.label}
               </TabsTrigger>
