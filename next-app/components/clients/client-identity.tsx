@@ -146,7 +146,7 @@ export function ClientIdentity({ client }: { client: Client }) {
   const hue = (client.id.charCodeAt(3) * 47) % 360
 
   return (
-    <Block>
+    <Block dense>
       <div className="flex flex-col gap-5">
         {/* Identity */}
         <div className="flex flex-col items-center gap-3 text-center">

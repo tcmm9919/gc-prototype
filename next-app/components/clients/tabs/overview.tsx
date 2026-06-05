@@ -109,7 +109,7 @@ export function ClientOverview({ client }: { client: Client }) {
   return (
     <div className="flex flex-col gap-6 pb-6">
       {/* AI BRIEF */}
-      <div className="flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/[0.05] px-5 py-4 dark:bg-primary/[0.08]">
+      <div className="flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/[0.05] px-4 py-3 dark:bg-primary/[0.08]">
         <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/15">
           <Sparkles className="size-4 text-primary" />
         </div>
@@ -140,7 +140,7 @@ export function ClientOverview({ client }: { client: Client }) {
       {/* Details + Channel */}
       <div className="grid gap-6 lg:grid-cols-2">
         {filledFields.length > 0 ? (
-          <Block title="Подробности">
+          <Block dense title="Подробности">
             <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
               {filledFields.map((f) => (
                 <Field key={f.label} label={f.label} value={f.value} />
@@ -158,7 +158,7 @@ export function ClientOverview({ client }: { client: Client }) {
           </Block>
         ) : null}
 
-        <Block title="Канал уведомлений">
+        <Block dense title="Канал уведомлений">
           <p className="-mt-2 mb-3 text-xs text-muted-foreground">
             Как клиент получает запросы и решения комплаенса
           </p>
@@ -172,6 +172,7 @@ export function ClientOverview({ client }: { client: Client }) {
 
       {/* Documents */}
       <Block
+        dense
         title={
           <span className="inline-flex items-center gap-2">
             <FileText className="size-4 text-muted-foreground" />

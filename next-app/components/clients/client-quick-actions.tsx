@@ -17,6 +17,7 @@ export function ClientQuickActions() {
   const [aiPrompt, setAiPrompt] = React.useState("")
   return (
     <Block
+      dense
       title={
         <span className="inline-flex items-center gap-2">
           <Sparkles className="size-4 text-primary" />
