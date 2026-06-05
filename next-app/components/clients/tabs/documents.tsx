@@ -1,8 +1,8 @@
 "use client";
 
 import { FileText, FileImage, FileSpreadsheet, Download, Upload } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Block } from "@/components/ext/block";
 
 interface Doc {
   id: string;
@@ -29,45 +29,49 @@ const ICON: Record<Doc["type"], React.ComponentType<{ className?: string }>> = {
 };
 
 const COLOR: Record<Doc["type"], string> = {
-  pdf: "text-risk-critical",
-  image: "text-primary",
-  spreadsheet: "text-risk-low",
+  pdf: "bg-risk-critical/15 text-risk-critical",
+  image: "bg-primary/15 text-primary",
+  spreadsheet: "bg-risk-low/15 text-risk-low",
 };
 
 export function ClientDocuments() {
   return (
-    <div className="space-y-4 p-6">
-      <div className="flex justify-end">
-        <Button size="sm">
-          <Upload className="size-4" />
-          Загрузить документ
-        </Button>
-      </div>
-
-      <div className="grid gap-3 md:grid-cols-2">
-        {DOCS.map((d) => {
-          const Icon = ICON[d.type];
-          return (
-            <Card key={d.id} className="transition hover:bg-muted/40">
-              <CardContent className="flex items-start gap-3 p-4">
-                <div className={`size-10 shrink-0 rounded-md bg-muted flex items-center justify-center ${COLOR[d.type]}`}>
+    <div className="flex flex-col gap-4 px-6 pb-6">
+      <Block
+        title="Документы клиента"
+        actions={
+          <Button size="sm" variant="outline">
+            <Upload className="size-3.5" />
+            Загрузить
+          </Button>
+        }
+      >
+        <div className="grid gap-2 md:grid-cols-2">
+          {DOCS.map((d) => {
+            const Icon = ICON[d.type];
+            return (
+              <div
+                key={d.id}
+                className="flex items-start gap-3 rounded-xl bg-foreground/[0.03] dark:bg-white/[0.03] px-3 py-2.5 hover:bg-foreground/[0.05] dark:hover:bg-white/[0.05] transition-colors"
+              >
+                <div className={`size-10 shrink-0 rounded-lg flex items-center justify-center ${COLOR[d.type]}`}>
                   <Icon className="size-5" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <span className="font-medium truncate">{d.name}</span>
+                    <span className="font-medium text-sm truncate">{d.name}</span>
                     <Button variant="ghost" size="icon" className="size-7 -mt-1 -mr-1" aria-label="Скачать">
                       <Download className="size-4" />
                     </Button>
                   </div>
                   <p className="text-xs text-muted-foreground">{d.category} · {d.size}</p>
-                  <p className="text-xs text-muted-foreground mt-1">{d.uploadedAt} · {d.uploadedBy}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{d.uploadedAt} · {d.uploadedBy}</p>
                 </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+              </div>
+            );
+          })}
+        </div>
+      </Block>
     </div>
   );
 }

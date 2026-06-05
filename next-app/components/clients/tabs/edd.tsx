@@ -3,11 +3,10 @@
 import * as React from "react";
 import { Check, Circle, Clock, Download, FileText, Play, X } from "lucide-react";
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Block } from "@/components/ext/block";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { AnimatedProgress } from "@/components/ext/animated-progress";
-import { SectionHeader } from "@/components/ext/section-header";
 import { cn } from "@/lib/utils";
 
 interface ReportSection {
@@ -194,24 +193,19 @@ export function ClientEDD() {
   const progress = (done / STEPS.length) * 100;
 
   return (
-    <div className="space-y-4 p-6">
-      <Card>
-        <CardHeader>
-          <div className="flex items-start justify-between gap-4">
-            <div className="space-y-1">
-              <CardTitle className="text-base">Расширенная проверка (EDD)</CardTitle>
-              <p className="text-sm text-muted-foreground">{done} из {STEPS.length} шагов подтверждены</p>
-            </div>
-            <div className="flex gap-2">
-              <Button size="sm" variant="outline">Поднять риск</Button>
-              <Button size="sm">Отправить в кейс</Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <AnimatedProgress value={progress} className="h-2" />
-        </CardContent>
-      </Card>
+    <div className="flex flex-col gap-4 px-6 pb-6">
+      <Block
+        title="Расширенная проверка (EDD)"
+        actions={
+          <>
+            <Button size="sm" variant="outline">Поднять риск</Button>
+            <Button size="sm">Отправить в кейс</Button>
+          </>
+        }
+      >
+        <p className="text-sm text-muted-foreground -mt-2 mb-3">{done} из {STEPS.length} шагов подтверждены</p>
+        <AnimatedProgress value={progress} className="h-2" />
+      </Block>
 
       <div className="relative pl-6">
         <div className="pointer-events-none absolute left-[1.4rem] top-3 bottom-3 w-px bg-border" aria-hidden />
@@ -226,7 +220,7 @@ export function ClientEDD() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.04, duration: 0.22, ease: "easeOut" }}
               >
-                <Card className="ml-2 px-4 py-3">
+                <div className="ml-2 rounded-xl bg-white dark:bg-white/[0.04] px-4 py-3">
                   <div className="flex items-start gap-3">
                     <div
                       className={cn(
@@ -247,52 +241,44 @@ export function ClientEDD() {
                     </div>
                     <Button variant="ghost" size="sm" className="shrink-0">Открыть</Button>
                   </div>
-                </Card>
+                </div>
               </motion.li>
             );
           })}
         </ol>
       </div>
 
-      <Card>
-        <CardContent className="space-y-3 pt-6">
-          <SectionHeader
-            title="Комментарий офицера"
-            subtitle="Контекст, который увидят коллеги при дальнейшем разборе"
-            divider={false}
-            className="mb-2"
-          />
-          <Textarea rows={3} placeholder="Добавьте контекст о проверке клиента..." />
-          <div className="flex justify-end">
-            <Button size="sm">Сохранить</Button>
-          </div>
-        </CardContent>
-      </Card>
+      <Block title="Комментарий офицера">
+        <p className="text-xs text-muted-foreground -mt-2 mb-3">Контекст, который увидят коллеги при дальнейшем разборе</p>
+        <Textarea rows={3} placeholder="Добавьте контекст о проверке клиента..." />
+        <div className="flex justify-end mt-3">
+          <Button size="sm">Сохранить</Button>
+        </div>
+      </Block>
 
       {/* Enhanced Due Diligence — 10-section structured report */}
-      <Card>
-        <CardHeader>
-          <div className="flex items-start justify-between gap-4">
-            <div className="space-y-1">
-              <CardTitle className="text-base inline-flex items-center gap-2">
-                <FileText className="size-4 text-primary" />
-                Enhanced Due Diligence
-              </CardTitle>
-              <p className="text-sm text-muted-foreground">10-секционный отчёт, сгенерирован EDD-агентом</p>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm">
-                <Play className="size-3.5" />
-                Запустить EDD
-              </Button>
-              <Button size="sm">
-                <Download className="size-3.5" />
-                Скачать PDF
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      <Block
+        title={
+          <span className="inline-flex items-center gap-2">
+            <FileText className="size-4 text-primary" />
+            Enhanced Due Diligence
+          </span>
+        }
+        actions={
+          <>
+            <Button variant="outline" size="sm">
+              <Play className="size-3.5" />
+              Запустить EDD
+            </Button>
+            <Button size="sm">
+              <Download className="size-3.5" />
+              Скачать PDF
+            </Button>
+          </>
+        }
+      >
+        <p className="text-sm text-muted-foreground -mt-2 mb-4">10-секционный отчёт, сгенерирован EDD-агентом</p>
+        <div className="space-y-4">
           {REPORT_SECTIONS.map((s) => (
             <section key={s.num} className="space-y-1">
               <h4 className="text-sm font-semibold inline-flex items-baseline gap-2">
@@ -304,11 +290,11 @@ export function ClientEDD() {
               </div>
             </section>
           ))}
-          <p className="border-t border-border pt-3 text-xs text-muted-foreground">
+          <p className="border-t border-foreground/[0.06] dark:border-white/[0.06] pt-3 mt-4 text-xs text-muted-foreground">
             Дисклеймер: Отчёт на основе открытых источников. Не является юридической консультацией.
           </p>
-        </CardContent>
-      </Card>
+        </div>
+      </Block>
     </div>
   );
 }

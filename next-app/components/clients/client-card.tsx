@@ -6,8 +6,6 @@ import { ArrowUp, ShieldAlert, UserPlus } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 import { useClient, useMockData } from "@/lib/mock";
-import { initialsFromName } from "@/lib/format";
-import { AvatarCircle } from "@/components/ext/entity-header";
 import { DetailHeader } from "@/components/ext/block";
 import { RiskBadge } from "@/components/ext/risk-badge";
 import { StatusBadge } from "@/components/ext/status-badge";
@@ -77,13 +75,6 @@ export function ClientCard({ id }: { id: string }) {
   return (
     <div className="flex flex-col gap-4 px-6 pb-6">
       <DetailHeader
-        avatar={
-          <AvatarCircle
-            initials={initialsFromName(client.fullName)}
-            size="lg"
-            hue={(client.id.charCodeAt(3) * 47) % 360}
-          />
-        }
         title={client.fullName}
         subtitle={`${client.id} · ${client.type === "legal" ? "Юр. лицо" : "Физ. лицо"} · ${client.segment} · ответственный ${responsible?.fullName ?? "—"}`}
         badges={

@@ -3,10 +3,10 @@
 import * as React from "react";
 import { Newspaper, ShieldAlert, Activity, FileSearch, RefreshCcw } from "lucide-react";
 import type { Client } from "@/lib/mock";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Block } from "@/components/ext/block";
 import { AnimatedProgress } from "@/components/ext/animated-progress";
-import { RiskBadge } from "@/components/ext/risk-badge";
+import { cn } from "@/lib/utils";
 
 interface SubScore {
   key: string;
@@ -14,7 +14,6 @@ interface SubScore {
   score: number;
   icon: React.ComponentType<{ className?: string }>;
   description: string;
-  updatedAt?: string;
 }
 
 function buildSubscores(client: Client): SubScore[] {
@@ -24,115 +23,79 @@ function buildSubscores(client: Client): SubScore[] {
   const edd = client.eddScore ?? (client.sanctioned ? 90 : Math.min(internal + 15, 100));
 
   return [
-    {
-      key: "anomaly",
-      agent: "Аномальные транзакции",
-      score: anomalyScore,
-      icon: Activity,
-      description:
-        anomalyScore === 0
-          ? "Нет транзакций с алертами или кейсами"
-          : "Транзакции с высокой ст. отклонения от baseline",
-    },
-    {
-      key: "internal",
-      agent: "Внутренний скоринг",
-      score: internal,
-      icon: ShieldAlert,
-      description:
-        internal === 0 ? "Нет записи внутреннего скоринга" : "Скоринг на основе 90-дневной истории, модель CTSM",
-    },
-    {
-      key: "news",
-      agent: "Новостной агент",
-      score: news,
-      icon: Newspaper,
-      description: `Новостной агент: последний risk_score = ${news}`,
-    },
-    {
-      key: "edd",
-      agent: "EDD-агент",
-      score: edd,
-      icon: FileSearch,
-      description: `EDD-агент: последний risk_score = ${edd}`,
-    },
+    { key: "anomaly", agent: "Аномальные транзакции", score: anomalyScore, icon: Activity, description: anomalyScore === 0 ? "Нет транзакций с алертами или кейсами" : "Транзакции с высокой ст. отклонения от baseline" },
+    { key: "internal", agent: "Внутренний скоринг", score: internal, icon: ShieldAlert, description: internal === 0 ? "Нет записи внутреннего скоринга" : "Скоринг на основе 90-дневной истории, модель CTSM" },
+    { key: "news", agent: "Новостной агент", score: news, icon: Newspaper, description: `Новостной агент: последний risk_score = ${news}` },
+    { key: "edd", agent: "EDD-агент", score: edd, icon: FileSearch, description: `EDD-агент: последний risk_score = ${edd}` },
   ];
 }
 
-function getCategoryLabel(score: number): { label: string; tone: "low" | "medium" | "high" | "critical" } {
-  if (score >= 75) return { label: "Критический", tone: "critical" };
-  if (score >= 50) return { label: "Высокий", tone: "high" };
-  if (score >= 25) return { label: "Средний", tone: "medium" };
-  return { label: "Низкий", tone: "low" };
+function getRiskConfig(score: number) {
+  if (score < 25) return { label: "Низкий", barClass: "bg-risk-low", textClass: "text-risk-low" };
+  if (score < 50) return { label: "Средний", barClass: "bg-risk-medium", textClass: "text-risk-medium" };
+  if (score < 75) return { label: "Высокий", barClass: "bg-risk-high", textClass: "text-risk-high" };
+  return { label: "Критический", barClass: "bg-risk-critical", textClass: "text-risk-critical" };
 }
 
 export function ClientScoring({ client }: { client: Client }) {
   const subscores = buildSubscores(client);
-  // Composite score — max of subscores (worst signal wins, matching boevoy adverse-media logic)
   const composite = Math.max(...subscores.map((s) => s.score));
-  const category = getCategoryLabel(composite);
+  const cfg = getRiskConfig(composite);
   const now = new Date().toLocaleString("ru-RU", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric" });
 
   return (
-    <div className="p-6 space-y-4">
+    <div className="flex flex-col gap-4 px-6 pb-6">
       {/* Composite */}
-      <Card>
-        <CardContent className="p-5 space-y-3">
-          <div className="flex items-center justify-between gap-4">
-            <div className="space-y-1">
-              <h3 className="text-base font-semibold">Профиль рисков</h3>
-              <p className="text-xs text-muted-foreground">
-                Итоговый балл = max(подскоры). Обновлено {now}
-              </p>
-            </div>
-            <Button variant="outline" size="sm">
-              <RefreshCcw className="size-3.5" />
-              Обновить
-            </Button>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-baseline gap-2">
-              <span className="font-heading text-4xl font-bold tabular-nums">{composite}</span>
-              <span className="text-sm text-muted-foreground">/ 100</span>
-            </div>
-            <RiskBadge level={category.tone} />
-          </div>
-          <AnimatedProgress value={composite} className="h-2" />
-        </CardContent>
-      </Card>
+      <Block
+        title="Профиль рисков"
+        actions={
+          <Button variant="outline" size="sm">
+            <RefreshCcw className="size-3.5" />
+            Обновить
+          </Button>
+        }
+      >
+        <p className="text-xs text-muted-foreground -mt-2 mb-4">
+          Итоговый балл = max(подскоров). Обновлено {now}
+        </p>
+        <div className="flex items-baseline gap-2 mb-3">
+          <span className="font-heading text-[36px] font-bold tabular-nums leading-none">{composite}</span>
+          <span className="text-sm text-muted-foreground">/100</span>
+          <span className={cn("text-sm font-semibold ml-2", cfg.textClass)}>{cfg.label} риск</span>
+        </div>
+        <AnimatedProgress value={composite} className="h-2" />
+      </Block>
 
-      {/* Subscores grid */}
-      <div className="grid gap-3 md:grid-cols-2">
+      {/* Subscores */}
+      <div className="grid gap-4 md:grid-cols-2">
         {subscores.map((s) => {
-          const cat = getCategoryLabel(s.score);
+          const cat = getRiskConfig(s.score);
+          const Icon = s.icon;
           return (
-            <Card key={s.key}>
-              <CardContent className="p-4 space-y-2">
-                <div className="flex items-start gap-3">
-                  <div className="inline-flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary">
-                    <s.icon className="size-4.5" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="font-medium text-sm">{s.agent}</span>
-                      <span className="font-heading text-2xl font-bold tabular-nums">{s.score}</span>
-                    </div>
-                    <p className="text-xs text-muted-foreground mt-0.5">{s.description}</p>
-                  </div>
+            <Block key={s.key} dense>
+              <div className="flex items-start gap-3 mb-3">
+                <div className="size-10 shrink-0 rounded-xl bg-primary/15 text-primary flex items-center justify-center">
+                  <Icon className="size-5" />
                 </div>
-                <div className="flex items-center gap-2">
-                  <RiskBadge level={cat.tone} />
-                  <AnimatedProgress value={s.score} className="h-1.5 flex-1" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <span className="font-semibold text-sm">{s.agent}</span>
+                    <span className="font-heading text-[22px] font-bold tabular-nums leading-none">{s.score}</span>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">{s.description}</p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+              <div className="flex items-center gap-3">
+                <AnimatedProgress value={s.score} className="h-1.5 flex-1" />
+                <span className={cn("text-xs font-semibold shrink-0", cat.textClass)}>{cat.label}</span>
+              </div>
+            </Block>
           );
         })}
       </div>
 
-      {/* Risk history note */}
-      <Card>
-        <CardContent className="p-4 flex items-center justify-between">
+      <Block>
+        <div className="flex items-center justify-between">
           <div>
             <h4 className="text-sm font-semibold">История рисков</h4>
             <p className="text-xs text-muted-foreground">Записей: {subscores.length * 10} · последняя {now}</p>
@@ -140,8 +103,8 @@ export function ClientScoring({ client }: { client: Client }) {
           <Button variant="outline" size="sm">
             Открыть историю
           </Button>
-        </CardContent>
-      </Card>
+        </div>
+      </Block>
     </div>
   );
 }
