@@ -54,7 +54,7 @@ export function ClientCard({ id }: { id: string }) {
 
   return (
     <div className="pb-6">
-      <div className="grid items-start gap-6 lg:grid-cols-[280px_minmax(0,1fr)_280px]">
+      <div className="grid items-start gap-6 lg:grid-cols-[280px_minmax(0,1fr)_336px]">
         {/* LEFT — identity (sticky) */}
         <aside className="self-start lg:sticky lg:top-28">
           <ClientIdentity client={client} />
