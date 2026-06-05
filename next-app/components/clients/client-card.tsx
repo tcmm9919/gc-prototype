@@ -73,76 +73,86 @@ export function ClientCard({ id }: { id: string }) {
   };
 
   return (
-    <div className="flex flex-col gap-4 px-6 pb-6">
-      <DetailHeader
-        title={client.fullName}
-        subtitle={`${client.id} · ${client.type === "legal" ? "Юр. лицо" : "Физ. лицо"} · ${client.segment} · ответственный ${responsible?.fullName ?? "—"}`}
-        badges={
-          <>
-            <RiskBadge level={client.riskLevel} />
-            <StatusBadge tone={STATUS_TONE[client.status]}>
-              {STATUS_LABELS[client.status]}
-            </StatusBadge>
-            {client.pep ? (
-              <StatusBadge tone="warning">
-                <ShieldAlert className="size-3" />
-                PEP
-              </StatusBadge>
-            ) : null}
-            {client.sanctioned ? (
-              <StatusBadge tone="danger">
-                <ShieldAlert className="size-3" />
-                Санкции
-              </StatusBadge>
-            ) : null}
-          </>
-        }
-        actions={
-          <>
-            <Button variant="outline" size="sm">
-              <ArrowUp className="size-4" />
-              Поднять риск
-            </Button>
-            <Button variant="outline" size="sm">
-              <UserPlus className="size-4" />
-              В кейс
-            </Button>
-            <AssistantPanel
-              contextLabel={client.fullName}
-              contextSubtitle={`${client.id} · риск ${client.riskLevel} · скор ${client.internalScore}`}
-            />
-          </>
-        }
-      />
+    <div className="mx-auto max-w-5xl px-4 pb-6">
+      <div className="mb-4">
+        <DetailHeader
+          title={client.fullName}
+          subtitle={`${client.id} · ${client.type === "legal" ? "Юр. лицо" : "Физ. лицо"} · ${client.segment} · ответственный ${responsible?.fullName ?? "—"}`}
+          badges={
+            <>
+              <RiskBadge level={client.riskLevel} />
+              <StatusBadge tone={STATUS_TONE[client.status]}>{STATUS_LABELS[client.status]}</StatusBadge>
+              {client.pep ? (
+                <StatusBadge tone="warning">
+                  <ShieldAlert className="size-3" />
+                  PEP
+                </StatusBadge>
+              ) : null}
+              {client.sanctioned ? (
+                <StatusBadge tone="danger">
+                  <ShieldAlert className="size-3" />
+                  Санкции
+                </StatusBadge>
+              ) : null}
+            </>
+          }
+          actions={
+            <>
+              <Button variant="outline" size="sm">
+                <ArrowUp className="size-4" />
+                Поднять риск
+              </Button>
+              <Button variant="outline" size="sm">
+                <UserPlus className="size-4" />
+                В кейс
+              </Button>
+              <AssistantPanel
+                contextLabel={client.fullName}
+                contextSubtitle={`${client.id} · риск ${client.riskLevel} · скор ${client.internalScore}`}
+              />
+            </>
+          }
+        />
+      </div>
 
-      <Tabs value={currentTab} onValueChange={setTab}>
-        <TabsList variant="line" className="w-full justify-start overflow-x-auto">
-          {TABS.map((t) => (
-            <TabsTrigger key={t.value} value={t.value}>
-              {t.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      <Tabs value={currentTab} onValueChange={setTab} orientation="vertical">
+        <div className="grid gap-6 lg:grid-cols-[200px_minmax(0,1fr)]">
+          {/* Vertical tabs as chips */}
+          <TabsList className="flex flex-col gap-1 bg-transparent p-0 h-auto items-stretch lg:sticky lg:top-28 lg:self-start">
+            {TABS.map((t) => (
+              <TabsTrigger
+                key={t.value}
+                value={t.value}
+                className="justify-start rounded-full px-4 py-2.5 h-auto bg-transparent text-muted-foreground hover:bg-foreground/[0.04] dark:hover:bg-white/[0.06] data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:shadow-none transition-colors text-sm font-medium border-none"
+              >
+                {t.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
 
-        <AnimatePresence mode="wait" initial={false}>
-          <motion.div
-            key={currentTab}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
-          >
-            {currentTab === "overview" && <ClientOverview client={client} />}
-            {currentTab === "scoring" && <ClientScoring client={client} />}
-            {currentTab === "transactions" && <ClientTransactions clientId={client.id} />}
-            {currentTab === "alerts" && <ClientAlerts clientId={client.id} />}
-            {currentTab === "cases" && <ClientCases clientId={client.id} />}
-            {currentTab === "edd" && <ClientEDD />}
-            {currentTab === "news" && <ClientNews />}
-            {currentTab === "history" && <ClientHistory clientId={client.id} />}
-            {currentTab === "documents" && <ClientDocuments />}
-          </motion.div>
-        </AnimatePresence>
+          {/* Content area */}
+          <div className="min-w-0">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.div
+                key={currentTab}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.18, ease: "easeOut" }}
+              >
+                {currentTab === "overview" && <ClientOverview client={client} />}
+                {currentTab === "scoring" && <ClientScoring client={client} />}
+                {currentTab === "transactions" && <ClientTransactions clientId={client.id} />}
+                {currentTab === "alerts" && <ClientAlerts clientId={client.id} />}
+                {currentTab === "cases" && <ClientCases clientId={client.id} />}
+                {currentTab === "edd" && <ClientEDD />}
+                {currentTab === "news" && <ClientNews />}
+                {currentTab === "history" && <ClientHistory clientId={client.id} />}
+                {currentTab === "documents" && <ClientDocuments />}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        </div>
       </Tabs>
     </div>
   );
