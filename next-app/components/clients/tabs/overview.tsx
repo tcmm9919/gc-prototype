@@ -199,7 +199,7 @@ export function ClientOverview({ client }: { client: Client }) {
     <div className="flex flex-col gap-4 px-6 pb-6">
       {/* HERO */}
       <Block>
-        <div className="grid gap-6 md:grid-cols-[minmax(0,1fr)_280px]">
+        <div className="grid gap-5 md:grid-cols-[minmax(0,1fr)_220px]">
           {/* Left: identity + counters + sparkline */}
           <div className="flex flex-col gap-5 min-w-0">
             <div className="flex items-center gap-4 min-w-0">
@@ -274,12 +274,12 @@ export function ClientOverview({ client }: { client: Client }) {
           </div>
 
           {/* Right: Risk Score */}
-          <div className="rounded-2xl bg-foreground/[0.03] dark:bg-white/[0.05] p-5 space-y-3 flex flex-col justify-center">
+          <div className="rounded-2xl bg-foreground/[0.03] dark:bg-white/[0.05] p-4 flex flex-col gap-2.5 min-w-0">
             <span className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium">
               Risk Score
             </span>
             <div className="flex items-baseline gap-1.5">
-              <span className="font-heading text-[36px] font-bold tabular-nums leading-none">
+              <span className="font-heading text-[32px] font-bold tabular-nums leading-none">
                 {client.internalScore}
               </span>
               <span className="text-sm text-muted-foreground">/100</span>
