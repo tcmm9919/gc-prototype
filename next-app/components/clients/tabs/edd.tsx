@@ -220,7 +220,7 @@ export function ClientEDD() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: idx * 0.04, duration: 0.22, ease: "easeOut" }}
               >
-                <div className="ml-2 rounded-xl bg-white dark:bg-white/[0.04] px-4 py-3">
+                <div className="ml-2 rounded-xl bg-card px-4 py-3">
                   <div className="flex items-start gap-3">
                     <div
                       className={cn(

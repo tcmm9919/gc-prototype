@@ -41,7 +41,7 @@ export function ClientCases({ clientId }: { clientId: string }) {
         >
           <Link
             href={`/cases/${c.id}`}
-            className="block rounded-xl bg-white dark:bg-white/[0.04] hover:bg-foreground/[0.02] dark:hover:bg-white/[0.06] px-4 py-3 transition-colors"
+            className="block rounded-xl bg-card hover:bg-foreground/[0.02] dark:hover:bg-white/[0.06] px-4 py-3 transition-colors"
           >
             <div className="flex flex-col gap-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2">

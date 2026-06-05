@@ -301,7 +301,7 @@ export function DashboardContent() {
     <div className="flex flex-col gap-6 pb-16">
       {/* Hero banner */}
       <section>
-        <div className="relative overflow-hidden rounded-2xl bg-white dark:bg-white/[0.07]">
+        <div className="relative overflow-hidden rounded-2xl bg-card">
           <div className="relative flex items-center justify-between gap-8 flex-wrap px-6 py-5">
             <div className="space-y-2.5 min-w-0">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 text-[11px] font-medium text-primary">
@@ -331,7 +331,7 @@ export function DashboardContent() {
       <div className="grid gap-6 lg:grid-cols-3">
 
         {/* Row 1 — Left: KPI block (col-span-2) */}
-        <div className="lg:col-span-2 rounded-2xl bg-white dark:bg-white/[0.07] overflow-hidden">
+        <div className="lg:col-span-2 rounded-2xl bg-card overflow-hidden">
           <div className="grid grid-cols-3 h-full">
             {kpis.map((k, i) => {
               const isLastCol = i % 3 === 2;

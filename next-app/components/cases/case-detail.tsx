@@ -49,7 +49,7 @@ export function CaseDetail({ id }: { id: string }) {
   return (
     <div className="flex flex-col gap-4 px-6 pb-6">
       {/* Header block */}
-      <div className="rounded-2xl bg-white dark:bg-white/[0.04] p-6 space-y-3">
+      <div className="rounded-2xl bg-card p-6 space-y-3">
         <div className="flex flex-wrap items-center gap-3">
           <h1 className="font-heading text-[22px] font-bold tracking-[-0.02em] tabular-nums">{cs.id}</h1>
           <StatusBadge tone={STATUS_TONE[cs.status]}>{STATUS_LABEL[cs.status]}</StatusBadge>
@@ -131,7 +131,7 @@ export function CaseDetail({ id }: { id: string }) {
       ) : null}
 
       {/* Activity tabs */}
-      <div className="rounded-2xl bg-white dark:bg-white/[0.04] overflow-hidden">
+      <div className="rounded-2xl bg-card overflow-hidden">
         <Tabs defaultValue="comments">
           <TabsList variant="line" className="w-full justify-start px-6 pt-3">
             <TabsTrigger value="comments">Комментарии</TabsTrigger>

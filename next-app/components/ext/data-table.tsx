@@ -153,7 +153,7 @@ export function DataTable<T>({
                     "inline-flex items-center gap-1.5 px-3 h-9 rounded-full text-[13px] font-medium transition-colors",
                     isActive
                       ? "bg-primary text-primary-foreground"
-                      : "bg-white dark:bg-white/[0.04] text-foreground hover:bg-foreground/[0.04] dark:hover:bg-white/[0.06]",
+                      : "bg-card text-foreground hover:bg-foreground/[0.04] dark:hover:bg-white/[0.06]",
                   )}
                 >
                   {v.icon && <span>{v.icon}</span>}
@@ -176,7 +176,7 @@ export function DataTable<T>({
                 placeholder={globalFilterPlaceholder}
                 value={globalFilter ?? ""}
                 onChange={(e) => setGlobalFilter(e.target.value)}
-                className="pl-9 h-10 rounded-full bg-white dark:bg-white/[0.04] border-foreground/[0.06] focus-visible:ring-1"
+                className="pl-9 h-10 rounded-full bg-card border-foreground/[0.06] focus-visible:ring-1"
               />
             </div>
             {filters && <div className="flex items-center gap-2 flex-wrap">{filters}</div>}
@@ -185,11 +185,11 @@ export function DataTable<T>({
         </div>
 
         {/* Block */}
-        <div className="rounded-2xl bg-white dark:bg-white/[0.04] overflow-x-hidden overflow-y-auto max-h-[calc(100vh-15rem)]">
+        <div className="rounded-2xl bg-card overflow-x-hidden overflow-y-auto max-h-[calc(100vh-15rem)]">
           {/* Header row */}
           {rows.length > 0 && (
             <div
-              className="sticky top-0 z-10 grid gap-4 px-6 py-4 text-[13px] font-normal text-muted-foreground bg-white dark:bg-white/[0.04]"
+              className="sticky top-0 z-10 grid gap-4 px-6 py-4 text-[13px] font-normal text-muted-foreground bg-card"
               style={{ gridTemplateColumns: gridTemplate }}
             >
               {bulkActions && (

@@ -72,7 +72,7 @@ export function TransactionDetail({ id }: { id: string }) {
   return (
     <div className="flex flex-col gap-4 px-6 pb-6">
       {/* Header block: Public ID + badges + AssistantPanel */}
-      <div className="rounded-2xl bg-white dark:bg-white/[0.04] p-6 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+      <div className="rounded-2xl bg-card p-6 flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
         <div className="space-y-2 min-w-0">
           <span className="text-xs uppercase tracking-wider text-muted-foreground">
             Public ID
