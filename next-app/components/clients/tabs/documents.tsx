@@ -38,6 +38,7 @@ export function ClientDocuments() {
   return (
     <div className="flex flex-col gap-4 pb-6">
       <Block
+        className="border border-border"
         title="Документы клиента"
         actions={
           <Button size="sm" variant="outline">

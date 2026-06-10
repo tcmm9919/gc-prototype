@@ -1,204 +1,148 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { AlertTriangle, ArrowLeftRight, User } from "lucide-react";
-import { motion } from "framer-motion";
+import * as React from "react"
+import Link from "next/link"
+import { ExternalLink } from "lucide-react"
 
-import { useMockData } from "@/lib/mock";
-import { Button } from "@/components/ui/button";
-import { Block, DetailHeader } from "@/components/ext/block";
-import { StatusBadge } from "@/components/ext/status-badge";
-import { RiskBadge } from "@/components/ext/risk-badge";
-import { RelativeTime } from "@/components/ext/relative-time";
-import { AssistantPanel } from "@/components/ext/assistant-panel";
-import { Money } from "@/components/ext/money-kzt";
+import { useMockData } from "@/lib/mock"
+import { Button } from "@/components/ui/button"
+import { StatusBadge } from "@/components/ext/status-badge"
+import { Money } from "@/components/ext/money-kzt"
+import { formatDateTime } from "@/lib/format"
+import { AlertIdentity } from "./alert-identity"
 
-const SEVERITY_LABEL = {
-  low: "Низкая",
-  medium: "Средняя",
-  high: "Высокая",
-  critical: "Критическая",
-} as const;
+const DIRECTION: Record<string, string> = { transfer: "Перевод", incoming: "Поступление", outgoing: "Исходящая", exchange: "Обмен", cash: "Кассовая" }
+const CHANNEL_LABEL: Record<string, string> = { mobile: "Мобильное", web: "Web", branch: "Отделение", api: "API" }
+const FIELD_LABELS: Record<string, string> = {
+  amountKZT: "Сумма в тенге",
+  amount: "Сумма",
+  "counterparty.country": "Страна контрагента",
+  type: "Тип операции",
+  channel: "Канал",
+  riskLevel: "Уровень риска",
+  purposeCode: "Код назначения",
+}
+const OP_SYMBOL: Record<string, string> = { eq: "=", ne: "≠", gt: ">", lt: "<", in: "∈", nin: "∉", contains: "содержит", between: "между" }
 
-const SEVERITY_TONE = {
-  low: "info",
-  medium: "warning",
-  high: "warning",
-  critical: "danger",
-} as const;
-
-const STATUS_LABEL = {
-  new: "Открыто",
-  in_progress: "На проверке",
-  rejected: "Отклонено",
-  escalated: "Эскалировано",
-  closed: "Закрыто",
-} as const;
-
-const STATUS_TONE = {
-  new: "info",
-  in_progress: "warning",
-  rejected: "danger",
-  escalated: "danger",
-  closed: "muted",
-} as const;
+function fmtVal(v: unknown): string {
+  if (Array.isArray(v)) return v.join(", ")
+  if (typeof v === "number") return v.toLocaleString("ru-RU")
+  return String(v)
+}
 
 export function AlertDetail({ id }: { id: string }) {
-  const data = useMockData();
-  const alert = data.alerts.find((a) => a.id === id) ?? data.alerts[0];
-  if (!alert) return null;
+  const data = useMockData()
+  const alert = data.alerts.find((a) => a.id === id) ?? data.alerts[0]
+  if (!alert) return null
 
-  const client = data.clients.find((c) => c.id === alert.clientId);
-  const tx = alert.transactionId
-    ? data.transactions.find((t) => t.id === alert.transactionId)
-    : undefined;
+  const client = data.clients.find((c) => c.id === alert.clientId)
+  const tx = alert.transactionId ? data.transactions.find((t) => t.id === alert.transactionId) : undefined
+  const rule = data.rules.find((r) => r.id === alert.ruleId)
+  // Фолбэк: курируемые алерты ссылаются на RL-S0x, которых нет в seedRules —
+  // показываем условия репрезентативного правила, чтобы блок не пустовал.
+  const conditions = rule?.conditions ?? data.rules[0]?.conditions ?? []
+  const responsible = alert.responsibleId ? data.users.find((u) => u.id === alert.responsibleId)?.fullName : undefined
+  const description = `Правило «${alert.ruleName}» сработало${tx ? ` по транзакции ${tx.id} (${tx.amount.toLocaleString("ru-RU")} ${tx.currency})` : ""}.`
 
   return (
-    <div className="flex flex-col gap-4 px-6 pb-6">
-      <DetailHeader
-        avatar={
-          <div className="size-12 rounded-xl bg-risk-high/15 text-risk-high flex items-center justify-center">
-            <AlertTriangle className="size-6" />
-          </div>
-        }
-        title={alert.ruleName}
-        subtitle={`${alert.id} · сработало ${client?.fullName ?? alert.clientId}`}
-        badges={
-          <>
-            <StatusBadge tone={SEVERITY_TONE[alert.severity]}>
-              {SEVERITY_LABEL[alert.severity]}
-            </StatusBadge>
-            <StatusBadge tone={STATUS_TONE[alert.status]}>
-              {STATUS_LABEL[alert.status]}
-            </StatusBadge>
-          </>
-        }
-        actions={
-          <>
-            <Button variant="outline" size="sm">
-              Эскалировать
-            </Button>
-            <Button asChild variant="outline" size="sm">
-              <Link href={`/cases/new?fromAlert=${alert.id}&client=${alert.clientId}`}>
-                В кейс
-              </Link>
-            </Button>
-            <Button size="sm">Закрыть</Button>
-            <AssistantPanel
-              contextLabel={alert.ruleName}
-              contextSubtitle={`${alert.id} · ${SEVERITY_LABEL[alert.severity]}`}
-              quickPrompts={[
-                "Почему сработало это правило именно сейчас?",
-                "Похожие срабатывания за месяц",
-                "Подготовь заключение для закрытия",
-              ]}
-            />
-          </>
-        }
-      />
+    <div className="pb-6">
+      <div className="grid items-start gap-6 lg:grid-cols-[336px_minmax(0,1fr)]">
+        <aside className="flex flex-col gap-4 self-start lg:sticky lg:top-26 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+          <AlertIdentity alert={alert} client={client} />
+        </aside>
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Block title="Триггеры срабатывания" className="lg:col-span-2">
-          <div className="rounded-xl bg-foreground/[0.03] dark:bg-white/[0.03] px-4 py-3">
-            <div className="flex items-center justify-between gap-2">
-              <span className="font-medium">{alert.ruleName}</span>
-              <span className="text-xs text-muted-foreground">
-                Сработало <RelativeTime iso={alert.date} />
-              </span>
+        <div className="flex min-w-0 flex-col gap-4">
+          {/* Детали | Назначение */}
+          <div className="grid gap-4 md:grid-cols-2">
+            <div className="rounded-2xl border border-border bg-card p-5">
+              <h4 className="mb-4 font-heading text-[15px] font-semibold">Детали оповещения</h4>
+              <div className="space-y-3">
+                <Field label="ID оповещения" value={alert.id} mono />
+                <Field label="Тип" value="Срабатывание правила" />
+                <Field label="Правило" value={alert.ruleName} />
+                <Field label="Создано" value={formatDateTime(alert.date)} />
+              </div>
             </div>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Условия выполнились на текущей сессии клиента. Подробный лог условий — на странице правила.
-            </p>
-            <div className="mt-2 flex gap-2">
-              <Button variant="ghost" size="sm" asChild>
-                <Link href={`/rules/${alert.ruleId}`}>Открыть правило</Link>
-              </Button>
-              {alert.scenarioId ? (
+            <div className="rounded-2xl border border-border bg-card p-5">
+              <h4 className="mb-4 font-heading text-[15px] font-semibold">Назначение</h4>
+              <div className="space-y-3">
+                <Field label="Назначено" value={responsible ?? "—"} />
+                <Field label="Нарушение SLA" value="Нет" />
+              </div>
+            </div>
+          </div>
+
+          {/* Описание */}
+          <div className="rounded-2xl border border-border bg-card p-5">
+            <h4 className="mb-3 font-heading text-[15px] font-semibold">Описание</h4>
+            <p className="text-sm text-muted-foreground">{description}</p>
+          </div>
+
+          {/* Совпавшие условия */}
+          {conditions.length > 0 ? (
+            <div className="rounded-2xl border border-border bg-card p-5">
+              <h4 className="mb-4 font-heading text-[15px] font-semibold">Совпавшие условия</h4>
+              <div className="grid gap-3 sm:grid-cols-2">
+                {conditions.map((c) => (
+                  <div key={c.id} className="rounded-xl bg-risk-critical/5 px-4 py-3">
+                    <div className="flex items-start justify-between gap-2">
+                      <span className="text-xs text-muted-foreground">{FIELD_LABELS[c.field] ?? c.field}</span>
+                      <StatusBadge tone="danger">сработало</StatusBadge>
+                    </div>
+                    <div className="mt-1.5 text-sm">
+                      <span className="font-mono text-muted-foreground">{OP_SYMBOL[c.op] ?? c.op}</span>{" "}
+                      <span className="font-medium">{fmtVal(c.value)}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : null}
+
+          {/* Связанная транзакция (полная) */}
+          {tx ? (
+            <div className="rounded-2xl border border-border bg-card p-5">
+              <div className="mb-4 flex items-center justify-between gap-3">
+                <h4 className="font-heading text-[15px] font-semibold">Связанная транзакция</h4>
                 <Button variant="ghost" size="sm" asChild>
-                  <Link href={`/workflows/${alert.scenarioId}`}>Открыть сценарий</Link>
+                  <Link href={`/transactions/${tx.id}`}>
+                    <ExternalLink className="size-3.5" />
+                    Открыть детали
+                  </Link>
                 </Button>
-              ) : null}
-            </div>
-          </div>
-        </Block>
-
-        <Block title="Клиент">
-          {client ? (
-            <div className="space-y-3 text-sm">
-              <Link
-                href={`/clients/${client.id}`}
-                className="block font-medium hover:underline"
-              >
-                {client.fullName}
-              </Link>
-              <div className="flex gap-2">
-                <RiskBadge level={client.riskLevel} />
-                <StatusBadge tone="muted">{client.segment}</StatusBadge>
               </div>
-              <p className="text-xs text-muted-foreground">
-                {client.id} · {client.country} · скор {client.internalScore}
-              </p>
-              <Button variant="outline" size="sm" asChild className="w-full">
-                <Link href={`/clients/${alert.clientId}`}>
-                  <User className="size-4" />
-                  Открыть карточку
-                </Link>
-              </Button>
-            </div>
-          ) : (
-            <span className="text-muted-foreground text-sm">Клиент {alert.clientId}</span>
-          )}
-        </Block>
-
-        {tx ? (
-          <Block title="Связанная транзакция" className="lg:col-span-3">
-            <Link
-              href={`/transactions/${tx.id}`}
-              className="flex items-center justify-between gap-4 rounded-xl bg-foreground/[0.03] dark:bg-white/[0.03] px-4 py-3 transition hover:bg-foreground/[0.05] dark:hover:bg-white/[0.05]"
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="size-9 rounded-lg bg-primary/15 text-primary flex items-center justify-center">
-                  <ArrowLeftRight className="size-5" />
-                </div>
-                <div className="flex flex-col leading-tight min-w-0">
-                  <span className="font-mono text-xs text-muted-foreground">{tx.id}</span>
-                  <span className="font-medium truncate">{tx.counterparty.name}</span>
-                </div>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <TxField label="Сумма" value={<Money amount={tx.amount} currency={tx.currency} amountKZT={tx.amountKZT} />} />
+                <TxField label="Направление" value={DIRECTION[tx.type] ?? tx.type} />
+                <TxField label="Приоритет" value={tx.priority.toUpperCase()} />
+                <TxField label="Контрагент" value={`${tx.counterparty.name} · ${tx.counterparty.country}`} />
+                <TxField label="Канал" value={CHANNEL_LABEL[tx.channel] ?? tx.channel} />
+                <TxField label="Статус" value={tx.complianceStatus} />
+                <TxField label="Назначение" value={tx.purposeDescription} className="sm:col-span-2 lg:col-span-3" />
+                <TxField label="ID транзакции" value={tx.id} mono className="sm:col-span-2 lg:col-span-3" />
               </div>
-              <Money amount={tx.amount} currency={tx.currency} amountKZT={tx.amountKZT} />
-            </Link>
-          </Block>
-        ) : null}
-
-        <Block title="Журнал действий" className="lg:col-span-3">
-          <ol className="relative space-y-3 pl-6">
-            <div className="pointer-events-none absolute left-2 top-2 bottom-2 w-px bg-foreground/[0.08] dark:bg-white/[0.10]" aria-hidden />
-            {[
-              { time: "2 ч назад", who: "Жумабеков Е.К.", what: "Создал оповещение" },
-              { time: "1 ч назад", who: "Серикбаева А.Н.", what: "Изменила статус на «В работе»" },
-              { time: "20 мин назад", who: "Compliance-агент", what: "Сформировал предварительное заключение" },
-            ].map((r, i) => (
-              <motion.li
-                key={i}
-                initial={{ opacity: 0, x: 4 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: i * 0.05, duration: 0.2 }}
-                className="relative"
-              >
-                <span
-                  className="absolute -left-6 top-1 size-2.5 rounded-full bg-primary ring-4 ring-primary/15"
-                  aria-hidden
-                />
-                <div className="text-sm leading-tight">
-                  <span className="font-medium">{r.who}</span>
-                  <span className="text-muted-foreground"> — {r.what}</span>
-                </div>
-                <span className="text-xs text-muted-foreground">{r.time}</span>
-              </motion.li>
-            ))}
-          </ol>
-        </Block>
+            </div>
+          ) : null}
+        </div>
       </div>
     </div>
-  );
+  )
+}
+
+function Field({ label, value, mono }: { label: string; value: React.ReactNode; mono?: boolean }) {
+  return (
+    <div className="grid grid-cols-[130px_1fr] gap-2 text-sm">
+      <span className="pt-0.5 text-xs text-muted-foreground">{label}</span>
+      <span className={mono ? "font-mono text-xs break-all" : ""}>{value}</span>
+    </div>
+  )
+}
+
+function TxField({ label, value, mono, className }: { label: string; value: React.ReactNode; mono?: boolean; className?: string }) {
+  return (
+    <div className={`rounded-xl bg-foreground/[0.03] px-4 py-3 dark:bg-white/[0.03] ${className ?? ""}`}>
+      <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">{label}</span>
+      <div className={`mt-1 text-sm ${mono ? "font-mono text-xs break-all text-muted-foreground" : "font-medium"}`}>{value}</div>
+    </div>
+  )
 }

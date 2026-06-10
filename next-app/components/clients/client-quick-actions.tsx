@@ -42,7 +42,7 @@ export function ClientQuickActions() {
         <p className="mb-2 text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
           Готовые сценарии
         </p>
-        <ul className="space-y-1.5">
+        <ul className="max-h-32 space-y-1.5 overflow-y-auto pr-1">
           {FAVORITE_SCENARIOS.map((s) => (
             <li
               key={s.id}

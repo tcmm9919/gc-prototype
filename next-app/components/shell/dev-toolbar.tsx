@@ -2,10 +2,9 @@
 
 import * as React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { History, Sparkles, Wrench } from "lucide-react";
+import { History, Wrench } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { KILLER_FLOW_LINK } from "@/lib/mock/scenarios/killer-flow-demo";
 import {
   Popover,
   PopoverContent,
@@ -95,18 +94,6 @@ export function DevToolbar() {
                 </SelectContent>
               </Select>
             </div>
-            <Button
-              size="sm"
-              variant="secondary"
-              className="w-full justify-start gap-2"
-              onClick={() => {
-                setScenario("killerFlow");
-                router.push(KILLER_FLOW_LINK);
-              }}
-            >
-              <Sparkles className="size-3.5 text-primary" />
-              Открыть killer flow
-            </Button>
             <Button
               size="sm"
               variant="secondary"

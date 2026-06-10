@@ -195,6 +195,7 @@ export function ClientEDD() {
   return (
     <div className="flex flex-col gap-4 pb-6">
       <Block
+        className="border border-border"
         title="Расширенная проверка (EDD)"
         actions={
           <>
@@ -248,7 +249,7 @@ export function ClientEDD() {
         </ol>
       </div>
 
-      <Block title="Комментарий офицера">
+      <Block title="Комментарий офицера" className="border border-border">
         <p className="text-xs text-muted-foreground -mt-2 mb-3">Контекст, который увидят коллеги при дальнейшем разборе</p>
         <Textarea rows={3} placeholder="Добавьте контекст о проверке клиента..." />
         <div className="flex justify-end mt-3">
@@ -258,6 +259,7 @@ export function ClientEDD() {
 
       {/* Enhanced Due Diligence — 10-section structured report */}
       <Block
+        className="border border-border"
         title={
           <span className="inline-flex items-center gap-2">
             <FileText className="size-4 text-primary" />

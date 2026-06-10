@@ -5,7 +5,6 @@ import {
   ShieldAlert,
   ShieldCheck,
   FileText,
-  Sparkles,
   Upload,
   User as UserIcon,
   AlertTriangle,
@@ -13,9 +12,7 @@ import {
   Crown,
 } from "lucide-react"
 import type { Client, ClientFlags } from "@/lib/mock"
-import { useMockData } from "@/lib/mock"
 import { Button } from "@/components/ui/button"
-import { Block } from "@/components/ext/block"
 import { StatusBadge } from "@/components/ext/status-badge"
 import { cn } from "@/lib/utils"
 
@@ -66,115 +63,23 @@ const DOCUMENTS = [
   { name: "income_report_bad_bb25f2c1.pdf", tag: "employment_letter" },
 ]
 
-function getAIBrief(client: Client): string {
-  const riskWord =
-    client.internalScore < 25
-      ? "Низкорисковый"
-      : client.internalScore < 50
-        ? "Среднерисковый"
-        : client.internalScore < 75
-          ? "Высокорисковый"
-          : "Критический"
-  const typeWord = client.type === "legal" ? "корпоративный" : "розничный"
-  const pepNote = client.pep
-    ? "PEP-статус активен — повышенное внимание"
-    : "PEP/санкции — не обнаружены"
-  const recommendation =
-    client.internalScore < 50
-      ? "Стандартный мониторинг."
-      : "Рекомендован усиленный мониторинг и периодический EDD."
-  return `${riskWord} ${typeWord} клиент. ${pepNote}. ${recommendation}`
-}
-
-function getRiskConfig(score: number) {
-  if (score < 25)
-    return {
-      label: "Низкий риск",
-      barClass: "bg-risk-low",
-      textClass: "text-risk-low",
-    }
-  if (score < 50)
-    return {
-      label: "Средний риск",
-      barClass: "bg-risk-medium",
-      textClass: "text-risk-medium",
-    }
-  if (score < 75)
-    return {
-      label: "Высокий риск",
-      barClass: "bg-risk-high",
-      textClass: "text-risk-high",
-    }
-  return {
-    label: "Критический риск",
-    barClass: "bg-risk-critical",
-    textClass: "text-risk-critical",
-  }
-}
-
-function computeSparkline(
-  transactions: { date: string; clientId: string }[],
-  clientId: string
-): number[] {
-  const now = Date.now()
-  const days = Array(30).fill(0)
-  transactions
-    .filter((t) => t.clientId === clientId)
-    .forEach((t) => {
-      const daysAgo = Math.floor(
-        (now - new Date(t.date).getTime()) / (1000 * 60 * 60 * 24)
-      )
-      if (daysAgo >= 0 && daysAgo < 30) days[29 - daysAgo] += 1
-    })
-  return days
-}
-
-function Sparkline({ data }: { data: number[] }) {
-  const max = Math.max(...data, 1)
-  return (
-    <div className="flex h-10 items-end gap-[2px]">
-      {data.map((v, i) => (
-        <div
-          key={i}
-          className={cn(
-            "flex-1 rounded-sm transition-colors",
-            v > 0
-              ? "bg-primary/60"
-              : "bg-foreground/[0.06] dark:bg-white/[0.06]"
-          )}
-          style={{
-            height: v > 0 ? `${(v / max) * 100}%` : "10%",
-            minHeight: "3px",
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
 export function ClientOverview({ client }: { client: Client }) {
-  const data = useMockData()
-  const sparkline = React.useMemo(
-    () => computeSparkline(data.transactions, client.id),
-    [data.transactions, client.id]
-  )
-  const hasActivity = sparkline.some((v) => v > 0)
-  const riskCfg = getRiskConfig(client.internalScore)
 
-  const allDetailFields: Array<{ label: string; value: React.ReactNode }> = [
-    { label: "Версия карточки", value: client.cardVersion },
-    { label: "Колвир-код", value: client.kolvirCode },
-    { label: "Дата регистрации", value: client.registrationDate },
-    { label: "Срок обслуживания (дн.)", value: client.serviceDays },
-    {
-      label: "Страна резидентства",
-      value: client.countryFullName ?? client.country,
-    },
-    { label: "Филиал открытия счёта", value: client.accountBranch },
+  const nameParts = client.fullName.split(" ")
+  const detailFields: Array<{ label: string; value: React.ReactNode }> = [
+    { label: "Версия карточки клиента", value: client.cardVersion ?? "1" },
+    { label: "Колвир-код", value: client.kolvirCode ?? "0356142" },
+    { label: "Имя", value: client.firstName ?? nameParts[1] ?? "—" },
+    { label: "Фамилия", value: client.lastName ?? nameParts[0] ?? "—" },
+    { label: "Отчество", value: client.middleName ?? nameParts[2] ?? "—" },
+    { label: "ИИН", value: client.iin ?? client.bin ?? "—" },
+    { label: "Дата рождения", value: client.birthDate ?? "—" },
+    { label: "Дата регистрации", value: client.registrationDate ?? "2025-10-05" },
+    { label: "Срок обслуживания (дн.)", value: client.serviceDays ?? 241 },
+    { label: "Страна резидентства", value: client.countryFullName ?? client.country ?? "Республика Казахстан (KZ / 398)" },
+    { label: "Место рождения", value: client.birthplace ?? "г. Алматы" },
+    { label: "Филиал открытия счёта", value: client.accountBranch ?? "Алматинский филиал" },
   ]
-  const filledFields = allDetailFields.filter(
-    (f) => f.value !== undefined && f.value !== null && f.value !== ""
-  )
 
   const flags = client.flags ?? {}
   const activeFlags = (
@@ -182,69 +87,70 @@ export function ClientOverview({ client }: { client: Client }) {
   ).filter((key) => flags[key] === true)
 
   return (
-    <div className="flex flex-col gap-6 pb-6">
-      {/* Risk Score + Activity */}
-      <div className="grid gap-5 md:grid-cols-2">
-        <Block dense>
-          <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
-            Risk Score
-          </span>
-          <div className="mt-2 flex items-baseline gap-1.5">
-            <span className="font-heading text-[32px] leading-none font-bold tabular-nums">
-              {client.internalScore}
-            </span>
-            <span className="text-sm text-muted-foreground">/100</span>
+    <div className="flex flex-col gap-6">
+      {/* Подробности — на всю ширину, белая карта + контур */}
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <h3 className="mb-5 font-heading text-[15px] font-semibold tracking-[-0.01em] text-foreground">
+          Подробности
+        </h3>
+        <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {detailFields.map((f) => (
+            <Field key={f.label} label={f.label} value={f.value} />
+          ))}
+        </div>
+      </div>
+
+      {/* Документы (слева, шире) + Канал (справа, уже) */}
+      <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+        {/* Документы клиента */}
+        <div className="rounded-2xl border border-border bg-card p-5">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h3 className="inline-flex items-center gap-2 font-heading text-[15px] font-semibold tracking-[-0.01em] text-foreground">
+              <FileText className="size-4 text-muted-foreground" />
+              Документы клиента
+            </h3>
+            <Button size="sm" variant="outline">
+              <Upload className="size-3.5" />
+              Загрузить
+            </Button>
           </div>
-          <div className="mt-2.5 h-2 overflow-hidden rounded-full bg-foreground/[0.08] dark:bg-white/[0.06]">
-            <div
-              className={cn(
-                "h-full rounded-full transition-all duration-500",
-                riskCfg.barClass
-              )}
-              style={{ width: `${client.internalScore}%` }}
-            />
-          </div>
-          <span
-            className={cn(
-              "mt-2 block text-sm font-semibold",
-              riskCfg.textClass
-            )}
-          >
-            {riskCfg.label}
-          </span>
-        </Block>
-        <Block dense>
-          <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
-            Активность за 30 дней
-          </span>
-          <div className="mt-3">
-            {hasActivity ? (
-              <Sparkline data={sparkline} />
-            ) : (
-              <div className="py-1 text-xs text-muted-foreground">
-                Нет активности
+          <div className="space-y-1.5">
+            {DOCUMENTS.slice(0, 4).map((d) => (
+              <div
+                key={d.name}
+                className="flex items-center justify-between gap-2 rounded-xl bg-foreground/[0.03] px-3 py-2 text-xs dark:bg-white/[0.03]"
+              >
+                <span className="truncate font-mono text-primary">{d.name}</span>
+                <StatusBadge tone="muted">{d.tag}</StatusBadge>
               </div>
-            )}
+            ))}
           </div>
-        </Block>
+          {DOCUMENTS.length > 4 ? (
+            <button type="button" className="pt-3 text-xs text-primary hover:underline">
+              Все {DOCUMENTS.length} документов →
+            </button>
+          ) : null}
+        </div>
+
+        {/* Канал уведомлений — серая карта, как блок риска */}
+        <div className="rounded-2xl bg-foreground/[0.03] p-5 dark:bg-white/[0.04]">
+          <h3 className="font-heading text-[15px] font-semibold tracking-[-0.01em] text-foreground">
+            Канал уведомлений
+          </h3>
+          <p className="mb-3 mt-1 text-xs text-muted-foreground">
+            Как клиент получает запросы и решения комплаенса
+          </p>
+          <div className="space-y-1.5">
+            <ChannelCheckbox label="Email" defaultChecked />
+            <ChannelCheckbox label="SMS" />
+            <ChannelCheckbox label="Push на Freedom SuperApp" />
+          </div>
+        </div>
       </div>
 
-      {/* AI BRIEF */}
-      <div className="flex items-start gap-3 rounded-2xl border border-primary/15 bg-primary/[0.05] px-4 py-3 dark:bg-primary/[0.08]">
-        <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-primary/15">
-          <Sparkles className="size-4 text-primary" />
-        </div>
-        <div className="flex min-w-0 flex-col gap-0.5">
-          <span className="text-[11px] font-semibold tracking-wider text-primary uppercase">
-            Compliance Officer AI
-          </span>
-          <p className="text-sm text-foreground">{getAIBrief(client)}</p>
-        </div>
-      </div>
-
-      {/* ACTIVE FLAGS */}
+      {/* ACTIVE FLAGS — тоже белая карта + контур */}
       {activeFlags.length > 0 ? (
-        <Block dense>
+        <div className="rounded-2xl border border-border bg-card p-4">
           <div className="flex flex-wrap items-center gap-3">
             <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
               Активные флаги
@@ -255,78 +161,8 @@ export function ClientOverview({ client }: { client: Client }) {
               ))}
             </div>
           </div>
-        </Block>
-      ) : null}
-
-      {/* Details + Channel */}
-      <div className="grid gap-6 lg:grid-cols-2">
-        {filledFields.length > 0 ? (
-          <Block dense title="Подробности">
-            <div className="grid gap-x-6 gap-y-3 sm:grid-cols-2">
-              {filledFields.map((f) => (
-                <Field key={f.label} label={f.label} value={f.value} />
-              ))}
-            </div>
-            {filledFields.length < allDetailFields.length ? (
-              <p className="mt-3 border-t border-foreground/[0.06] pt-3 text-xs text-muted-foreground dark:border-white/[0.06]">
-                {allDetailFields.length - filledFields.length}{" "}
-                {allDetailFields.length - filledFields.length === 1
-                  ? "поле"
-                  : "полей"}{" "}
-                не заполнено
-              </p>
-            ) : null}
-          </Block>
-        ) : null}
-
-        <Block dense title="Канал уведомлений">
-          <p className="-mt-2 mb-3 text-xs text-muted-foreground">
-            Как клиент получает запросы и решения комплаенса
-          </p>
-          <div className="space-y-1.5">
-            <ChannelCheckbox label="Email" defaultChecked />
-            <ChannelCheckbox label="SMS" />
-            <ChannelCheckbox label="Push на Freedom SuperApp" />
-          </div>
-        </Block>
-      </div>
-
-      {/* Documents */}
-      <Block
-        dense
-        title={
-          <span className="inline-flex items-center gap-2">
-            <FileText className="size-4 text-muted-foreground" />
-            Документы клиента
-          </span>
-        }
-        actions={
-          <Button size="sm" variant="outline">
-            <Upload className="size-3.5" />
-            Загрузить
-          </Button>
-        }
-      >
-        <div className="grid gap-1.5 md:grid-cols-2">
-          {DOCUMENTS.slice(0, 4).map((d) => (
-            <div
-              key={d.name}
-              className="flex items-center justify-between gap-2 rounded-xl bg-foreground/[0.03] px-3 py-2 text-xs dark:bg-white/[0.03]"
-            >
-              <span className="truncate font-mono text-primary">{d.name}</span>
-              <StatusBadge tone="muted">{d.tag}</StatusBadge>
-            </div>
-          ))}
         </div>
-        {DOCUMENTS.length > 4 ? (
-          <button
-            type="button"
-            className="pt-3 text-xs text-primary hover:underline"
-          >
-            Все {DOCUMENTS.length} документов →
-          </button>
-        ) : null}
-      </Block>
+      ) : null}
     </div>
   )
 }
@@ -334,7 +170,7 @@ export function ClientOverview({ client }: { client: Client }) {
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
   return (
     <div className="flex min-w-0 flex-col gap-0.5">
-      <span className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
+      <span className="text-xs text-muted-foreground">
         {label}
       </span>
       <p className="truncate text-sm font-medium">{value}</p>

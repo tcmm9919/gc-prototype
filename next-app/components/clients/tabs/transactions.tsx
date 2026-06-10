@@ -84,6 +84,7 @@ export function ClientTransactions({ clientId }: { clientId: string }) {
     <DataTable<Transaction>
       data={txs}
       columns={columns}
+      bordered
       globalFilterPlaceholder="Поиск по ID, контрагенту..."
       emptyMessage="У клиента ещё нет операций"
       globalFilterFn={(row, _col, value) => {

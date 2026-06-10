@@ -18,7 +18,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         >
           <AppSidebar />
           <SidebarInset className="overflow-hidden bg-transparent">
-            <main className="flex-1 min-w-0 min-h-0 overflow-y-auto">
+            <main className="flex-1 min-w-0 min-h-0 overflow-y-auto [scrollbar-gutter:stable]">
               <Suspense fallback={null}>
                 <AppHeader />
               </Suspense>

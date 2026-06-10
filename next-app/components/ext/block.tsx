@@ -18,6 +18,7 @@ interface BlockProps {
 export function Block({ title, actions, children, className, dense }: BlockProps) {
   return (
     <div
+      data-slot="block"
       className={cn(
         "rounded-2xl bg-card",
         dense ? "p-4" : "p-6",

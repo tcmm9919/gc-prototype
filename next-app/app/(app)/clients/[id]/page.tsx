@@ -13,6 +13,7 @@ export default async function Page({ params }: { params: Promise<{ id: string }>
       skeleton="detail"
       emptyTitle="Клиент не найден"
       emptyDescription="Возможно, ID устарел или клиент был удалён."
+      delegateToTabParam
     >
       <ClientCard id={id} />
     </StateSwitch>

@@ -24,14 +24,12 @@ export function ClientCases({ clientId }: { clientId: string }) {
 
   if (cases.length === 0) {
     return (
-      <div className="pb-6">
-        <EmptyState icon={<Folder className="size-6" />} title="Связанных кейсов нет" description="Расследования будут привязаны сюда." />
-      </div>
+      <EmptyState icon={<Folder className="size-6" />} title="Связанных кейсов нет" description="Расследования будут привязаны сюда." />
     );
   }
 
   return (
-    <div className="flex flex-col gap-2 pb-6">
+    <div className="flex flex-col gap-2">
       {cases.map((c, idx) => (
         <motion.div
           key={c.id}
@@ -41,7 +39,7 @@ export function ClientCases({ clientId }: { clientId: string }) {
         >
           <Link
             href={`/cases/${c.id}`}
-            className="block rounded-xl bg-card hover:bg-foreground/[0.02] dark:hover:bg-white/[0.06] px-4 py-3 transition-colors"
+            className="block rounded-xl border border-border bg-card hover:bg-foreground/[0.02] dark:hover:bg-white/[0.06] px-4 py-3 transition-colors"
           >
             <div className="flex flex-col gap-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2">

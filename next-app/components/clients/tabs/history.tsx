@@ -56,8 +56,8 @@ export function ClientHistory({ clientId }: { clientId: string }) {
   return (
     <div className="flex flex-col gap-6 pb-6">
       {grouped.map(([day, items], gIdx) => (
-        <Block key={day} title={day}>
-          <ol className="relative space-y-2 pl-6">
+        <Block key={day} title={day} className="border border-border">
+          <ol className="relative space-y-3 pl-9">
             <div className="pointer-events-none absolute left-2 top-2 bottom-2 w-px bg-foreground/[0.08] dark:bg-white/[0.10]" aria-hidden />
             {items.map((e, idx) => {
               const u = users.get(e.userId);
@@ -73,7 +73,7 @@ export function ClientHistory({ clientId }: { clientId: string }) {
                 >
                   <span
                     className={cn(
-                      "absolute -left-6 top-1.5 size-5 rounded-full bg-background ring-4 ring-background flex items-center justify-center",
+                      "absolute -left-9 top-1.5 size-5 rounded-full bg-background ring-4 ring-background flex items-center justify-center",
                       meta.tone,
                     )}
                     aria-hidden

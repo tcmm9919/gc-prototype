@@ -6,7 +6,6 @@ import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useMockData, type ComplianceScenario } from "@/lib/mock";
 import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StatusBadge } from "@/components/ext/status-badge";
 
 function formatDate(iso?: string): string {
@@ -75,17 +74,8 @@ export function WorkflowsTable() {
   const clientWorkflows = workflowsByType(data.scenarios, "client");
 
   return (
-    <Tabs defaultValue="client" className="pb-12">
-      <div className="flex items-center justify-between gap-3 mb-4">
-        <TabsList className="grid w-fit grid-cols-3">
-          <TabsTrigger value="client">Клиентский</TabsTrigger>
-          <TabsTrigger value="group" disabled title="В разработке">
-            Групповой
-          </TabsTrigger>
-          <TabsTrigger value="embedded" disabled title="В разработке">
-            Встроенный
-          </TabsTrigger>
-        </TabsList>
+    <div className="pb-12">
+      <div className="flex items-center justify-end gap-3 mb-4">
         <Button asChild size="xl">
           <Link href="/workflows/builder">
             <Plus className="size-4" />
@@ -94,27 +84,19 @@ export function WorkflowsTable() {
         </Button>
       </div>
 
-      <TabsContent value="client" className="m-0">
-        <WorkflowsTab
-          data={clientWorkflows}
-          description="Сценарий запускается по одному клиенту"
-          emptyText="Сценариев нет — создайте первый."
-          emptyAction={
-            <Button asChild size="sm" variant="outline">
-              <Link href="/workflows/builder">
-                <Plus className="size-4" />
-                Создать сценарий
-              </Link>
-            </Button>
-          }
-        />
-      </TabsContent>
-      <TabsContent value="group" className="m-0">
-        <p className="text-sm text-muted-foreground">В разработке.</p>
-      </TabsContent>
-      <TabsContent value="embedded" className="m-0">
-        <p className="text-sm text-muted-foreground">В разработке.</p>
-      </TabsContent>
-    </Tabs>
+      <WorkflowsTab
+        data={clientWorkflows}
+        description="Сценарий запускается по одному клиенту"
+        emptyText="Сценариев нет — создайте первый."
+        emptyAction={
+          <Button asChild size="sm" variant="outline">
+            <Link href="/workflows/builder">
+              <Plus className="size-4" />
+              Создать сценарий
+            </Link>
+          </Button>
+        }
+      />
+    </div>
   );
 }

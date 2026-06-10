@@ -1,8 +1,10 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { Bell, ChevronDown, Globe, Search } from "lucide-react";
+import Link from "next/link";
+import { Bell, ChevronDown, ChevronRight, Globe, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useMockData } from "@/lib/mock";
 import { ThemeToggle } from "./theme-toggle";
 import { useCommandPalette } from "./command-palette";
 import { ProfileMenu } from "./profile-menu";
@@ -30,10 +32,20 @@ const STATIC_TITLES: Record<string, string> = {
   "/profile": "Профиль",
 };
 
+const DETAIL_PARENTS: Record<string, { label: string; list: string }> = {
+  clients: { label: "Клиенты", list: "/clients" },
+  alerts: { label: "Оповещения", list: "/alerts" },
+  cases: { label: "Кейсы", list: "/cases" },
+  transactions: { label: "Транзакции", list: "/transactions" },
+  rules: { label: "Правила", list: "/rules" },
+  workflows: { label: "Сценарии", list: "/workflows" },
+};
+
+const RESERVED_SUB = new Set(["new", "builder"]);
+
 function deriveTitle(pathname: string): string {
-  const normalized = pathname.endsWith("/") && pathname !== "/"
-    ? pathname.slice(0, -1)
-    : pathname;
+  const normalized =
+    pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
   if (STATIC_TITLES[normalized]) return STATIC_TITLES[normalized];
   for (const [route, title] of Object.entries(STATIC_TITLES)) {
     if (normalized.startsWith(route + "/")) return title;
@@ -44,8 +56,48 @@ function deriveTitle(pathname: string): string {
 export function AppHeader() {
   const { open } = useCommandPalette();
   const pathname = usePathname() ?? "";
+  const data = useMockData();
+
+  const normalizedPath =
+    pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
+  const segments = normalizedPath.split("/").filter(Boolean);
+  const parentKey = segments[0];
+  const idSeg = segments[1];
+  const parent = parentKey ? DETAIL_PARENTS[parentKey] : undefined;
+  const isDetail = Boolean(parent && idSeg && !RESERVED_SUB.has(idSeg));
+
+  // ─── Detail page → breadcrumbs only ───
+  if (isDetail && parent) {
+    const id = decodeURIComponent(idSeg);
+    const entityLabel =
+      parentKey === "clients"
+        ? data.clients.find((c) => c.id === id)?.fullName ?? id
+        : parentKey === "rules"
+          ? data.rules.find((r) => r.id === id)?.name ?? id
+          : parentKey === "workflows"
+            ? data.scenarios.find((s) => s.id === id)?.name ?? id
+            : parentKey === "alerts"
+              ? data.alerts.find((a) => a.id === id)?.ruleName ?? `#${id}`
+              : id;
+
+    return (
+      <header className="sticky top-0 z-30 flex h-24 items-center px-8">
+        <nav className="flex items-center gap-2 text-[14px]" aria-label="Хлебные крошки">
+          <Link
+            href={parent.list}
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {parent.label}
+          </Link>
+          <ChevronRight className="size-4 shrink-0 text-muted-foreground/40" />
+          <span className="truncate font-medium text-foreground">{entityLabel}</span>
+        </nav>
+      </header>
+    );
+  }
+
+  // ─── Top-level page → standard header ───
   const title = deriveTitle(pathname);
-  const normalizedPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
   const isDashboard = normalizedPath === "/dashboard";
 
   return (

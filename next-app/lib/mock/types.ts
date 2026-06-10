@@ -210,6 +210,8 @@ export interface Rule {
   name: string;
   description: string;
   entity: RuleEntity;
+  /** Важность правила (бейдж/фильтры). Опционально — дефолт high. */
+  severity?: AlertSeverity;
   enabled: boolean;
   authorId: string;
   updatedAt: string;
@@ -357,4 +359,4 @@ export interface RiskFactor {
 }
 
 export type MockState = "data" | "empty" | "loading" | "error";
-export type ScenarioPreset = "normalDay" | "busyDay" | "emptyInbox" | "criticalAlert" | "killerFlow" | "morningShiftBusy";
+export type ScenarioPreset = "normalDay" | "busyDay" | "emptyInbox" | "criticalAlert" | "morningShiftBusy";

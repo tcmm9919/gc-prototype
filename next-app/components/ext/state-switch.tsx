@@ -19,6 +19,8 @@ interface StateSwitchProps {
   emptyDescription?: string;
   emptyAction?: React.ReactNode;
   skeleton?: "table" | "list" | "detail" | "dashboard";
+  /** Если выбран таб (?tab=...) — состояния рендерит сам таб, page-level пропускает насквозь */
+  delegateToTabParam?: boolean;
   children: React.ReactNode;
 }
 
@@ -49,9 +51,12 @@ function StateSwitchInner({
   emptyDescription = "Данные появятся по мере работы платформы.",
   emptyAction,
   skeleton = "table",
+  delegateToTabParam = false,
   children,
 }: StateSwitchProps) {
   const state = useStateParam();
+  const params = useSearchParams();
+  if (delegateToTabParam && params?.get("tab")) return <>{children}</>;
   if (state === "loading") {
     if (skeleton === "list") return <ListSkeleton />;
     if (skeleton === "detail" || skeleton === "dashboard") return <DetailSkeleton />;

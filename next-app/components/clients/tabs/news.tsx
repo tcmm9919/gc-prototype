@@ -39,6 +39,7 @@ export function ClientNews() {
   return (
     <div className="flex flex-col gap-4 pb-6">
       <Block
+        className="border border-border"
         title={
           <span className="inline-flex items-center gap-2">
             <Sparkles className="size-4 text-primary" />
@@ -61,7 +62,7 @@ export function ClientNews() {
         </p>
       </Block>
 
-      <Block title="Ключевые выводы">
+      <Block title="Ключевые выводы" className="border border-border">
         <ul className="space-y-2 text-sm">
           {KEY_FINDINGS.map((finding, i) => (
             <li key={i} className="flex gap-2.5">
@@ -72,8 +73,8 @@ export function ClientNews() {
         </ul>
       </Block>
 
-      <Block title={`Новости (${NEWS.length})`}>
-        <div className="space-y-2">
+      <Block title={`Новости (${NEWS.length})`} className="border border-border">
+        <div className="space-y-3">
           {NEWS.map((item, i) => (
             <div
               key={i}

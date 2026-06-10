@@ -233,6 +233,7 @@ export function makeRule(over: Partial<Rule> = {}): Rule {
     ),
     description: "Атомарное условие, используемое в сценариях расследования.",
     entity: pick<RuleEntity>(["client", "transaction", "group"], i),
+    severity: (["high", "medium", "critical", "low", "high"] as const)[i % 5],
     enabled: i % 7 !== 0,
     authorId: `USR-${(i % 6) + 1}`,
     updatedAt: new Date(Date.now() - i * 86_400_000).toISOString(),
@@ -488,4 +489,202 @@ export function makeRiskFactor(over: Partial<RiskFactor> = {}): RiskFactor {
 
 export function many<T>(make: () => T, count: number): T[] {
   return Array.from({ length: count }, () => make());
+}
+
+// ─────────────────────────────────────────────── SCORE BREAKDOWN ──────
+
+import {
+  RISK_WEIGHTS,
+  type InternalScoringCategory,
+  type NewsItem,
+  type ScoreHistoryEntry,
+  type ScoreSourceKey,
+  type TransactionTrigger,
+} from "@/lib/scoring/sources";
+import {
+  calculateProfileRisk,
+  type ScoreBreakdown,
+  type ScoreSourceData,
+} from "@/lib/scoring/formula";
+
+const CHANNEL_LABELS: Record<Channel, string> = {
+  mobile: "мобильный банк",
+  web: "интернет-банк",
+  branch: "филиал",
+  api: "API",
+};
+
+function hashStr(s: string): number {
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+  return Math.abs(h);
+}
+
+const minAgoIso = (min: number) => new Date(Date.now() - min * 60_000).toISOString();
+
+/**
+ * Источники композитного риска для клиента.
+ * Showcase: CL-S02 (бывш. Дягилев / killer flow — сценарий удалён,
+ * рукописный набор закреплён за CL-S02, сумма вкладов 58.05 ≈ internalScore 58).
+ * ⚠️ Формула «взвешенное среднее» — гипотеза (open question #1).
+ */
+export function makeScoreSources(client: Client): ScoreSourceData[] {
+  if (client.id === "CL-S02") {
+    // news → высокий (68), pdl → критический (85); итог ≈ 59 ≈ internalScore 58
+    return [
+      { source: "anomalous_transactions", score: 94, confidence: 89, weight: RISK_WEIGHTS.anomalous_transactions, hasData: true, lastRun: minAgoIso(12), note: "2 сработавших транзакции" },
+      { source: "internal_scoring", score: 16, confidence: 94, weight: RISK_WEIGHTS.internal_scoring, hasData: true, lastRun: minAgoIso(12), note: "2 сработавших признака" },
+      { source: "edd_agent", score: 71, confidence: 76, weight: RISK_WEIGHTS.edd_agent, hasData: true, lastRun: minAgoIso(38), note: "Отчёт edd_full сгенерирован" },
+      { source: "news_agent", score: 68, confidence: 91, weight: RISK_WEIGHTS.news_agent, hasData: true, lastRun: minAgoIso(54), note: "3 негативных упоминания" },
+      { source: "pdl_check", score: 85, confidence: 99, weight: RISK_WEIGHTS.pdl_check, hasData: true, lastRun: minAgoIso(12), note: "Совпадение: иностранное ПДЛ (iPDL)" },
+    ];
+  }
+
+  const h = hashStr(client.id);
+  // Все 5 источников (вкл. ПДЛ) участвуют в формуле. Факторы откалиброваны так,
+  // что Σ(factor×weight)/Σweight ≈ 1 → взвешенная сумма ≈ internalScore (без warning).
+  // ПДЛ/Новости — самые «тяжёлые» факторы: на критическом клиенте читаются как
+  // критический/высокий, на спокойном — пропорционально (см. демо-клик до 88).
+  const factors: Record<ScoreSourceKey, number> = {
+    anomalous_transactions: 1.3,
+    internal_scoring: 0.6,
+    edd_agent: 1.0,
+    news_agent: 1.4,
+    pdl_check: 1.5,
+  };
+  const keys = Object.keys(factors) as ScoreSourceKey[];
+  const notes: Record<ScoreSourceKey, string> = {
+    anomalous_transactions: `${1 + (h % 2)} сработавших транзакции`,
+    internal_scoring: `${h % 3} сработавших признака`,
+    edd_agent: "Отчёт edd_full сгенерирован",
+    news_agent: `${1 + (h % 3)} упоминания`,
+    pdl_check: "Совпадение по списку ПДЛ",
+  };
+  return keys.map((source, idx) => {
+    const jitter = ((h >> (idx * 3)) % 7) - 3;
+    const score = Math.max(0, Math.min(100, Math.round(client.internalScore * factors[source] + jitter)));
+    const confidence =
+      source === "pdl_check" ? 99
+      : source === "edd_agent" && h % 3 === 0 ? 64
+      : Math.min(98, 72 + ((h >> idx) % 25));
+    return {
+      source,
+      score,
+      confidence,
+      weight: RISK_WEIGHTS[source],
+      hasData: true,
+      lastRun: minAgoIso(10 + idx * 17),
+      note: notes[source],
+    };
+  });
+}
+
+export function makeScoreBreakdown(
+  client: Client,
+  overrideScore?: number,
+): ScoreBreakdown {
+  const sources = makeScoreSources(client);
+  if (overrideScore == null) {
+    return calculateProfileRisk(sources, RISK_WEIGHTS._config_version);
+  }
+  // Демо: аддитивный сдвиг баллов источников на delta — двигает взвешенное
+  // среднее ровно на delta (в отличие от умножения, не упирается в потолок
+  // на критическом уровне). Итог ≈ overrideScore.
+  const base = calculateProfileRisk(sources, RISK_WEIGHTS._config_version);
+  const delta = overrideScore - base.finalScore;
+  const shifted = sources.map((s) => ({
+    ...s,
+    score: Math.max(2, Math.min(98, Math.round(s.score + delta))),
+  }));
+  return calculateProfileRisk(shifted, RISK_WEIGHTS._config_version);
+}
+
+/** История расчётов риска за `days` дней (детерминированно, конец = текущий API-балл) */
+export function makeScoreHistory(client: Client, days = 30): ScoreHistoryEntry[] {
+  const final = client.internalScore;
+  const h = hashStr(client.id);
+  const n = 9 + (h % 3); // 9–11 расчётов
+  const span = days * 24 * 3600_000;
+  const now = Date.now();
+  const values: number[] = [final];
+  let v = final;
+  for (let i = 1; i < n; i++) {
+    const step = (((h >> i) % 11) - 5) * 1.3;
+    v = Math.max(2, Math.min(98, v - step));
+    values.unshift(Math.round(v));
+  }
+  return values.map((value, i) => ({
+    value,
+    date: new Date(now - span + (span / (n - 1)) * i).toISOString(),
+  }));
+}
+
+/** Дневной ряд риска за N дней (для большого line-графа). Последняя точка = текущий балл. Детерминирован, без Date — SSG-safe. */
+export function makeDailyRiskSeries(client: Client, days = 30): number[] {
+  const final = client.internalScore;
+  const h = hashStr(client.id);
+  const out: number[] = [final];
+  let v = final;
+  for (let i = 1; i < days; i++) {
+    const step = (((h >> (i % 24)) % 9) - 4) * 0.9;
+    v = Math.max(2, Math.min(98, v - step));
+    out.unshift(Math.round(v));
+  }
+  return out;
+}
+
+/** Сработавшие транзакции для drill-down «Аномальные транзакции» */
+export function makeAnomalousTransactionsList(
+  client: Client,
+  transactions: Transaction[],
+): TransactionTrigger[] {
+  const top = transactions
+    .filter((t) => t.clientId === client.id)
+    .sort((a, b) => b.amountKZT - a.amountKZT)
+    .slice(0, 2);
+  const rules = client.id === "CL-S02" ? ["IES-1", "LRG-2"] : ["LRG-2", "GEO-7"];
+  const breakdown = makeScoreBreakdown(client);
+  const base = breakdown.sources.find((s) => s.source === "anomalous_transactions")?.score ?? 60;
+  return top.map((t, i) => ({
+    id: t.id,
+    href: `/transactions/${t.id}`,
+    score: Math.max(5, Math.min(98, base - i * 27 - 3)),
+    title: `${t.amount.toLocaleString("ru-RU")} ${t.currency} · ${CHANNEL_LABELS[t.channel]}`,
+    subtitle: `${t.id} · ${new Date(t.date).toLocaleDateString("ru-RU")}`,
+    ruleCode: rules[i] ?? "LRG-2",
+  }));
+}
+
+/** Категории внутреннего скоринга (перенос блока «Внутренний скоринг») */
+export function makeInternalScoringCategories(client: Client): InternalScoringCategory[] {
+  const triggeredGeneral: InternalScoringCategory["triggered"] =
+    client.internalScore > 10
+      ? [
+          { code: "g002", label: "Возраст 18–25 лет", meta: "age=18", weight: "+15" },
+          { code: "g009", label: "Ритейл-операции >50 тыс. тенге в месяц", weight: "−30" },
+        ]
+      : [];
+  return [
+    { name: "Общие признаки", total: 29, triggered: triggeredGeneral },
+    { name: "Мошенничество", total: 13, triggered: [] },
+    { name: "Незаконный оборот наркотиков / НОН", total: 14, triggered: [] },
+    { name: "Незаконный игровой бизнес", total: 6, triggered: [] },
+    { name: "Терроризм", total: 7, triggered: [] },
+    { name: "Финансовые пирамиды", total: 11, triggered: [] },
+    { name: "Коррупция, хищение бюджетных средств, налоговые преступления", total: 11, triggered: [] },
+    { name: "Незаконный оборот криптовалюты", total: 7, triggered: [] },
+    { name: "Международные экономические санкции / МЭС", total: 2, triggered: [] },
+  ];
+}
+
+/** Новости для drill-down новостного агента */
+export function makeNewsList(client: Client): NewsItem[] {
+  const hasNews = client.id === "CL-S02" || Boolean(client.newsScore);
+  if (!hasNews) return [];
+  const daysAgo = (d: number) => new Date(Date.now() - d * 86_400_000).toLocaleDateString("ru-RU");
+  return [
+    { sentiment: "NEGATIVE", title: "Клиент упомянут в расследовании о выводе капитала через ОАЭ", source: "Kazinform", date: daysAgo(4) },
+    { sentiment: "NEGATIVE", title: "Налоговая проверка аффилированной компании", source: "Курсив", date: daysAgo(11) },
+    { sentiment: "NEUTRAL", title: "Интервью о рынке недвижимости Алматы", source: "Forbes.kz", date: daysAgo(19) },
+  ];
 }

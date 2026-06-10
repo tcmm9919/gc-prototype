@@ -24,14 +24,12 @@ export function ClientAlerts({ clientId }: { clientId: string }) {
 
   if (alerts.length === 0) {
     return (
-      <div className="pb-6">
-        <EmptyState icon={<Bell className="size-6" />} title="Оповещений по клиенту нет" description="Срабатывания правил появятся здесь." />
-      </div>
+      <EmptyState icon={<Bell className="size-6" />} title="Оповещений по клиенту нет" description="Срабатывания правил появятся здесь." />
     );
   }
 
   return (
-    <div className="flex flex-col gap-2 pb-6">
+    <div className="flex flex-col gap-2">
       {alerts.map((a, idx) => (
         <motion.div
           key={a.id}
@@ -41,7 +39,7 @@ export function ClientAlerts({ clientId }: { clientId: string }) {
         >
           <Link
             href={`/alerts/${a.id}`}
-            className="block rounded-xl bg-card hover:bg-foreground/[0.02] dark:hover:bg-white/[0.06] px-4 py-3 transition-colors"
+            className="block rounded-xl border border-border bg-card hover:bg-foreground/[0.02] dark:hover:bg-white/[0.06] px-4 py-3 transition-colors"
           >
             <div className="flex flex-col gap-1 min-w-0">
               <div className="flex flex-wrap items-center gap-2">

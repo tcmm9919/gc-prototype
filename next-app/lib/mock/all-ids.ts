@@ -8,8 +8,8 @@
  * HTML только для тех ID, которые перечислены в `generateStaticParams`.
  * Любой ID, не попавший в список — 404 на Pages (в dev работает).
  *
- * Раньше каждый route хранил свой собственный `[seed + killerFlow]`
- * literal — при добавлении нового mock-preset нужно было руками
+ * Раньше каждый route хранил свой собственный seed literal —
+ * при добавлении нового mock-preset нужно было руками
  * дописывать в N route-файлов. Забыли → 404 в проде, dev зелёный.
  *
  * ─── Как добавить новый preset ──────────────────────────────────
@@ -34,14 +34,6 @@ import {
   seedTransactions,
 } from "./seeds";
 import {
-  killerFlowAlert,
-  killerFlowCase,
-  killerFlowClient,
-  killerFlowRule,
-  killerFlowTransaction,
-  killerFlowWorkflow,
-} from "./scenarios/killer-flow-demo";
-import {
   morningShiftAlerts,
   morningShiftChatAlerts,
   morningShiftAIcases,
@@ -55,7 +47,6 @@ function uniq(ids: string[]): string[] {
 export function getAllAlertIds(): string[] {
   return uniq([
     ...seedAlerts.map((a) => a.id),
-    killerFlowAlert.id,
     ...morningShiftAlerts.map((a) => a.id),
     ...morningShiftChatAlerts.map((a) => a.id),
   ]);
@@ -64,7 +55,6 @@ export function getAllAlertIds(): string[] {
 export function getAllCaseIds(): string[] {
   return uniq([
     ...seedCases.map((c) => c.id),
-    killerFlowCase.id,
     ...morningShiftAIcases.map((c) => c.id),
   ]);
 }
@@ -72,7 +62,6 @@ export function getAllCaseIds(): string[] {
 export function getAllScenarioIds(): string[] {
   return uniq([
     ...seedScenarios.map((s) => s.id),
-    killerFlowWorkflow.id,
     ...morningShiftScenarios.map((s) => s.id),
   ]);
 }
@@ -80,20 +69,17 @@ export function getAllScenarioIds(): string[] {
 export function getAllClientIds(): string[] {
   return uniq([
     ...seedClients.map((c) => c.id),
-    killerFlowClient.id,
   ]);
 }
 
 export function getAllTransactionIds(): string[] {
   return uniq([
     ...seedTransactions.map((t) => t.id),
-    killerFlowTransaction.id,
   ]);
 }
 
 export function getAllRuleIds(): string[] {
   return uniq([
     ...seedRules.map((r) => r.id),
-    killerFlowRule.id,
   ]);
 }

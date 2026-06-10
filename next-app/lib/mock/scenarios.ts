@@ -13,16 +13,6 @@ import {
   seedUsers,
 } from "./seeds";
 import {
-  killerFlowAlert,
-  killerFlowAuditEvents,
-  killerFlowCase,
-  killerFlowClient,
-  killerFlowLLMUsage,
-  killerFlowRule,
-  killerFlowTransaction,
-  killerFlowWorkflow,
-} from "./scenarios/killer-flow-demo";
-import {
   morningShiftAlerts,
   morningShiftChatAlerts,
   morningShiftAIcases,
@@ -57,22 +47,6 @@ const full: ScenarioBundle = {
   users: seedUsers,
 };
 
-/**
- * killerFlow preset — preloads the canonical demo storyboard (Дягилев Михаил)
- * at the top of each collection so it's the first thing visible in lists.
- */
-const killerFlow: ScenarioBundle = {
-  ...full,
-  clients: [killerFlowClient, ...full.clients],
-  transactions: [killerFlowTransaction, ...full.transactions],
-  alerts: [killerFlowAlert, ...full.alerts],
-  cases: [killerFlowCase, ...full.cases],
-  rules: [killerFlowRule, ...full.rules],
-  scenarios: [killerFlowWorkflow, ...full.scenarios],
-  llmUsage: [...killerFlowLLMUsage, ...full.llmUsage],
-  audit: [...killerFlowAuditEvents, ...full.audit],
-};
-
 const morningShiftBusy: ScenarioBundle = {
   ...full,
   alerts: [...morningShiftAlerts, ...morningShiftChatAlerts, ...full.alerts],
@@ -81,6 +55,7 @@ const morningShiftBusy: ScenarioBundle = {
 };
 
 export const scenarioPresets: Record<ScenarioPreset, ScenarioBundle> = {
+  morningShiftBusy,
   normalDay: full,
   busyDay: {
     ...full,
@@ -97,15 +72,12 @@ export const scenarioPresets: Record<ScenarioPreset, ScenarioBundle> = {
     alerts: full.alerts.map((a, i) => (i < 5 ? { ...a, severity: "critical" as const, status: "new" as const } : a)),
     clients: full.clients.map((c, i) => (i < 5 ? { ...c, riskLevel: "critical" as const, status: "review" as const } : c)),
   },
-  killerFlow,
-  morningShiftBusy,
 };
 
 export const scenarioLabels: Record<ScenarioPreset, string> = {
+  morningShiftBusy: "Утренняя смена ЦПК",
   normalDay: "Обычный день",
   busyDay: "Загруженный день",
   emptyInbox: "Пустой инбокс",
   criticalAlert: "Критический алерт",
-  killerFlow: "Killer flow — демо",
-  morningShiftBusy: "Утренняя смена ЦПК",
 };

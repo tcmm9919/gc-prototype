@@ -45,6 +45,8 @@ interface DataTableProps<T> {
   pageSize?: number;
   rowClassName?: (row: T) => string;
   bulkActions?: (selectedRows: T[], clearSelection: () => void) => React.ReactNode;
+  /** Светло-серый контур + поджатый нижний паддинг (для использования внутри таба/карточки) */
+  bordered?: boolean;
 }
 
 /**
@@ -78,6 +80,7 @@ export function DataTable<T>({
   pageSize = 25,
   rowClassName,
   bulkActions,
+  bordered = false,
 }: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
@@ -137,7 +140,7 @@ export function DataTable<T>({
 
   return (
     <>
-      <div className="flex flex-col gap-4 pb-6">
+      <div className={cn("flex flex-col gap-4", !bordered && "pb-6")}>
         {/* Saved views */}
         {views && views.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
@@ -149,8 +152,9 @@ export function DataTable<T>({
                   key={v.id}
                   type="button"
                   onClick={() => setActiveViewId(v.id)}
+                  style={{ boxShadow: "none", outline: "none", filter: "none" }}
                   className={cn(
-                    "inline-flex items-center gap-1.5 px-3 h-9 rounded-full text-[13px] font-medium transition-colors",
+                    "inline-flex items-center gap-1.5 px-3 h-9 rounded-full text-[13px] font-medium transition-colors outline-none shadow-none focus:outline-none focus-visible:ring-0",
                     isActive
                       ? "bg-primary text-primary-foreground"
                       : "bg-card text-foreground hover:bg-foreground/[0.04] dark:hover:bg-white/[0.06]",
@@ -185,7 +189,7 @@ export function DataTable<T>({
         </div>
 
         {/* Block */}
-        <div className="rounded-2xl bg-card overflow-x-hidden overflow-y-auto max-h-[calc(100vh-15rem)]">
+        <div className={cn("rounded-2xl bg-card overflow-x-hidden overflow-y-auto max-h-[calc(100vh-15rem)]", bordered && "border border-border")}>
           {/* Header row */}
           {rows.length > 0 && (
             <div
