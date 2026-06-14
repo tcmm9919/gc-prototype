@@ -466,23 +466,83 @@ export function makeUser(over: Partial<User> = {}): User {
   };
 }
 
+const RF_POOL: Omit<RiskFactor, "id">[] = [
+  {
+    name: "Скоринговый балл",
+    description: "Итоговый ML-скор клиента из истории скоринга.",
+    type: "scoring_history",
+    source: "scoring_history.total",
+    sourceLabel: "Scoring total",
+    aggregation: "latest",
+    buckets: [
+      { op: "gte", value: 75, score: 100 },
+      { op: "gte", value: 50, score: 60 },
+      { op: "gte", value: 0, score: 20 },
+    ],
+    weight: 0.35,
+    active: true,
+  },
+  {
+    name: "Проверка на ПДЛ",
+    description: "Совпадение клиента со списком публичных должностных лиц.",
+    type: "client_field",
+    source: "customers.pdl",
+    sourceLabel: "PDL flag",
+    aggregation: "latest",
+    buckets: [{ op: "eq", value: 1, score: 100 }],
+    weight: 0.1,
+    active: true,
+  },
+  {
+    name: "Крупная кассовая операция",
+    description: "Максимальная сумма операции за период.",
+    type: "transaction",
+    source: "transactions.amount_kzt",
+    sourceLabel: "Сумма операции (KZT)",
+    aggregation: "max",
+    buckets: [
+      { op: "gte", value: 5000000, score: 90 },
+      { op: "gte", value: 1000000, score: 50 },
+    ],
+    weight: 0.2,
+    active: true,
+  },
+  {
+    name: "Негативные медиа",
+    description: "Число adverse-media упоминаний клиента.",
+    type: "media",
+    source: "media.adverse_count",
+    sourceLabel: "Adverse-media hits",
+    aggregation: "count",
+    buckets: [
+      { op: "gte", value: 3, score: 100 },
+      { op: "gte", value: 1, score: 50 },
+    ],
+    weight: 0.15,
+    active: false,
+  },
+  {
+    name: "Частота транзакций",
+    description: "Количество операций за 30 дней.",
+    type: "transaction",
+    source: "transactions.count_30d",
+    sourceLabel: "Транзакций за 30 дн",
+    aggregation: "count",
+    buckets: [
+      { op: "gte", value: 100, score: 80 },
+      { op: "between", value: 30, value2: 100, score: 40 },
+    ],
+    weight: 0.2,
+    active: true,
+  },
+];
+
 export function makeRiskFactor(over: Partial<RiskFactor> = {}): RiskFactor {
   const i = seq;
+  const t = RF_POOL[i % RF_POOL.length];
   return {
     id: over.id ?? `RF-${(i + 1).toString(36).padStart(4, "0")}`,
-    name: pick(
-      [
-        "Страна высокого риска",
-        "Политически значимое лицо (PEP)",
-        "Расхождение профиля и операций",
-        "Крупная кассовая операция",
-        "Санкционный список",
-      ],
-      i,
-    ),
-    description: "Фактор, влияющий на скоринг клиента и срабатывание правил.",
-    category: pick<RiskFactor["category"]>(["geo", "client", "behavior", "product"], i),
-    weight: 10 + ((i * 11) % 50),
+    ...t,
     ...over,
   };
 }

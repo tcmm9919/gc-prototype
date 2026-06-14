@@ -3,9 +3,11 @@
 import * as React from "react"
 import Link from "next/link"
 import { toast } from "sonner"
-import { AlertTriangle, ArrowUp, CheckCircle2, Copy, FolderPlus, Sparkles } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { AlertTriangle, ArrowUp, CheckCircle2, Copy, FolderOpen, FolderPlus, Sparkles } from "lucide-react"
 import type { Alert, Client } from "@/lib/mock"
-import { useMockData } from "@/lib/mock"
+import { useMockData, useMockStore } from "@/lib/mock"
+import { formatRelativeFuture, isDeadlineUrgent } from "@/lib/format"
 import { Block } from "@/components/ext/block"
 import { Button } from "@/components/ui/button"
 import { StatusBadge } from "@/components/ext/status-badge"
@@ -18,14 +20,50 @@ const SEVERITY_TONE = { low: "info", medium: "warning", high: "warning", critica
 const STATUS_LABEL = { new: "Открыто", in_progress: "На проверке", rejected: "Отклонено", escalated: "Эскалировано", closed: "Закрыто" } as const
 const STATUS_TONE = { new: "info", in_progress: "warning", rejected: "danger", escalated: "danger", closed: "muted" } as const
 
+const STATUS_HINT = {
+  new: "Новое оповещение — ещё не взято в работу",
+  in_progress: "Взято в работу, идёт разбор",
+  rejected: "Срабатывание отклонено по итогам разбора",
+  escalated: "Передано на уровень выше",
+  closed: "Разбор завершён",
+} as const
+
 /** Левый фикс-рейл оповещения — паспорт + действия. */
 export function AlertIdentity({ alert, client }: { alert: Alert; client?: Client }) {
+  const router = useRouter()
   const data = useMockData()
   const linkedCase = data.cases.find((c) => c.linkedAlertIds.includes(alert.id))
+  const isFinal = alert.status === "closed" || alert.status === "rejected"
 
   const copyId = () => {
     navigator.clipboard?.writeText(alert.id)
     toast.success("ID оповещения скопирован")
+  }
+
+  const takeToWork = () => {
+    const caseIds = useMockStore.getState().takeAlertsToWork([alert.id])
+    toast.success("Оповещение взято в работу", {
+      description: caseIds[0] ? `Создан кейс ${caseIds[0]}` : undefined,
+      action: caseIds[0]
+        ? { label: "Открыть кейс", onClick: () => router.push(`/cases/${caseIds[0]}`) }
+        : undefined,
+    })
+  }
+
+  const escalate = () => {
+    const snapshot = { ...alert }
+    useMockStore.getState().bulkUpdateAlerts([alert.id], { severity: "critical", status: "escalated" })
+    toast.success("Оповещение эскалировано", {
+      action: { label: "Отменить", onClick: () => useMockStore.getState().bulkUpsertAlerts([snapshot]) },
+    })
+  }
+
+  const closeAlert = () => {
+    const snapshot = { ...alert }
+    useMockStore.getState().bulkUpdateAlerts([alert.id], { status: "closed" })
+    toast.success("Оповещение закрыто", {
+      action: { label: "Отменить", onClick: () => useMockStore.getState().bulkUpsertAlerts([snapshot]) },
+    })
   }
 
   return (
@@ -41,7 +79,9 @@ export function AlertIdentity({ alert, client }: { alert: Alert; client?: Client
             </div>
             <div className="flex flex-wrap gap-1.5">
               <StatusBadge tone={SEVERITY_TONE[alert.severity]}>{SEVERITY_LABEL[alert.severity]}</StatusBadge>
-              <StatusBadge tone={STATUS_TONE[alert.status]}>{STATUS_LABEL[alert.status]}</StatusBadge>
+              <span title={STATUS_HINT[alert.status]} className="cursor-default">
+                <StatusBadge tone={STATUS_TONE[alert.status]}>{STATUS_LABEL[alert.status]}</StatusBadge>
+              </span>
             </div>
             <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
               <span className="font-mono">{alert.id}</span>
@@ -63,6 +103,18 @@ export function AlertIdentity({ alert, client }: { alert: Alert; client?: Client
 
           <div className="flex flex-col gap-2.5 rounded-xl bg-foreground/[0.03] p-4 dark:bg-white/[0.04]">
             <Row label="Сработало" value={<RelativeTime iso={alert.date} />} />
+            <Row
+              label="Срок"
+              value={
+                alert.deadline && !isFinal ? (
+                  <span className={isDeadlineUrgent(alert.deadline) ? "font-medium text-risk-critical" : undefined}>
+                    {formatRelativeFuture(alert.deadline)}
+                  </span>
+                ) : (
+                  "—"
+                )
+              }
+            />
             <Row label="Правило" value={<Link href={`/rules/${alert.ruleId}`} className="text-primary hover:underline">Открыть</Link>} />
             {alert.scenarioId ? (
               <Row label="Сценарий" value={<Link href={`/workflows/${alert.scenarioId}`} className="text-primary hover:underline">Открыть</Link>} />
@@ -71,17 +123,24 @@ export function AlertIdentity({ alert, client }: { alert: Alert; client?: Client
           </div>
 
           <div className="flex flex-col gap-2.5">
-            <Button asChild size="lg" className="w-full justify-center">
-              <Link href={`/cases/new?fromAlert=${alert.id}&client=${alert.clientId}`}>
+            {linkedCase ? (
+              <Button asChild size="lg" className="w-full justify-center">
+                <Link href={`/cases/${linkedCase.id}`}>
+                  <FolderOpen className="size-4" />
+                  Открыть кейс
+                </Link>
+              </Button>
+            ) : (
+              <Button size="lg" className="w-full justify-center" onClick={takeToWork} disabled={isFinal}>
                 <FolderPlus className="size-4" />
-                В кейс
-              </Link>
-            </Button>
-            <Button variant="outline" size="lg" className="w-full justify-center">
+                Взять в работу
+              </Button>
+            )}
+            <Button variant="outline" size="lg" className="w-full justify-center" onClick={escalate} disabled={isFinal || alert.status === "escalated"}>
               <ArrowUp className="size-4" />
               Эскалировать
             </Button>
-            <Button variant="outline" size="lg" className="w-full justify-center">
+            <Button variant="outline" size="lg" className="w-full justify-center" onClick={closeAlert} disabled={isFinal}>
               <CheckCircle2 className="size-4" />
               Закрыть
             </Button>

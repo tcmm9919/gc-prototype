@@ -45,16 +45,16 @@ export function AlertDetail({ id }: { id: string }) {
   const description = `Правило «${alert.ruleName}» сработало${tx ? ` по транзакции ${tx.id} (${tx.amount.toLocaleString("ru-RU")} ${tx.currency})` : ""}.`
 
   return (
-    <div className="pb-6">
+    <div className="pb-6 pt-5">
       <div className="grid items-start gap-6 lg:grid-cols-[336px_minmax(0,1fr)]">
-        <aside className="flex flex-col gap-4 self-start lg:sticky lg:top-26 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+        <aside className="flex flex-col gap-4 self-start lg:sticky lg:top-20 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
           <AlertIdentity alert={alert} client={client} />
         </aside>
 
         <div className="flex min-w-0 flex-col gap-4">
           {/* Детали | Назначение */}
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-2xl border border-border bg-card p-5">
+            <div className="rounded-2xl border border-transparent dark:border-border bg-card p-5">
               <h4 className="mb-4 font-heading text-[15px] font-semibold">Детали оповещения</h4>
               <div className="space-y-3">
                 <Field label="ID оповещения" value={alert.id} mono />
@@ -63,7 +63,7 @@ export function AlertDetail({ id }: { id: string }) {
                 <Field label="Создано" value={formatDateTime(alert.date)} />
               </div>
             </div>
-            <div className="rounded-2xl border border-border bg-card p-5">
+            <div className="rounded-2xl border border-transparent dark:border-border bg-card p-5">
               <h4 className="mb-4 font-heading text-[15px] font-semibold">Назначение</h4>
               <div className="space-y-3">
                 <Field label="Назначено" value={responsible ?? "—"} />
@@ -73,14 +73,14 @@ export function AlertDetail({ id }: { id: string }) {
           </div>
 
           {/* Описание */}
-          <div className="rounded-2xl border border-border bg-card p-5">
+          <div className="rounded-2xl border border-transparent dark:border-border bg-card p-5">
             <h4 className="mb-3 font-heading text-[15px] font-semibold">Описание</h4>
             <p className="text-sm text-muted-foreground">{description}</p>
           </div>
 
           {/* Совпавшие условия */}
           {conditions.length > 0 ? (
-            <div className="rounded-2xl border border-border bg-card p-5">
+            <div className="rounded-2xl border border-transparent dark:border-border bg-card p-5">
               <h4 className="mb-4 font-heading text-[15px] font-semibold">Совпавшие условия</h4>
               <div className="grid gap-3 sm:grid-cols-2">
                 {conditions.map((c) => (
@@ -101,7 +101,7 @@ export function AlertDetail({ id }: { id: string }) {
 
           {/* Связанная транзакция (полная) */}
           {tx ? (
-            <div className="rounded-2xl border border-border bg-card p-5">
+            <div className="rounded-2xl border border-transparent dark:border-border bg-card p-5">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <h4 className="font-heading text-[15px] font-semibold">Связанная транзакция</h4>
                 <Button variant="ghost" size="sm" asChild>

@@ -44,6 +44,7 @@ export function ClientTransactions({ clientId }: { clientId: string }) {
     {
       accessorKey: "id",
       header: "ID",
+      meta: { width: "minmax(0, 0.8fr)" },
       cell: ({ getValue }) => (
         <Link href={`/transactions/${getValue()}`} className="font-mono text-xs text-primary hover:underline">
           {getValue() as string}
@@ -55,10 +56,11 @@ export function ClientTransactions({ clientId }: { clientId: string }) {
       header: "Дата",
       cell: ({ getValue }) => <RelativeTime iso={getValue() as string} />,
     },
-    { accessorKey: "type", header: "Тип", cell: ({ getValue }) => TYPE_LABELS[getValue() as Transaction["type"]] },
+    { accessorKey: "type", header: "Тип", meta: { width: "minmax(0, 0.8fr)" }, cell: ({ getValue }) => TYPE_LABELS[getValue() as Transaction["type"]] },
     {
       accessorKey: "counterparty.name",
       header: "Контрагент",
+      meta: { width: "minmax(0, 1.8fr)" },
       cell: ({ row }) => (
         <div className="flex flex-col leading-tight">
           <span>{row.original.counterparty.name}</span>
@@ -71,8 +73,8 @@ export function ClientTransactions({ clientId }: { clientId: string }) {
       header: "Сумма",
       cell: ({ row }) => <Money amount={row.original.amount} currency={row.original.currency} amountKZT={row.original.amountKZT} />,
     },
-    { accessorKey: "channel", header: "Канал", cell: ({ getValue }) => CHANNEL_LABELS[getValue() as Transaction["channel"]] },
-    { accessorKey: "riskLevel", header: "Риск", cell: ({ row }) => <RiskBadge level={row.original.riskLevel} /> },
+    { accessorKey: "channel", header: "Канал", meta: { width: "minmax(0, 0.9fr)" }, cell: ({ getValue }) => CHANNEL_LABELS[getValue() as Transaction["channel"]] },
+    { accessorKey: "riskLevel", header: "Риск", meta: { width: "minmax(0, 0.8fr)" }, cell: ({ row }) => <RiskBadge level={row.original.riskLevel} /> },
     {
       accessorKey: "status",
       header: "Статус",

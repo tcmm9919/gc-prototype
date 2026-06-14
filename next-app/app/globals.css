@@ -26,7 +26,8 @@
     --font-mono: "Inter Variable", system-ui, sans-serif;
 
     /* Surfaces — greyish canvas, white blocks (Linear/Notion-style depth) */
-    --background: oklch(0.965 0.003 250);            /* soft cool grey canvas */
+    --background: oklch(0.96 0.003 250);     /* grey canvas — table card floats above it */
+    --background-detail: oklch(0.97 0.003 250); /* breadcrumb/detail pages — same tone as sidebar (--muted 0.96 0.003 250), but lighter */
     --foreground: oklch(0.20 0.008 250);           /* warm black */
     --surface: oklch(1 0 0);                        /* pure white — cards stand out */
     --surface-alpha: oklch(1 0 0 / 1);              /* light: solid white */
@@ -56,7 +57,7 @@
     --accent-foreground: oklch(0.20 0.008 250);
     --destructive: oklch(0.55 0.18 25);
 
-    --border: oklch(0.95 0.003 250);                /* Linear's quiet border */
+    --border: oklch(0.91 0.004 250);                /* quiet border, darkened for white canvas */
     --border-strong: oklch(0.86 0.004 250);
     --hairline: oklch(0.95 0.003 250);
     --input: oklch(0.92 0.004 250);
@@ -71,8 +72,8 @@
     --radius: 0.625rem;                             /* 10px — between Linear and Airbnb */
     --sidebar-width: 5.5rem;                        /* 88px tile sidebar */
 
-    /* Sidebar — pure white, blends with content (Linear-style) */
-    --sidebar: transparent;
+    /* Sidebar — white background */
+    --sidebar: oklch(1 0 0);
     --sidebar-foreground: oklch(0.20 0.008 250);
     --sidebar-primary: var(--primary);
     --sidebar-primary-foreground: var(--primary-foreground);
@@ -105,7 +106,8 @@
 
 .dark {
     /* Revolut-style dark canonical */
-    --background: oklch(0.11 0.020 158);          /* near-black with faint forest undertone */
+    --background: oklch(0.11 0 0);        /* near-black, neutral */
+    --background-detail: oklch(0.11 0 0); /* detail pages match canvas in dark mode */
     --foreground: oklch(0.96 0.005 250);          /* near-white */
     --surface: oklch(0.185 0.004 250);            /* neutral dark gray */
     --surface-elevated: oklch(0.20 0.025 158);
@@ -146,8 +148,8 @@
     --chart-4: oklch(0.72 0.16 35);
     --chart-5: oklch(0.68 0.20 25);
 
-    /* Sidebar — slightly deeper than body for depth */
-    --sidebar: transparent;
+    /* Sidebar — elevated surface in dark mode */
+    --sidebar: oklch(0.21 0.006 250);
     --sidebar-foreground: oklch(0.92 0.005 250);
     --sidebar-primary: var(--primary);
     --sidebar-primary-foreground: var(--primary-foreground);
@@ -334,6 +336,11 @@
         background-size: 64px 64px;
         background-position: -1px -1px;
         mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+    }
+
+    /* Neutral grey canvas for breadcrumb/detail pages (lighter than sidebar) */
+    .bg-detail-canvas {
+        background-color: var(--background-detail);
     }
 
     /* Status pulse dot */

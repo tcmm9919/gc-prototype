@@ -111,11 +111,13 @@ export function TransactionsTable() {
     {
       accessorKey: "date",
       header: "Дата",
+      meta: { width: "minmax(0, 0.9fr)" },
       cell: ({ getValue }) => <span className="tabular-nums text-sm">{formatDate(getValue() as string)}</span>,
     },
     {
       accessorKey: "id",
       header: "Идентификатор",
+      meta: { width: "minmax(0, 0.85fr)" },
       cell: ({ getValue }) => (
         <Link
           href={`/transactions/${getValue()}`}
@@ -128,6 +130,7 @@ export function TransactionsTable() {
     {
       accessorKey: "clientId",
       header: "Клиент",
+      meta: { width: "minmax(0, 1.6fr)" },
       cell: ({ getValue }) => {
         const c = clientById.get(getValue() as string);
         if (!c) return <span className="text-muted-foreground">{String(getValue())}</span>;
@@ -143,6 +146,7 @@ export function TransactionsTable() {
     {
       id: "purpose",
       header: "Назначение",
+      meta: { width: "minmax(0, 1.8fr)" },
       cell: ({ row }) => (
         <div className="flex items-start gap-1.5 max-w-[280px]">
           <span className="text-xs font-mono text-muted-foreground shrink-0">{row.original.purposeCode}</span>
@@ -171,6 +175,7 @@ export function TransactionsTable() {
     {
       accessorKey: "complianceStatus",
       header: "Комплаенс",
+      meta: { width: "minmax(0, 0.9fr)" },
       cell: ({ row }) => (
         <StatusBadge tone={COMPLIANCE_TONE[row.original.complianceStatus]}>
           {row.original.complianceStatus}
@@ -180,6 +185,7 @@ export function TransactionsTable() {
     {
       accessorKey: "priority",
       header: "Приоритет",
+      meta: { width: "minmax(0, 0.9fr)" },
       cell: ({ row }) => (
         <StatusBadge tone={PRIORITY_TONE[row.original.priority]}>
           {PRIORITY_LABELS[row.original.priority]}
@@ -189,12 +195,14 @@ export function TransactionsTable() {
     {
       accessorKey: "riskLevel",
       header: "Риск",
+      meta: { width: "minmax(0, 0.8fr)" },
       sortingFn: (a, b) => RISK_ORDER[a.original.riskLevel] - RISK_ORDER[b.original.riskLevel],
       cell: ({ row }) => <RiskBadge level={row.original.riskLevel} />,
     },
     {
       accessorKey: "branchCode",
       header: "Филиал",
+      meta: { width: "minmax(0, 0.8fr)" },
       cell: ({ getValue }) => <span className="font-mono text-xs text-muted-foreground">{getValue() as string}</span>,
     },
   ];
@@ -424,7 +432,7 @@ export function TransactionsTable() {
             <DropdownMenuTrigger asChild>
               <Button variant="outline" size="xl">
                 <Filter className="size-4" />
-                {currencyFilter || "Currency"}
+                {currencyFilter || "Валюта"}
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

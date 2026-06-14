@@ -1,75 +1,99 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
 import { Pencil, Trash2 } from "lucide-react";
 
 import { useMockData, type RiskFactor } from "@/lib/mock";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ext/status-badge";
+import { cn } from "@/lib/utils";
 
-const CATEGORY_LABEL: Record<RiskFactor["category"], string> = {
-  geo: "География",
-  client: "Клиент",
-  behavior: "Поведение",
-  product: "Продукт",
+const TYPE_LABEL: Record<RiskFactor["type"], string> = {
+  scoring_history: "Скоринг",
+  client_field: "Поле клиента",
+  transaction: "Транзакция",
+  media: "Медиа",
+  custom: "Кастом",
 };
 
-const CATEGORY_TONE: Record<RiskFactor["category"], "info" | "warning" | "danger" | "success"> = {
-  geo: "warning",
-  client: "info",
-  behavior: "danger",
-  product: "success",
-};
+const COLS =
+  "grid grid-cols-[minmax(200px,1.6fr)_130px_minmax(150px,1fr)_120px_140px_110px_80px] items-center gap-4";
 
-export function RiskFactorsList() {
+export function RiskFactorsList({ onEdit }: { onEdit?: (f: RiskFactor) => void }) {
   const data = useMockData();
-  const router = useRouter();
+  const factors = data.riskFactors;
+  const totalWeight = factors.reduce((s, f) => s + (f.active ? f.weight : 0), 0) || 1;
 
   return (
-    <div className="grid gap-3 py-6 md:grid-cols-2 lg:grid-cols-3">
-      {data.riskFactors.map((f, i) => (
-        <motion.div
-          key={f.id}
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: i * 0.03, duration: 0.2, ease: "easeOut" }}
-        >
-          <Card
-            className="group h-full cursor-pointer transition hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-sm"
-            onClick={() => router.push(`/settings/risk-factors/${f.id}`)}
-          >
-            <CardContent className="space-y-3 p-4">
-              <div className="flex items-start justify-between gap-2">
-                <div className="flex flex-col gap-1 min-w-0">
-                  <span className="font-medium leading-snug group-hover:underline">{f.name}</span>
-                  <span className="text-xs text-muted-foreground font-mono">{f.id}</span>
+    <div className="overflow-x-auto rounded-2xl border border-border bg-card shadow-[0_6px_24px_-8px_rgba(0,0,0,0.12)]">
+      <div className="min-w-[940px]">
+        {/* header */}
+        <div className={cn(COLS, "border-b border-border px-5 py-3 text-[12px] font-medium text-muted-foreground")}>
+          <span>Название</span>
+          <span>Тип</span>
+          <span>Источник</span>
+          <span>Корзины</span>
+          <span>Вес · доля</span>
+          <span>Активен</span>
+          <span className="text-right">Действия</span>
+        </div>
+
+        {factors.length === 0 ? (
+          <div className="px-5 py-16 text-center text-sm text-muted-foreground">Атрибутов пока нет — нажмите «Добавить атрибут».</div>
+        ) : (
+          factors.map((f) => {
+            const share = f.active ? Math.round((f.weight / totalWeight) * 100) : 0;
+            return (
+              <div
+                key={f.id}
+                role="button"
+                tabIndex={0}
+                onClick={() => onEdit?.(f)}
+                onKeyDown={(e) => { if (e.key === "Enter") onEdit?.(f); }}
+                className={cn(
+                  COLS,
+                  "cursor-pointer border-b border-border/60 px-5 py-3.5 text-sm transition-colors last:border-b-0 hover:bg-muted/30 focus:outline-none focus-visible:bg-muted/40",
+                  !f.active && "opacity-60",
+                )}
+              >
+                {/* Название */}
+                <div className="min-w-0">
+                  <div className="truncate font-medium text-foreground">{f.name}</div>
+                  <div className="truncate text-xs text-muted-foreground">{f.description}</div>
                 </div>
-                <StatusBadge tone={CATEGORY_TONE[f.category]}>{CATEGORY_LABEL[f.category]}</StatusBadge>
-              </div>
-              <p className="text-sm text-muted-foreground line-clamp-2">{f.description}</p>
-              <div className="flex items-center justify-between pt-2 border-t border-border">
-                <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-muted-foreground">Вес:</span>
-                  <span className="font-mono text-sm font-medium tabular-nums">+{f.weight}</span>
+                {/* Тип */}
+                <span><StatusBadge tone="muted">{TYPE_LABEL[f.type]}</StatusBadge></span>
+                {/* Источник */}
+                <span className="truncate font-mono text-xs text-muted-foreground">{f.source}</span>
+                {/* Корзины — мини-эквалайзер */}
+                <div className="flex items-end gap-0.5" title={`${f.buckets.length} корзин`}>
+                  {f.buckets.slice(0, 6).map((b, i) => (
+                    <span key={i} className="w-1.5 rounded-sm bg-primary/70" style={{ height: `${4 + (b.score / 100) * 16}px` }} />
+                  ))}
+                  <span className="ml-1.5 text-xs text-muted-foreground tabular-nums">{f.buckets.length}</span>
                 </div>
-                <div className="flex gap-1" onClick={(e) => e.stopPropagation()}>
-                  <Button asChild variant="ghost" size="icon" className="size-7" aria-label="Редактировать">
-                    <Link href={`/settings/risk-factors/${f.id}`}>
-                      <Pencil className="size-3.5" />
-                    </Link>
+                {/* Вес · доля */}
+                <div className="flex items-center gap-2">
+                  <div className="h-1.5 w-12 overflow-hidden rounded-full bg-foreground/[0.08]">
+                    <div className="h-full rounded-full bg-primary" style={{ width: `${share}%` }} />
+                  </div>
+                  <span className="font-mono text-xs tabular-nums text-foreground">{f.weight}</span>
+                </div>
+                {/* Активен */}
+                <span><StatusBadge tone={f.active ? "success" : "muted"}>{f.active ? "Активен" : "Выкл."}</StatusBadge></span>
+                {/* Действия */}
+                <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
+                  <Button variant="ghost" size="icon" className="size-7" aria-label="Редактировать" onClick={() => onEdit?.(f)}>
+                    <Pencil className="size-3.5" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="size-7" aria-label="Удалить">
+                  <Button variant="ghost" size="icon" className="size-7 text-muted-foreground hover:text-risk-critical" aria-label="Удалить">
                     <Trash2 className="size-3.5" />
                   </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-      ))}
+            );
+          })
+        )}
+      </div>
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { DataTable } from "@/components/ext/data-table";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { RelativeTime } from "@/components/ext/relative-time";
+import { formatRelativeFuture, isDeadlineUrgent } from "@/lib/format";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -53,6 +54,14 @@ const STATUS_TONE: Record<AlertStatus, "info" | "warning" | "muted" | "danger" |
   rejected: "danger",
   escalated: "danger",
   closed: "muted",
+};
+
+const STATUS_HINT: Record<AlertStatus, string> = {
+  new: "Новое оповещение — ещё не взято в работу",
+  in_progress: "Взято в работу, идёт разбор",
+  rejected: "Срабатывание отклонено по итогам разбора",
+  escalated: "Передано на уровень выше",
+  closed: "Разбор завершён",
 };
 
 function isInRedSLAZone(deadlineIso: string | undefined): boolean {
@@ -121,6 +130,7 @@ export function AlertsTable() {
     {
       accessorKey: "id",
       header: "Идентификатор",
+      meta: { width: "minmax(0, 0.9fr)" },
       cell: ({ getValue }) => (
         <Link href={`/alerts/${getValue()}`} className="font-mono text-xs text-primary hover:underline">
           {getValue() as string}
@@ -130,6 +140,7 @@ export function AlertsTable() {
     {
       accessorKey: "ruleName",
       header: "Оповещение",
+      meta: { width: "minmax(0, 2fr)" },
       cell: ({ row }) => (
         <div className="space-y-0.5 max-w-[420px]">
           <span className="text-sm font-medium">Срабатывание правила</span>
@@ -142,17 +153,42 @@ export function AlertsTable() {
     {
       accessorKey: "severity",
       header: "Важность",
+      meta: { width: "minmax(0, 0.85fr)" },
       sortingFn: (a, b) => SEVERITY_ORDER[a.original.severity] - SEVERITY_ORDER[b.original.severity],
       cell: ({ row }) => <StatusBadge tone={SEVERITY_TONE[row.original.severity]}>{SEVERITY_LABEL[row.original.severity]}</StatusBadge>,
     },
     {
       accessorKey: "status",
       header: "Статус",
-      cell: ({ row }) => <StatusBadge tone={STATUS_TONE[row.original.status]}>{STATUS_LABEL[row.original.status]}</StatusBadge>,
+      cell: ({ row }) => (
+        <span title={STATUS_HINT[row.original.status]} className="cursor-default">
+          <StatusBadge tone={STATUS_TONE[row.original.status]}>{STATUS_LABEL[row.original.status]}</StatusBadge>
+        </span>
+      ),
+    },
+    {
+      accessorKey: "deadline",
+      header: "Срок",
+      sortingFn: (a, b) => {
+        const ta = a.original.deadline ? new Date(a.original.deadline).getTime() : Infinity;
+        const tb = b.original.deadline ? new Date(b.original.deadline).getTime() : Infinity;
+        return ta - tb;
+      },
+      cell: ({ row }) => {
+        const d = row.original.deadline;
+        if (!d || row.original.status === "closed") return <span className="text-muted-foreground">—</span>;
+        const urgent = isDeadlineUrgent(d);
+        return (
+          <span className={urgent ? "text-sm font-medium text-risk-critical" : "text-sm text-foreground"}>
+            {formatRelativeFuture(d)}
+          </span>
+        );
+      },
     },
     {
       id: "case",
       header: "Кейс",
+      meta: { width: "minmax(0, 0.8fr)" },
       cell: ({ row }) => {
         const caseId = caseByAlertId.get(row.original.id);
         if (!caseId) return <span className="text-muted-foreground">—</span>;

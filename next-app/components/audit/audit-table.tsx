@@ -103,6 +103,7 @@ export function AuditTable() {
     {
       accessorKey: "action",
       header: "Действие",
+      meta: { width: "minmax(0, 2fr)" },
       cell: ({ getValue }) => (
         <StatusBadge tone={ACTION_TONE[getValue() as AuditAction]}>{getValue() as string}</StatusBadge>
       ),
@@ -118,6 +119,7 @@ export function AuditTable() {
     {
       accessorKey: "userId",
       header: "Пользователь",
+      meta: { width: "minmax(0, 1.3fr)" },
       cell: ({ getValue }) => {
         const id = getValue() as string;
         const display = userDisplay(id);
@@ -132,6 +134,7 @@ export function AuditTable() {
     {
       accessorKey: "ip",
       header: "IP",
+      meta: { width: "minmax(0, 0.9fr)" },
       cell: ({ getValue }) => <span className="font-mono text-xs text-muted-foreground">{getValue() as string}</span>,
     },
   ];
@@ -145,6 +148,7 @@ export function AuditTable() {
 
   return (
     <DataTable<AuditEvent>
+      bordered
       data={filtered}
       columns={columns}
       globalFilterPlaceholder="Поиск по действию, пользователю, IP..."

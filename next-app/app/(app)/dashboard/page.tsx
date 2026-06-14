@@ -4,7 +4,9 @@ import { ExecutorDashboard } from "@/components/dashboard/executor-dashboard";
 export default function Page() {
   return (
     <StateSwitch skeleton="dashboard">
-      <ExecutorDashboard />
+      <div className="pt-4">
+        <ExecutorDashboard />
+      </div>
     </StateSwitch>
   );
 }

@@ -57,18 +57,18 @@ export function ClientCard({ id }: { id: string }) {
   }
 
   return (
-    <div className="pb-6">
+    <div className="pb-6 pt-5">
       <ClientDemoProvider key={client.id}>
-        <div className="grid items-start gap-6 lg:grid-cols-[336px_minmax(0,1fr)] xl:grid-cols-[336px_minmax(0,1fr)_320px]">
+        <div className="grid items-start gap-6 lg:grid-cols-[300px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)_320px]">
           {/* LEFT — identity (фикс-колонка, sticky) */}
-          <aside className="self-start lg:sticky lg:top-26">
+          <aside className="self-start lg:sticky lg:top-20">
             <ClientIdentity client={client} />
           </aside>
 
           {/* CENTER — folder tabs + content card (scrolls) */}
           <div className="min-w-0">
             <Tabs value={currentTab} onValueChange={setTab} className="gap-0">
-              <TabsList className="flex h-auto w-full flex-wrap justify-start gap-1 rounded-none border-b border-border bg-transparent p-0 group-data-horizontal/tabs:h-auto">
+              <TabsList className="flex h-auto w-full flex-nowrap justify-start gap-1 overflow-x-auto rounded-none border-b border-border bg-transparent p-0 group-data-horizontal/tabs:h-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                 {TABS.map((t) => (
                   <TabsTrigger
                     key={t.value}
@@ -112,7 +112,7 @@ export function ClientCard({ id }: { id: string }) {
           </div>
 
           {/* RIGHT — быстрые действия (фикс-колонка, sticky) */}
-          <aside className="self-start lg:col-span-2 lg:sticky lg:top-26 xl:col-span-1">
+          <aside className="self-start lg:col-span-2 lg:sticky lg:top-20 xl:col-span-1">
             <ClientQuickActions />
           </aside>
         </div>

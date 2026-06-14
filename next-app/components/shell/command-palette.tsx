@@ -12,6 +12,7 @@ import {
   CommandSeparator,
 } from "@/components/ui/command";
 import { NAV_GROUPS } from "./nav-config";
+import { SETTINGS_NAV_ITEMS } from "@/components/settings/settings-nav";
 import { useMockStore } from "@/lib/mock/store";
 import { scenarioLabels, scenarioPresets } from "@/lib/mock/scenarios";
 import type { ScenarioPreset } from "@/lib/mock/types";
@@ -79,6 +80,17 @@ export function CommandPaletteProvider({ children }: { children: React.ReactNode
               })}
             </CommandGroup>
           ))}
+          <CommandGroup heading="Настройки">
+            {SETTINGS_NAV_ITEMS.map((item) => {
+              const Icon = item.icon;
+              return (
+                <CommandItem key={item.href} value={`Настройки ${item.label}`} onSelect={() => go(item.href)}>
+                  <Icon className="size-4" />
+                  <span>{item.label}</span>
+                </CommandItem>
+              );
+            })}
+          </CommandGroup>
           <CommandSeparator />
           <CommandGroup heading="Mock-сценарий">
             {(Object.keys(scenarioPresets) as ScenarioPreset[]).map((s) => (

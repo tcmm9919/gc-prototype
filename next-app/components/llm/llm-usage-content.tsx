@@ -109,6 +109,7 @@ export function LLMUsageContent() {
     {
       accessorKey: "timestamp",
       header: "Время",
+      meta: { width: "minmax(0, 1.1fr)" },
       cell: ({ getValue }) => (
         <span className="tabular-nums text-sm whitespace-nowrap">{formatDateTime(getValue() as string)}</span>
       ),
@@ -116,26 +117,31 @@ export function LLMUsageContent() {
     {
       accessorKey: "agentName",
       header: "Агент",
+      meta: { width: "minmax(0, 1.5fr)" },
       cell: ({ getValue }) => <span className="text-sm">{getValue() as string}</span>,
     },
     {
       accessorKey: "model",
       header: "Модель",
+      meta: { width: "minmax(0, 1.4fr)" },
       cell: ({ getValue }) => <span className="font-mono text-xs text-muted-foreground">{getValue() as string}</span>,
     },
     {
       accessorKey: "inputTokens",
       header: "Вход",
+      meta: { width: "minmax(0, 0.7fr)" },
       cell: ({ getValue }) => <span className="tabular-nums text-sm">{formatNumber(getValue() as number)}</span>,
     },
     {
       accessorKey: "outputTokens",
       header: "Выход",
+      meta: { width: "minmax(0, 0.7fr)" },
       cell: ({ getValue }) => <span className="tabular-nums text-sm">{formatNumber(getValue() as number)}</span>,
     },
     {
       accessorKey: "toolTokens",
       header: "Инструменты",
+      meta: { width: "minmax(0, 0.9fr)" },
       cell: ({ getValue }) => (
         <span className="tabular-nums text-sm text-muted-foreground">{formatNumber(getValue() as number)}</span>
       ),
@@ -143,6 +149,7 @@ export function LLMUsageContent() {
     {
       accessorKey: "reasoningTokens",
       header: "Рассуждение",
+      meta: { width: "minmax(0, 0.95fr)" },
       cell: ({ getValue }) => (
         <span className="tabular-nums text-sm text-muted-foreground">{formatNumber(getValue() as number)}</span>
       ),
@@ -150,6 +157,7 @@ export function LLMUsageContent() {
     {
       accessorKey: "cacheTokens",
       header: "Кэш",
+      meta: { width: "minmax(0, 0.7fr)" },
       cell: ({ getValue }) => (
         <span className="tabular-nums text-sm text-muted-foreground">{formatNumber(getValue() as number)}</span>
       ),
@@ -157,6 +165,7 @@ export function LLMUsageContent() {
     {
       id: "total",
       header: "Итого",
+      meta: { width: "minmax(0, 0.75fr)" },
       cell: ({ row }) => (
         <span className="tabular-nums text-sm font-medium">
           {formatNumber(
@@ -168,6 +177,7 @@ export function LLMUsageContent() {
     {
       accessorKey: "costUSD",
       header: "Стоимость",
+      meta: { width: "minmax(0, 0.85fr)" },
       cell: ({ getValue }) => (
         <span className="tabular-nums text-sm">${(getValue() as number).toFixed(4)}</span>
       ),
@@ -175,6 +185,7 @@ export function LLMUsageContent() {
     {
       accessorKey: "latencyMs",
       header: "Латентность",
+      meta: { width: "minmax(0, 0.9fr)" },
       cell: ({ getValue }) => (
         <span className="tabular-nums text-xs text-muted-foreground">{formatNumber(getValue() as number)} ms</span>
       ),
@@ -182,6 +193,7 @@ export function LLMUsageContent() {
     {
       accessorKey: "status",
       header: "Статус",
+      meta: { width: "minmax(0, 0.85fr)" },
       cell: ({ getValue }) => (
         <StatusBadge tone={getValue() === "Ошибка" ? "danger" : "success"}>{getValue() as string}</StatusBadge>
       ),
@@ -189,7 +201,7 @@ export function LLMUsageContent() {
   ];
 
   return (
-    <div className="px-6 pb-12 space-y-6">
+    <div className="pb-12 space-y-6">
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">Сводка за последние 30 дн.</p>
         <Link href="#" className="text-sm text-primary hover:underline">
@@ -207,6 +219,7 @@ export function LLMUsageContent() {
       </div>
 
       <DataTable<LLMUsageRequest>
+        bordered
         data={filtered}
         columns={columns}
         globalFilterPlaceholder="Поиск по агенту, модели..."

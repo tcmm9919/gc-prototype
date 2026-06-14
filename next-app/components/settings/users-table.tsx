@@ -33,6 +33,7 @@ export function UsersTable() {
     {
       accessorKey: "fullName",
       header: "Имя",
+      meta: { width: "minmax(0, 1.5fr)" },
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
           <AvatarCircle initials={initialsFromName(row.original.fullName)} size="sm" hue={row.original.avatarHue ?? 200} />
@@ -43,6 +44,7 @@ export function UsersTable() {
     {
       accessorKey: "email",
       header: "Email",
+      meta: { width: "minmax(0, 1.8fr)" },
       cell: ({ getValue }) => <span className="font-mono text-xs text-muted-foreground">{getValue() as string}</span>,
     },
     {
@@ -59,6 +61,7 @@ export function UsersTable() {
     {
       accessorKey: "status",
       header: "Статус",
+      meta: { width: "minmax(0, 0.9fr)" },
       cell: ({ getValue }) => {
         const status = getValue() as User["status"];
         if (status === "active") return <StatusBadge tone="success">Активен</StatusBadge>;
@@ -75,6 +78,7 @@ export function UsersTable() {
 
   return (
     <DataTable<User>
+      bordered
       data={data.users}
       columns={columns}
       globalFilterPlaceholder="Поиск по имени, email, роли..."

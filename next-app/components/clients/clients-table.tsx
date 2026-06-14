@@ -91,6 +91,7 @@ export function ClientsTable() {
       {
         accessorKey: "fullName",
         header: "Клиент",
+        meta: { width: "minmax(0, 2.4fr)" },
         cell: ({ row }) => {
           const c = row.original;
           return (
@@ -119,17 +120,20 @@ export function ClientsTable() {
       {
         accessorKey: "type",
         header: "Тип",
+        meta: { width: "minmax(0, 0.7fr)" },
         cell: ({ getValue }) => (getValue() === "legal" ? "Юр. лицо" : "Физ. лицо"),
       },
       {
         accessorKey: "riskLevel",
         header: "Риск",
+        meta: { width: "minmax(0, 0.8fr)" },
         sortingFn: (a, b) => RISK_ORDER[a.original.riskLevel] - RISK_ORDER[b.original.riskLevel],
         cell: ({ row }) => <RiskBadge level={row.original.riskLevel} />,
       },
       {
         accessorKey: "internalScore",
         header: "Скор",
+        meta: { width: "minmax(0, 0.6fr)" },
         cell: ({ getValue }) => <span className="tabular-nums">{getValue() as number}</span>,
       },
       {
@@ -140,6 +144,7 @@ export function ClientsTable() {
       {
         accessorKey: "responsibleId",
         header: "Ответственный",
+        meta: { width: "minmax(0, 1.3fr)" },
         cell: ({ getValue }) => {
           const u = userById.get(getValue() as string);
           return <span className="text-sm">{u?.fullName ?? "—"}</span>;

@@ -91,6 +91,7 @@ export function CasesTable() {
     {
       accessorKey: "id",
       header: "Кейс №",
+      meta: { width: "minmax(0, 1.8fr)" },
       cell: ({ row }) => (
         <div className="space-y-0.5">
           <Link href={`/cases/${row.original.id}`} className="font-mono text-xs text-primary hover:underline">
@@ -108,6 +109,7 @@ export function CasesTable() {
     {
       accessorKey: "clientId",
       header: "Клиент",
+      meta: { width: "minmax(0, 1.6fr)" },
       cell: ({ getValue }) => {
         const c = clientById.get(getValue() as string);
         if (!c) return <span className="text-muted-foreground">—</span>;
@@ -121,6 +123,7 @@ export function CasesTable() {
     {
       accessorKey: "responsibleId",
       header: "Исполнитель",
+      meta: { width: "minmax(0, 1.3fr)" },
       cell: ({ getValue }) => {
         const id = getValue() as string;
         if (id === "USR-AI") return <span className="font-medium">Compliance Officer AI</span>;

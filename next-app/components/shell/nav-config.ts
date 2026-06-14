@@ -7,10 +7,8 @@ import {
   ListChecks,
   Workflow,
   Sparkles,
-  Brain,
-  Activity,
-  ScrollText,
   Settings,
+  ShieldAlert,
 } from "lucide-react";
 
 export type NavItem = {
@@ -25,26 +23,37 @@ export type NavGroup = {
   items: NavItem[];
   collapsible?: boolean;
   defaultOpen?: boolean;
+  footer?: boolean;
 };
 
-// Flat list — single group, no header. Order: ЦПК-flow first, system tail.
+// Grouped (reference-style). Routes unchanged. `footer` groups render at the bottom (no label).
 export const NAV_GROUPS: NavGroup[] = [
   {
-    label: "Главное",
+    label: "Обзор",
+    items: [{ label: "Дашборд", href: "/dashboard", icon: LayoutDashboard }],
+  },
+  {
+    label: "Работа",
     items: [
-      { label: "Дашборд", href: "/dashboard", icon: LayoutDashboard },
       { label: "Клиенты", href: "/clients", icon: Users },
       { label: "Транзакции", href: "/transactions", icon: ArrowLeftRight },
       { label: "Оповещения", href: "/alerts", icon: Bell },
       { label: "Кейсы", href: "/cases", icon: Folder },
+      { label: "Риск-факторы", href: "/risk-factors", icon: ShieldAlert },
+    ],
+  },
+  {
+    label: "Инструменты",
+    items: [
       { label: "Правила", href: "/rules", icon: ListChecks },
       { label: "Сценарии", href: "/workflows", icon: Workflow },
       { label: "AI", href: "/ai", icon: Sparkles },
-      { label: "ML Модели", href: "/instructions", icon: Brain },
-      { label: "LLM", href: "/llm-usage", icon: Activity },
-      { label: "Аудит", href: "/audit", icon: ScrollText },
-      { label: "Настройки", href: "/settings/system", icon: Settings },
     ],
+  },
+  {
+    label: "Система",
+    footer: true,
+    items: [{ label: "Настройки", href: "/settings", icon: Settings }],
   },
 ];
 
@@ -55,6 +64,7 @@ export const ROUTE_LABELS: Record<string, string> = {
   transactions: "Транзакции",
   alerts: "Оповещения",
   cases: "Кейсы",
+  "risk-factors": "Риск-факторы",
   rules: "Правила",
   workflows: "Конструктор сценариев",
   ai: "AI",

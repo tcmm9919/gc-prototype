@@ -32,6 +32,7 @@ export function ScenariosTable() {
     {
       accessorKey: "name",
       header: "Название",
+      meta: { width: "minmax(0, 1.6fr)" },
       cell: ({ row }) => (
         <Link href={`/workflows/${row.original.id}`} className="font-medium hover:underline">
           {row.original.name}
@@ -41,6 +42,7 @@ export function ScenariosTable() {
     {
       accessorKey: "description",
       header: "Описание",
+      meta: { width: "minmax(0, 2.2fr)" },
       cell: ({ getValue }) => <span className="text-muted-foreground line-clamp-1">{getValue() as string}</span>,
     },
     {
@@ -51,11 +53,13 @@ export function ScenariosTable() {
     {
       accessorKey: "triggerCount",
       header: "Сработок",
+      meta: { width: "minmax(0, 0.8fr)" },
       cell: ({ getValue }) => <span className="tabular-nums">{getValue() as number}</span>,
     },
     {
       accessorKey: "precision",
       header: "Precision",
+      meta: { width: "minmax(0, 0.8fr)" },
       cell: ({ getValue }) => <span className="tabular-nums">{((getValue() as number) * 100).toFixed(0)}%</span>,
     },
     {
@@ -66,6 +70,7 @@ export function ScenariosTable() {
     {
       accessorKey: "authorId",
       header: "Автор",
+      meta: { width: "minmax(0, 1.2fr)" },
       cell: ({ getValue }) => userById.get(getValue() as string)?.fullName ?? "—",
     },
   ];

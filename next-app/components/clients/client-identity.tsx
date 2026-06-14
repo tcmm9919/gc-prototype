@@ -57,7 +57,7 @@ export function ClientIdentity({ client }: { client: Client }) {
   return (
     <div className="flex flex-col gap-4">
       {/* Identity card — includes action buttons */}
-      <Block>
+      <Block dense>
         <div className="flex flex-col gap-6">
           <div className="flex flex-col items-start gap-3">
             <div className="flex min-w-0 flex-col items-start gap-2">

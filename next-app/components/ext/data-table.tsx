@@ -12,6 +12,7 @@ import {
   type ColumnFiltersState,
   type Row,
   type RowSelectionState,
+  type RowData,
   type SortingState,
   type VisibilityState,
 } from "@tanstack/react-table";
@@ -22,6 +23,14 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+
+declare module "@tanstack/react-table" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface ColumnMeta<TData extends RowData, TValue> {
+    /** CSS grid track for this column (e.g. "minmax(0, 2fr)", "90px"). Defaults to minmax(0, 1fr). */
+    width?: string;
+  }
+}
 
 export interface DataTableView<T> {
   id: string;
@@ -132,18 +141,48 @@ export function DataTable<T>({
 
   const headerGroups = table.getHeaderGroups();
   const rows = table.getRowModel().rows;
-  const visibleColumnsCount = headerGroups[0]?.headers.length ?? columns.length;
-  let gridTemplate = `repeat(${visibleColumnsCount}, minmax(0, 1fr))`;
+  const headerCols = headerGroups[0]?.headers ?? [];
+  // Каждая колонка получает пол ширины COL_MIN, чтобы не схлопывалась в 0 и не
+  // налезала на соседнюю. Дробные пропорции (Xfr) из meta.width сохраняются —
+  // меняем только нижнюю границу minmax(0, …) → minmax(COL_MINpx, …).
+  const COL_MIN = 150;
+  const resolveTrack = (w?: string) =>
+    (w ?? "minmax(0, 1fr)").replace(/minmax\(\s*0\s*,/, `minmax(${COL_MIN}px,`);
+  const resolveMinPx = (w?: string) => {
+    const v = w ?? "minmax(0, 1fr)";
+    const fixed = v.match(/^\s*(\d+(?:\.\d+)?)px\s*$/);
+    if (fixed) return parseFloat(fixed[1]);
+    const mm = v.match(/minmax\(\s*(\d+(?:\.\d+)?)px/);
+    if (mm) return parseFloat(mm[1]);
+    return COL_MIN;
+  };
+  let gridTemplate = headerCols.length
+    ? headerCols.map((h) => resolveTrack(h.column.columnDef.meta?.width)).join(" ")
+    : `repeat(${columns.length}, minmax(${COL_MIN}px, 1fr))`;
   if (bulkActions) gridTemplate = `44px ${gridTemplate}`;
   if (renderExpanded) gridTemplate = `${gridTemplate} 36px`;
+  // Мин-ширина таблицы = сумма полов колонок + спецколонки + гэпы (gap-4=16) + паддинг (px-6=48).
+  // Когда не влезает — контейнер скроллится по горизонтали; узкие таблицы скролл не получают.
+  const trackCount =
+    (headerCols.length || columns.length) + (bulkActions ? 1 : 0) + (renderExpanded ? 1 : 0);
+  const tableMinWidth =
+    (headerCols.length
+      ? headerCols.reduce((sum, h) => sum + resolveMinPx(h.column.columnDef.meta?.width), 0)
+      : columns.length * COL_MIN) +
+    (bulkActions ? 44 : 0) +
+    (renderExpanded ? 36 : 0) +
+    Math.max(0, trackCount - 1) * 16 +
+    48;
   const selectedRows = table.getFilteredSelectedRowModel().rows.map((r) => r.original);
 
   return (
     <>
-      <div className={cn("flex flex-col gap-4", !bordered && "pb-6")}>
+      <div className={cn("flex flex-col gap-3", !bordered && "pb-6")}>
+        {/* Панель управления — отдельная область (белая карточка на верхнеуровневых списках) */}
+        <div className={cn("flex flex-col gap-3", !bordered && "-mx-8 -mt-1 border-b border-border bg-card px-8 py-3")}>
         {/* Saved views */}
         {views && views.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="inline-flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-lg bg-foreground/[0.06] p-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {views.map((v) => {
               const isActive = v.id === activeViewId;
               const count = viewCounts[v.id] ?? 0;
@@ -152,18 +191,15 @@ export function DataTable<T>({
                   key={v.id}
                   type="button"
                   onClick={() => setActiveViewId(v.id)}
-                  style={{ boxShadow: "none", outline: "none", filter: "none" }}
                   className={cn(
-                    "inline-flex items-center gap-1.5 px-3 h-9 rounded-full text-[13px] font-medium transition-colors outline-none shadow-none focus:outline-none focus-visible:ring-0",
-                    isActive
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-card text-foreground hover:bg-foreground/[0.04] dark:hover:bg-white/[0.06]",
+                    "inline-flex h-7 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md px-2.5 text-[13px] font-medium outline-none transition-colors focus:outline-none focus-visible:ring-0 [&_svg]:size-3.5",
+                    isActive ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground",
                   )}
                 >
-                  {v.icon && <span>{v.icon}</span>}
+                  {v.icon ? <span className="inline-flex">{v.icon}</span> : null}
                   <span>{v.label}</span>
-                  <span className={cn("tabular-nums", isActive ? "text-primary-foreground/80" : "text-muted-foreground")}>
-                    · {count}
+                  <span className={cn("text-[12px] tabular-nums", isActive ? "text-muted-foreground" : "text-muted-foreground/70")}>
+                    {count}
                   </span>
                 </button>
               );
@@ -172,29 +208,34 @@ export function DataTable<T>({
         )}
 
         {/* Toolbar: [search + filters] left, [actions] right */}
-        <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex min-h-10 items-center justify-between gap-2.5 flex-wrap">
           <div className="flex items-center gap-2 flex-1 min-w-0">
             <div className="relative w-72 max-w-full shrink-0">
-              <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+              <Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder={globalFilterPlaceholder}
                 value={globalFilter ?? ""}
                 onChange={(e) => setGlobalFilter(e.target.value)}
-                className="pl-9 h-10 rounded-full bg-card border-foreground/[0.06] focus-visible:ring-1"
+                className="h-8 w-full rounded-lg border-border bg-card pl-8 text-[13px] focus-visible:ring-1"
               />
             </div>
-            {filters && <div className="flex items-center gap-2 flex-wrap">{filters}</div>}
+            {filters && (
+              <div className="flex flex-wrap items-center gap-1.5 [&_button]:h-8 [&_button]:gap-1.5 [&_button]:rounded-lg [&_button]:!border-transparent [&_button]:!bg-foreground/[0.06] [&_button]:px-2.5 [&_button]:text-[13px] [&_button]:font-normal [&_button]:shadow-none [&_button>svg]:size-3.5 [&_button:hover]:!bg-foreground/10">
+                {filters}
+              </div>
+            )}
           </div>
           {toolbar && <div className="flex items-center gap-2 shrink-0">{toolbar}</div>}
         </div>
+        </div>
 
-        {/* Block */}
-        <div className={cn("rounded-2xl bg-card overflow-x-hidden overflow-y-auto max-h-[calc(100vh-15rem)]", bordered && "border border-border")}>
+        {/* Таблица — белая карточка на сером канвасе (контраст белый/серый отделяет её; контур только в dark) */}
+        <div className={cn("rounded-2xl border border-transparent dark:border-border bg-card overflow-x-auto overflow-y-auto max-h-[calc(100vh-15rem)]", !bordered && "mt-2")}>
           {/* Header row */}
           {rows.length > 0 && (
             <div
               className="sticky top-0 z-10 grid gap-4 px-6 py-4 text-[13px] font-normal text-muted-foreground bg-card"
-              style={{ gridTemplateColumns: gridTemplate }}
+              style={{ gridTemplateColumns: gridTemplate, minWidth: tableMinWidth }}
             >
               {bulkActions && (
                 <div className="min-w-0 flex items-center" style={{ width: 44 }}>
@@ -215,7 +256,7 @@ export function DataTable<T>({
                 const canSort = h.column.getCanSort();
                 const sortDir = h.column.getIsSorted();
                 return (
-                  <div key={h.id} className="min-w-0 flex items-center">
+                  <div key={h.id} className="min-w-0 flex items-center overflow-hidden">
                     {h.isPlaceholder ? null : canSort ? (
                       <button
                         onClick={h.column.getToggleSortingHandler()}
@@ -273,7 +314,7 @@ export function DataTable<T>({
                       onRowClick &&
                         "cursor-pointer hover:bg-foreground/[0.03] dark:hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40",
                     )}
-                    style={{ gridTemplateColumns: gridTemplate }}
+                    style={{ gridTemplateColumns: gridTemplate, minWidth: tableMinWidth }}
                   >
                     {bulkActions && (
                       <div
@@ -289,7 +330,7 @@ export function DataTable<T>({
                       </div>
                     )}
                     {row.getVisibleCells().map((cell) => (
-                      <div key={cell.id} className="min-w-0 flex items-center">
+                      <div key={cell.id} className="min-w-0 flex items-center overflow-hidden">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                       </div>
                     ))}

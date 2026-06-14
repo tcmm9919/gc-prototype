@@ -20,7 +20,7 @@ export function Block({ title, actions, children, className, dense }: BlockProps
     <div
       data-slot="block"
       className={cn(
-        "rounded-2xl bg-card",
+        "rounded-2xl border border-transparent dark:border-border bg-card",
         dense ? "p-4" : "p-6",
         className,
       )}
@@ -66,7 +66,7 @@ export function DetailHeader({
   return (
     <div
       className={cn(
-        "rounded-2xl bg-card p-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between",
+        "rounded-2xl border border-transparent dark:border-border bg-card p-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between",
         className,
       )}
     >

@@ -350,12 +350,28 @@ export interface LLMUsageRequest {
   relatedEntityId?: string;
 }
 
+export type RiskFactorType = "scoring_history" | "client_field" | "transaction" | "media" | "custom";
+export type RiskFactorAggregation = "latest" | "sum" | "avg" | "max" | "count";
+export type BucketOp = "gte" | "lte" | "eq" | "between";
+
+export interface RiskBucket {
+  op: BucketOp;
+  value: number;
+  value2?: number; // верхняя граница для between
+  score: number;   // 0..100; первое совпадение даёт балл
+}
+
 export interface RiskFactor {
   id: string;
   name: string;
   description: string;
-  category: "geo" | "product" | "client" | "behavior";
-  weight: number;
+  type: RiskFactorType;
+  source: string;      // путь поля, напр. "scoring_history.total"
+  sourceLabel: string; // человекочитаемо, напр. "Scoring total"
+  aggregation: RiskFactorAggregation;
+  buckets: RiskBucket[];
+  weight: number;      // 0..1 — нормализуется по сумме весов
+  active: boolean;
 }
 
 export type MockState = "data" | "empty" | "loading" | "error";

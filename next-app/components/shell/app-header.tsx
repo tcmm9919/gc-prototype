@@ -1,13 +1,19 @@
 "use client";
 
+import * as React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Bell, ChevronDown, ChevronRight, Globe, Search } from "lucide-react";
+import { Bell, Check, ChevronRight, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useMockData } from "@/lib/mock";
 import { ThemeToggle } from "./theme-toggle";
-import { useCommandPalette } from "./command-palette";
-import { ProfileMenu } from "./profile-menu";
+import { NAV_GROUPS } from "./nav-config";
 
 const STATIC_TITLES: Record<string, string> = {
   "/dashboard": "Главная",
@@ -23,12 +29,8 @@ const STATIC_TITLES: Record<string, string> = {
   "/ai": "AI-Инструменты",
   "/agents": "AI-Инструменты",
   "/agents/compliance-officer": "Compliance Officer AI",
-  "/instructions": "ML Модели",
-  "/llm-usage": "Использование LLM",
-  "/audit": "Журнал аудита",
-  "/settings/users": "Пользователи",
-  "/settings/system": "Системные настройки",
-  "/settings/risk-factors": "Риск-факторы",
+  "/settings": "Настройки",
+  "/risk-factors": "Риск-факторы",
   "/profile": "Профиль",
 };
 
@@ -47,14 +49,58 @@ function deriveTitle(pathname: string): string {
   const normalized =
     pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
   if (STATIC_TITLES[normalized]) return STATIC_TITLES[normalized];
+  // Longest-prefix match: prefer "/settings/llm-usage" over the shorter "/settings".
+  let best = "";
+  let bestTitle = "Главная";
   for (const [route, title] of Object.entries(STATIC_TITLES)) {
-    if (normalized.startsWith(route + "/")) return title;
+    if (normalized.startsWith(route + "/") && route.length > best.length) {
+      best = route;
+      bestTitle = title;
+    }
   }
-  return "Главная";
+  return bestTitle;
+}
+
+const NAV_ITEMS = NAV_GROUPS.flatMap((g) => g.items);
+
+function navItemForPath(path: string) {
+  const matches = NAV_ITEMS.filter((i) => path === i.href || path.startsWith(i.href + "/"));
+  if (matches.length === 0) return null;
+  return [...matches].sort((a, b) => b.href.length - a.href.length)[0];
+}
+
+const LANGUAGES = [
+  { code: "ru", label: "Русский" },
+  { code: "kk", label: "Қазақша" },
+  { code: "en", label: "English" },
+];
+
+function LanguageMenu() {
+  const [lang, setLang] = React.useState("ru");
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="rounded-full" aria-label="Сменить язык">
+          <Languages className="size-[18px]" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-40">
+        {LANGUAGES.map((l) => (
+          <DropdownMenuItem
+            key={l.code}
+            onClick={() => setLang(l.code)}
+            className="justify-between"
+          >
+            {l.label}
+            {lang === l.code ? <Check className="size-4" /> : null}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
 }
 
 export function AppHeader() {
-  const { open } = useCommandPalette();
   const pathname = usePathname() ?? "";
   const data = useMockData();
 
@@ -81,7 +127,7 @@ export function AppHeader() {
               : id;
 
     return (
-      <header className="sticky top-0 z-30 flex h-24 items-center px-8">
+      <header className="sticky top-0 z-30 flex h-14 items-center bg-card px-8">
         <nav className="flex items-center gap-2 text-[14px]" aria-label="Хлебные крошки">
           <Link
             href={parent.list}
@@ -98,54 +144,29 @@ export function AppHeader() {
 
   // ─── Top-level page → standard header ───
   const title = deriveTitle(pathname);
-  const isDashboard = normalizedPath === "/dashboard";
+  const titleNav = navItemForPath(normalizedPath);
+  const TitleIcon = titleNav?.icon ?? null;
+  // Высокий хедер (как на дашборде) — для дашборда, Настроек, Конструктора.
+  // Риск-факторы — обычный список → стандартный мелкий хедер (как Клиенты/Транзакции).
+  const TALL_HEADER_PREFIXES = ["/dashboard", "/settings", "/workflows"];
+  const isTallHeader = TALL_HEADER_PREFIXES.some(
+    (p) => normalizedPath === p || normalizedPath.startsWith(p + "/"),
+  );
 
   return (
-    <header className="sticky top-0 z-30 flex h-24 items-center justify-between gap-3 px-8">
-      <h1 className="font-heading text-[28px] font-bold tracking-[-0.02em] text-foreground leading-none">
-        {title}
-      </h1>
+    <header className={`sticky top-0 z-30 flex items-center justify-between gap-3 px-8 bg-card ${isTallHeader ? "h-16" : "h-14 pt-2"}`}>
+      <div className="flex min-w-0 items-center gap-2.5">
+        {TitleIcon ? <TitleIcon className="size-[18px] shrink-0 text-foreground" strokeWidth={2.25} /> : null}
+        <h1 className="truncate text-[14px] font-semibold text-foreground">{title}</h1>
+      </div>
 
-      <div className="flex items-center gap-2">
-        {isDashboard && (
-          <div className="hidden md:flex items-center gap-1.5 mr-1">
-            <span className="relative flex size-1.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
-              <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
-            </span>
-            <span className="text-[12px] text-muted-foreground">
-              Смена идёт · обновлено только что
-            </span>
-          </div>
-        )}
-        <button
-          onClick={open}
-          className="hidden md:inline-flex h-9 w-72 items-center gap-2.5 rounded-full bg-foreground/[0.04] hover:bg-foreground/[0.07] px-3 pr-1.5 text-[13px] text-muted-foreground hover:text-foreground border border-foreground/[0.06] transition-all"
-        >
-          <Search className="size-3.5 shrink-0" />
-          <span className="flex-1 text-left">Search clients, alerts, cases…</span>
-          <span className="inline-flex items-center gap-0.5 rounded-md border border-foreground/[0.08] bg-foreground/[0.03] px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground shrink-0">
-            ⌘K
-          </span>
-        </button>
-        <Button variant="ghost" size="icon" onClick={open} className="md:hidden rounded-full" aria-label="Поиск">
-          <Search className="size-4" />
-        </Button>
+      <div className="flex items-center gap-1">
+        <LanguageMenu />
         <Button variant="ghost" size="icon" aria-label="Уведомления" className="relative rounded-full">
           <Bell className="size-[18px]" />
           <span className="absolute top-1.5 right-1.5 size-1.5 rounded-full bg-risk-medium ring-2 ring-background" aria-hidden />
         </Button>
         <ThemeToggle />
-        <button
-          type="button"
-          className="hidden md:inline-flex items-center gap-1.5 h-9 px-2.5 rounded-full bg-primary/15 hover:bg-primary/20 text-primary border border-primary/25 transition-colors"
-          aria-label="Switch organization"
-        >
-          <Globe className="size-3.5" />
-          <span className="text-[12px] font-medium">Freedom Bank</span>
-          <ChevronDown className="size-3.5" />
-        </button>
-        <ProfileMenu />
       </div>
     </header>
   );

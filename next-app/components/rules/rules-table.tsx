@@ -44,6 +44,7 @@ export function RulesTable() {
     {
       accessorKey: "name",
       header: "Название",
+      meta: { width: "minmax(0, 1.6fr)" },
       cell: ({ row }) => (
         <Link href={`/rules/${row.original.id}`} className="font-medium hover:underline">
           {row.original.name}
@@ -53,22 +54,26 @@ export function RulesTable() {
     {
       accessorKey: "description",
       header: "Описание",
+      meta: { width: "minmax(0, 2.2fr)" },
       cell: ({ getValue }) => <span className="text-muted-foreground line-clamp-1">{getValue() as string}</span>,
     },
     {
       accessorKey: "entity",
       header: "Сущность",
+      meta: { width: "minmax(0, 0.9fr)" },
       cell: ({ getValue }) => ENTITY_LABEL[getValue() as RuleEntity],
     },
     {
       accessorKey: "enabled",
       header: "Статус",
+      meta: { width: "minmax(0, 0.85fr)" },
       cell: ({ getValue }) =>
         getValue() ? <StatusBadge tone="success">Включено</StatusBadge> : <StatusBadge tone="muted">Выключено</StatusBadge>,
     },
     {
       accessorKey: "authorId",
       header: "Автор",
+      meta: { width: "minmax(0, 1.2fr)" },
       cell: ({ getValue }) => userById.get(getValue() as string)?.fullName ?? "—",
     },
     {

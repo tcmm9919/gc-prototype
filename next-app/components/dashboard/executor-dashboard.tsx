@@ -100,7 +100,7 @@ function AIValueCard({ aiCases }: { aiCases: Case[] }) {
   return (
     <Link
       href="/agents/compliance-officer"
-      className="group/aicard rounded-2xl bg-card p-5 flex flex-col gap-4 hover:bg-foreground/[0.02] dark:hover:bg-white/[0.06] transition-colors"
+      className="group/aicard rounded-2xl border border-transparent dark:border-border bg-card p-5 flex flex-col gap-4 hover:bg-foreground/[0.02] dark:hover:bg-white/[0.06] transition-colors"
     >
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
@@ -315,7 +315,7 @@ function MyQueue({ alerts }: { alerts: Alert[] }) {
 
   if (isEmpty) {
     return (
-      <div className="rounded-2xl bg-card p-2 h-full flex flex-col">
+      <div className="rounded-2xl border border-transparent dark:border-border bg-card p-2 h-full flex flex-col">
         <h2 className="font-heading text-[20px] font-bold tracking-[-0.02em] px-4 pt-3 pb-3">
           Моя очередь
         </h2>
@@ -330,7 +330,7 @@ function MyQueue({ alerts }: { alerts: Alert[] }) {
   }
 
   return (
-    <div className="rounded-2xl bg-card p-2 h-full flex flex-col w-full">
+    <div className="rounded-2xl border border-transparent dark:border-border bg-card p-2 h-full flex flex-col w-full">
       <div className="flex items-end justify-between px-4 pt-3 pb-3">
         <div className="space-y-1">
           <h2 className="font-heading text-[20px] font-bold tracking-[-0.02em]">Моя очередь</h2>
@@ -459,7 +459,7 @@ function StatusTabs({ cases, alerts }: { cases: Case[]; alerts: Alert[] }) {
   ];
 
   return (
-    <div className="rounded-2xl bg-card p-5">
+    <div className="rounded-2xl border border-transparent dark:border-border bg-card p-5">
       {/* Tab headers — работают как заголовок блока */}
       <div className="flex items-baseline gap-4 mb-4 border-b border-border/60 dark:border-foreground/[0.06] -mx-5 px-5">
         <button
@@ -562,7 +562,7 @@ function ClientResponded({ chatAlerts, className }: { chatAlerts: Alert[]; class
   const hasItems = chatAlerts.length > 0;
 
   return (
-    <div className={cn("rounded-2xl bg-card p-5 flex flex-col gap-3", className)}>
+    <div className={cn("rounded-2xl border border-transparent dark:border-border bg-card p-5 flex flex-col gap-3", className)}>
       <div className="flex items-center justify-between">
         <h3 className="font-heading text-[20px] font-bold tracking-[-0.02em]">
           Клиент ответил
@@ -685,7 +685,7 @@ function AIReviewRow({ kase }: { kase: Case }) {
 function AIReviewBlock({ cases }: { cases: Case[] }) {
   if (cases.length === 0) return null;
   return (
-    <div className="rounded-2xl bg-card p-5 space-y-4">
+    <div className="rounded-2xl border border-transparent dark:border-border bg-card p-5 space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-3">
           <div className="size-10 rounded-xl bg-primary/15 flex items-center justify-center">
@@ -778,7 +778,7 @@ export function ExecutorDashboard() {
 
     return (
       <div className="flex flex-col gap-6 pb-12 max-w-2xl mx-auto pt-12 w-full">
-        <div className="rounded-2xl bg-card p-8 flex flex-col gap-6">
+        <div className="rounded-2xl border border-transparent dark:border-border bg-card p-8 flex flex-col gap-6">
           <div className="flex items-start gap-4">
             <div className="size-12 rounded-2xl bg-primary/15 flex items-center justify-center shrink-0">
               <Check className="size-6 text-primary" />
@@ -857,7 +857,8 @@ export function ExecutorDashboard() {
 
   return (
     <div className="flex flex-col gap-6 pb-12">
-      <SLABanner alerts={queueAlerts} />
+      {/* временно скрыт: передаём [] вместо queueAlerts → баннер не рендерится */}
+      <SLABanner alerts={[]} />
 
       <div className="grid lg:grid-cols-3 gap-6 items-start">
         <div className="lg:col-span-2 flex flex-col gap-6">

@@ -61,6 +61,6 @@ export const seedAgents: Agent[] = [
 ];
 export const seedAudit: AuditEvent[] = many(makeAuditEvent, 200);
 export const seedLLMUsage: LLMUsageRequest[] = many(makeLLMUsage, 162);
-export const seedRiskFactors: RiskFactor[] = many(makeRiskFactor, 14);
+export const seedRiskFactors: RiskFactor[] = many(makeRiskFactor, 5);
 
 export const currentUser: User = seedUsers[2];

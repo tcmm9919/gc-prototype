@@ -58,3 +58,26 @@ export function initialsFromName(name: string): string {
   const parts = name.replace(/«|»/g, "").trim().split(/\s+/).slice(0, 2);
   return parts.map((p) => p[0] ?? "").join("").toUpperCase();
 }
+
+/** «через 3 ч 20 м» / «через 2 дн» / «просрочено на 1 ч». Для SLA-дедлайнов. */
+export function formatRelativeFuture(iso?: string): string {
+  if (!iso) return "—";
+  const mins = Math.round((new Date(iso).getTime() - Date.now()) / 60000);
+  const abs = Math.abs(mins);
+  const fmt = (m: number) => {
+    if (m < 60) return `${m} м`;
+    if (m < 48 * 60) {
+      const h = Math.floor(m / 60);
+      const r = m % 60;
+      return r === 0 ? `${h} ч` : `${h} ч ${r} м`;
+    }
+    return `${Math.round(m / (24 * 60))} дн`;
+  };
+  return mins >= 0 ? `через ${fmt(abs)}` : `просрочено на ${fmt(abs)}`;
+}
+
+/** Красная зона SLA: меньше часа до дедлайна или уже просрочен. */
+export function isDeadlineUrgent(iso?: string): boolean {
+  if (!iso) return false;
+  return (new Date(iso).getTime() - Date.now()) / 60000 < 60;
+}
