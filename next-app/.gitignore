@@ -34,3 +34,6 @@ pnpm-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Night-run screenshots (не коммитим)
+.night-shots/
