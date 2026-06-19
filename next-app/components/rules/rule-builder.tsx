@@ -47,7 +47,7 @@ export function RuleBuilder({ rule }: { rule?: Rule }) {
   return (
     <div className="flex flex-col gap-4">
       {/* Метаданные */}
-      <div className="rounded-xl border border-border p-4">
+      <div className="rounded-2xl border border-border bg-card p-5">
         <h4 className="mb-4 font-heading text-[15px] font-semibold">Метаданные</h4>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="flex flex-col gap-1.5">
@@ -88,7 +88,7 @@ export function RuleBuilder({ rule }: { rule?: Rule }) {
       </div>
 
       {/* Условия */}
-      <div className="rounded-xl border border-border p-4">
+      <div className="rounded-2xl border border-border bg-card p-5">
         <div className="mb-4 flex items-center justify-between gap-2">
           <div className="flex flex-col gap-0.5">
             <h4 className="font-heading text-[15px] font-semibold">Условия</h4>
@@ -98,7 +98,7 @@ export function RuleBuilder({ rule }: { rule?: Rule }) {
         </div>
         <div className="space-y-2">
           {conditions.map((c) => (
-            <div key={c.id} className="grid gap-2 rounded-lg border border-border/60 bg-foreground/[0.02] p-2 md:grid-cols-[1fr_1fr_1fr_auto] dark:bg-white/[0.02]">
+            <div key={c.id} className="grid gap-2 rounded-xl border border-border/60 bg-foreground/[0.03] p-2 md:grid-cols-[1fr_1fr_1fr_auto] dark:bg-white/[0.03]">
               <Select value={c.field} onValueChange={(v) => update(c.id, { field: v })}>
                 <SelectTrigger size="sm"><SelectValue /></SelectTrigger>
                 <SelectContent>{FIELDS.map((f) => <SelectItem key={f} value={f}>{f}</SelectItem>)}</SelectContent>
@@ -115,11 +115,11 @@ export function RuleBuilder({ rule }: { rule?: Rule }) {
       </div>
 
       {/* Действия при срабатывании */}
-      <div className="rounded-xl border border-border p-4">
+      <div className="rounded-2xl border border-border bg-card p-5">
         <h4 className="mb-4 font-heading text-[15px] font-semibold">Действия при срабатывании</h4>
         <div className="space-y-2 text-sm">
           {["Создать оповещение", "Повысить риск клиента", "Отправить в кейс", "Заблокировать операцию"].map((a) => (
-            <label key={a} className="flex items-center gap-2 rounded-lg border border-border/60 px-3 py-2">
+            <label key={a} className="flex items-center gap-2 rounded-xl border border-border/60 bg-foreground/[0.03] px-3 py-2 dark:bg-white/[0.03]">
               <input type="checkbox" className="size-4 rounded border-border accent-primary" defaultChecked={a === "Создать оповещение"} />
               <span>{a}</span>
             </label>
