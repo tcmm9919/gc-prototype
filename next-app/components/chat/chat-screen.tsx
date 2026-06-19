@@ -3,23 +3,35 @@
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  AlertCircle,
   Check,
   Copy,
+  Cpu,
+  Menu,
   MessageSquare,
+  Paperclip,
   Plus,
   RefreshCw,
   Search,
   Send,
   Sparkles,
+  X,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { ru } from "date-fns/locale";
+import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { renderWithPills } from "./entity-pill";
 
 interface Conversation {
@@ -99,47 +111,100 @@ const STARTERS = [
   "Составь черновик SAR-отчёта по кейсу [CS-0001]",
 ];
 
+const MODELS = ["gpt-mini-1106", "gpt-4o", "YandexGPT Pro"];
+
 export function ChatScreen() {
   const [activeId, setActiveId] = React.useState<string>("c1");
   const [messages, setMessages] = React.useState<Message[]>(INITIAL_MESSAGES.c1 ?? []);
   const [draft, setDraft] = React.useState("");
   const [streaming, setStreaming] = React.useState<string | null>(null);
+  const [error, setError] = React.useState<string | null>(null);
+  const [navOpen, setNavOpen] = React.useState(false);
+  const [model, setModel] = React.useState(MODELS[0]);
+  const [attachment, setAttachment] = React.useState<string | null>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
+  const fileRef = React.useRef<HTMLInputElement>(null);
 
-  React.useEffect(() => {
+  // Сброс состояния при смене диалога — корректировка во время рендера (рекомендованный
+  // React-паттерн вместо useEffect: без лишнего ререндера и мерцания).
+  const [prevId, setPrevId] = React.useState(activeId);
+  if (prevId !== activeId) {
+    setPrevId(activeId);
     setMessages(INITIAL_MESSAGES[activeId] ?? []);
     setStreaming(null);
-  }, [activeId]);
+    setError(null);
+  }
 
   React.useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-  }, [messages, streaming]);
+  }, [messages, streaming, error]);
 
   const send = async (text: string) => {
     if (!text.trim() || streaming !== null) return;
-    setMessages((m) => [...m, { role: "user", content: text }]);
+    setError(null);
+    const note = attachment ? ` (вложение: ${attachment})` : "";
+    setMessages((m) => [...m, { role: "user", content: text + note }]);
     setDraft("");
-    const reply = generateReply(text);
-    setStreaming("");
-    for (let i = 1; i <= reply.length; i++) {
-      setStreaming(reply.slice(0, i));
-      await new Promise((r) => setTimeout(r, 10 + Math.random() * 14));
+    setAttachment(null);
+    try {
+      const reply = generateReply(text);
+      setStreaming("");
+      for (let i = 1; i <= reply.length; i++) {
+        setStreaming(reply.slice(0, i));
+        await new Promise((r) => setTimeout(r, 10 + Math.random() * 14));
+      }
+      setStreaming(null);
+      setMessages((m) => [...m, { role: "assistant", content: reply }]);
+    } catch {
+      // Защитный error-state: сеть/таймаут API — даём пользователю понятный фидбэк + повтор.
+      setStreaming(null);
+      setError(text);
     }
-    setStreaming(null);
-    setMessages((m) => [...m, { role: "assistant", content: reply }]);
+  };
+
+  const pickFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0];
+    if (f) {
+      setAttachment(f.name);
+      toast.success(`Файл прикреплён: ${f.name}`);
+    }
+    e.target.value = "";
   };
 
   const active = CONVERSATIONS.find((c) => c.id === activeId);
-  const isEmpty = messages.length === 0 && streaming === null;
+  const isEmpty = messages.length === 0 && streaming === null && error === null;
 
   return (
-    <div className="grid h-[calc(100svh-3.5rem)] grid-cols-[18rem_1fr] overflow-hidden rounded-lg border border-border">
-      <aside className="flex min-w-0 flex-col overflow-hidden border-r border-border bg-muted/20">
-        <div className="border-b border-border p-3 space-y-2">
-          <Button size="lg" className="w-full justify-start" onClick={() => setActiveId("new-" + Date.now())}>
+    <div className="relative grid h-[calc(100svh-4rem)] grid-cols-1 overflow-hidden rounded-lg border border-border md:grid-cols-[18rem_1fr]">
+      {/* Затемнение под выезжающим списком (только мобайл) */}
+      {navOpen ? (
+        <div className="absolute inset-0 z-20 bg-foreground/40 md:hidden" aria-hidden onClick={() => setNavOpen(false)} />
+      ) : null}
+
+      <aside
+        className={cn(
+          "flex min-w-0 flex-col overflow-hidden border-r border-border bg-background md:bg-muted/20",
+          "md:relative md:z-auto md:flex md:w-auto md:shadow-none",
+          navOpen ? "absolute inset-y-0 left-0 z-30 w-72 shadow-xl" : "hidden md:flex",
+        )}
+      >
+        <div className="flex items-center gap-2 border-b border-border p-3">
+          <Button
+            size="lg"
+            className="flex-1 justify-start"
+            onClick={() => {
+              setActiveId("new-" + Date.now());
+              setNavOpen(false);
+            }}
+          >
             <Plus className="size-4" />
             Новый диалог
           </Button>
+          <Button variant="ghost" size="icon" className="shrink-0 md:hidden" onClick={() => setNavOpen(false)} aria-label="Закрыть список диалогов">
+            <X className="size-4" />
+          </Button>
+        </div>
+        <div className="px-3 pt-3">
           <div className="relative">
             <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             <Input placeholder="Поиск..." className="h-8 pl-8 text-sm" />
@@ -150,13 +215,18 @@ export function ChatScreen() {
             {CONVERSATIONS.map((c) => (
               <button
                 key={c.id}
-                onClick={() => setActiveId(c.id)}
+                onClick={() => {
+                  setActiveId(c.id);
+                  setNavOpen(false);
+                }}
+                title={c.title}
+                aria-label={`Открыть диалог: ${c.title}`}
                 className={cn(
                   "block w-full min-w-0 rounded-md px-3 py-2 text-left transition",
-                  activeId === c.id ? "bg-background border border-border shadow-sm" : "hover:bg-muted/60",
+                  activeId === c.id ? "border border-border bg-background shadow-sm" : "hover:bg-muted/60",
                 )}
               >
-                <div className="flex items-start justify-between gap-2 min-w-0">
+                <div className="flex min-w-0 items-start justify-between gap-2">
                   <span className="min-w-0 flex-1 truncate text-sm font-medium">{c.title}</span>
                   {c.tag ? (
                     <span className="shrink-0 rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">{c.tag}</span>
@@ -172,71 +242,146 @@ export function ChatScreen() {
         </div>
       </aside>
 
-      <section className="flex flex-col bg-background">
-        <header className="flex items-center justify-between border-b border-border px-6 py-3">
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="size-9 shrink-0 rounded-md bg-primary/10 text-primary flex items-center justify-center">
+      <section className="flex min-w-0 flex-col bg-background">
+        <header className="flex items-center justify-between gap-2 border-b border-border px-4 py-3 md:px-6">
+          <div className="flex min-w-0 items-center gap-2 md:gap-3">
+            <Button variant="ghost" size="icon" className="shrink-0 md:hidden" onClick={() => setNavOpen(true)} aria-label="Открыть список диалогов">
+              <Menu className="size-5" />
+            </Button>
+            <div className="hidden size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary sm:flex">
               <MessageSquare className="size-5" />
             </div>
-            <div className="flex flex-col leading-tight min-w-0">
-              <span className="font-medium truncate">{active?.title ?? "Новый диалог"}</span>
-              <span className="text-xs text-muted-foreground">Контекст подтянется автоматически из открытых сущностей</span>
+            <div className="flex min-w-0 flex-col leading-tight">
+              <span className="truncate font-medium">{active?.title ?? "Новый диалог"}</span>
+              <span className="truncate text-xs text-muted-foreground">Контекст подтянется автоматически из открытых сущностей</span>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm">
-              <Sparkles className="size-4" />
-              gpt-mini-1106
-            </Button>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="shrink-0" aria-label={`Модель: ${model}`}>
+                <Cpu className="size-4" />
+                <span className="hidden sm:inline">{model}</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {MODELS.map((m) => (
+                <DropdownMenuItem key={m} onClick={() => setModel(m)}>
+                  <Cpu className="size-4" />
+                  {m}
+                  {m === model ? <Check className="ml-auto size-4 text-primary" /> : null}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </header>
 
         <div ref={scrollRef} className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-3xl space-y-5 px-6 py-6">
-            {isEmpty ? (
-              <EmptyConversation onPick={send} />
-            ) : null}
+          <div className="mx-auto max-w-3xl space-y-5 px-4 py-6 md:px-6">
+            {isEmpty ? <EmptyConversation onPick={send} /> : null}
 
             <AnimatePresence initial={false}>
               {messages.map((m, i) => (
-                <MessageRow key={i} message={m} onRegenerate={i === messages.length - 1 ? () => send(messages[i - 1]?.content ?? "") : undefined} />
+                <MessageRow
+                  key={i}
+                  message={m}
+                  onRegenerate={i === messages.length - 1 && m.role === "assistant" ? () => send(messages[i - 1]?.content ?? "") : undefined}
+                />
               ))}
             </AnimatePresence>
 
             {streaming !== null ? (
               <div className="flex flex-col items-start gap-1">
-                <span className="text-[11px] text-muted-foreground">Ассистент печатает...</span>
+                <TypingIndicator />
                 <div className="max-w-[90%] whitespace-pre-wrap rounded-lg bg-muted px-3.5 py-2.5 text-sm leading-relaxed">
                   {renderWithPills(streaming)}
                   <span className="ml-0.5 inline-block size-1.5 translate-y-[-1px] animate-pulse rounded-full bg-foreground/60" />
                 </div>
               </div>
             ) : null}
+
+            {error !== null ? (
+              <div className="flex flex-col items-start gap-1.5">
+                <div className="flex max-w-[90%] items-start gap-2 rounded-lg border border-risk-critical/30 bg-risk-critical/10 px-3.5 py-2.5 text-sm text-risk-critical">
+                  <AlertCircle className="mt-0.5 size-4 shrink-0" />
+                  <span>Не удалось получить ответ. Проверьте соединение и попробуйте ещё раз.</span>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    const t = error;
+                    setError(null);
+                    send(t);
+                  }}
+                >
+                  <RefreshCw className="size-3.5" />
+                  Повторить
+                </Button>
+              </div>
+            ) : null}
           </div>
         </div>
 
-        <div className="border-t border-border p-4">
-          <div className="mx-auto flex max-w-3xl items-end gap-2">
-            <Textarea
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-                  e.preventDefault();
-                  send(draft);
-                }
-              }}
-              placeholder="Напишите ассистенту... (⌘+Enter — отправить, упомяните [CL-…], [TX-…] и т.д.)"
-              className="min-h-11 max-h-48 resize-none"
-              rows={1}
-            />
-            <Button onClick={() => send(draft)} disabled={!draft.trim() || streaming !== null} aria-label="Отправить">
-              <Send className="size-4" />
-            </Button>
+        <div className="border-t border-border p-3 md:p-4">
+          <div className="mx-auto max-w-3xl">
+            {attachment ? (
+              <div className="mb-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs">
+                <Paperclip className="size-3.5 shrink-0 text-muted-foreground" />
+                <span className="truncate">{attachment}</span>
+                <button type="button" onClick={() => setAttachment(null)} aria-label="Убрать вложение" className="shrink-0 text-muted-foreground transition hover:text-foreground">
+                  <X className="size-3.5" />
+                </button>
+              </div>
+            ) : null}
+            <div className="flex items-end gap-2">
+              <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg" className="hidden" onChange={pickFile} />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon" className="shrink-0" onClick={() => fileRef.current?.click()} aria-label="Прикрепить файл">
+                    <Paperclip className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Прикрепить PDF / изображение</TooltipContent>
+              </Tooltip>
+              <Textarea
+                value={draft}
+                onChange={(e) => setDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                    e.preventDefault();
+                    send(draft);
+                  }
+                }}
+                placeholder="Задайте вопрос или упомяните [CL-…], [TX-…]…"
+                className="max-h-48 min-h-11 resize-none"
+                rows={1}
+              />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={() => send(draft)} disabled={!draft.trim() || streaming !== null} aria-label="Отправить (⌘+Enter)">
+                    <Send className="size-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Отправить · ⌘+Enter</TooltipContent>
+              </Tooltip>
+            </div>
           </div>
         </div>
       </section>
     </div>
+  );
+}
+
+function TypingIndicator() {
+  return (
+    <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+      Ассистент печатает
+      <span className="flex items-center gap-0.5">
+        <span className="size-1 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.3s]" />
+        <span className="size-1 animate-bounce rounded-full bg-muted-foreground [animation-delay:-0.15s]" />
+        <span className="size-1 animate-bounce rounded-full bg-muted-foreground" />
+      </span>
+    </span>
   );
 }
 
@@ -268,7 +413,7 @@ function MessageRow({ message, onRegenerate }: { message: Message; onRegenerate?
           isUser ? "bg-primary text-primary-foreground" : "bg-muted",
         )}
       >
-        {renderWithPills(message.content)}
+        {renderWithPills(message.content, isUser)}
       </div>
       <div className={cn("flex items-center gap-0.5 opacity-0 transition group-hover/msg:opacity-100", isUser ? "self-end" : "self-start")}>
         <Tooltip>
@@ -305,11 +450,11 @@ function EmptyConversation({ onPick }: { onPick: (text: string) => void }) {
       </div>
       <div className="space-y-1">
         <h2 className="font-heading text-lg font-medium">Спросите что-нибудь о вашей платформе</h2>
-        <p className="text-sm text-muted-foreground max-w-md">
+        <p className="max-w-md text-sm text-muted-foreground">
           Можно упоминать клиентов, транзакции, оповещения и кейсы в квадратных скобках — например <span className="font-mono text-foreground">[CL-0001]</span>.
         </p>
       </div>
-      <div className="grid w-full gap-2 sm:grid-cols-2 max-w-2xl">
+      <div className="grid w-full max-w-2xl gap-2 sm:grid-cols-2">
         {STARTERS.map((s) => (
           <button
             key={s}

@@ -14,7 +14,7 @@ const PREFIX_META: Record<string, { href: (id: string) => string; icon: React.Co
 
 const ID_PATTERN = /\[(CL|TX|AL|CS|SC)-[a-zA-Z0-9-]+\]/g;
 
-export function EntityPill({ id, className }: { id: string; className?: string }) {
+export function EntityPill({ id, className, inverted }: { id: string; className?: string; inverted?: boolean }) {
   const prefix = id.slice(0, 2);
   const meta = PREFIX_META[prefix];
   if (!meta) return <span className={className}>{id}</span>;
@@ -26,7 +26,10 @@ export function EntityPill({ id, className }: { id: string; className?: string }
       onClick={(e) => e.stopPropagation()}
       className={cn(
         "inline-flex items-center gap-1 rounded border px-1.5 py-0.5 text-[11px] font-mono transition",
-        meta.tone,
+        // На фоне пузыря пользователя (bg-primary) обычные тона сливаются — даём контрастный инвертированный.
+        inverted
+          ? "border-primary-foreground/40 bg-primary-foreground/15 text-primary-foreground hover:bg-primary-foreground/25"
+          : meta.tone,
         className,
       )}
     >
@@ -38,8 +41,9 @@ export function EntityPill({ id, className }: { id: string; className?: string }
 
 /**
  * Renders text with [CL-0001] / [TX-0042] etc. converted into clickable pills.
+ * `inverted` — для текста внутри пузыря пользователя (фон bg-primary).
  */
-export function renderWithPills(text: string): React.ReactNode {
+export function renderWithPills(text: string, inverted = false): React.ReactNode {
   const result: React.ReactNode[] = [];
   let lastIndex = 0;
   let m: RegExpExecArray | null;
@@ -47,7 +51,7 @@ export function renderWithPills(text: string): React.ReactNode {
   while ((m = ID_PATTERN.exec(text)) !== null) {
     if (m.index > lastIndex) result.push(text.slice(lastIndex, m.index));
     const id = m[0].slice(1, -1);
-    result.push(<EntityPill key={`${m.index}-${id}`} id={id} className="mx-0.5" />);
+    result.push(<EntityPill key={`${m.index}-${id}`} id={id} className="mx-0.5" inverted={inverted} />);
     lastIndex = m.index + m[0].length;
   }
   if (lastIndex < text.length) result.push(text.slice(lastIndex));
