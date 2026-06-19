@@ -6,6 +6,7 @@ import { toast } from "sonner";
 
 import type { RiskFactor } from "@/lib/mock";
 import { Button } from "@/components/ui/button";
+import { StateSwitch } from "@/components/ext/state-switch";
 import { RiskFactorsList } from "@/components/settings/risk-factors-list";
 import { RiskFactorForm } from "@/components/settings/risk-factor-form";
 
@@ -42,7 +43,13 @@ export default function Page() {
         </div>
       ) : null}
 
-      <RiskFactorsList onEdit={(f) => setEditing(f)} />
+      <StateSwitch
+        skeleton="table"
+        emptyTitle="Риск-факторов нет"
+        emptyDescription="Создайте первый атрибут — нажмите «Добавить атрибут»."
+      >
+        <RiskFactorsList onEdit={(f) => setEditing(f)} />
+      </StateSwitch>
     </div>
   );
 }
