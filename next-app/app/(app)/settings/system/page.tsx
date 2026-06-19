@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { StateSwitch } from "@/components/ext/state-switch";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -107,10 +108,10 @@ export default function Page() {
   };
 
   return (
-    <>
-      <div className="pb-12 space-y-4">
+    <StateSwitch skeleton="table" emptyTitle="Системных настроек нет">
+      <div className="space-y-4">
         <Card>
-          <div className="grid grid-cols-[1fr_1.5fr_1fr_140px] gap-3 border-b border-border px-4 py-3 text-xs font-medium uppercase tracking-wider text-muted-foreground">
+          <div className="grid grid-cols-[1fr_1.5fr_1fr_140px] gap-3 border-b border-border px-4 py-3 text-[13px] font-normal text-muted-foreground">
             <span>Ключ</span>
             <span>Значение</span>
             <span>Описание</span>
@@ -155,6 +156,6 @@ export default function Page() {
           </CardContent>
         </Card>
       </div>
-    </>
+    </StateSwitch>
   );
 }
