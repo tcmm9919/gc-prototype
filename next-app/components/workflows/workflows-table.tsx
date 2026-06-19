@@ -2,101 +2,96 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Plus, Trash2 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import type { ColumnDef } from "@tanstack/react-table";
+import { Plus, User, Users } from "lucide-react";
+
 import { useMockData, type ComplianceScenario } from "@/lib/mock";
-import { Card } from "@/components/ui/card";
+import { DataTable, type DataTableView } from "@/components/ext/data-table";
 import { StatusBadge } from "@/components/ext/status-badge";
+import { RelativeTime } from "@/components/ext/relative-time";
+import { Button } from "@/components/ui/button";
 
-function formatDate(iso?: string): string {
-  if (!iso) return "—";
-  return new Date(iso).toLocaleDateString("ru-RU");
-}
+const TYPE_LABEL = { client: "Клиентский", group: "Групповой" } as const;
+const TYPE_TONE = { client: "info", group: "warning" } as const;
 
-function workflowsByType(all: ComplianceScenario[], type: "client" | "group"): ComplianceScenario[] {
-  return all.filter((s) => s.type === type);
-}
-
-function WorkflowsTab({
-  data,
-  emptyText,
-  description,
-  emptyAction,
-}: {
-  data: ComplianceScenario[];
-  emptyText: string;
-  description: string;
-  emptyAction?: React.ReactNode;
-}) {
-  return (
-    <Card className="overflow-hidden">
-      <p className="border-b border-border px-4 py-2 text-xs text-muted-foreground">{description}</p>
-      <div className="grid grid-cols-[80px_1fr_140px_140px_60px] gap-3 border-b border-border bg-muted/30 px-4 py-2.5 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-        <span>ID</span>
-        <span>Название</span>
-        <span>Тип</span>
-        <span>Создано</span>
-        <span></span>
-      </div>
-      {data.length === 0 ? (
-        <div className="flex flex-col items-center gap-4 px-4 py-8 text-center">
-          <p className="text-sm text-muted-foreground">{emptyText}</p>
-          {emptyAction}
-        </div>
-      ) : (
-        data.map((s) => (
-          <div
-            key={s.id}
-            className="grid grid-cols-[80px_1fr_140px_140px_60px] gap-3 border-b border-border/50 px-4 py-3 text-sm last:border-b-0 hover:bg-muted/40 transition"
-          >
-            <Link href={`/workflows/${s.id}`} className="font-mono text-xs text-muted-foreground hover:text-primary">
-              #{s.id.replace(/^SC-?/, "")}
-            </Link>
-            <Link href={`/workflows/${s.id}`} className="font-medium hover:underline">
-              {s.name}
-            </Link>
-            <span>
-              <StatusBadge tone="info">Клиентский</StatusBadge>
-            </span>
-            <span className="tabular-nums text-xs text-muted-foreground">{formatDate(s.createdAt)}</span>
-            <button type="button" className="text-muted-foreground hover:text-destructive transition" aria-label="Удалить">
-              <Trash2 className="size-4" />
-            </button>
-          </div>
-        ))
-      )}
-    </Card>
-  );
-}
+// TODO[ночной-прогон]: спека §4.1–4.2 описывает 3 таба с Групповой/Встроенный disabled+tooltip.
+// Модель знает только type "client" | "group" (нет "embedded"), а DataTableView не поддерживает
+// disabled/tooltip. Реализовано как обычные views по существующим типам — без disabled-состояния.
+const WORKFLOW_VIEWS: DataTableView<ComplianceScenario>[] = [
+  { id: "client", label: "Клиентский", icon: <User className="size-3.5" />, predicate: (s) => s.type === "client" },
+  { id: "group", label: "Групповой", icon: <Users className="size-3.5" />, predicate: (s) => s.type === "group" },
+];
 
 export function WorkflowsTable() {
+  const router = useRouter();
   const data = useMockData();
-  const clientWorkflows = workflowsByType(data.scenarios, "client");
+
+  const columns: ColumnDef<ComplianceScenario>[] = [
+    {
+      accessorKey: "id",
+      header: "ID",
+      meta: { width: "minmax(0, 0.8fr)" },
+      cell: ({ row }) => (
+        <Link href={`/workflows/${row.original.id}`} className="font-mono text-xs text-primary hover:underline">
+          #{row.original.id.replace(/^SC-?/, "")}
+        </Link>
+      ),
+    },
+    {
+      accessorKey: "name",
+      header: "Название",
+      meta: { width: "minmax(0, 2fr)" },
+      cell: ({ row }) => (
+        <Link href={`/workflows/${row.original.id}`} className="font-medium hover:underline">
+          {row.original.name}
+        </Link>
+      ),
+    },
+    {
+      accessorKey: "type",
+      header: "Тип",
+      cell: ({ row }) => <StatusBadge tone={TYPE_TONE[row.original.type]}>{TYPE_LABEL[row.original.type]}</StatusBadge>,
+    },
+    {
+      accessorKey: "createdAt",
+      header: "Создано",
+      cell: ({ getValue }) => {
+        const iso = getValue() as string | undefined;
+        return iso ? <RelativeTime iso={iso} /> : <span className="text-muted-foreground">—</span>;
+      },
+    },
+  ];
 
   return (
-    <div className="pb-12">
-      <div className="flex items-center justify-end gap-3 mb-4">
+    <DataTable<ComplianceScenario>
+      data={data.scenarios}
+      views={WORKFLOW_VIEWS}
+      columns={columns}
+      globalFilterPlaceholder="Поиск по ID, названию..."
+      onRowClick={(s) => router.push(`/workflows/${s.id}`)}
+      pageSize={20}
+      globalFilterFn={(row, _col, value) => {
+        const s = row.original;
+        const q = String(value).toLowerCase();
+        return s.id.toLowerCase().includes(q) || s.name.toLowerCase().includes(q);
+      }}
+      toolbar={
         <Button asChild size="xl">
           <Link href="/workflows/builder">
             <Plus className="size-4" />
-            Создать
+            Создать сценарий
           </Link>
         </Button>
-      </div>
-
-      <WorkflowsTab
-        data={clientWorkflows}
-        description="Сценарий запускается по одному клиенту"
-        emptyText="Сценариев нет — создайте первый."
-        emptyAction={
-          <Button asChild size="sm" variant="outline">
-            <Link href="/workflows/builder">
-              <Plus className="size-4" />
-              Создать сценарий
-            </Link>
-          </Button>
-        }
-      />
-    </div>
+      }
+      emptyAction={
+        <Button asChild size="sm" variant="outline">
+          <Link href="/workflows/builder">
+            <Plus className="size-4" />
+            Создать сценарий
+          </Link>
+        </Button>
+      }
+    />
   );
 }
