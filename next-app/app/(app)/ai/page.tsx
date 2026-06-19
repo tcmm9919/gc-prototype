@@ -89,7 +89,7 @@ export default function Page() {
                     </li>
                   ))}
                 </ul>
-                <Button asChild className="mt-auto w-full">
+                <Button asChild variant="outline" className="mt-auto w-full">
                   <Link href={t.href}>
                     {t.cta}
                     <ArrowRight className="size-4" />
