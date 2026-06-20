@@ -594,7 +594,12 @@ function MessageRow({ message, onRegenerate }: { message: Message; onRegenerate?
       </span>
       <div className={cn("flex min-w-0 flex-1 flex-col", isUser && "items-end")}>
         <div className="mb-1 text-[11px] font-medium text-muted-foreground">{isUser ? "Вы" : "Ассистент"}</div>
-        <div className={cn("max-w-full whitespace-pre-wrap text-sm leading-relaxed text-foreground", isUser && "text-right")}>
+        <div
+          className={cn(
+            "max-w-full whitespace-pre-wrap text-sm leading-relaxed text-foreground",
+            isUser && "rounded-2xl bg-muted px-3.5 py-2.5",
+          )}
+        >
           {renderWithPills(message.content)}
         </div>
         <div className="mt-1.5 flex items-center gap-0.5 opacity-0 transition group-hover/msg:opacity-100">
