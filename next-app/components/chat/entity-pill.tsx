@@ -9,10 +9,12 @@ const PREFIX_META: Record<string, { href: (id: string) => string; icon: React.Co
   TX: { href: (id) => `/transactions/${id}`, icon: ArrowLeftRight, tone: "bg-muted text-foreground border-border hover:bg-accent", label: "транзакция" },
   AL: { href: (id) => `/alerts/${id}`, icon: Bell, tone: "bg-risk-medium/10 text-risk-medium border-risk-medium/30 hover:bg-risk-medium/15", label: "оповещение" },
   CS: { href: (id) => `/cases/${id}`, icon: Folder, tone: "bg-risk-high/10 text-risk-high border-risk-high/30 hover:bg-risk-high/15", label: "кейс" },
+  // Реальные кейсы в моках — формата CASE-… (slice(0,2) === "CA")
+  CA: { href: (id) => `/cases/${id}`, icon: Folder, tone: "bg-risk-high/10 text-risk-high border-risk-high/30 hover:bg-risk-high/15", label: "кейс" },
   SC: { href: (id) => `/workflows/${id}`, icon: Workflow, tone: "bg-muted text-foreground border-border hover:bg-accent", label: "сценарий" },
 };
 
-const ID_PATTERN = /\[(CL|TX|AL|CS|SC)-[a-zA-Z0-9-]+\]/g;
+const ID_PATTERN = /\[(CL|TX|AL|CS|SC|CASE)-[a-zA-Z0-9-]+\]/g;
 
 export function EntityPill({ id, className, inverted }: { id: string; className?: string; inverted?: boolean }) {
   const prefix = id.slice(0, 2);

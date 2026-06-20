@@ -25,7 +25,7 @@ import {
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
-import { currentUser } from "@/lib/mock";
+import { currentUser, useMockData } from "@/lib/mock";
 import Strands from "./strands";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -109,12 +109,36 @@ const INITIAL_MESSAGES: Record<string, Message[]> = {
   ],
 };
 
+// Промпты-шаблоны заканчиваются открытой скобкой [XX- → подставляются в инпут и сразу
+// открывают дропдаун выбора реальной сущности.
 const QUICK_ACTIONS = [
-  { label: "Риск-профиль клиента", icon: User, prompt: "Проанализируй риск-профиль клиента [CL-0001]" },
-  { label: "Похожие операции", icon: ArrowLeftRight, prompt: "Покажи похожие операции на транзакцию [TX-0042]" },
-  { label: "Разбор оповещения", icon: Bell, prompt: "Объясни почему сработало оповещение [AL-0001]" },
-  { label: "Черновик SAR", icon: FileText, prompt: "Составь черновик SAR-отчёта по кейсу [CS-0001]" },
+  { label: "Риск-профиль клиента", icon: User, prompt: "Проанализируй риск-профиль клиента [CL-" },
+  { label: "Похожие операции", icon: ArrowLeftRight, prompt: "Покажи похожие операции на транзакцию [TX-" },
+  { label: "Разбор оповещения", icon: Bell, prompt: "Объясни почему сработало оповещение [AL-" },
+  { label: "Черновик SAR", icon: FileText, prompt: "Составь черновик SAR-отчёта по кейсу [CASE-" },
 ];
+
+interface MentionEntity {
+  id: string;
+  label: string;
+}
+
+// Активное упоминание = последняя незакрытая «[» до конца строки (без ] / пробела / переноса).
+function activeMention(text: string): { start: number; query: string } | null {
+  const open = text.lastIndexOf("[");
+  if (open === -1) return null;
+  const after = text.slice(open + 1);
+  if (/[\]\n ]/.test(after)) return null;
+  return { start: open, query: after };
+}
+
+function filterMentions(entities: MentionEntity[], query: string): MentionEntity[] {
+  const q = query.toLowerCase();
+  if (!q) return entities.filter((e) => e.id.toLowerCase().startsWith("cl-")).slice(0, 8);
+  const starts = entities.filter((e) => e.id.toLowerCase().startsWith(q));
+  if (starts.length) return starts.slice(0, 8);
+  return entities.filter((e) => e.id.toLowerCase().includes(q) || e.label.toLowerCase().includes(q)).slice(0, 8);
+}
 
 const MODELS = ["gpt-mini-1106", "gpt-4o", "YandexGPT Pro"];
 
@@ -164,6 +188,18 @@ export function ChatScreen() {
   const [collapsedGroups, setCollapsedGroups] = React.useState<ReadonlySet<string>>(new Set());
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const fileRef = React.useRef<HTMLInputElement>(null);
+  const taRef = React.useRef<HTMLTextAreaElement>(null);
+  const data = useMockData();
+  const mentionEntities = React.useMemo<MentionEntity[]>(
+    () => [
+      ...data.clients.map((c) => ({ id: c.id, label: c.fullName })),
+      ...data.transactions.map((t) => ({ id: t.id, label: t.counterparty?.name ?? "" })),
+      ...data.alerts.map((a) => ({ id: a.id, label: a.ruleName ?? "" })),
+      ...data.cases.map((c) => ({ id: c.id, label: c.type ?? "" })),
+      ...data.scenarios.map((s) => ({ id: s.id, label: s.name ?? "" })),
+    ],
+    [data],
+  );
 
   // Время резолвим только на клиенте → приветствие до маунта нейтральное (без hydration mismatch).
   // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -341,7 +377,13 @@ export function ChatScreen() {
                 {QUICK_ACTIONS.map((q) => (
                   <button
                     key={q.label}
-                    onClick={() => send(q.prompt)}
+                    onClick={() => {
+                      setDraft(q.prompt);
+                      requestAnimationFrame(() => {
+                        taRef.current?.focus();
+                        taRef.current?.setSelectionRange(q.prompt.length, q.prompt.length);
+                      });
+                    }}
                     className="flex min-h-[92px] flex-col justify-between rounded-xl bg-muted/60 p-3 text-left transition hover:bg-muted"
                   >
                     <span className="flex size-7 items-center justify-center rounded-lg bg-card text-muted-foreground">
@@ -364,6 +406,8 @@ export function ChatScreen() {
                   streaming={streaming}
                   model={model}
                   setModel={setModel}
+                  entities={mentionEntities}
+                  textareaRef={taRef}
                   placeholder="Задайте вопрос ассистенту…"
                 />
               </div>
@@ -438,6 +482,8 @@ export function ChatScreen() {
                   streaming={streaming}
                   model={model}
                   setModel={setModel}
+                  entities={mentionEntities}
+                  textareaRef={taRef}
                   placeholder="Задайте вопрос или упомяните [CL-…], [TX-…]…"
                 />
               </div>
@@ -461,6 +507,8 @@ interface ComposerProps {
   model: string;
   setModel: (m: string) => void;
   placeholder: string;
+  entities: MentionEntity[];
+  textareaRef: React.RefObject<HTMLTextAreaElement | null>;
 }
 
 function Composer({
@@ -475,9 +523,55 @@ function Composer({
   model,
   setModel,
   placeholder,
+  entities,
+  textareaRef,
 }: ComposerProps) {
+  const [activeIdx, setActiveIdx] = React.useState(0);
+  const [dismissed, setDismissed] = React.useState<string | null>(null);
+
+  const mention = activeMention(draft);
+  const matches = mention ? filterMentions(entities, mention.query) : [];
+  const showMentions = !!mention && matches.length > 0 && mention.query !== dismissed;
+  const idx = Math.min(activeIdx, Math.max(0, matches.length - 1));
+
+  const insertEntity = (e: MentionEntity) => {
+    if (!mention) return;
+    const next = draft.slice(0, mention.start) + `[${e.id}] `;
+    setDraft(next);
+    setActiveIdx(0);
+    requestAnimationFrame(() => {
+      const ta = textareaRef.current;
+      if (ta) {
+        ta.focus();
+        ta.setSelectionRange(next.length, next.length);
+      }
+    });
+  };
+
   return (
-    <div>
+    <div className="relative">
+      {showMentions ? (
+        <div className="absolute bottom-full left-0 z-30 mb-2 max-h-60 w-full max-w-sm overflow-y-auto rounded-xl border border-border bg-popover p-1 shadow-lg">
+          {matches.map((e, i) => (
+            <button
+              key={e.id}
+              type="button"
+              onMouseDown={(ev) => {
+                ev.preventDefault();
+                insertEntity(e);
+              }}
+              onMouseEnter={() => setActiveIdx(i)}
+              className={cn(
+                "flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-left transition",
+                i === idx ? "bg-muted" : "hover:bg-muted/60",
+              )}
+            >
+              <span className="shrink-0 font-mono text-xs text-primary">{e.id}</span>
+              {e.label ? <span className="truncate text-xs text-muted-foreground">{e.label}</span> : null}
+            </button>
+          ))}
+        </div>
+      ) : null}
       {attachment ? (
         <div className="mb-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs">
           <Paperclip className="size-3.5 shrink-0 text-muted-foreground" />
@@ -490,9 +584,32 @@ function Composer({
       <div className="rounded-2xl border border-border bg-card p-2 shadow-sm">
         <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg" className="hidden" onChange={onPickFile} />
         <Textarea
+          ref={textareaRef}
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => {
+            if (showMentions) {
+              if (e.key === "ArrowDown") {
+                e.preventDefault();
+                setActiveIdx((i) => Math.min(i + 1, matches.length - 1));
+                return;
+              }
+              if (e.key === "ArrowUp") {
+                e.preventDefault();
+                setActiveIdx((i) => Math.max(i - 1, 0));
+                return;
+              }
+              if (e.key === "Enter" && !e.metaKey && !e.ctrlKey) {
+                e.preventDefault();
+                insertEntity(matches[idx]);
+                return;
+              }
+              if (e.key === "Escape" && mention) {
+                e.preventDefault();
+                setDismissed(mention.query);
+                return;
+              }
+            }
             if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
               e.preventDefault();
               onSend();
