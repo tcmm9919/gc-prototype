@@ -13,7 +13,6 @@ import {
   FileText,
   Globe,
   Menu,
-  MessageSquare,
   Mic,
   Paperclip,
   Plus,
@@ -23,13 +22,10 @@ import {
   User,
   X,
 } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { ru } from "date-fns/locale";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
 import { currentUser } from "@/lib/mock";
-import { ThemeToggle } from "@/components/shell/theme-toggle";
 import Strands from "./strands";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -122,6 +118,38 @@ const QUICK_ACTIONS = [
 
 const MODELS = ["gpt-mini-1106", "gpt-4o", "YandexGPT Pro"];
 
+type ConvGroup = { key: string; label: string | null; items: Conversation[] };
+
+// Сортировка истории по дням. До маунта (now=null) — один плоский список,
+// чтобы SSR и первый клиентский рендер совпадали (без hydration mismatch).
+function groupConversations(convs: Conversation[], now: Date | null): ConvGroup[] {
+  if (!now) return [{ key: "all", label: null, items: convs }];
+  const startOfDay = (d: Date) => {
+    const x = new Date(d);
+    x.setHours(0, 0, 0, 0);
+    return x.getTime();
+  };
+  const today0 = startOfDay(now);
+  const dayMs = 86_400_000;
+  const buckets: Record<string, Conversation[]> = { today: [], yesterday: [], week: [], earlier: [] };
+  for (const c of convs) {
+    const diff = Math.round((today0 - startOfDay(new Date(c.updatedAt))) / dayMs);
+    if (diff <= 0) buckets.today.push(c);
+    else if (diff === 1) buckets.yesterday.push(c);
+    else if (diff <= 7) buckets.week.push(c);
+    else buckets.earlier.push(c);
+  }
+  const labels: Record<string, string> = {
+    today: "Сегодня",
+    yesterday: "Вчера",
+    week: "Последние 7 дней",
+    earlier: "Ранее",
+  };
+  return (["today", "yesterday", "week", "earlier"] as const)
+    .filter((k) => buckets[k].length)
+    .map((k) => ({ key: k, label: labels[k], items: buckets[k] }));
+}
+
 export function ChatScreen() {
   const [activeId, setActiveId] = React.useState<string>("c1");
   const [messages, setMessages] = React.useState<Message[]>(INITIAL_MESSAGES.c1 ?? []);
@@ -132,6 +160,7 @@ export function ChatScreen() {
   const [model, setModel] = React.useState(MODELS[0]);
   const [attachment, setAttachment] = React.useState<string | null>(null);
   const [now, setNow] = React.useState<Date | null>(null);
+  const [collapsedGroups, setCollapsedGroups] = React.useState<ReadonlySet<string>>(new Set());
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const fileRef = React.useRef<HTMLInputElement>(null);
 
@@ -191,9 +220,17 @@ export function ChatScreen() {
   const greeting =
     hour < 0 ? "Здравствуйте" : hour < 6 ? "Доброй ночи" : hour < 12 ? "Доброе утро" : hour < 18 ? "Добрый день" : "Добрый вечер";
   const firstName = currentUser.fullName.split(" ")[0];
+  const groups = groupConversations(CONVERSATIONS, now);
+  const toggleGroup = (key: string) =>
+    setCollapsedGroups((s) => {
+      const n = new Set(s);
+      if (n.has(key)) n.delete(key);
+      else n.add(key);
+      return n;
+    });
 
   return (
-    <div className="relative mt-7 grid h-[calc(100svh-4rem)] grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_6px_24px_-8px_rgba(0,0,0,0.12)] md:grid-cols-[18rem_1fr]">
+    <div className="relative mt-7 grid h-[calc(100svh-7.5rem)] grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_6px_24px_-8px_rgba(0,0,0,0.12)] md:grid-cols-[18rem_1fr]">
       {/* Затемнение под выезжающим списком (только мобайл) */}
       {navOpen ? (
         <div className="absolute inset-0 z-20 bg-foreground/40 md:hidden" aria-hidden onClick={() => setNavOpen(false)} />
@@ -228,55 +265,53 @@ export function ChatScreen() {
             <Input placeholder="Поиск..." className="h-8 pl-8 text-sm" />
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto overflow-x-hidden">
-          <div className="space-y-0.5 p-2">
-            {CONVERSATIONS.map((c) => (
-              <button
-                key={c.id}
-                onClick={() => {
-                  setActiveId(c.id);
-                  setNavOpen(false);
-                }}
-                title={c.title}
-                aria-label={`Открыть диалог: ${c.title}`}
-                className={cn(
-                  "block w-full min-w-0 rounded-md px-3 py-2 text-left transition",
-                  activeId === c.id ? "border border-border bg-background shadow-sm" : "hover:bg-muted/60",
-                )}
-              >
-                <div className="flex min-w-0 items-start justify-between gap-2">
-                  <span className="min-w-0 flex-1 truncate text-sm font-medium">{c.title}</span>
-                  {c.tag ? (
-                    <span className="shrink-0 rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground">{c.tag}</span>
-                  ) : null}
-                </div>
-                <p className="mt-0.5 line-clamp-2 break-words text-xs text-muted-foreground">{c.preview}</p>
-                <span className="mt-1 block text-[10px] text-muted-foreground">
-                  {formatDistanceToNow(new Date(c.updatedAt), { addSuffix: true, locale: ru })}
-                </span>
-              </button>
-            ))}
-          </div>
+        <div className="flex-1 overflow-y-auto overflow-x-hidden px-2 py-1.5">
+          {groups.map((g) => {
+            const isCollapsed = g.label ? collapsedGroups.has(g.key) : false;
+            return (
+              <div key={g.key} className="mb-1">
+                {g.label ? (
+                  <button
+                    type="button"
+                    onClick={() => toggleGroup(g.key)}
+                    className="flex w-full items-center justify-between rounded-md px-3 pb-1 pt-4 text-xs font-medium text-muted-foreground transition hover:text-foreground"
+                    aria-expanded={!isCollapsed}
+                  >
+                    <span>{g.label}</span>
+                    <ChevronDown className={cn("size-3.5 shrink-0 opacity-60 transition-transform", isCollapsed && "-rotate-90")} />
+                  </button>
+                ) : null}
+                {!isCollapsed
+                  ? g.items.map((c) => (
+                      <button
+                        key={c.id}
+                        onClick={() => {
+                          setActiveId(c.id);
+                          setNavOpen(false);
+                        }}
+                        title={c.title}
+                        aria-label={`Открыть диалог: ${c.title}`}
+                        className={cn(
+                          "block w-full truncate rounded-md px-3 py-2 text-left text-sm transition",
+                          activeId === c.id ? "bg-muted font-medium text-foreground" : "text-foreground/80 hover:bg-muted/60",
+                        )}
+                      >
+                        {c.title}
+                      </button>
+                    ))
+                  : null}
+              </div>
+            );
+          })}
         </div>
       </aside>
 
       <section className="flex min-w-0 flex-col bg-card">
-        <header className="flex items-center justify-between gap-2 border-b border-border px-4 py-3 md:px-6">
-          <div className="flex min-w-0 items-center gap-2 md:gap-3">
-            <Button variant="ghost" size="icon" className="shrink-0 md:hidden" onClick={() => setNavOpen(true)} aria-label="Открыть список диалогов">
-              <Menu className="size-5" />
-            </Button>
-            <div className="hidden size-9 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary sm:flex">
-              <MessageSquare className="size-5" />
-            </div>
-            <div className="flex min-w-0 flex-col leading-tight">
-              <span className="truncate font-medium">{active?.title ?? "Новый диалог"}</span>
-              <span className="truncate text-xs text-muted-foreground">Контекст подтянется автоматически из открытых сущностей</span>
-            </div>
-          </div>
-          <div className="flex shrink-0 items-center gap-1">
-            <ThemeToggle />
-          </div>
+        <header className="flex items-center gap-2 border-b border-border px-4 py-2.5 md:px-5">
+          <Button variant="ghost" size="icon" className="shrink-0 md:hidden" onClick={() => setNavOpen(true)} aria-label="Открыть список диалогов">
+            <Menu className="size-5" />
+          </Button>
+          <span className="truncate text-[13px] font-medium text-foreground">{active?.title ?? "Новый диалог"}</span>
         </header>
 
         {isEmpty ? (

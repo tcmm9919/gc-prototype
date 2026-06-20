@@ -112,10 +112,6 @@ export function AppHeader() {
   const parent = parentKey ? DETAIL_PARENTS[parentKey] : undefined;
   const isDetail = Boolean(parent && idSeg && !RESERVED_SUB.has(idSeg));
 
-  // ─── /chat — полноэкранный режим: глобальную шапку не рендерим,
-  //     единственный хедер живёт внутри ChatScreen (тайтл диалога + модель + тема). ───
-  if (normalizedPath === "/chat") return null;
-
   // ─── Detail page → breadcrumbs only ───
   if (isDetail && parent) {
     const id = decodeURIComponent(idSeg);
