@@ -357,7 +357,10 @@ export function ChatScreen() {
         {isEmpty ? (
           <div className="flex-1 overflow-y-auto">
             <div className="flex min-h-full flex-col items-center justify-center px-4 py-8">
-              <div className="relative mb-6 size-52 sm:size-60" aria-hidden>
+              <div
+                className="relative mb-6 size-52 sm:size-60 [-webkit-mask-image:radial-gradient(75%_60%_at_50%_50%,#000_45%,transparent_85%)] [mask-image:radial-gradient(75%_60%_at_50%_50%,#000_45%,transparent_85%)]"
+                aria-hidden
+              >
                 <Strands
                   colors={["#F97316", "#7C3AED", "#06B6D4"]}
                   count={3}
