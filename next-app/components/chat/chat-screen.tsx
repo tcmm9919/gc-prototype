@@ -342,9 +342,9 @@ export function ChatScreen() {
                   <button
                     key={q.label}
                     onClick={() => send(q.prompt)}
-                    className="flex min-h-[92px] flex-col justify-between rounded-xl border border-border bg-card p-3 text-left transition hover:bg-muted/50"
+                    className="flex min-h-[92px] flex-col justify-between rounded-xl bg-muted/60 p-3 text-left transition hover:bg-muted"
                   >
-                    <span className="flex size-7 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+                    <span className="flex size-7 items-center justify-center rounded-lg bg-card text-muted-foreground">
                       <q.icon className="size-4" />
                     </span>
                     <span className="text-[13px] font-medium leading-snug text-foreground">{q.label}</span>
