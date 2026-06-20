@@ -149,7 +149,7 @@ export function AppHeader() {
   // Высокий хедер (как на дашборде) — для дашборда, Настроек и конструктора сценариев.
   // Сам список /workflows («Сценарии») — обычный мелкий хедер, как другие списки
   // (Клиенты/Оповещения/Кейсы/Транзакции): одинаковый отступ от тайтла до табов.
-  const TALL_HEADER_PREFIXES = ["/dashboard", "/settings"];
+  const TALL_HEADER_PREFIXES = ["/dashboard", "/settings", "/chat", "/ai"];
   const isTallHeader =
     TALL_HEADER_PREFIXES.some((p) => normalizedPath === p || normalizedPath.startsWith(p + "/")) ||
     normalizedPath.startsWith("/workflows/"); // /workflows/builder и /new — высокие; список — нет
