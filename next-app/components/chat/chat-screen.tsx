@@ -370,7 +370,7 @@ export function ChatScreen() {
         ) : (
           <>
             <div ref={scrollRef} className="flex-1 overflow-y-auto">
-              <div className="mx-auto flex min-h-full max-w-2xl flex-col justify-end gap-6 px-4 py-6 md:px-6">
+              <div className="mx-auto flex min-h-full max-w-3xl flex-col justify-end gap-6 px-4 py-6 md:px-6">
                 <AnimatePresence initial={false}>
                   {messages.map((m, i) => (
                     <MessageRow
@@ -423,8 +423,8 @@ export function ChatScreen() {
               </div>
             </div>
 
-            <div className="border-t border-border p-3 md:p-4">
-              <div className="mx-auto max-w-3xl">
+            <div className="border-t border-border py-3 md:py-4">
+              <div className="mx-auto max-w-3xl px-4 md:px-6">
                 <Composer
                   draft={draft}
                   setDraft={setDraft}
@@ -579,7 +579,7 @@ function MessageRow({ message, onRegenerate }: { message: Message; onRegenerate?
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
-      className="group/msg flex gap-3"
+      className={cn("group/msg flex gap-3", isUser && "flex-row-reverse")}
     >
       <span
         className={cn(
@@ -590,9 +590,9 @@ function MessageRow({ message, onRegenerate }: { message: Message; onRegenerate?
       >
         {isUser ? <User className="size-4" /> : <Sparkles className="size-4" />}
       </span>
-      <div className="min-w-0 flex-1">
+      <div className={cn("flex min-w-0 flex-1 flex-col", isUser && "items-end")}>
         <div className="mb-1 text-[11px] font-medium text-muted-foreground">{isUser ? "Вы" : "Ассистент"}</div>
-        <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+        <div className={cn("max-w-full whitespace-pre-wrap text-sm leading-relaxed text-foreground", isUser && "text-right")}>
           {renderWithPills(message.content)}
         </div>
         <div className="mt-1.5 flex items-center gap-0.5 opacity-0 transition group-hover/msg:opacity-100">
