@@ -337,7 +337,22 @@ export function ChatScreen() {
                 Чем я могу <span className="text-primary">помочь сегодня?</span>
               </h2>
 
-              <div className="mt-8 w-full max-w-2xl">
+              <div className="mt-8 grid w-full max-w-2xl grid-cols-2 gap-2 sm:grid-cols-4">
+                {QUICK_ACTIONS.map((q) => (
+                  <button
+                    key={q.label}
+                    onClick={() => send(q.prompt)}
+                    className="flex min-h-[92px] flex-col justify-between rounded-xl border border-border bg-card p-3 text-left transition hover:bg-muted/50"
+                  >
+                    <span className="flex size-7 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+                      <q.icon className="size-4" />
+                    </span>
+                    <span className="text-[13px] font-medium leading-snug text-foreground">{q.label}</span>
+                  </button>
+                ))}
+              </div>
+
+              <div className="mt-3 w-full max-w-2xl">
                 <Composer
                   draft={draft}
                   setDraft={setDraft}
@@ -351,19 +366,6 @@ export function ChatScreen() {
                   setModel={setModel}
                   placeholder="Задайте вопрос ассистенту…"
                 />
-              </div>
-
-              <div className="mt-4 flex flex-wrap justify-center gap-2">
-                {QUICK_ACTIONS.map((q) => (
-                  <button
-                    key={q.label}
-                    onClick={() => send(q.prompt)}
-                    className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-[13px] text-foreground transition hover:bg-muted/60"
-                  >
-                    <q.icon className="size-3.5 text-muted-foreground" />
-                    {q.label}
-                  </button>
-                ))}
               </div>
             </div>
           </div>
