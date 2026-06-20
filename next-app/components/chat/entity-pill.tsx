@@ -14,7 +14,9 @@ const PREFIX_META: Record<string, { href: (id: string) => string; icon: React.Co
   SC: { href: (id) => `/workflows/${id}`, icon: Workflow, tone: "bg-muted text-foreground border-border hover:bg-accent", label: "сценарий" },
 };
 
-const ID_PATTERN = /\[(CL|TX|AL|CS|SC|CASE)-[a-zA-Z0-9-]+\]/g;
+// Упоминания: новый синтаксис «/CL-…» (не после буквы/цифры/слэша — чтобы не ловить URL),
+// плюс старый «[CL-…]» для совместимости с демо-контентом.
+const ID_PATTERN = /\[((?:CL|TX|AL|CS|SC|CASE)-[a-zA-Z0-9-]+)\]|(?<![\w/])\/((?:CL|TX|AL|CS|SC|CASE)-[a-zA-Z0-9-]+)/g;
 
 export function EntityPill({ id, className, inverted }: { id: string; className?: string; inverted?: boolean }) {
   const prefix = id.slice(0, 2);
@@ -52,7 +54,7 @@ export function renderWithPills(text: string, inverted = false): React.ReactNode
   ID_PATTERN.lastIndex = 0;
   while ((m = ID_PATTERN.exec(text)) !== null) {
     if (m.index > lastIndex) result.push(text.slice(lastIndex, m.index));
-    const id = m[0].slice(1, -1);
+    const id = m[1] ?? m[2];
     result.push(<EntityPill key={`${m.index}-${id}`} id={id} className="mx-0.5" inverted={inverted} />);
     lastIndex = m.index + m[0].length;
   }

@@ -113,10 +113,10 @@ const INITIAL_MESSAGES: Record<string, Message[]> = {
 // Промпты-шаблоны заканчиваются открытой скобкой [XX- → подставляются в инпут и сразу
 // открывают дропдаун выбора реальной сущности.
 const QUICK_ACTIONS = [
-  { label: "Риск-профиль", icon: User, prompt: "Проанализируй риск-профиль клиента [CL-" },
-  { label: "Похожие операции", icon: ArrowLeftRight, prompt: "Покажи похожие операции на транзакцию [TX-" },
-  { label: "Разбор оповещения", icon: Bell, prompt: "Объясни почему сработало оповещение [AL-" },
-  { label: "Черновик SAR", icon: FileText, prompt: "Составь черновик SAR-отчёта по кейсу [CASE-" },
+  { label: "Риск-профиль", icon: User, prompt: "Проанализируй риск-профиль клиента /CL-" },
+  { label: "Похожие операции", icon: ArrowLeftRight, prompt: "Покажи похожие операции на транзакцию /TX-" },
+  { label: "Разбор оповещения", icon: Bell, prompt: "Объясни почему сработало оповещение /AL-" },
+  { label: "Черновик SAR", icon: FileText, prompt: "Составь черновик SAR-отчёта по кейсу /CASE-" },
 ];
 
 interface MentionEntity {
@@ -124,13 +124,15 @@ interface MentionEntity {
   label: string;
 }
 
-// Активное упоминание = последняя незакрытая «[» до конца строки (без ] / пробела / переноса).
+// Активное упоминание = последний «/» в начале строки или после пробела, без пробела/переноса после.
 function activeMention(text: string): { start: number; query: string } | null {
-  const open = text.lastIndexOf("[");
-  if (open === -1) return null;
-  const after = text.slice(open + 1);
-  if (/[\]\n ]/.test(after)) return null;
-  return { start: open, query: after };
+  const slash = text.lastIndexOf("/");
+  if (slash === -1) return null;
+  const before = text[slash - 1];
+  if (before !== undefined && !/\s/.test(before)) return null;
+  const after = text.slice(slash + 1);
+  if (/\s/.test(after)) return null;
+  return { start: slash, query: after };
 }
 
 function filterMentions(entities: MentionEntity[], query: string): MentionEntity[] {
@@ -491,7 +493,7 @@ export function ChatScreen() {
                   setModel={setModel}
                   entities={mentionEntities}
                   textareaRef={taRef}
-                  placeholder="Задайте вопрос или упомяните [CL-…], [TX-…]…"
+                  placeholder="Задайте вопрос или упомяните /CL-…, /TX-…"
                 />
               </div>
             </div>
@@ -543,7 +545,7 @@ function Composer({
 
   const insertEntity = (e: MentionEntity) => {
     if (!mention) return;
-    const next = draft.slice(0, mention.start) + `[${e.id}] `;
+    const next = draft.slice(0, mention.start) + `/${e.id} `;
     setDraft(next);
     setActiveIdx(0);
     requestAnimationFrame(() => {
