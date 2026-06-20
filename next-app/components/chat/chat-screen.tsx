@@ -307,7 +307,7 @@ export function ChatScreen() {
       </aside>
 
       <section className="flex min-w-0 flex-col bg-card">
-        <header className="flex items-center gap-2 border-b border-border px-4 py-2.5 md:px-5">
+        <header className="flex items-center gap-2 px-4 py-2.5 md:px-5">
           <Button variant="ghost" size="icon" className="shrink-0 md:hidden" onClick={() => setNavOpen(true)} aria-label="Открыть список диалогов">
             <Menu className="size-5" />
           </Button>
