@@ -583,17 +583,16 @@ function MessageRow({ message, onRegenerate }: { message: Message; onRegenerate?
       transition={{ duration: 0.18, ease: "easeOut" }}
       className={cn("group/msg flex gap-3", isUser && "flex-row-reverse")}
     >
-      <span
-        className={cn(
-          "mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full",
-          isUser ? "bg-muted text-muted-foreground" : "bg-primary/10 text-primary",
-        )}
-        aria-hidden
-      >
-        {isUser ? <User className="size-4" /> : <Sparkles className="size-4" />}
-      </span>
+      {!isUser ? (
+        <span
+          className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary"
+          aria-hidden
+        >
+          <Sparkles className="size-4" />
+        </span>
+      ) : null}
       <div className={cn("flex min-w-0 flex-1 flex-col", isUser && "items-end")}>
-        <div className="mb-1 text-[11px] font-medium text-muted-foreground">{isUser ? "Вы" : "Ассистент"}</div>
+        {!isUser ? <div className="mb-1 text-[11px] font-medium text-muted-foreground">Ассистент</div> : null}
         <div
           className={cn(
             "max-w-full whitespace-pre-wrap text-sm leading-relaxed text-foreground",
