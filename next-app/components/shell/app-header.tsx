@@ -20,15 +20,15 @@ const STATIC_TITLES: Record<string, string> = {
   "/clients": "Клиенты",
   "/styleguide/dashboard-legacy": "Старый дашборд",
   "/transactions": "Транзакции",
-  "/chat": "Чат",
+  "/chat": "AI чат",
   "/rules": "Правила",
   "/alerts": "Оповещения",
   "/cases": "Кейсы",
   "/workflows": "Конструктор сценариев",
   "/workflows/builder": "Новый сценарий",
-  "/ai": "AI-Инструменты",
-  "/agents": "AI-Инструменты",
-  "/agents/compliance-officer": "Compliance Officer AI",
+  "/ai": "Агенты",
+  "/ai/agents": "Агенты",
+  "/ai/compliance-agent": "Комплаенс-агент",
   "/settings": "Настройки",
   "/risk-factors": "Риск-факторы",
   "/profile": "Профиль",
@@ -146,12 +146,13 @@ export function AppHeader() {
   const title = deriveTitle(pathname);
   const titleNav = navItemForPath(normalizedPath);
   const TitleIcon = titleNav?.icon ?? null;
-  // Высокий хедер (как на дашборде) — для дашборда, Настроек, Конструктора.
-  // Риск-факторы — обычный список → стандартный мелкий хедер (как Клиенты/Транзакции).
-  const TALL_HEADER_PREFIXES = ["/dashboard", "/settings", "/workflows"];
-  const isTallHeader = TALL_HEADER_PREFIXES.some(
-    (p) => normalizedPath === p || normalizedPath.startsWith(p + "/"),
-  );
+  // Высокий хедер (как на дашборде) — для дашборда, Настроек и конструктора сценариев.
+  // Сам список /workflows («Сценарии») — обычный мелкий хедер, как другие списки
+  // (Клиенты/Оповещения/Кейсы/Транзакции): одинаковый отступ от тайтла до табов.
+  const TALL_HEADER_PREFIXES = ["/dashboard", "/settings"];
+  const isTallHeader =
+    TALL_HEADER_PREFIXES.some((p) => normalizedPath === p || normalizedPath.startsWith(p + "/")) ||
+    normalizedPath.startsWith("/workflows/"); // /workflows/builder и /new — высокие; список — нет
 
   return (
     <header className={`sticky top-0 z-30 flex items-center justify-between gap-3 px-8 bg-card ${isTallHeader ? "h-16" : "h-14 pt-2"}`}>

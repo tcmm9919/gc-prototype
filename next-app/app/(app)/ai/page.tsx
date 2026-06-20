@@ -1,26 +1,11 @@
 import Link from "next/link";
-import { ArrowRight, Bot, MessageSquare, Shield, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Bot, Shield, CheckCircle2 } from "lucide-react";
 import { PageHeader } from "@/components/ext/page-header";
 import { StateSwitch } from "@/components/ext/state-switch";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 const TILES = [
-  {
-    href: "/chat",
-    icon: MessageSquare,
-    title: "Чат",
-    eyebrow: "AI-ассистент · Анализ документов",
-    description:
-      "Чат-интерфейс для работы с AI-ассистентом. Задавайте вопросы по клиентам, анализируйте документы PDF и получайте ответы на основе данных платформы.",
-    bullets: [
-      "Документы PDF — загрузка и анализ файлов прямо в чате",
-      "История диалогов — все разговоры сохраняются и доступны в панели",
-      "Контекст платформы — ассистент знает о клиентах, транзакциях и делах",
-    ],
-    cta: "Открыть чат",
-    tone: "bg-primary/10 text-primary",
-  },
   {
     href: "/ai/agents",
     icon: Bot,
@@ -57,15 +42,15 @@ export default function Page() {
   return (
     <>
       <PageHeader
-        title="Искусственный интеллект"
-        description="Все AI-инструменты платформы в одном месте: чат-ассистент, настраиваемые агенты и автоматизированный Комплаенс-агент для обработки оповещений."
+        title="AI-агенты"
+        description="Настраиваемые AI-агенты и автоматизированный Комплаенс-агент для обработки оповещений и автоматизации комплаенс-задач."
       />
       <StateSwitch
         skeleton="list"
-        emptyTitle="AI-инструменты недоступны"
-        emptyDescription="Загляните позже — инструменты появятся по мере подключения."
+        emptyTitle="Агентов нет"
+        emptyDescription="Создайте первого агента или подключите Комплаенс-агента."
       >
-        <div className="grid gap-4 pb-6 md:grid-cols-3">
+        <div className="grid gap-4 pb-6 md:grid-cols-2">
           {TILES.map((t) => (
             <Card key={t.href} className="h-full">
               <CardContent className="flex h-full flex-col gap-3 p-5">

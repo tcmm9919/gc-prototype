@@ -6,7 +6,8 @@ import {
   Folder,
   ListChecks,
   Workflow,
-  Sparkles,
+  MessageSquare,
+  Bot,
   Settings,
   ShieldAlert,
 } from "lucide-react";
@@ -47,7 +48,8 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Правила", href: "/rules", icon: ListChecks },
       { label: "Сценарии", href: "/workflows", icon: Workflow },
-      { label: "AI", href: "/ai", icon: Sparkles },
+      { label: "AI чат", href: "/chat", icon: MessageSquare },
+      { label: "Агенты", href: "/ai", icon: Bot },
     ],
   },
   {
@@ -67,8 +69,10 @@ export const ROUTE_LABELS: Record<string, string> = {
   "risk-factors": "Риск-факторы",
   rules: "Правила",
   workflows: "Конструктор сценариев",
-  ai: "AI",
-  agents: "AI-Инструменты",
+  chat: "AI чат",
+  ai: "Агенты",
+  agents: "Агенты",
+  "compliance-agent": "Комплаенс-агент",
   instructions: "ML Модели",
   "llm-usage": "Использование LLM",
   audit: "Журнал аудита",
