@@ -231,7 +231,7 @@ export function ChatScreen() {
     });
 
   return (
-    <div className="relative mt-7 grid h-[calc(100svh-8rem)] grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_6px_24px_-8px_rgba(0,0,0,0.12)] md:grid-cols-[18rem_1fr]">
+    <div className="relative -mx-[21px] mt-[7px] grid h-[calc(100svh-86px)] grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_6px_24px_-8px_rgba(0,0,0,0.12)] md:grid-cols-[18rem_1fr]">
       {/* Затемнение под выезжающим списком (только мобайл) */}
       {navOpen ? (
         <div className="absolute inset-0 z-20 bg-foreground/40 md:hidden" aria-hidden onClick={() => setNavOpen(false)} />
