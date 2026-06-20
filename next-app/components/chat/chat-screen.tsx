@@ -425,7 +425,7 @@ export function ChatScreen() {
               </div>
             </div>
 
-            <div className="border-t border-border py-3 md:py-4">
+            <div className="py-3 md:py-4">
               <div className="mx-auto max-w-3xl px-4 md:px-6">
                 <Composer
                   draft={draft}
