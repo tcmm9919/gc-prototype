@@ -373,11 +373,11 @@ export function ChatScreen() {
                   thickness={isLight ? 0.85 : 0.7}
                 />
               </div>
-              <h2 className="text-center font-heading text-[26px] font-semibold tracking-tight text-foreground sm:text-[32px]">
+              <h2 className="text-center font-heading text-[26px] font-bold tracking-tight text-foreground sm:text-[32px]">
                 {greeting}, {firstName}
               </h2>
-              <h2 className="text-center font-heading text-[26px] font-semibold tracking-tight text-muted-foreground sm:text-[32px]">
-                Чем я могу <span className="text-primary">помочь сегодня?</span>
+              <h2 className="text-center font-heading text-[26px] font-bold tracking-tight text-muted-foreground/70 sm:text-[32px]">
+                Чем я могу помочь сегодня?
               </h2>
 
               <div className="mt-8 grid w-full max-w-2xl grid-cols-2 gap-2 sm:grid-cols-4">
