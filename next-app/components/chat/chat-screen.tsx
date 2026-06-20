@@ -193,7 +193,7 @@ export function ChatScreen() {
   const firstName = currentUser.fullName.split(" ")[0];
 
   return (
-    <div className="relative grid h-[calc(100svh-1rem)] grid-cols-1 overflow-hidden rounded-lg border border-border md:grid-cols-[18rem_1fr]">
+    <div className="relative grid h-[calc(100svh-1rem)] grid-cols-1 overflow-hidden rounded-2xl border border-border bg-card shadow-[0_6px_24px_-8px_rgba(0,0,0,0.12)] md:grid-cols-[18rem_1fr]">
       {/* Затемнение под выезжающим списком (только мобайл) */}
       {navOpen ? (
         <div className="absolute inset-0 z-20 bg-foreground/40 md:hidden" aria-hidden onClick={() => setNavOpen(false)} />
@@ -201,7 +201,7 @@ export function ChatScreen() {
 
       <aside
         className={cn(
-          "flex min-w-0 flex-col overflow-hidden border-r border-border bg-background md:bg-muted/20",
+          "flex min-w-0 flex-col overflow-hidden border-r border-border bg-card",
           "md:relative md:z-auto md:flex md:w-auto md:shadow-none",
           navOpen ? "absolute inset-y-0 left-0 z-30 w-72 shadow-xl" : "hidden md:flex",
         )}
@@ -260,7 +260,7 @@ export function ChatScreen() {
         </div>
       </aside>
 
-      <section className="flex min-w-0 flex-col bg-background">
+      <section className="flex min-w-0 flex-col bg-card">
         <header className="flex items-center justify-between gap-2 border-b border-border px-4 py-3 md:px-6">
           <div className="flex min-w-0 items-center gap-2 md:gap-3">
             <Button variant="ghost" size="icon" className="shrink-0 md:hidden" onClick={() => setNavOpen(true)} aria-label="Открыть список диалогов">
