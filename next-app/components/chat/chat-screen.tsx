@@ -15,6 +15,7 @@ import {
   Search,
   Send,
   Sparkles,
+  User,
   X,
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
@@ -22,6 +23,7 @@ import { ru } from "date-fns/locale";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/shell/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -175,7 +177,7 @@ export function ChatScreen() {
   const isEmpty = messages.length === 0 && streaming === null && error === null;
 
   return (
-    <div className="relative grid h-[calc(100svh-4rem)] grid-cols-1 overflow-hidden rounded-lg border border-border md:grid-cols-[18rem_1fr]">
+    <div className="relative grid h-[calc(100svh-1rem)] grid-cols-1 overflow-hidden rounded-lg border border-border md:grid-cols-[18rem_1fr]">
       {/* Затемнение под выезжающим списком (только мобайл) */}
       {navOpen ? (
         <div className="absolute inset-0 z-20 bg-foreground/40 md:hidden" aria-hidden onClick={() => setNavOpen(false)} />
@@ -256,27 +258,35 @@ export function ChatScreen() {
               <span className="truncate text-xs text-muted-foreground">Контекст подтянется автоматически из открытых сущностей</span>
             </div>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="shrink-0" aria-label={`Модель: ${model}`}>
-                <Cpu className="size-4" />
-                <span className="hidden sm:inline">{model}</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {MODELS.map((m) => (
-                <DropdownMenuItem key={m} onClick={() => setModel(m)}>
+          <div className="flex shrink-0 items-center gap-1">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" aria-label={`Модель: ${model}`}>
                   <Cpu className="size-4" />
-                  {m}
-                  {m === model ? <Check className="ml-auto size-4 text-primary" /> : null}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  <span className="hidden sm:inline">{model}</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {MODELS.map((m) => (
+                  <DropdownMenuItem key={m} onClick={() => setModel(m)}>
+                    <Cpu className="size-4" />
+                    {m}
+                    {m === model ? <Check className="ml-auto size-4 text-primary" /> : null}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <ThemeToggle />
+          </div>
         </header>
 
         <div ref={scrollRef} className="flex-1 overflow-y-auto">
-          <div className="mx-auto max-w-3xl space-y-5 px-4 py-6 md:px-6">
+          <div
+            className={cn(
+              "mx-auto flex min-h-full max-w-2xl flex-col gap-6 px-4 py-6 md:px-6",
+              isEmpty ? "justify-center" : "justify-end",
+            )}
+          >
             {isEmpty ? <EmptyConversation onPick={send} /> : null}
 
             <AnimatePresence initial={false}>
@@ -290,33 +300,42 @@ export function ChatScreen() {
             </AnimatePresence>
 
             {streaming !== null ? (
-              <div className="flex flex-col items-start gap-1">
-                <TypingIndicator />
-                <div className="max-w-[90%] whitespace-pre-wrap rounded-lg bg-muted px-3.5 py-2.5 text-sm leading-relaxed">
-                  {renderWithPills(streaming)}
-                  <span className="ml-0.5 inline-block size-1.5 translate-y-[-1px] animate-pulse rounded-full bg-foreground/60" />
+              <div className="flex gap-3">
+                <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <Sparkles className="size-4" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <TypingIndicator />
+                  <div className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                    {renderWithPills(streaming)}
+                    <span className="ml-0.5 inline-block size-1.5 translate-y-[-1px] animate-pulse rounded-full bg-foreground/60" />
+                  </div>
                 </div>
               </div>
             ) : null}
 
             {error !== null ? (
-              <div className="flex flex-col items-start gap-1.5">
-                <div className="flex max-w-[90%] items-start gap-2 rounded-lg border border-risk-critical/30 bg-risk-critical/10 px-3.5 py-2.5 text-sm text-risk-critical">
-                  <AlertCircle className="mt-0.5 size-4 shrink-0" />
-                  <span>Не удалось получить ответ. Проверьте соединение и попробуйте ещё раз.</span>
+              <div className="flex gap-3">
+                <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-risk-critical/10 text-risk-critical">
+                  <AlertCircle className="size-4" />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <div className="mb-1 text-[11px] font-medium text-risk-critical">Ошибка</div>
+                  <p className="text-sm text-muted-foreground">Не удалось получить ответ. Проверьте соединение и попробуйте ещё раз.</p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-2"
+                    onClick={() => {
+                      const t = error;
+                      setError(null);
+                      send(t);
+                    }}
+                  >
+                    <RefreshCw className="size-3.5" />
+                    Повторить
+                  </Button>
                 </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    const t = error;
-                    setError(null);
-                    send(t);
-                  }}
-                >
-                  <RefreshCw className="size-3.5" />
-                  Повторить
-                </Button>
               </div>
             ) : null}
           </div>
@@ -404,36 +423,42 @@ function MessageRow({ message, onRegenerate }: { message: Message; onRegenerate?
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.18, ease: "easeOut" }}
-      className={cn("group/msg flex flex-col gap-1", isUser ? "items-end" : "items-start")}
+      className="group/msg flex gap-3"
     >
-      <span className="text-[11px] text-muted-foreground">{isUser ? "Вы" : "Ассистент"}</span>
-      <div
+      <span
         className={cn(
-          "max-w-[90%] whitespace-pre-wrap rounded-lg px-3.5 py-2.5 text-sm leading-relaxed",
-          isUser ? "bg-primary text-primary-foreground" : "bg-muted",
+          "mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full",
+          isUser ? "bg-muted text-muted-foreground" : "bg-primary/10 text-primary",
         )}
+        aria-hidden
       >
-        {renderWithPills(message.content, isUser)}
-      </div>
-      <div className={cn("flex items-center gap-0.5 opacity-0 transition group-hover/msg:opacity-100", isUser ? "self-end" : "self-start")}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon" className="size-6" onClick={copy} aria-label="Копировать">
-              {copied ? <Check className="size-3.5 text-risk-low" /> : <Copy className="size-3.5" />}
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>{copied ? "Скопировано" : "Копировать"}</TooltipContent>
-        </Tooltip>
-        {!isUser && onRegenerate ? (
+        {isUser ? <User className="size-4" /> : <Sparkles className="size-4" />}
+      </span>
+      <div className="min-w-0 flex-1">
+        <div className="mb-1 text-[11px] font-medium text-muted-foreground">{isUser ? "Вы" : "Ассистент"}</div>
+        <div className="whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+          {renderWithPills(message.content)}
+        </div>
+        <div className="mt-1.5 flex items-center gap-0.5 opacity-0 transition group-hover/msg:opacity-100">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" className="size-6" onClick={onRegenerate} aria-label="Перегенерировать">
-                <RefreshCw className="size-3.5" />
+              <Button variant="ghost" size="icon" className="size-6" onClick={copy} aria-label="Копировать">
+                {copied ? <Check className="size-3.5 text-risk-low" /> : <Copy className="size-3.5" />}
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Перегенерировать ответ</TooltipContent>
+            <TooltipContent>{copied ? "Скопировано" : "Копировать"}</TooltipContent>
           </Tooltip>
-        ) : null}
+          {!isUser && onRegenerate ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="ghost" size="icon" className="size-6" onClick={onRegenerate} aria-label="Перегенерировать">
+                  <RefreshCw className="size-3.5" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Перегенерировать ответ</TooltipContent>
+            </Tooltip>
+          ) : null}
+        </div>
       </div>
     </motion.div>
   );
