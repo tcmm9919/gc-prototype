@@ -287,6 +287,7 @@ export function ChatScreen() {
       >
         <div className="flex items-center gap-2 border-b border-border p-3">
           <Button
+            variant="secondary"
             size="lg"
             className="flex-1 justify-start"
             onClick={() => {
