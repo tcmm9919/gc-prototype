@@ -113,7 +113,7 @@ const INITIAL_MESSAGES: Record<string, Message[]> = {
 // Промпты-шаблоны заканчиваются открытой скобкой [XX- → подставляются в инпут и сразу
 // открывают дропдаун выбора реальной сущности.
 const QUICK_ACTIONS = [
-  { label: "Риск-профиль клиента", icon: User, prompt: "Проанализируй риск-профиль клиента [CL-" },
+  { label: "Риск-профиль", icon: User, prompt: "Проанализируй риск-профиль клиента [CL-" },
   { label: "Похожие операции", icon: ArrowLeftRight, prompt: "Покажи похожие операции на транзакцию [TX-" },
   { label: "Разбор оповещения", icon: Bell, prompt: "Объясни почему сработало оповещение [AL-" },
   { label: "Черновик SAR", icon: FileText, prompt: "Составь черновик SAR-отчёта по кейсу [CASE-" },
@@ -380,7 +380,7 @@ export function ChatScreen() {
                 Чем я могу помочь сегодня?
               </h2>
 
-              <div className="mt-8 grid w-full max-w-2xl grid-cols-2 gap-2 sm:grid-cols-4">
+              <div className="mt-12 grid w-full max-w-2xl grid-cols-2 gap-2 sm:grid-cols-4">
                 {QUICK_ACTIONS.map((q) => (
                   <button
                     key={q.label}
