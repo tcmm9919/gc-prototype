@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { useTheme } from "next-themes";
 import {
   AlertCircle,
   ArrowLeftRight,
@@ -190,6 +191,8 @@ export function ChatScreen() {
   const fileRef = React.useRef<HTMLInputElement>(null);
   const taRef = React.useRef<HTMLTextAreaElement>(null);
   const data = useMockData();
+  const { resolvedTheme } = useTheme();
+  const isLight = resolvedTheme === "light";
   const mentionEntities = React.useMemo<MentionEntity[]>(
     () => [
       ...data.clients.map((c) => ({ id: c.id, label: c.fullName })),
@@ -359,11 +362,12 @@ export function ChatScreen() {
                   colors={["#F97316", "#7C3AED", "#06B6D4"]}
                   count={3}
                   speed={0.5}
-                  glow={2.6}
                   taper={3}
-                  intensity={0.6}
-                  saturation={1.5}
                   scale={1.5}
+                  glow={isLight ? 1.4 : 2.6}
+                  saturation={isLight ? 2 : 1.5}
+                  intensity={isLight ? 0.72 : 0.6}
+                  thickness={isLight ? 0.85 : 0.7}
                 />
               </div>
               <h2 className="text-center font-heading text-[26px] font-semibold tracking-tight text-foreground sm:text-[32px]">
