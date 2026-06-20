@@ -8,9 +8,10 @@ import {
   ArrowUp,
   Bell,
   Check,
+  ChevronDown,
   Copy,
-  Cpu,
   FileText,
+  Globe,
   Menu,
   MessageSquare,
   Mic,
@@ -18,7 +19,6 @@ import {
   Plus,
   RefreshCw,
   Search,
-  Send,
   Sparkles,
   User,
   X,
@@ -275,23 +275,6 @@ export function ChatScreen() {
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-1">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" aria-label={`Модель: ${model}`}>
-                  <Cpu className="size-4" />
-                  <span className="hidden sm:inline">{model}</span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {MODELS.map((m) => (
-                  <DropdownMenuItem key={m} onClick={() => setModel(m)}>
-                    <Cpu className="size-4" />
-                    {m}
-                    {m === model ? <Check className="ml-auto size-4 text-primary" /> : null}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
             <ThemeToggle />
           </div>
         </header>
@@ -319,48 +302,19 @@ export function ChatScreen() {
               </h2>
 
               <div className="mt-8 w-full max-w-2xl">
-                {attachment ? (
-                  <div className="mb-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs">
-                    <Paperclip className="size-3.5 shrink-0 text-muted-foreground" />
-                    <span className="truncate">{attachment}</span>
-                    <button type="button" onClick={() => setAttachment(null)} aria-label="Убрать вложение" className="shrink-0 text-muted-foreground transition hover:text-foreground">
-                      <X className="size-3.5" />
-                    </button>
-                  </div>
-                ) : null}
-                <div className="rounded-2xl border border-border bg-card p-2 shadow-sm">
-                  <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg" className="hidden" onChange={pickFile} />
-                  <Textarea
-                    value={draft}
-                    onChange={(e) => setDraft(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-                        e.preventDefault();
-                        send(draft);
-                      }
-                    }}
-                    placeholder="Задайте вопрос ассистенту…"
-                    className="max-h-40 min-h-12 resize-none border-0 bg-transparent px-2 shadow-none focus-visible:ring-0"
-                    rows={2}
-                  />
-                  <div className="flex items-center gap-1 px-1">
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button variant="ghost" size="icon" onClick={() => fileRef.current?.click()} aria-label="Прикрепить файл">
-                          <Paperclip className="size-4" />
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent>Прикрепить PDF / изображение</TooltipContent>
-                    </Tooltip>
-                    <Button variant="ghost" size="icon" aria-label="Голосовой ввод" onClick={() => toast("Голосовой ввод — в разработке")}>
-                      <Mic className="size-4" />
-                    </Button>
-                    <div className="ml-auto" />
-                    <Button size="icon" className="rounded-full" onClick={() => send(draft)} disabled={!draft.trim() || streaming !== null} aria-label="Отправить (⌘+Enter)">
-                      <ArrowUp className="size-4" />
-                    </Button>
-                  </div>
-                </div>
+                <Composer
+                  draft={draft}
+                  setDraft={setDraft}
+                  onSend={() => send(draft)}
+                  attachment={attachment}
+                  setAttachment={setAttachment}
+                  fileRef={fileRef}
+                  onPickFile={pickFile}
+                  streaming={streaming}
+                  model={model}
+                  setModel={setModel}
+                  placeholder="Задайте вопрос ассистенту…"
+                />
               </div>
 
               <div className="mt-4 flex flex-wrap justify-center gap-2">
@@ -435,52 +389,124 @@ export function ChatScreen() {
 
             <div className="border-t border-border p-3 md:p-4">
               <div className="mx-auto max-w-3xl">
-                {attachment ? (
-                  <div className="mb-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs">
-                    <Paperclip className="size-3.5 shrink-0 text-muted-foreground" />
-                    <span className="truncate">{attachment}</span>
-                    <button type="button" onClick={() => setAttachment(null)} aria-label="Убрать вложение" className="shrink-0 text-muted-foreground transition hover:text-foreground">
-                      <X className="size-3.5" />
-                    </button>
-                  </div>
-                ) : null}
-                <div className="flex items-end gap-2">
-                  <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg" className="hidden" onChange={pickFile} />
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button variant="outline" size="icon" className="shrink-0" onClick={() => fileRef.current?.click()} aria-label="Прикрепить файл">
-                        <Paperclip className="size-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Прикрепить PDF / изображение</TooltipContent>
-                  </Tooltip>
-                  <Textarea
-                    value={draft}
-                    onChange={(e) => setDraft(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-                        e.preventDefault();
-                        send(draft);
-                      }
-                    }}
-                    placeholder="Задайте вопрос или упомяните [CL-…], [TX-…]…"
-                    className="max-h-48 min-h-11 resize-none"
-                    rows={1}
-                  />
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button onClick={() => send(draft)} disabled={!draft.trim() || streaming !== null} aria-label="Отправить (⌘+Enter)">
-                        <Send className="size-4" />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Отправить · ⌘+Enter</TooltipContent>
-                  </Tooltip>
-                </div>
+                <Composer
+                  draft={draft}
+                  setDraft={setDraft}
+                  onSend={() => send(draft)}
+                  attachment={attachment}
+                  setAttachment={setAttachment}
+                  fileRef={fileRef}
+                  onPickFile={pickFile}
+                  streaming={streaming}
+                  model={model}
+                  setModel={setModel}
+                  placeholder="Задайте вопрос или упомяните [CL-…], [TX-…]…"
+                />
               </div>
             </div>
           </>
         )}
       </section>
+    </div>
+  );
+}
+
+interface ComposerProps {
+  draft: string;
+  setDraft: (v: string) => void;
+  onSend: () => void;
+  attachment: string | null;
+  setAttachment: (v: string | null) => void;
+  fileRef: React.RefObject<HTMLInputElement | null>;
+  onPickFile: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  streaming: string | null;
+  model: string;
+  setModel: (m: string) => void;
+  placeholder: string;
+}
+
+function Composer({
+  draft,
+  setDraft,
+  onSend,
+  attachment,
+  setAttachment,
+  fileRef,
+  onPickFile,
+  streaming,
+  model,
+  setModel,
+  placeholder,
+}: ComposerProps) {
+  return (
+    <div>
+      {attachment ? (
+        <div className="mb-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs">
+          <Paperclip className="size-3.5 shrink-0 text-muted-foreground" />
+          <span className="truncate">{attachment}</span>
+          <button type="button" onClick={() => setAttachment(null)} aria-label="Убрать вложение" className="shrink-0 text-muted-foreground transition hover:text-foreground">
+            <X className="size-3.5" />
+          </button>
+        </div>
+      ) : null}
+      <div className="rounded-2xl border border-border bg-card p-2 shadow-sm">
+        <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg" className="hidden" onChange={onPickFile} />
+        <Textarea
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+              e.preventDefault();
+              onSend();
+            }
+          }}
+          placeholder={placeholder}
+          className="max-h-40 min-h-12 resize-none border-0 bg-transparent px-2 shadow-none focus-visible:ring-0"
+          rows={2}
+        />
+        <div className="flex items-center gap-1 px-1">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button variant="ghost" size="icon" onClick={() => fileRef.current?.click()} aria-label="Прикрепить файл">
+                <Paperclip className="size-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>Прикрепить PDF / изображение</TooltipContent>
+          </Tooltip>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="h-7 gap-1.5 rounded-full px-2.5 text-xs font-normal" aria-label={`Модель: ${model}`}>
+                <Globe className="size-3.5 text-muted-foreground" />
+                {model}
+                <ChevronDown className="size-3 text-muted-foreground" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {MODELS.map((m) => (
+                <DropdownMenuItem key={m} onClick={() => setModel(m)}>
+                  {m}
+                  {m === model ? <Check className="ml-auto size-4 text-primary" /> : null}
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Button variant="ghost" size="icon" aria-label="Голосовой ввод" onClick={() => toast("Голосовой ввод — в разработке")}>
+            <Mic className="size-4" />
+          </Button>
+          <div className="ml-auto" />
+          <Button
+            size="icon"
+            className="rounded-full"
+            onClick={onSend}
+            disabled={!draft.trim() || streaming !== null}
+            aria-label="Отправить (⌘+Enter)"
+          >
+            <ArrowUp className="size-4" />
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
