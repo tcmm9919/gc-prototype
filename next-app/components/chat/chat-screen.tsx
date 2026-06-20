@@ -151,8 +151,9 @@ function groupConversations(convs: Conversation[], now: Date | null): ConvGroup[
 }
 
 export function ChatScreen() {
-  const [activeId, setActiveId] = React.useState<string>("c1");
-  const [messages, setMessages] = React.useState<Message[]>(INITIAL_MESSAGES.c1 ?? []);
+  // По умолчанию — пустой диалог (empty-state с приветствием), а не загруженный c1.
+  const [activeId, setActiveId] = React.useState<string>("new");
+  const [messages, setMessages] = React.useState<Message[]>([]);
   const [draft, setDraft] = React.useState("");
   const [streaming, setStreaming] = React.useState<string | null>(null);
   const [error, setError] = React.useState<string | null>(null);
