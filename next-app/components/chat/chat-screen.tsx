@@ -4,11 +4,16 @@ import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   AlertCircle,
+  ArrowLeftRight,
+  ArrowUp,
+  Bell,
   Check,
   Copy,
   Cpu,
+  FileText,
   Menu,
   MessageSquare,
+  Mic,
   Paperclip,
   Plus,
   RefreshCw,
@@ -23,7 +28,9 @@ import { ru } from "date-fns/locale";
 import { toast } from "sonner";
 
 import { cn } from "@/lib/utils";
+import { currentUser } from "@/lib/mock";
 import { ThemeToggle } from "@/components/shell/theme-toggle";
+import Strands from "./strands";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -106,11 +113,11 @@ const INITIAL_MESSAGES: Record<string, Message[]> = {
   ],
 };
 
-const STARTERS = [
-  "Проанализируй риск-профиль клиента [CL-0001]",
-  "Покажи похожие операции на транзакцию [TX-0042]",
-  "Объясни почему сработало оповещение [AL-0001]",
-  "Составь черновик SAR-отчёта по кейсу [CS-0001]",
+const QUICK_ACTIONS = [
+  { label: "Риск-профиль клиента", icon: User, prompt: "Проанализируй риск-профиль клиента [CL-0001]" },
+  { label: "Похожие операции", icon: ArrowLeftRight, prompt: "Покажи похожие операции на транзакцию [TX-0042]" },
+  { label: "Разбор оповещения", icon: Bell, prompt: "Объясни почему сработало оповещение [AL-0001]" },
+  { label: "Черновик SAR", icon: FileText, prompt: "Составь черновик SAR-отчёта по кейсу [CS-0001]" },
 ];
 
 const MODELS = ["gpt-mini-1106", "gpt-4o", "YandexGPT Pro"];
@@ -124,8 +131,13 @@ export function ChatScreen() {
   const [navOpen, setNavOpen] = React.useState(false);
   const [model, setModel] = React.useState(MODELS[0]);
   const [attachment, setAttachment] = React.useState<string | null>(null);
+  const [now, setNow] = React.useState<Date | null>(null);
   const scrollRef = React.useRef<HTMLDivElement>(null);
   const fileRef = React.useRef<HTMLInputElement>(null);
+
+  // Время резолвим только на клиенте → приветствие до маунта нейтральное (без hydration mismatch).
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  React.useEffect(() => setNow(new Date()), []);
 
   // Сброс состояния при смене диалога — корректировка во время рендера (рекомендованный
   // React-паттерн вместо useEffect: без лишнего ререндера и мерцания).
@@ -175,6 +187,10 @@ export function ChatScreen() {
 
   const active = CONVERSATIONS.find((c) => c.id === activeId);
   const isEmpty = messages.length === 0 && streaming === null && error === null;
+  const hour = now?.getHours() ?? -1;
+  const greeting =
+    hour < 0 ? "Здравствуйте" : hour < 6 ? "Доброй ночи" : hour < 12 ? "Доброе утро" : hour < 18 ? "Добрый день" : "Добрый вечер";
+  const firstName = currentUser.fullName.split(" ")[0];
 
   return (
     <div className="relative grid h-[calc(100svh-1rem)] grid-cols-1 overflow-hidden rounded-lg border border-border md:grid-cols-[18rem_1fr]">
@@ -280,112 +296,190 @@ export function ChatScreen() {
           </div>
         </header>
 
-        <div ref={scrollRef} className="flex-1 overflow-y-auto">
-          <div
-            className={cn(
-              "mx-auto flex min-h-full max-w-2xl flex-col gap-6 px-4 py-6 md:px-6",
-              isEmpty ? "justify-center" : "justify-end",
-            )}
-          >
-            {isEmpty ? <EmptyConversation onPick={send} /> : null}
-
-            <AnimatePresence initial={false}>
-              {messages.map((m, i) => (
-                <MessageRow
-                  key={i}
-                  message={m}
-                  onRegenerate={i === messages.length - 1 && m.role === "assistant" ? () => send(messages[i - 1]?.content ?? "") : undefined}
+        {isEmpty ? (
+          <div className="flex-1 overflow-y-auto">
+            <div className="flex min-h-full flex-col items-center justify-center px-4 py-8">
+              <div className="relative mb-6 size-52 sm:size-60" aria-hidden>
+                <Strands
+                  colors={["#F97316", "#7C3AED", "#06B6D4"]}
+                  count={3}
+                  speed={0.5}
+                  glow={2.6}
+                  taper={3}
+                  intensity={0.6}
+                  saturation={1.5}
+                  scale={1.5}
                 />
-              ))}
-            </AnimatePresence>
+              </div>
+              <h2 className="text-center font-heading text-[26px] font-semibold tracking-tight text-foreground sm:text-[32px]">
+                {greeting}, {firstName}
+              </h2>
+              <h2 className="text-center font-heading text-[26px] font-semibold tracking-tight text-muted-foreground sm:text-[32px]">
+                Чем я могу <span className="text-primary">помочь сегодня?</span>
+              </h2>
 
-            {streaming !== null ? (
-              <div className="flex gap-3">
-                <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
-                  <Sparkles className="size-4" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <TypingIndicator />
-                  <div className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-foreground">
-                    {renderWithPills(streaming)}
-                    <span className="ml-0.5 inline-block size-1.5 translate-y-[-1px] animate-pulse rounded-full bg-foreground/60" />
+              <div className="mt-8 w-full max-w-2xl">
+                {attachment ? (
+                  <div className="mb-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs">
+                    <Paperclip className="size-3.5 shrink-0 text-muted-foreground" />
+                    <span className="truncate">{attachment}</span>
+                    <button type="button" onClick={() => setAttachment(null)} aria-label="Убрать вложение" className="shrink-0 text-muted-foreground transition hover:text-foreground">
+                      <X className="size-3.5" />
+                    </button>
+                  </div>
+                ) : null}
+                <div className="rounded-2xl border border-border bg-card p-2 shadow-sm">
+                  <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg" className="hidden" onChange={pickFile} />
+                  <Textarea
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                        e.preventDefault();
+                        send(draft);
+                      }
+                    }}
+                    placeholder="Задайте вопрос ассистенту…"
+                    className="max-h-40 min-h-12 resize-none border-0 bg-transparent px-2 shadow-none focus-visible:ring-0"
+                    rows={2}
+                  />
+                  <div className="flex items-center gap-1 px-1">
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" onClick={() => fileRef.current?.click()} aria-label="Прикрепить файл">
+                          <Paperclip className="size-4" />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent>Прикрепить PDF / изображение</TooltipContent>
+                    </Tooltip>
+                    <Button variant="ghost" size="icon" aria-label="Голосовой ввод" onClick={() => toast("Голосовой ввод — в разработке")}>
+                      <Mic className="size-4" />
+                    </Button>
+                    <div className="ml-auto" />
+                    <Button size="icon" className="rounded-full" onClick={() => send(draft)} disabled={!draft.trim() || streaming !== null} aria-label="Отправить (⌘+Enter)">
+                      <ArrowUp className="size-4" />
+                    </Button>
                   </div>
                 </div>
               </div>
-            ) : null}
 
-            {error !== null ? (
-              <div className="flex gap-3">
-                <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-risk-critical/10 text-risk-critical">
-                  <AlertCircle className="size-4" />
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="mb-1 text-[11px] font-medium text-risk-critical">Ошибка</div>
-                  <p className="text-sm text-muted-foreground">Не удалось получить ответ. Проверьте соединение и попробуйте ещё раз.</p>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="mt-2"
-                    onClick={() => {
-                      const t = error;
-                      setError(null);
-                      send(t);
-                    }}
+              <div className="mt-4 flex flex-wrap justify-center gap-2">
+                {QUICK_ACTIONS.map((q) => (
+                  <button
+                    key={q.label}
+                    onClick={() => send(q.prompt)}
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3.5 py-1.5 text-[13px] text-foreground transition hover:bg-muted/60"
                   >
-                    <RefreshCw className="size-3.5" />
-                    Повторить
-                  </Button>
-                </div>
+                    <q.icon className="size-3.5 text-muted-foreground" />
+                    {q.label}
+                  </button>
+                ))}
               </div>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="border-t border-border p-3 md:p-4">
-          <div className="mx-auto max-w-3xl">
-            {attachment ? (
-              <div className="mb-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs">
-                <Paperclip className="size-3.5 shrink-0 text-muted-foreground" />
-                <span className="truncate">{attachment}</span>
-                <button type="button" onClick={() => setAttachment(null)} aria-label="Убрать вложение" className="shrink-0 text-muted-foreground transition hover:text-foreground">
-                  <X className="size-3.5" />
-                </button>
-              </div>
-            ) : null}
-            <div className="flex items-end gap-2">
-              <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg" className="hidden" onChange={pickFile} />
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon" className="shrink-0" onClick={() => fileRef.current?.click()} aria-label="Прикрепить файл">
-                    <Paperclip className="size-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Прикрепить PDF / изображение</TooltipContent>
-              </Tooltip>
-              <Textarea
-                value={draft}
-                onChange={(e) => setDraft(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-                    e.preventDefault();
-                    send(draft);
-                  }
-                }}
-                placeholder="Задайте вопрос или упомяните [CL-…], [TX-…]…"
-                className="max-h-48 min-h-11 resize-none"
-                rows={1}
-              />
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button onClick={() => send(draft)} disabled={!draft.trim() || streaming !== null} aria-label="Отправить (⌘+Enter)">
-                    <Send className="size-4" />
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>Отправить · ⌘+Enter</TooltipContent>
-              </Tooltip>
             </div>
           </div>
-        </div>
+        ) : (
+          <>
+            <div ref={scrollRef} className="flex-1 overflow-y-auto">
+              <div className="mx-auto flex min-h-full max-w-2xl flex-col justify-end gap-6 px-4 py-6 md:px-6">
+                <AnimatePresence initial={false}>
+                  {messages.map((m, i) => (
+                    <MessageRow
+                      key={i}
+                      message={m}
+                      onRegenerate={i === messages.length - 1 && m.role === "assistant" ? () => send(messages[i - 1]?.content ?? "") : undefined}
+                    />
+                  ))}
+                </AnimatePresence>
+
+                {streaming !== null ? (
+                  <div className="flex gap-3">
+                    <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                      <Sparkles className="size-4" />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <TypingIndicator />
+                      <div className="mt-1 whitespace-pre-wrap text-sm leading-relaxed text-foreground">
+                        {renderWithPills(streaming)}
+                        <span className="ml-0.5 inline-block size-1.5 translate-y-[-1px] animate-pulse rounded-full bg-foreground/60" />
+                      </div>
+                    </div>
+                  </div>
+                ) : null}
+
+                {error !== null ? (
+                  <div className="flex gap-3">
+                    <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-full bg-risk-critical/10 text-risk-critical">
+                      <AlertCircle className="size-4" />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="mb-1 text-[11px] font-medium text-risk-critical">Ошибка</div>
+                      <p className="text-sm text-muted-foreground">Не удалось получить ответ. Проверьте соединение и попробуйте ещё раз.</p>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="mt-2"
+                        onClick={() => {
+                          const t = error;
+                          setError(null);
+                          send(t);
+                        }}
+                      >
+                        <RefreshCw className="size-3.5" />
+                        Повторить
+                      </Button>
+                    </div>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+
+            <div className="border-t border-border p-3 md:p-4">
+              <div className="mx-auto max-w-3xl">
+                {attachment ? (
+                  <div className="mb-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-border bg-muted px-2.5 py-1.5 text-xs">
+                    <Paperclip className="size-3.5 shrink-0 text-muted-foreground" />
+                    <span className="truncate">{attachment}</span>
+                    <button type="button" onClick={() => setAttachment(null)} aria-label="Убрать вложение" className="shrink-0 text-muted-foreground transition hover:text-foreground">
+                      <X className="size-3.5" />
+                    </button>
+                  </div>
+                ) : null}
+                <div className="flex items-end gap-2">
+                  <input ref={fileRef} type="file" accept=".pdf,.png,.jpg,.jpeg" className="hidden" onChange={pickFile} />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button variant="outline" size="icon" className="shrink-0" onClick={() => fileRef.current?.click()} aria-label="Прикрепить файл">
+                        <Paperclip className="size-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Прикрепить PDF / изображение</TooltipContent>
+                  </Tooltip>
+                  <Textarea
+                    value={draft}
+                    onChange={(e) => setDraft(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+                        e.preventDefault();
+                        send(draft);
+                      }
+                    }}
+                    placeholder="Задайте вопрос или упомяните [CL-…], [TX-…]…"
+                    className="max-h-48 min-h-11 resize-none"
+                    rows={1}
+                  />
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button onClick={() => send(draft)} disabled={!draft.trim() || streaming !== null} aria-label="Отправить (⌘+Enter)">
+                        <Send className="size-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>Отправить · ⌘+Enter</TooltipContent>
+                  </Tooltip>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </section>
     </div>
   );
@@ -461,36 +555,6 @@ function MessageRow({ message, onRegenerate }: { message: Message; onRegenerate?
         </div>
       </div>
     </motion.div>
-  );
-}
-
-function EmptyConversation({ onPick }: { onPick: (text: string) => void }) {
-  return (
-    <div className="flex flex-col items-center gap-4 py-10 text-center">
-      <div className="relative">
-        <div className="pointer-events-none absolute inset-0 -m-3 rounded-full bg-primary/8 blur-2xl" aria-hidden />
-        <div className="relative flex size-14 items-center justify-center rounded-2xl border border-border bg-background text-primary shadow-sm">
-          <Sparkles className="size-6" />
-        </div>
-      </div>
-      <div className="space-y-1">
-        <h2 className="font-heading text-lg font-medium">Спросите что-нибудь о вашей платформе</h2>
-        <p className="max-w-md text-sm text-muted-foreground">
-          Можно упоминать клиентов, транзакции, оповещения и кейсы в квадратных скобках — например <span className="font-mono text-foreground">[CL-0001]</span>.
-        </p>
-      </div>
-      <div className="grid w-full max-w-2xl gap-2 sm:grid-cols-2">
-        {STARTERS.map((s) => (
-          <button
-            key={s}
-            onClick={() => onPick(s)}
-            className="rounded-lg border border-border bg-background px-3 py-2 text-left text-sm transition hover:border-primary/40 hover:bg-muted/40"
-          >
-            {renderWithPills(s)}
-          </button>
-        ))}
-      </div>
-    </div>
   );
 }
 
