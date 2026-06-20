@@ -31,7 +31,10 @@ export type NavGroup = {
 export const NAV_GROUPS: NavGroup[] = [
   {
     label: "Обзор",
-    items: [{ label: "Дашборд", href: "/dashboard", icon: LayoutDashboard }],
+    items: [
+      { label: "Дашборд", href: "/dashboard", icon: LayoutDashboard },
+      { label: "AI чат", href: "/chat", icon: MessageSquare },
+    ],
   },
   {
     label: "Работа",
@@ -48,7 +51,6 @@ export const NAV_GROUPS: NavGroup[] = [
     items: [
       { label: "Правила", href: "/rules", icon: ListChecks },
       { label: "Сценарии", href: "/workflows", icon: Workflow },
-      { label: "AI чат", href: "/chat", icon: MessageSquare },
       { label: "Агенты", href: "/ai", icon: Bot },
     ],
   },
