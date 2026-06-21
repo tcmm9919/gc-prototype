@@ -328,7 +328,7 @@ export default function Page() {
         </CardContent>
       </Card>
 
-      <Card className="mt-4 overflow-hidden">
+      <Card className="mt-4 gap-0 overflow-hidden py-0">
         <div className="flex items-center justify-between border-b border-border p-4">
           <h3 className="font-semibold">Активность агента</h3>
           <Button variant="outline" size="sm">
