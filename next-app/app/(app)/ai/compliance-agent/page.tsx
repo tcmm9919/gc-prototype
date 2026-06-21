@@ -219,7 +219,7 @@ export default function Page() {
         </BreadcrumbList>
       </Breadcrumb>
 
-      <Card className="mt-6">
+      <Card className="mt-6 py-0">
         <CardContent className="space-y-5 p-5">
           <div className="space-y-1.5">
             <div className="flex items-start gap-3">
