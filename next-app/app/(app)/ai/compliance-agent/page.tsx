@@ -4,14 +4,6 @@ import * as React from "react"
 import Link from "next/link"
 import { AlertTriangle, Bot, RefreshCcw } from "lucide-react"
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -198,28 +190,8 @@ export default function Page() {
   const [escalate, setEscalate] = React.useState(true)
 
   return (
-    <div className="mx-auto w-full max-w-3xl pt-6 pb-12">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/ai">AI</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/ai/agents">Агенты</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Комплаенс-агент</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-
-      <Card className="mt-6 py-0">
+    <div className="mx-auto w-full max-w-3xl pt-2 pb-6">
+      <Card className="py-0">
         <CardContent className="space-y-5 p-5">
           <div className="space-y-1.5">
             <div className="flex items-start gap-3">
