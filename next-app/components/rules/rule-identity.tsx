@@ -41,8 +41,8 @@ export function RuleIdentity({ rule }: { rule: Rule }) {
           </div>
 
           <div className="flex flex-col gap-2.5">
-            <Button size="lg" className="w-full justify-center" onClick={() => toast.success("Правило обновлено")}>
-              Обновить правило
+            <Button size="lg" className="w-full justify-center" onClick={() => toast.success("Правило сохранено")}>
+              Сохранить
             </Button>
             <Button variant="outline" size="lg" className="w-full justify-center"><Copy className="size-4" />Клонировать</Button>
             <Button variant="outline" size="lg" className="w-full justify-center"><Download className="size-4" />JSON</Button>
