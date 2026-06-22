@@ -18,7 +18,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           style={{ "--sidebar-width": "16rem" } as React.CSSProperties}
         >
           <AppSidebar />
-          <SidebarInset className="overflow-hidden bg-transparent">
+          <SidebarInset className="min-w-0 overflow-hidden bg-transparent">
             <AppMain>
               <Suspense fallback={null}>
                 <AppHeader />

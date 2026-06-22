@@ -1,0 +1,154 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+          - link "AI чат" [ref=e24] [cursor=pointer]:
+            - /url: /chat/
+            - img [ref=e25]
+            - generic [ref=e27]: AI чат
+        - generic [ref=e28]:
+          - generic [ref=e29]: Работа
+          - link "Клиенты" [ref=e30] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e31]
+            - generic [ref=e36]: Клиенты
+          - link "Транзакции 65" [ref=e37] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e38]
+            - generic [ref=e41]: Транзакции
+            - generic [ref=e42]: "65"
+          - link "Оповещения 62" [ref=e43] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e44]
+            - generic [ref=e47]: Оповещения
+            - generic [ref=e48]: "62"
+          - link "Кейсы 42" [ref=e49] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e50]
+            - generic [ref=e52]: Кейсы
+            - generic [ref=e53]: "42"
+          - link "Риск-факторы" [ref=e54] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e55]
+            - generic [ref=e57]: Риск-факторы
+        - generic [ref=e58]:
+          - generic [ref=e59]: Инструменты
+          - link "Правила" [ref=e60] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e61]
+            - generic [ref=e64]: Правила
+          - link "Сценарии" [ref=e65] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e66]
+            - generic [ref=e70]: Сценарии
+          - link "Агенты" [ref=e71] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e72]
+            - generic [ref=e75]: Агенты
+      - generic [ref=e76]:
+        - link "Настройки" [ref=e78] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e79]
+          - generic [ref=e82]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e84]:
+          - img "Madina S." [ref=e85]
+          - generic [ref=e86]:
+            - generic [ref=e87]: Madina S.
+            - generic [ref=e88]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e89]
+    - main [ref=e92]:
+      - main [ref=e93]:
+        - generic [ref=e94]:
+          - heading "Риск-факторы" [level=1] [ref=e96]
+          - generic [ref=e97]:
+            - button "Сменить язык" [ref=e98]:
+              - img
+            - button "Уведомления" [ref=e99]:
+              - img
+            - button "Сменить тему" [ref=e101]:
+              - img
+        - generic [ref=e102]:
+          - generic [ref=e104]:
+            - heading "Новый риск-фактор" [level=1] [ref=e105]
+            - paragraph [ref=e106]: Добавьте фактор, который будет учитываться в скоринге клиентов и сценариях
+          - generic [ref=e107]:
+            - generic [ref=e108]:
+              - generic [ref=e109]:
+                - generic [ref=e110]:
+                  - generic [ref=e111]: Название
+                  - textbox "Название" [ref=e112]:
+                    - /placeholder: напр. Скоринговый балл
+                - generic [ref=e113]:
+                  - generic [ref=e114]: Тип
+                  - combobox [ref=e115]:
+                    - img
+                  - combobox [ref=e116]
+                - generic [ref=e117]:
+                  - switch "Активен" [checked] [ref=e118]
+                  - checkbox [checked]
+                  - generic [ref=e119] [cursor=pointer]: Активен
+                - generic [ref=e120]:
+                  - generic [ref=e121]: Описание
+                  - textbox "Описание" [ref=e122]:
+                    - /placeholder: Что считает этот атрибут
+              - generic [ref=e123]:
+                - generic [ref=e124]:
+                  - generic [ref=e125]: Источник
+                  - combobox [ref=e126]:
+                    - img
+                  - combobox [ref=e127]
+                - generic [ref=e128]:
+                  - generic [ref=e129]: Агрегация
+                  - combobox [ref=e130]:
+                    - img
+                  - combobox [ref=e131]
+              - generic [ref=e132]:
+                - generic [ref=e133]:
+                  - generic [ref=e134]:
+                    - heading "Корзины" [level=3] [ref=e135]
+                    - paragraph [ref=e136]: Первое совпадение даёт балл
+                  - button "Добавить" [ref=e137]:
+                    - img
+                    - text: Добавить
+                - generic [ref=e139]:
+                  - combobox [ref=e140]:
+                    - img
+                  - combobox [ref=e141]
+                  - spinbutton [ref=e142]: "0"
+                  - generic [ref=e143]: →
+                  - spinbutton [ref=e144]: "0"
+                  - button "Удалить корзину" [ref=e145]:
+                    - img
+              - generic [ref=e147]:
+                - generic [ref=e148]: Вес (0–1)
+                - spinbutton "Вес (0–1)" [ref=e149]: "0.1"
+                - paragraph [ref=e150]: Итоговый балл нормализуется по сумме весов всех факторов.
+            - generic [ref=e151]:
+              - button "Отмена" [ref=e152]
+              - button "Создать фактор" [ref=e153]
+    - button "D · Утренняя смена ЦПК" [ref=e154]:
+      - img
+      - generic [ref=e155]: D
+      - generic [ref=e156]: ·
+      - generic [ref=e157]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e159]:
+      - img [ref=e160]
+  - generic [ref=e164]:
+    - heading "Command Palette" [level=2] [ref=e165]
+    - paragraph [ref=e166]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e172] [cursor=pointer]:
+    - img [ref=e173]

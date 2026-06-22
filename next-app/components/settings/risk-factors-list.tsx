@@ -3,18 +3,29 @@
 import * as React from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Pencil, Plus, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 import { useMockData, type RiskFactor } from "@/lib/mock";
 import { DataTable } from "@/components/ext/data-table";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ext/status-badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 
 const TYPE_LABEL: Record<RiskFactor["type"], string> = {
   scoring_history: "Скоринг",
   client_field: "Поле клиента",
   transaction: "Транзакция",
   media: "Медиа",
-  custom: "Кастом",
+  custom: "Кастомное",
 };
 
 export function RiskFactorsList({
@@ -25,8 +36,20 @@ export function RiskFactorsList({
   onAdd?: () => void;
 }) {
   const data = useMockData();
-  const factors = data.riskFactors;
+  const [removedIds, setRemovedIds] = React.useState<ReadonlySet<string>>(new Set());
+  const [pendingDelete, setPendingDelete] = React.useState<RiskFactor | null>(null);
+  const factors = React.useMemo(
+    () => data.riskFactors.filter((f) => !removedIds.has(f.id)),
+    [data.riskFactors, removedIds],
+  );
   const totalWeight = factors.reduce((s, f) => s + (f.active ? f.weight : 0), 0) || 1;
+
+  const confirmDelete = () => {
+    if (!pendingDelete) return;
+    setRemovedIds((prev) => new Set(prev).add(pendingDelete.id));
+    toast.success(`Фактор «${pendingDelete.name}» удалён`);
+    setPendingDelete(null);
+  };
 
   const columns: ColumnDef<RiskFactor>[] = [
     {
@@ -100,11 +123,17 @@ export function RiskFactorsList({
       meta: { width: "84px" },
       cell: ({ row }) => (
         <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
-          <Button variant="ghost" size="icon" className="size-7" aria-label="Редактировать" onClick={() => onEdit?.(row.original)}>
-            <Pencil className="size-3.5" />
+          <Button variant="ghost" size="icon" className="size-8" aria-label={`Редактировать «${row.original.name}»`} onClick={() => onEdit?.(row.original)}>
+            <Pencil className="size-4" />
           </Button>
-          <Button variant="ghost" size="icon" className="size-7 text-muted-foreground hover:text-risk-critical" aria-label="Удалить">
-            <Trash2 className="size-3.5" />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="size-8 text-muted-foreground hover:text-risk-critical"
+            aria-label={`Удалить «${row.original.name}»`}
+            onClick={() => setPendingDelete(row.original)}
+          >
+            <Trash2 className="size-4" />
           </Button>
         </div>
       ),
@@ -112,29 +141,54 @@ export function RiskFactorsList({
   ];
 
   return (
-    <DataTable<RiskFactor>
-      data={factors}
-      columns={columns}
-      globalFilterPlaceholder="Поиск по названию, источнику..."
-      onRowClick={(f) => onEdit?.(f)}
-      pageSize={20}
-      globalFilterFn={(row, _col, value) => {
-        const f = row.original;
-        const q = String(value).toLowerCase();
-        return f.name.toLowerCase().includes(q) || f.source.toLowerCase().includes(q);
-      }}
-      toolbar={
-        <Button size="xl" onClick={() => onAdd?.()}>
-          <Plus className="size-4" />
-          Добавить атрибут
-        </Button>
-      }
-      emptyAction={
-        <Button size="sm" variant="outline" onClick={() => onAdd?.()}>
-          <Plus className="size-4" />
-          Добавить атрибут
-        </Button>
-      }
-    />
+    <>
+      <DataTable<RiskFactor>
+        data={factors}
+        columns={columns}
+        globalFilterPlaceholder="Поиск по названию, источнику..."
+        onRowClick={(f) => onEdit?.(f)}
+        rowLabel={(f) => `Риск-фактор ${f.name}`}
+        pageSize={20}
+        globalFilterFn={(row, _col, value) => {
+          const f = row.original;
+          const q = String(value).toLowerCase();
+          return f.name.toLowerCase().includes(q) || f.source.toLowerCase().includes(q);
+        }}
+        toolbar={
+          <Button size="xl" onClick={() => onAdd?.()}>
+            <Plus className="size-4" />
+            Добавить атрибут
+          </Button>
+        }
+        emptyAction={
+          <Button size="sm" variant="outline" onClick={() => onAdd?.()}>
+            <Plus className="size-4" />
+            Добавить атрибут
+          </Button>
+        }
+      />
+
+      <AlertDialog open={pendingDelete !== null} onOpenChange={(o) => !o && setPendingDelete(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Удалить риск-фактор?</AlertDialogTitle>
+            <AlertDialogDescription>
+              {pendingDelete
+                ? `«${pendingDelete.name}» будет удалён из модели скоринга. Вес фактора перестанет учитываться. Действие необратимо.`
+                : null}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Отмена</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-risk-critical text-risk-critical-foreground hover:bg-risk-critical/90"
+            >
+              Удалить
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }

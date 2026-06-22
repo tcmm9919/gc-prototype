@@ -1,0 +1,722 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: F
+          - generic:
+            - generic: Freedom AI
+            - generic: Globerce Compliance
+          - button:
+            - img
+      - generic:
+        - generic:
+          - generic: Обзор
+          - link:
+            - /url: /dashboard/
+            - img
+            - generic: Дашборд
+          - link:
+            - /url: /chat/
+            - img
+            - generic: AI чат
+        - generic:
+          - generic: Работа
+          - link:
+            - /url: /clients/
+            - img
+            - generic: Клиенты
+          - link:
+            - /url: /transactions/
+            - img
+            - generic: Транзакции
+            - generic: "65"
+          - link:
+            - /url: /alerts/
+            - img
+            - generic: Оповещения
+            - generic: "62"
+          - link:
+            - /url: /cases/
+            - img
+            - generic: Кейсы
+            - generic: "42"
+          - link:
+            - /url: /risk-factors/
+            - img
+            - generic: Риск-факторы
+        - generic:
+          - generic: Инструменты
+          - link:
+            - /url: /rules/
+            - img
+            - generic: Правила
+          - link:
+            - /url: /workflows/
+            - img
+            - generic: Сценарии
+          - link:
+            - /url: /ai/
+            - img
+            - generic: Агенты
+      - generic:
+        - generic:
+          - link:
+            - /url: /settings/
+            - img
+            - generic: Настройки
+        - generic:
+          - button:
+            - img
+            - generic:
+              - generic: Madina S.
+              - generic: madina.satybaldiyeva@globerce.capital
+            - img
+    - main:
+      - main:
+        - generic:
+          - generic:
+            - heading [level=1]: Клиенты
+          - generic:
+            - button:
+              - img
+            - button:
+              - img
+            - button:
+              - img
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - button:
+                  - generic: Все
+                  - generic: "86"
+                - button:
+                  - generic: Critical risk
+                  - generic: "30"
+                - button:
+                  - generic: В EDD
+                  - generic: "14"
+                - button:
+                  - generic: Заблокированные
+                  - generic: "14"
+              - generic:
+                - generic:
+                  - generic:
+                    - img
+                    - searchbox
+                  - generic:
+                    - button:
+                      - img
+                      - text: Риск
+                    - button:
+                      - img
+                      - text: Статус
+                    - button:
+                      - img
+                      - text: Тип
+                    - button:
+                      - img
+                      - text: Страна
+                    - button [expanded]:
+                      - img
+                      - text: VIP
+            - generic:
+              - generic:
+                - generic:
+                  - checkbox
+                - generic:
+                  - button:
+                    - text: Клиент
+                    - img
+                - generic:
+                  - button:
+                    - text: Тип
+                    - img
+                - generic:
+                  - button:
+                    - text: Риск
+                    - img
+                - generic:
+                  - button:
+                    - text: Скор
+                    - img
+                - generic:
+                  - button:
+                    - text: Статус
+                    - img
+                - generic:
+                  - button:
+                    - text: Ответственный
+                    - img
+                - generic:
+                  - button:
+                    - text: Посл. операция
+                    - img
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-S01/
+                      - generic: КТ
+                      - generic:
+                        - generic: Касенов Темирлан А.
+                        - generic:
+                          - generic: CL-S01
+                          - generic:
+                            - generic: Розничный
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Средний
+                  - generic:
+                    - generic: "32"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: Madina S.
+                  - generic:
+                    - generic: около 2 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-S02/
+                      - generic: СА
+                      - generic:
+                        - generic: Серикбаева Айгерим Н.
+                        - generic:
+                          - generic: CL-S02
+                          - generic:
+                            - generic: Private banking
+                          - generic:
+                            - generic: VIP
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Высокий
+                  - generic:
+                    - generic: "58"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: A. Tuyakbayev
+                  - generic:
+                    - generic: около 18 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-S03/
+                      - generic: ТC
+                      - generic:
+                        - generic: ТОО «Caspian Trade Group»
+                        - generic:
+                          - generic: CL-S03
+                          - generic:
+                            - generic: Корпоративный
+                          - generic:
+                            - generic: структурирование?
+                          - generic:
+                            - generic: под мониторингом
+                  - generic: Юр. лицо
+                  - generic:
+                    - generic: Критический
+                  - generic:
+                    - generic: "78"
+                  - generic:
+                    - generic:
+                      - generic: На проверке
+                  - generic:
+                    - generic: Madina S.
+                  - generic:
+                    - generic: около 3 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-S04/
+                      - generic: АS
+                      - generic:
+                        - generic: АО «Steppe Logistics»
+                        - generic:
+                          - generic: CL-S04
+                          - generic:
+                            - generic: Корпоративный
+                          - generic:
+                            - generic: санкции
+                          - generic:
+                            - generic: OFAC indirect
+                  - generic: Юр. лицо
+                  - generic:
+                    - generic: Критический
+                  - generic:
+                    - generic: "94"
+                  - generic:
+                    - generic:
+                      - generic: Заблокирован
+                  - generic:
+                    - generic: A. Tuyakbayev
+                  - generic:
+                    - generic: 2 дня назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-S05/
+                      - generic: ЖЕ
+                      - generic:
+                        - generic: Жумабеков Ержан К.
+                        - generic:
+                          - generic: CL-S05
+                          - generic:
+                            - generic: Премиум
+                          - generic:
+                            - generic: PEP-родственник
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Высокий
+                  - generic:
+                    - generic: "64"
+                  - generic:
+                    - generic:
+                      - generic: EDD
+                  - generic:
+                    - generic: A. Tuyakbayev
+                  - generic:
+                    - generic: 1 день назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-S06/
+                      - generic: ИА
+                      - generic:
+                        - generic: ИП Ахметова Мадина Б.
+                        - generic:
+                          - generic: CL-S06
+                          - generic:
+                            - generic: Малый бизнес
+                  - generic: Юр. лицо
+                  - generic:
+                    - generic: Средний
+                  - generic:
+                    - generic: "28"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: A. D.
+                  - generic:
+                    - generic: около 7 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-0001/
+                      - generic: ТА
+                      - generic:
+                        - generic: ТОО «Алматы Логистикс»
+                        - generic:
+                          - generic: CL-0001
+                          - generic:
+                            - generic: Розничный
+                          - generic:
+                            - generic: PEP
+                  - generic: Юр. лицо
+                  - generic:
+                    - generic: Средний
+                  - generic:
+                    - generic: "30"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: T. Kunapyanov
+                  - generic:
+                    - generic: меньше минуты назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-0002/
+                      - generic: СМ
+                      - generic:
+                        - generic: Серикбаев Мадина Б.
+                        - generic:
+                          - generic: CL-0002
+                          - generic:
+                            - generic: Премиум
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Средний
+                  - generic:
+                    - generic: "43"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: A. Tuyakbayev
+                  - generic:
+                    - generic: около 1 часа назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-0003/
+                      - generic: ЖЕ
+                      - generic:
+                        - generic: Жумабеков Ержан А.
+                        - generic:
+                          - generic: CL-0003
+                          - generic:
+                            - generic: Малый бизнес
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Высокий
+                  - generic:
+                    - generic: "56"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: Madina S.
+                  - generic:
+                    - generic: около 2 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-0004/
+                      - generic: АЖ
+                      - generic:
+                        - generic: Ахметов Жанар Т.
+                        - generic:
+                          - generic: CL-0004
+                          - generic:
+                            - generic: Корпоративный
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Высокий
+                  - generic:
+                    - generic: "69"
+                  - generic:
+                    - generic:
+                      - generic: На проверке
+                  - generic:
+                    - generic: A. D.
+                  - generic:
+                    - generic: около 3 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-0005/
+                      - generic: АK
+                      - generic:
+                        - generic: АО «Khan Tengri»
+                        - generic:
+                          - generic: CL-0005
+                          - generic:
+                            - generic: Private banking
+                  - generic: Юр. лицо
+                  - generic:
+                    - generic: Критический
+                  - generic:
+                    - generic: "82"
+                  - generic:
+                    - generic:
+                      - generic: EDD
+                  - generic:
+                    - generic: M. M.
+                  - generic:
+                    - generic: около 4 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-0006/
+                      - generic: АС
+                      - generic:
+                        - generic: Абдрахманов Сауле К.
+                        - generic:
+                          - generic: CL-0006
+                          - generic:
+                            - generic: Розничный
+                          - generic:
+                            - generic: PEP
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Критический
+                  - generic:
+                    - generic: "95"
+                  - generic:
+                    - generic:
+                      - generic: Заблокирован
+                  - generic:
+                    - generic: A. T.
+                  - generic:
+                    - generic: около 5 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-0007/
+                      - generic: ТТ
+                      - generic:
+                        - generic: Турсынов Тимур С.
+                        - generic:
+                          - generic: CL-0007
+                          - generic:
+                            - generic: Премиум
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Средний
+                  - generic:
+                    - generic: "38"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: T. Kunapyanov
+                  - generic:
+                    - generic: около 6 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-0008/
+                      - generic: БА
+                      - generic:
+                        - generic: Балтабаев Айгерим Ж.
+                        - generic:
+                          - generic: CL-0008
+                          - generic:
+                            - generic: Малый бизнес
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Высокий
+                  - generic:
+                    - generic: "51"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: A. Tuyakbayev
+                  - generic:
+                    - generic: около 7 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-0009/
+                      - generic: ИC
+                      - generic:
+                        - generic: ИП «Caspian Trade»
+                        - generic:
+                          - generic: CL-0009
+                          - generic:
+                            - generic: Корпоративный
+                  - generic: Юр. лицо
+                  - generic:
+                    - generic: Высокий
+                  - generic:
+                    - generic: "64"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: Madina S.
+                  - generic:
+                    - generic: около 8 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-000a/
+                      - generic: СД
+                      - generic:
+                        - generic: Серикбаев Динара Б.
+                        - generic:
+                          - generic: CL-000a
+                          - generic:
+                            - generic: Private banking
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Критический
+                  - generic:
+                    - generic: "77"
+                  - generic:
+                    - generic:
+                      - generic: На проверке
+                  - generic:
+                    - generic: A. D.
+                  - generic:
+                    - generic: около 9 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-000b/
+                      - generic: ЖЕ
+                      - generic:
+                        - generic: Жумабеков Ержан А.
+                        - generic:
+                          - generic: CL-000b
+                          - generic:
+                            - generic: Розничный
+                          - generic:
+                            - generic: PEP
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Критический
+                  - generic:
+                    - generic: "90"
+                  - generic:
+                    - generic:
+                      - generic: EDD
+                  - generic:
+                    - generic: M. M.
+                  - generic:
+                    - generic: около 10 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-000c/
+                      - generic: АГ
+                      - generic:
+                        - generic: Ахметов Гульнара Т.
+                        - generic:
+                          - generic: CL-000c
+                          - generic:
+                            - generic: Премиум
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Средний
+                  - generic:
+                    - generic: "33"
+                  - generic:
+                    - generic:
+                      - generic: Заблокирован
+                  - generic:
+                    - generic: A. T.
+                  - generic:
+                    - generic: около 11 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-000d/
+                      - generic: ТE
+                      - generic:
+                        - generic: ТОО «Eurasia Foods»
+                        - generic:
+                          - generic: CL-000d
+                          - generic:
+                            - generic: Малый бизнес
+                  - generic: Юр. лицо
+                  - generic:
+                    - generic: Средний
+                  - generic:
+                    - generic: "46"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: T. Kunapyanov
+                  - generic:
+                    - generic: около 12 часов назад
+              - generic:
+                - button:
+                  - generic:
+                    - checkbox
+                  - generic:
+                    - link:
+                      - /url: /clients/CL-000e/
+                      - generic: АА
+                      - generic:
+                        - generic: Абдрахманов Аружан К.
+                        - generic:
+                          - generic: CL-000e
+                          - generic:
+                            - generic: Корпоративный
+                  - generic: Физ. лицо
+                  - generic:
+                    - generic: Высокий
+                  - generic:
+                    - generic: "59"
+                  - generic:
+                    - generic:
+                      - generic: Активен
+                  - generic:
+                    - generic: A. Tuyakbayev
+                  - generic:
+                    - generic: около 13 часов назад
+            - generic:
+              - generic: 86 записей
+              - generic:
+                - generic: Стр. 1 из 5
+                - generic:
+                  - button [disabled]:
+                    - img
+                  - button:
+                    - img
+    - button [ref=e1206]:
+      - img
+      - generic [ref=e790]: D
+      - generic [ref=e791]: ·
+      - generic [ref=e792]: Утренняя смена ЦПК
+    - generic:
+      - button:
+        - img
+  - generic:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e1201] [cursor=pointer]:
+    - img [ref=e1202]
+  - alert
+  - menu "VIP" [active] [ref=e1207]:
+    - generic [ref=e1208]: VIP-статус
+    - separator [ref=e1209]
+    - menuitemcheckbox "VIP" [ref=e1210]: VIP
+    - menuitemcheckbox "Не VIP" [ref=e1211]: Не VIP

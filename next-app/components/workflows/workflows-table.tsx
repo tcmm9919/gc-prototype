@@ -19,8 +19,8 @@ const TYPE_TONE = { client: "info", group: "warning" } as const;
 // Модель знает только type "client" | "group" (нет "embedded"), а DataTableView не поддерживает
 // disabled/tooltip. Реализовано как обычные views по существующим типам — без disabled-состояния.
 const WORKFLOW_VIEWS: DataTableView<ComplianceScenario>[] = [
-  { id: "client", label: "Клиентский", icon: <User className="size-3.5" />, predicate: (s) => s.type === "client" },
-  { id: "group", label: "Групповой", icon: <Users className="size-3.5" />, predicate: (s) => s.type === "group" },
+  { id: "client", label: "Клиентский", predicate: (s) => s.type === "client" },
+  { id: "group", label: "Групповой", predicate: (s) => s.type === "group" },
 ];
 
 export function WorkflowsTable() {

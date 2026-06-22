@@ -46,13 +46,11 @@ const CASES_VIEWS: DataTableView<Case>[] = [
   {
     id: "my-queue",
     label: "На мне",
-    icon: <User className="size-3.5" />,
     predicate: (c) => c.responsibleId === currentUser.id && c.status !== "closed",
   },
   {
     id: "overdue",
     label: "Просроченные",
-    icon: <Clock className="size-3.5 text-risk-critical" />,
     predicate: (c) => {
       if (!c.slaDueAt) return false;
       return new Date(c.slaDueAt).getTime() < Date.now() && c.status !== "closed" && c.status !== "resolved";
@@ -61,13 +59,11 @@ const CASES_VIEWS: DataTableView<Case>[] = [
   {
     id: "escalated",
     label: "Эскалированные",
-    icon: <ChevronUp className="size-3.5" />,
     predicate: (c) => c.status === "escalated",
   },
   {
     id: "closed-today",
     label: "Закрыто сегодня",
-    icon: <CheckCheck className="size-3.5 text-primary" />,
     predicate: (c) => {
       if (!c.closed_at) return false;
       return new Date(c.closed_at).toDateString() === new Date().toDateString();

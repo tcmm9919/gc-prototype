@@ -1,5 +1,4 @@
 import { Database, FileText, GitBranch, Layers } from "lucide-react";
-import { PageHeader } from "@/components/ext/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatusBadge } from "@/components/ext/status-badge";
 
@@ -32,12 +31,16 @@ const STATUS_TONE = {
 export function ModelDoc({ title, description, status, owner, stack, sections }: ModelDocProps) {
   return (
     <>
-      <PageHeader
-        title={title}
-        description={description}
-        actions={<StatusBadge tone={STATUS_TONE[status]}>{STATUS_LABEL[status]}</StatusBadge>}
-      />
-      <div className="grid gap-4 p-6 lg:grid-cols-[1fr_18rem]">
+      <div className="flex flex-col gap-1 pt-6 pb-5 md:flex-row md:items-center md:justify-between md:gap-4">
+        <div className="min-w-0">
+          <h1 className="font-heading text-xl font-semibold text-foreground">{title}</h1>
+          {description ? (
+            <p className="mt-1 text-sm text-muted-foreground max-w-[58ch]">{description}</p>
+          ) : null}
+        </div>
+        <StatusBadge tone={STATUS_TONE[status]}>{STATUS_LABEL[status]}</StatusBadge>
+      </div>
+      <div className="grid gap-4 pb-6 lg:grid-cols-[1fr_18rem]">
         <div className="space-y-4">
           {sections.map((s) => (
             <Card key={s.title}>

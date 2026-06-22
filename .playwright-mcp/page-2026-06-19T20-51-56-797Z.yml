@@ -1,0 +1,178 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+        - generic [ref=e24]:
+          - generic [ref=e25]: Работа
+          - link "Клиенты" [ref=e26] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e27]
+            - generic [ref=e32]: Клиенты
+          - link "Транзакции 65" [ref=e33] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e34]
+            - generic [ref=e37]: Транзакции
+            - generic [ref=e38]: "65"
+          - link "Оповещения 62" [ref=e39] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e40]
+            - generic [ref=e43]: Оповещения
+            - generic [ref=e44]: "62"
+          - link "Кейсы 42" [ref=e45] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e46]
+            - generic [ref=e48]: Кейсы
+            - generic [ref=e49]: "42"
+          - link "Риск-факторы" [ref=e50] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e51]
+            - generic [ref=e53]: Риск-факторы
+        - generic [ref=e54]:
+          - generic [ref=e55]: Инструменты
+          - link "Правила" [ref=e56] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e57]
+            - generic [ref=e60]: Правила
+          - link "Сценарии" [ref=e61] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e62]
+            - generic [ref=e66]: Сценарии
+          - link "AI" [ref=e67] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e68]
+            - generic [ref=e71]: AI
+      - generic [ref=e72]:
+        - link "Настройки" [ref=e74] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e75]
+          - generic [ref=e78]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e80]:
+          - img "Madina S." [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: Madina S.
+            - generic [ref=e84]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e85]
+    - main [ref=e88]:
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - img [ref=e92]
+            - heading "AI-Инструменты" [level=1] [ref=e95]
+          - generic [ref=e96]:
+            - button "Сменить язык" [ref=e97]:
+              - img
+            - button "Уведомления" [ref=e98]:
+              - img
+            - button "Тёмная тема" [ref=e100]:
+              - img
+        - generic [ref=e101]:
+          - generic [ref=e103]:
+            - generic [ref=e104]: AI-Инструменты · Платформа
+            - heading "Искусственный интеллект" [level=1] [ref=e105]
+            - paragraph [ref=e106]: "Все AI-инструменты платформы в одном месте: чат-ассистент, настраиваемые агенты и автоматизированный Комплаенс-агент для обработки оповещений."
+          - generic [ref=e107]:
+            - generic [ref=e109]:
+              - img [ref=e111]
+              - generic [ref=e113]:
+                - heading "Чат" [level=2] [ref=e114]
+                - paragraph [ref=e115]: AI-ассистент · Анализ документов
+              - paragraph [ref=e116]: Чат-интерфейс для работы с AI-ассистентом. Задавайте вопросы по клиентам, анализируйте документы PDF и получайте ответы на основе данных платформы.
+              - list [ref=e117]:
+                - listitem [ref=e118]:
+                  - img [ref=e119]
+                  - generic [ref=e122]:
+                    - strong [ref=e123]: Документы PDF
+                    - text: — загрузка и анализ файлов прямо в чате
+                - listitem [ref=e124]:
+                  - img [ref=e125]
+                  - generic [ref=e128]:
+                    - strong [ref=e129]: История диалогов
+                    - text: — все разговоры сохраняются и доступны в панели
+                - listitem [ref=e130]:
+                  - img [ref=e131]
+                  - generic [ref=e134]:
+                    - strong [ref=e135]: Контекст платформы
+                    - text: — ассистент знает о клиентах, транзакциях и делах
+              - link "Открыть чат" [ref=e136] [cursor=pointer]:
+                - /url: /chat/
+                - text: Открыть чат
+                - img [ref=e137]
+            - generic [ref=e140]:
+              - img [ref=e142]
+              - generic [ref=e145]:
+                - heading "Агенты" [level=2] [ref=e146]
+                - paragraph [ref=e147]: Paper Agents · Кастомные инструкции
+              - paragraph [ref=e148]: Создавайте и управляйте пользовательскими AI-агентами с кастомными инструкциями. Агенты используются в сценариях для автоматизации комплаенс-задач.
+              - list [ref=e149]:
+                - listitem [ref=e150]:
+                  - img [ref=e151]
+                  - generic [ref=e154]:
+                    - strong [ref=e155]: Кастомные инструкции
+                    - text: — полный контроль над поведением агента
+                - listitem [ref=e156]:
+                  - img [ref=e157]
+                  - generic [ref=e160]:
+                    - strong [ref=e161]: Интеграция со сценариями
+                    - text: — агенты подключаются к сценариям автоматизации
+                - listitem [ref=e162]:
+                  - img [ref=e163]
+                  - generic [ref=e166]:
+                    - strong [ref=e167]: Yandex AI
+                    - text: — все агенты работают через Yandex Foundation Models
+              - link "Управление агентами" [ref=e168] [cursor=pointer]:
+                - /url: /ai/agents/
+                - text: Управление агентами
+                - img [ref=e169]
+            - generic [ref=e172]:
+              - img [ref=e174]
+              - generic [ref=e176]:
+                - heading "Комплаенс-агент" [level=2] [ref=e177]
+                - paragraph [ref=e178]: Авто-агент · Обработка оповещений
+              - paragraph [ref=e179]: Специализированный AI-агент комплаенс-офицера, который автоматически анализирует оповещения, принимает решения по эскалации и запускает сценарии для клиентов.
+              - list [ref=e180]:
+                - listitem [ref=e181]:
+                  - img [ref=e182]
+                  - generic [ref=e185]:
+                    - strong [ref=e186]: Авто-обработка
+                    - text: — агент сам решает что делать с оповещением
+                - listitem [ref=e187]:
+                  - img [ref=e188]
+                  - generic [ref=e191]:
+                    - strong [ref=e192]: Эскалация
+                    - text: — создаёт кейсы и отправляет письма менеджерам
+                - listitem [ref=e193]:
+                  - img [ref=e194]
+                  - generic [ref=e197]:
+                    - strong [ref=e198]: История решений
+                    - text: — полный лог действий агента по каждому клиенту
+              - link "Открыть Комплаенс-агент" [ref=e199] [cursor=pointer]:
+                - /url: /ai/compliance-agent/
+                - text: Открыть Комплаенс-агент
+                - img [ref=e200]
+    - button "D · Утренняя смена ЦПК" [ref=e202]:
+      - img
+      - generic [ref=e203]: D
+      - generic [ref=e204]: ·
+      - generic [ref=e205]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e207]:
+      - img [ref=e208]
+  - generic [ref=e212]:
+    - heading "Command Palette" [level=2] [ref=e213]
+    - paragraph [ref=e214]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e220] [cursor=pointer]:
+    - img [ref=e221]
+  - alert [ref=e224]

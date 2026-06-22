@@ -2,11 +2,11 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { Bell, Link2, X } from "lucide-react";
+import { Link2, X } from "lucide-react";
+import { toast } from "sonner";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,6 +21,7 @@ import {
 import { useMockData } from "@/lib/mock";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { RiskBadge } from "@/components/ext/risk-badge";
+import { CreatePageShell } from "@/components/ext/create-page-shell";
 
 const CASE_TYPES = [
   "AML — отмывание",
@@ -60,6 +61,7 @@ function suggestPriorityFromSeverity(severity?: string): string {
 
 export function CaseNew() {
   const data = useMockData();
+  const router = useRouter();
   const params = useSearchParams();
   const fromAlertId = params?.get("fromAlert");
   const fromClient = params?.get("client");
@@ -83,52 +85,67 @@ export function CaseNew() {
   const linkedClient = data.clients.find((c) => c.id === clientId);
 
   return (
-    <div className="grid gap-4 py-6 lg:grid-cols-3">
-      {sourceAlert ? (
-        <motion.div
-          initial={{ opacity: 0, y: 6 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.22, ease: "easeOut" }}
-          className="lg:col-span-3"
-        >
-          <Card className="border-primary/40 bg-primary/[0.04]">
-            <CardContent className="flex items-start gap-3 p-4">
-              <div className="size-9 shrink-0 rounded-md bg-primary/15 text-primary flex items-center justify-center">
-                <Link2 className="size-4" />
-              </div>
-              <div className="flex-1 min-w-0 space-y-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-medium">Кейс создаётся из оповещения</span>
-                  <StatusBadge tone={SEVERITY_TONE[sourceAlert.severity]}>
-                    {SEVERITY_LABEL[sourceAlert.severity]}
-                  </StatusBadge>
-                  <Link href={`/alerts/${sourceAlert.id}`} className="font-mono text-xs text-primary hover:underline">
-                    {sourceAlert.id}
-                  </Link>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Правило <span className="font-medium text-foreground">{sourceAlert.ruleName}</span> · клиент, тип и приоритет предзаполнены — проверьте и при необходимости поправьте.
-                </p>
-              </div>
-              <Button asChild variant="ghost" size="icon" aria-label="Отвязать">
-                <Link href="/cases/new">
-                  <X className="size-4" />
+    <CreatePageShell
+      breadcrumbs={[
+        { label: "Кейсы", href: "/cases" },
+        { label: "Новый кейс" },
+      ]}
+      onSubmit={(e) => {
+        e.preventDefault();
+        toast.success("Кейс создан");
+        router.push("/cases");
+      }}
+      footer={
+        <>
+          <Button type="button" variant="outline" asChild>
+            <Link href="/cases">Отмена</Link>
+          </Button>
+          <Button type="submit">Создать кейс</Button>
+        </>
+      }
+    >
+      <div className="flex flex-col gap-5">
+        {/* Источник — оповещение */}
+        {sourceAlert ? (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.22, ease: "easeOut" }}
+            className="flex items-start gap-3 rounded-xl border border-primary/40 bg-primary/[0.04] p-4"
+          >
+            <div className="flex size-9 shrink-0 items-center justify-center rounded-md bg-primary/15 text-primary">
+              <Link2 className="size-4" />
+            </div>
+            <div className="min-w-0 flex-1 space-y-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="font-medium">Кейс создаётся из оповещения</span>
+                <StatusBadge tone={SEVERITY_TONE[sourceAlert.severity]}>
+                  {SEVERITY_LABEL[sourceAlert.severity]}
+                </StatusBadge>
+                <Link href={`/alerts/${sourceAlert.id}`} className="font-mono text-xs text-primary hover:underline">
+                  {sourceAlert.id}
                 </Link>
-              </Button>
-            </CardContent>
-          </Card>
-        </motion.div>
-      ) : null}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Правило <span className="font-medium text-foreground">{sourceAlert.ruleName}</span> · клиент, тип и приоритет предзаполнены — проверьте и при необходимости поправьте.
+              </p>
+            </div>
+            <Button type="button" asChild variant="ghost" size="icon" aria-label="Отвязать">
+              <Link href="/cases/new">
+                <X className="size-4" />
+              </Link>
+            </Button>
+          </motion.div>
+        ) : null}
 
-      <Card className="lg:col-span-2">
-        <CardHeader>
-          <CardTitle className="text-base">Параметры кейса</CardTitle>
-        </CardHeader>
-        <CardContent className="grid gap-4 md:grid-cols-2">
-          <div className="flex flex-col gap-1.5 md:col-span-2">
-            <Label>Тип кейса</Label>
+        {/* Основное */}
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="case-type">
+              Тип кейса <span className="text-destructive">*</span>
+            </Label>
             <Select value={type} onValueChange={setType}>
-              <SelectTrigger>
+              <SelectTrigger id="case-type" className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -139,13 +156,13 @@ export function CaseNew() {
                 ))}
               </SelectContent>
             </Select>
-            <p className="text-xs text-muted-foreground">Архитектура поддерживает расширение типов (стикер 3).</p>
+            <p className="text-xs text-muted-foreground">Тип определяет рабочий workflow и обязательные поля.</p>
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label>Клиент</Label>
+            <Label htmlFor="case-client">Клиент</Label>
             <Select value={clientId} onValueChange={setClientId}>
-              <SelectTrigger>
+              <SelectTrigger id="case-client" className="w-full">
                 <SelectValue placeholder="Выберите клиента..." />
               </SelectTrigger>
               <SelectContent>
@@ -165,9 +182,9 @@ export function CaseNew() {
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <Label>Приоритет</Label>
+            <Label htmlFor="case-priority">Приоритет</Label>
             <Select value={priority} onValueChange={setPriority}>
-              <SelectTrigger>
+              <SelectTrigger id="case-priority" className="w-full">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -182,6 +199,7 @@ export function CaseNew() {
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="sla">SLA, дней</Label>
             <Input id="sla" type="number" value={sla} onChange={(e) => setSla(e.target.value)} min={1} max={30} />
+            <p className="text-xs text-muted-foreground">По умолчанию 3 дня для среднего приоритета.</p>
           </div>
 
           <div className="flex flex-col gap-1.5">
@@ -195,7 +213,7 @@ export function CaseNew() {
             />
           </div>
 
-          <div className="flex flex-col gap-1.5 md:col-span-2">
+          <div className="flex flex-col gap-1.5">
             <Label htmlFor="desc">Описание контекста</Label>
             <Textarea
               id="desc"
@@ -205,33 +223,8 @@ export function CaseNew() {
               placeholder="Опишите причину открытия кейса и предполагаемый сценарий..."
             />
           </div>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">Подсказки</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3 text-sm text-muted-foreground">
-          <p>• Выберите клиента → к кейсу автоматически привяжется его история оповещений.</p>
-          <p>• Тип кейса определяет рабочий workflow и обязательные поля.</p>
-          <p>• SLA по умолчанию: 3 дня для среднего приоритета.</p>
-          {sourceAlert ? (
-            <p className="rounded-md border border-primary/30 bg-primary/[0.05] px-3 py-2 text-foreground">
-              <Bell className="mr-1 inline size-3.5 text-primary" />
-              Поля предзаполнены данными оповещения {sourceAlert.id}.
-            </p>
-          ) : null}
-          <p className="text-xs">См. context.md §3.3 + стикер 3.</p>
-        </CardContent>
-      </Card>
-
-      <div className="lg:col-span-3 flex justify-end gap-2">
-        <Button variant="outline" asChild>
-          <Link href="/cases">Отмена</Link>
-        </Button>
-        <Button size="lg">Создать кейс</Button>
+        </div>
       </div>
-    </div>
+    </CreatePageShell>
   );
 }

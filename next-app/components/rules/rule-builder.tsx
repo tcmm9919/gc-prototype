@@ -30,6 +30,16 @@ const OP_LABEL: Record<RuleOp, string> = {
 const FIELDS = ["amountKZT", "currency", "counterparty.country", "channel", "type", "client.riskLevel", "client.country", "client.pep"]
 const SEVERITY_LABEL: Record<AlertSeverity, string> = { low: "Низкая", medium: "Средняя", high: "Высокая", critical: "Критическая" }
 
+/** Подзаголовок секции внутри карточки формы. */
+function SectionTitle({ children, description }: { children: React.ReactNode; description?: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-0.5">
+      <h4 className="font-heading text-[15px] font-semibold text-foreground">{children}</h4>
+      {description ? <p className="text-xs text-muted-foreground">{description}</p> : null}
+    </div>
+  )
+}
+
 export function RuleBuilder({ rule }: { rule?: Rule }) {
   const [name, setName] = React.useState(rule?.name ?? "")
   const [description, setDescription] = React.useState(rule?.description ?? "")
@@ -45,79 +55,75 @@ export function RuleBuilder({ rule }: { rule?: Rule }) {
   const update = (id: string, patch: Partial<RuleCondition>) => setConditions((c) => c.map((x) => (x.id === id ? { ...x, ...patch } : x)))
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-5">
       {/* Метаданные */}
-      <div className="rounded-2xl border border-border bg-card p-5">
-        <h4 className="mb-4 font-heading text-[15px] font-semibold">Метаданные</h4>
-        <div className="grid gap-4 md:grid-cols-2">
-          <div className="flex flex-col gap-1.5">
-            <Label htmlFor="rule-name">Название</Label>
-            <Input id="rule-name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Напр. Крупный перевод нерезиденту" />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label>Категория</Label>
-            <Select value={entity} onValueChange={(v) => setEntity(v as Rule["entity"])}>
-              <SelectTrigger className="shadow-sm"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                <SelectItem value="client">Клиенты</SelectItem>
-                <SelectItem value="transaction">Транзакции</SelectItem>
-                <SelectItem value="group">Группы</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex flex-col gap-1.5 md:col-span-2">
-            <Label htmlFor="rule-desc">Описание</Label>
-            <Textarea id="rule-desc" value={description} onChange={(e) => setDescription(e.target.value)} rows={2} />
-          </div>
-          <div className="flex flex-col gap-1.5">
-            <Label>Severity</Label>
-            <Select value={severity} onValueChange={(v) => setSeverity(v as AlertSeverity)}>
-              <SelectTrigger className="shadow-sm"><SelectValue /></SelectTrigger>
-              <SelectContent>
-                {(Object.keys(SEVERITY_LABEL) as AlertSeverity[]).map((s) => (
-                  <SelectItem key={s} value={s}>{SEVERITY_LABEL[s]}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex items-center gap-3 self-end pb-2">
-            <Switch id="rule-enabled" checked={enabled} onCheckedChange={setEnabled} />
-            <Label htmlFor="rule-enabled" className="cursor-pointer">Правило включено</Label>
-          </div>
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="rule-name">
+            Название <span className="text-destructive">*</span>
+          </Label>
+          <Input id="rule-name" autoFocus={!rule} required value={name} onChange={(e) => setName(e.target.value)} placeholder="Напр. Крупный перевод нерезиденту" />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="rule-desc">Описание</Label>
+          <Textarea id="rule-desc" value={description} onChange={(e) => setDescription(e.target.value)} rows={2} placeholder="Когда и зачем срабатывает правило" />
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="rule-entity">Категория</Label>
+          <Select value={entity} onValueChange={(v) => setEntity(v as Rule["entity"])}>
+            <SelectTrigger id="rule-entity" className="w-full"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              <SelectItem value="client">Клиенты</SelectItem>
+              <SelectItem value="transaction">Транзакции</SelectItem>
+              <SelectItem value="group">Группы</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="rule-severity">Severity</Label>
+          <Select value={severity} onValueChange={(v) => setSeverity(v as AlertSeverity)}>
+            <SelectTrigger id="rule-severity" className="w-full"><SelectValue /></SelectTrigger>
+            <SelectContent>
+              {(Object.keys(SEVERITY_LABEL) as AlertSeverity[]).map((s) => (
+                <SelectItem key={s} value={s}>{SEVERITY_LABEL[s]}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="flex items-center gap-3">
+          <Switch id="rule-enabled" checked={enabled} onCheckedChange={setEnabled} />
+          <Label htmlFor="rule-enabled" className="cursor-pointer">Правило включено</Label>
         </div>
       </div>
 
       {/* Условия */}
-      <div className="rounded-2xl border border-border bg-card p-5">
-        <div className="mb-4 flex items-center justify-between gap-2">
-          <div className="flex flex-col gap-0.5">
-            <h4 className="font-heading text-[15px] font-semibold">Условия</h4>
-            <p className="text-xs text-muted-foreground">Срабатывает, когда выполнены все условия (AND).</p>
-          </div>
-          <Button size="sm" variant="outline" onClick={addCondition}><Plus className="size-4" />Добавить</Button>
+      <div className="flex flex-col gap-3 border-t border-border pt-5">
+        <div className="flex items-center justify-between gap-2">
+          <SectionTitle description="Срабатывает, когда выполнены все условия (AND).">Условия</SectionTitle>
+          <Button type="button" size="sm" variant="outline" onClick={addCondition}><Plus className="size-4" />Добавить</Button>
         </div>
-        <div className="space-y-2">
+        <div className="flex flex-col gap-2">
           {conditions.map((c) => (
-            <div key={c.id} className="grid gap-2 rounded-xl border border-border/60 bg-foreground/[0.03] p-2 md:grid-cols-[1fr_1fr_1fr_auto] dark:bg-white/[0.03]">
+            <div key={c.id} className="grid gap-2 rounded-xl border border-border/60 bg-foreground/[0.03] p-2 sm:grid-cols-[1fr_1fr_1fr_auto] dark:bg-white/[0.03]">
               <Select value={c.field} onValueChange={(v) => update(c.id, { field: v })}>
-                <SelectTrigger size="sm"><SelectValue /></SelectTrigger>
+                <SelectTrigger size="sm" className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent>{FIELDS.map((f) => <SelectItem key={f} value={f}>{f}</SelectItem>)}</SelectContent>
               </Select>
               <Select value={c.op} onValueChange={(v) => update(c.id, { op: v as RuleOp })}>
-                <SelectTrigger size="sm"><SelectValue /></SelectTrigger>
+                <SelectTrigger size="sm" className="w-full"><SelectValue /></SelectTrigger>
                 <SelectContent>{(Object.keys(OP_LABEL) as RuleOp[]).map((op) => <SelectItem key={op} value={op}>{OP_LABEL[op]}</SelectItem>)}</SelectContent>
               </Select>
-              <Input value={String(c.value ?? "")} onChange={(e) => update(c.id, { value: e.target.value })} className="h-8" placeholder="Значение" />
-              <Button variant="ghost" size="icon" onClick={() => removeCondition(c.id)} aria-label="Удалить условие"><Trash2 className="size-4" /></Button>
+              <Input value={String(c.value ?? "")} onChange={(e) => update(c.id, { value: e.target.value })} className="h-8 w-full" placeholder="Значение" aria-label="Значение условия" />
+              <Button type="button" variant="ghost" size="icon" className="size-8 justify-self-end" onClick={() => removeCondition(c.id)} aria-label="Удалить условие"><Trash2 className="size-4" /></Button>
             </div>
           ))}
         </div>
       </div>
 
       {/* Действия при срабатывании */}
-      <div className="rounded-2xl border border-border bg-card p-5">
-        <h4 className="mb-4 font-heading text-[15px] font-semibold">Действия при срабатывании</h4>
-        <div className="space-y-2 text-sm">
+      <div className="flex flex-col gap-3 border-t border-border pt-5">
+        <SectionTitle>Действия при срабатывании</SectionTitle>
+        <div className="flex flex-col gap-2 text-sm">
           {["Создать оповещение", "Повысить риск клиента", "Отправить в кейс", "Заблокировать операцию"].map((a) => (
             <label key={a} className="flex items-center gap-2 rounded-xl border border-border/60 bg-foreground/[0.03] px-3 py-2 dark:bg-white/[0.03]">
               <input type="checkbox" className="size-4 rounded border-border accent-primary" defaultChecked={a === "Создать оповещение"} />

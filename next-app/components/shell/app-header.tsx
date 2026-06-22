@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useMockData } from "@/lib/mock";
 import { ThemeToggle } from "./theme-toggle";
-import { NAV_GROUPS } from "./nav-config";
 
 const STATIC_TITLES: Record<string, string> = {
   "/dashboard": "Главная",
@@ -61,13 +60,6 @@ function deriveTitle(pathname: string): string {
   return bestTitle;
 }
 
-const NAV_ITEMS = NAV_GROUPS.flatMap((g) => g.items);
-
-function navItemForPath(path: string) {
-  const matches = NAV_ITEMS.filter((i) => path === i.href || path.startsWith(i.href + "/"));
-  if (matches.length === 0) return null;
-  return [...matches].sort((a, b) => b.href.length - a.href.length)[0];
-}
 
 const LANGUAGES = [
   { code: "ru", label: "Русский" },
@@ -144,8 +136,6 @@ export function AppHeader() {
 
   // ─── Top-level page → standard header ───
   const title = deriveTitle(pathname);
-  const titleNav = navItemForPath(normalizedPath);
-  const TitleIcon = titleNav?.icon ?? null;
   // Высокий хедер (как на дашборде) — для дашборда, Настроек и конструктора сценариев.
   // Сам список /workflows («Сценарии») — обычный мелкий хедер, как другие списки
   // (Клиенты/Оповещения/Кейсы/Транзакции): одинаковый отступ от тайтла до табов.
@@ -157,7 +147,6 @@ export function AppHeader() {
   return (
     <header className={`sticky top-0 z-30 flex items-center justify-between gap-3 px-8 bg-card ${isTallHeader ? "h-16" : "h-14 pt-2"}`}>
       <div className="flex min-w-0 items-center gap-2.5">
-        {TitleIcon ? <TitleIcon className="size-[18px] shrink-0 text-foreground" strokeWidth={2.25} /> : null}
         <h1 className="truncate text-[14px] font-semibold text-foreground">{title}</h1>
       </div>
 

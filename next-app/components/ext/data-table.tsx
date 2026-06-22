@@ -51,6 +51,8 @@ interface DataTableProps<T> {
   views?: DataTableView<T>[];
   renderExpanded?: (item: T) => React.ReactNode;
   onRowClick?: (row: T) => void;
+  /** Доступное имя кликабельной строки (для скринридеров). Иначе имя собирается из текста ячеек. */
+  rowLabel?: (row: T) => string;
   pageSize?: number;
   rowClassName?: (row: T) => string;
   bulkActions?: (selectedRows: T[], clearSelection: () => void) => React.ReactNode;
@@ -86,6 +88,7 @@ export function DataTable<T>({
   views,
   renderExpanded,
   onRowClick,
+  rowLabel,
   pageSize = 25,
   rowClassName,
   bulkActions,
@@ -207,12 +210,16 @@ export function DataTable<T>({
           </div>
         )}
 
-        {/* Toolbar: [search + filters] left, [actions] right */}
-        <div className="flex min-h-10 items-center justify-between gap-2.5 flex-wrap">
-          <div className="flex items-center gap-2 flex-1 min-w-0">
+        {/* Toolbar: [search + filters] слева, [actions] справа.
+            flex-wrap + ml-auto → на узких экранах action-кнопки уходят на свою
+            строку, а не наезжают на фильтры (без flex-1, который раздувал строку). */}
+        <div className="flex min-h-10 items-center gap-2.5 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap min-w-0">
             <div className="relative w-72 max-w-full shrink-0">
               <Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
               <Input
+                type="search"
+                aria-label={globalFilterPlaceholder}
                 placeholder={globalFilterPlaceholder}
                 value={globalFilter ?? ""}
                 onChange={(e) => setGlobalFilter(e.target.value)}
@@ -225,12 +232,12 @@ export function DataTable<T>({
               </div>
             )}
           </div>
-          {toolbar && <div className="flex items-center gap-2 shrink-0">{toolbar}</div>}
+          {toolbar && <div className="flex items-center gap-2 shrink-0 ml-auto">{toolbar}</div>}
         </div>
         </div>
 
         {/* Таблица — белая карточка на сером канвасе (контраст белый/серый отделяет её; контур только в dark) */}
-        <div className={cn("rounded-2xl border border-transparent dark:border-border bg-card overflow-x-auto overflow-y-auto max-h-[calc(100vh-15rem)]", !bordered && "mt-2")}>
+        <div className={cn("rounded-2xl border bg-card overflow-x-auto overflow-y-auto max-h-[calc(100vh-15rem)]", bordered ? "border-border" : "border-transparent dark:border-border mt-2")}>
           {/* Header row */}
           {rows.length > 0 && (
             <div
@@ -302,6 +309,7 @@ export function DataTable<T>({
                   <div
                     role={onRowClick ? "button" : undefined}
                     tabIndex={onRowClick ? 0 : undefined}
+                    aria-label={onRowClick && rowLabel ? rowLabel(row.original) : undefined}
                     onClick={() => onRowClick?.(row.original)}
                     onKeyDown={(e) => {
                       if (onRowClick && (e.key === "Enter" || e.key === " ")) {

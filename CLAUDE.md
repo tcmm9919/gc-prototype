@@ -72,6 +72,28 @@ npm run format      # prettier write
 
 Добавить shadcn-компонент: `npx shadcn@latest add <name>` (примеры: `accordion`, `command`, `calendar`, `data-table`, `progress`, `tooltip`, `breadcrumb`).
 
+## Проверка в браузере (Playwright MCP)
+
+Основной инструмент визуальной проверки прототипа — **Playwright MCP** (`@playwright/mcp`, подключён в local-скоупе проекта). Claude Preview больше не используем.
+
+Playwright **только драйвит браузер** (навигация, клики, формы, скриншот, accessibility-снапшот, console/network-логи) — он **не поднимает dev-сервер**. Поэтому порядок такой:
+
+1. Поднять dev-сервер отдельно: `cd next-app && npm run dev` (фоном). Слушает `http://localhost:3000`.
+2. ⚠️ **В dev basePath `/gc-prototype` НЕ применяется** (он только для prod-сборки под GitHub Pages). Открывать страницы без префикса: `http://localhost:3000/dashboard`, `/clients`, `/risk-factors` и т.д. Корень `/` редиректит на `/dashboard`.
+3. Через Playwright MCP: открыть URL → снять скриншот / снапшот → прокликать состояние → показать дизайнеру.
+
+## Дизайн-ревью (`/design-review`)
+
+Автоматизированное дизайн-ревью экранов в живом окружении (workflow OneRedOak, адаптирован под GCP).
+
+- **Slash-команда**: `/design-review` — без аргумента ревьюит ключевые экраны всего проекта; `/design-review /clients /cases` — конкретные роуты; `/design-review diff` — изменённые экраны по рабочему дифу.
+- **Субагент**: `@agent-design-review` — для глубокой проверки a11y/адаптива/устойчивости перед финалом фичи или PR.
+- **Каноны ревью**:
+  - [context/design-principles.md](context/design-principles.md) — операционный чек-лист (жёсткие правила, риск/статусы, WCAG AA+, адаптив).
+  - [context/style-guide.md](context/style-guide.md) — выжимка дизайн-токенов из `globals.css`.
+  - [design.md](design.md) — источник истины по UX при конфликте.
+- Требует поднятого dev-сервера (`localhost:3000`, без basePath). Проверяет каждый экран в light/dark на 1440/768/375.
+
 ## Conventions
 
 ### Дизайн-решения
@@ -109,5 +131,5 @@ npm run format      # prettier write
 - Не пиши свои Modal/Button/Input — всё уже есть в `next-app/components/ui/`
 - Если нужного компонента нет — ставь через `npx shadcn add`, не пиши с нуля
 - После любого визуала прогоняй чек: empty / loading / data / error
-- Пользователь — дизайнер: показывай результат в браузере (запусти dev и убедись), не отчитывайся только typecheck'ом
+- Пользователь — дизайнер: показывай результат в браузере (подними `npm run dev` + Playwright MCP, см. «Проверка в браузере»), не отчитывайся только typecheck'ом
 - Меняешь брендинг — меняешь CSS-переменные в `globals.css`, а не в каждом компоненте

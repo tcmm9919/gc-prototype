@@ -1,0 +1,250 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+        - generic [ref=e24]:
+          - generic [ref=e25]: Работа
+          - link "Клиенты" [ref=e26] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e27]
+            - generic [ref=e32]: Клиенты
+          - link "Транзакции 65" [ref=e33] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e34]
+            - generic [ref=e37]: Транзакции
+            - generic [ref=e38]: "65"
+          - link "Оповещения 62" [ref=e39] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e40]
+            - generic [ref=e43]: Оповещения
+            - generic [ref=e44]: "62"
+          - link "Кейсы 42" [ref=e45] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e46]
+            - generic [ref=e48]: Кейсы
+            - generic [ref=e49]: "42"
+          - link "Риск-факторы" [ref=e50] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e51]
+            - generic [ref=e53]: Риск-факторы
+        - generic [ref=e54]:
+          - generic [ref=e55]: Инструменты
+          - link "Правила" [ref=e56] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e57]
+            - generic [ref=e60]: Правила
+          - link "Сценарии" [ref=e61] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e62]
+            - generic [ref=e66]: Сценарии
+          - link "AI" [ref=e67] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e68]
+            - generic [ref=e71]: AI
+      - generic [ref=e72]:
+        - link "Настройки" [ref=e74] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e75]
+          - generic [ref=e78]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e80]:
+          - img "Madina S." [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: Madina S.
+            - generic [ref=e84]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e85]
+    - main [ref=e88]:
+      - main [ref=e89]:
+        - navigation "Хлебные крошки" [ref=e832]:
+          - link "Клиенты" [ref=e833] [cursor=pointer]:
+            - /url: /clients/
+          - img [ref=e834]
+          - generic [ref=e836]: Касенов Темирлан А.
+        - generic [ref=e838]:
+          - complementary [ref=e839]:
+            - generic [ref=e842]:
+              - generic [ref=e844]:
+                - heading "Касенов Темирлан А." [level=2] [ref=e845]
+                - generic [ref=e846]:
+                  - generic [ref=e847]: Низкий
+                  - generic [ref=e850]: Активен
+                - generic [ref=e852]: CL-S01 · Физ. лицо
+                - generic [ref=e853]: "Ответственный: Madina S."
+              - generic [ref=e854]:
+                - generic [ref=e855]:
+                  - text: Risk Score
+                  - generic [ref=e856]:
+                    - button "32" [ref=e857]
+                    - generic [ref=e858]: /100
+                    - generic [ref=e859]: Средний риск
+                - generic [ref=e862]:
+                  - generic [ref=e863]:
+                    - img [ref=e864]
+                    - text: AI-резюме
+                  - paragraph [ref=e867]: Среднерисковый розничный клиент. PEP/санкции — не обнаружены. Стандартный мониторинг.
+              - generic [ref=e868]:
+                - button "Поднять риск" [ref=e869]:
+                  - img
+                  - text: Поднять риск
+                - button "В кейс" [ref=e870]:
+                  - img
+                  - text: В кейс
+                - button "AI Ассистент" [ref=e871]:
+                  - img
+                  - text: AI Ассистент
+          - generic [ref=e873]:
+            - tablist [ref=e874]:
+              - tab "Обзор" [selected] [ref=e875]
+              - tab "Скоринг" [ref=e876]
+              - tab "Транзакции" [ref=e877]
+              - tab "Оповещения" [ref=e878]
+              - tab "Кейсы" [ref=e879]
+              - tab "EDD" [ref=e880]
+              - tab "Новости" [ref=e881]
+              - tab "История" [ref=e882]
+              - tab "Документы" [ref=e883]
+            - generic [ref=e885]:
+              - heading "Обзор" [level=3] [ref=e886]
+              - generic [ref=e887]:
+                - generic [ref=e888]:
+                  - heading "Подробности" [level=3] [ref=e889]
+                  - generic [ref=e890]:
+                    - generic [ref=e891]:
+                      - generic [ref=e892]: Версия карточки клиента
+                      - paragraph [ref=e893]: "1"
+                    - generic [ref=e894]:
+                      - generic [ref=e895]: Колвир-код
+                      - paragraph [ref=e896]: "0356142"
+                    - generic [ref=e897]:
+                      - generic [ref=e898]: Имя
+                      - paragraph [ref=e899]: Темирлан
+                    - generic [ref=e900]:
+                      - generic [ref=e901]: Фамилия
+                      - paragraph [ref=e902]: Касенов
+                    - generic [ref=e903]:
+                      - generic [ref=e904]: Отчество
+                      - paragraph [ref=e905]: А.
+                    - generic [ref=e906]:
+                      - generic [ref=e907]: ИИН
+                      - paragraph [ref=e908]: "920414300172"
+                    - generic [ref=e909]:
+                      - generic [ref=e910]: Дата рождения
+                      - paragraph [ref=e911]: 1992-04-14
+                    - generic [ref=e912]:
+                      - generic [ref=e913]: Дата регистрации
+                      - paragraph [ref=e914]: 2025-10-05
+                    - generic [ref=e915]:
+                      - generic [ref=e916]: Срок обслуживания (дн.)
+                      - paragraph [ref=e917]: "241"
+                    - generic [ref=e918]:
+                      - generic [ref=e919]: Страна резидентства
+                      - paragraph [ref=e920]: KZ
+                    - generic [ref=e921]:
+                      - generic [ref=e922]: Место рождения
+                      - paragraph [ref=e923]: г. Алматы
+                    - generic [ref=e924]:
+                      - generic [ref=e925]: Филиал открытия счёта
+                      - paragraph [ref=e926]: Алматинский филиал
+                - generic [ref=e927]:
+                  - generic [ref=e928]:
+                    - generic [ref=e929]:
+                      - heading "Документы клиента" [level=3] [ref=e930]:
+                        - img [ref=e931]
+                        - text: Документы клиента
+                      - button "Загрузить" [ref=e934]:
+                        - img
+                        - text: Загрузить
+                    - generic [ref=e935]:
+                      - generic [ref=e936]:
+                        - generic [ref=e937]: income_anomaly_remediation.pdf
+                        - generic [ref=e938]: income_proof
+                      - generic [ref=e940]:
+                        - generic [ref=e941]: edd_report_20260430_064829.html
+                        - generic [ref=e942]: edd_report
+                      - generic [ref=e944]:
+                        - generic [ref=e945]: edd_report_20260429_093630.html
+                        - generic [ref=e946]: edd_report
+                      - generic [ref=e948]:
+                        - generic [ref=e949]: edd_report_20260428_072744.html
+                        - generic [ref=e950]: edd_report
+                    - button "Все 5 документов →" [ref=e952]
+                  - generic [ref=e953]:
+                    - heading "Канал уведомлений" [level=3] [ref=e954]
+                    - paragraph [ref=e955]: Как клиент получает запросы и решения комплаенса
+                    - generic [ref=e956]:
+                      - generic [ref=e957] [cursor=pointer]:
+                        - checkbox "Email" [checked] [ref=e958]
+                        - text: Email
+                      - generic [ref=e959] [cursor=pointer]:
+                        - checkbox "SMS" [ref=e960]
+                        - text: SMS
+                      - generic [ref=e961] [cursor=pointer]:
+                        - checkbox "Push на Freedom SuperApp" [ref=e962]
+                        - text: Push на Freedom SuperApp
+          - complementary [ref=e963]:
+            - generic [ref=e964]:
+              - heading "Быстрые действия" [level=3] [ref=e966]:
+                - generic [ref=e967]:
+                  - img [ref=e968]
+                  - text: Быстрые действия
+              - textbox "Проверить по санкционным спискам, запустить adverse media..." [ref=e971]
+              - generic [ref=e972]:
+                - button "Запустить" [disabled]:
+                  - img
+                  - text: Запустить
+              - generic [ref=e973]:
+                - paragraph [ref=e974]: Готовые сценарии
+                - list [ref=e975]:
+                  - listitem [ref=e976]:
+                    - generic [ref=e977]: Блокировка клиента
+                    - button "Запустить" [ref=e978]:
+                      - img [ref=e979]
+                  - listitem [ref=e981]:
+                    - generic [ref=e982]: Отчёт по документации от клиента
+                    - button "Запустить" [ref=e983]:
+                      - img [ref=e984]
+                  - listitem [ref=e986]:
+                    - generic [ref=e987]: Полная проверка клиента 6 шагов
+                    - button "Запустить" [ref=e988]:
+                      - img [ref=e989]
+                  - listitem [ref=e991]:
+                    - generic [ref=e992]: Санкционная проверка с отправкой на почту
+                    - button "Запустить" [ref=e993]:
+                      - img [ref=e994]
+    - button "D · Утренняя смена ЦПК" [ref=e799]:
+      - img
+      - generic [ref=e800]: D
+      - generic [ref=e801]: ·
+      - generic [ref=e802]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e804]:
+      - img [ref=e805]
+  - generic [ref=e809]:
+    - heading "Command Palette" [level=2] [ref=e810]
+    - paragraph [ref=e811]: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic [ref=e816] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e817]:
+      - img [ref=e818]
+    - generic [ref=e822]:
+      - button "Open issues overlay" [ref=e823]:
+        - generic [ref=e824]:
+          - generic [ref=e825]: "1"
+          - generic [ref=e826]: "2"
+        - generic [ref=e827]:
+          - text: Issue
+          - generic [ref=e828]: s
+      - button "Collapse issues badge" [ref=e829]:
+        - img [ref=e830]
+  - alert [ref=e821]

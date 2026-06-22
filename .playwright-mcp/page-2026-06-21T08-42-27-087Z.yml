@@ -1,0 +1,242 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: F
+          - generic:
+            - generic: Freedom AI
+            - generic: Globerce Compliance
+          - button:
+            - img
+      - generic:
+        - generic:
+          - generic: Обзор
+          - link:
+            - /url: /dashboard/
+            - img
+            - generic: Дашборд
+          - link:
+            - /url: /chat/
+            - img
+            - generic: AI чат
+        - generic:
+          - generic: Работа
+          - link:
+            - /url: /clients/
+            - img
+            - generic: Клиенты
+          - link:
+            - /url: /transactions/
+            - img
+            - generic: Транзакции
+            - generic: "65"
+          - link:
+            - /url: /alerts/
+            - img
+            - generic: Оповещения
+            - generic: "62"
+          - link:
+            - /url: /cases/
+            - img
+            - generic: Кейсы
+            - generic: "42"
+          - link:
+            - /url: /risk-factors/
+            - img
+            - generic: Риск-факторы
+        - generic:
+          - generic: Инструменты
+          - link:
+            - /url: /rules/
+            - img
+            - generic: Правила
+          - link:
+            - /url: /workflows/
+            - img
+            - generic: Сценарии
+          - link:
+            - /url: /ai/
+            - img
+            - generic: Агенты
+      - generic:
+        - generic:
+          - link:
+            - /url: /settings/
+            - img
+            - generic: Настройки
+        - generic:
+          - button:
+            - img
+            - generic:
+              - generic: Madina S.
+              - generic: madina.satybaldiyeva@globerce.capital
+            - img
+    - main:
+      - main:
+        - generic:
+          - generic:
+            - heading [level=1]: Агенты
+          - generic:
+            - button:
+              - img
+            - button:
+              - img
+            - button:
+              - img
+        - generic:
+          - generic:
+            - generic:
+              - heading [level=1]: Агенты
+              - paragraph: Создавайте и настраивайте агентов для автоматического триажа алертов и формирования отчётов.
+            - generic:
+              - button:
+                - img
+                - text: Новый агент
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                    - generic:
+                      - heading [level=3]: Compliance Officer
+                      - paragraph: "Автономный триаж оповещений: создаёт кейс из алерта, запускает ремедиационный воркфлоу, эскалирует или пропускает."
+                  - generic:
+                    - generic: Активен
+                - generic:
+                  - generic: yandexgpt-5.1/latest
+                  - generic:
+                    - img
+                    - text: 6 инструментов
+                  - generic: 4/5 успешных запусков
+                - generic:
+                  - button:
+                    - img
+                    - text: Системный промпт
+                - generic:
+                  - button:
+                    - img
+                    - text: Запустить
+                  - button:
+                    - img
+                  - button:
+                    - img
+                  - button [expanded]:
+                    - img
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                    - generic:
+                      - heading [level=3]: Верификация источников средств
+                      - paragraph: Проверка источников средств клиента в рамках KYC/AML — анализ поступлений, сверка с анкетой, санкционный скрининг.
+                  - generic:
+                    - generic: Активен
+                - generic:
+                  - generic: yandexgpt-5.1/latest
+                  - generic:
+                    - img
+                    - text: 4 инструмента
+                  - generic: 4/5 успешных запусков
+                - generic:
+                  - button:
+                    - img
+                    - text: Системный промпт
+                - generic:
+                  - button:
+                    - img
+                    - text: Запустить
+                  - button:
+                    - img
+                  - button:
+                    - img
+                  - button:
+                    - img
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                    - generic:
+                      - heading [level=3]: Compliance-саммари
+                      - paragraph: Формирует краткое compliance-заключение на основе данных скрининга и скоринга клиента.
+                  - generic:
+                    - generic: Активен
+                - generic:
+                  - generic: yandexgpt-5.1/latest
+                  - generic:
+                    - img
+                    - text: 4 инструмента
+                  - generic: 4/5 успешных запусков
+                - generic:
+                  - button:
+                    - img
+                    - text: Системный промпт
+                - generic:
+                  - button:
+                    - img
+                    - text: Запустить
+                  - button:
+                    - img
+                  - button:
+                    - img
+                  - button:
+                    - img
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - img
+                    - generic:
+                      - heading [level=3]: Описание рисков
+                      - paragraph: Генерирует развёрнутое описание рисков клиента для регуляторной отчётности.
+                  - generic:
+                    - generic: Выключен
+                - generic:
+                  - generic: yandexgpt-5.1/latest
+                  - generic:
+                    - img
+                    - text: 4 инструмента
+                  - generic: 4/5 успешных запусков
+                - generic:
+                  - button:
+                    - img
+                    - text: Системный промпт
+                - generic:
+                  - button:
+                    - img
+                    - text: Запустить
+                  - button:
+                    - img
+                  - button:
+                    - img
+                  - button:
+                    - img
+    - button [ref=e242]:
+      - img
+      - generic [ref=e219]: D
+      - generic [ref=e220]: ·
+      - generic [ref=e221]: Утренняя смена ЦПК
+    - generic:
+      - button:
+        - img
+  - generic:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e236] [cursor=pointer]:
+    - img [ref=e237]
+  - alert
+  - alertdialog "Удалить агента?" [ref=e244]:
+    - generic [ref=e245]:
+      - heading "Удалить агента?" [level=2] [ref=e246]
+      - paragraph [ref=e247]: Агент «Compliance Officer» будет удалён вместе с системным промптом и настройками инструментов. Это действие необратимо.
+    - generic [ref=e248]:
+      - button "Отмена" [active] [ref=e249]
+      - button "Удалить" [ref=e250]

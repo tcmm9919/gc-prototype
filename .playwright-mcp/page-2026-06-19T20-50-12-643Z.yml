@@ -1,0 +1,630 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+        - generic [ref=e24]:
+          - generic [ref=e25]: Работа
+          - link "Клиенты" [ref=e26] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e27]
+            - generic [ref=e32]: Клиенты
+          - link "Транзакции 65" [ref=e33] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e34]
+            - generic [ref=e37]: Транзакции
+            - generic [ref=e38]: "65"
+          - link "Оповещения 62" [ref=e39] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e40]
+            - generic [ref=e43]: Оповещения
+            - generic [ref=e44]: "62"
+          - link "Кейсы 42" [ref=e45] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e46]
+            - generic [ref=e48]: Кейсы
+            - generic [ref=e49]: "42"
+          - link "Риск-факторы" [ref=e50] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e51]
+            - generic [ref=e53]: Риск-факторы
+        - generic [ref=e54]:
+          - generic [ref=e55]: Инструменты
+          - link "Правила" [ref=e56] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e57]
+            - generic [ref=e60]: Правила
+          - link "Сценарии" [ref=e61] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e62]
+            - generic [ref=e66]: Сценарии
+          - link "AI" [ref=e67] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e68]
+            - generic [ref=e71]: AI
+      - generic [ref=e72]:
+        - link "Настройки" [ref=e74] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e75]
+          - generic [ref=e78]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e80]:
+          - img "Madina S." [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: Madina S.
+            - generic [ref=e84]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e85]
+    - main [ref=e88]:
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - img [ref=e92]
+            - heading "Транзакции" [level=1] [ref=e95]
+          - generic [ref=e96]:
+            - button "Сменить язык" [ref=e97]:
+              - img
+            - button "Уведомления" [ref=e98]:
+              - img
+            - button "Тёмная тема" [ref=e100]:
+              - img
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - generic [ref=e104]:
+              - button "Все 311" [ref=e105]:
+                - generic [ref=e106]: Все
+                - generic [ref=e107]: "311"
+              - button "Ожидают review 65" [ref=e108]:
+                - img [ref=e110]
+                - generic [ref=e112]: Ожидают review
+                - generic [ref=e113]: "65"
+              - button "Высокий риск 125" [ref=e114]:
+                - img [ref=e116]
+                - generic [ref=e118]: Высокий риск
+                - generic [ref=e119]: "125"
+              - button "> 1 млн KZT 293" [ref=e120]:
+                - img [ref=e122]
+                - generic [ref=e125]: "> 1 млн KZT"
+                - generic [ref=e126]: "293"
+            - generic [ref=e127]:
+              - generic [ref=e128]:
+                - generic [ref=e129]:
+                  - img [ref=e130]
+                  - textbox "Поиск по ID, клиенту, назначению..." [ref=e133]
+                - generic [ref=e134]:
+                  - button "Статус" [ref=e135]:
+                    - img
+                    - text: Статус
+                  - button "Приоритет" [ref=e136]:
+                    - img
+                    - text: Приоритет
+                  - button "Риск" [ref=e137]:
+                    - img
+                    - text: Риск
+                  - button "Валюта" [ref=e138]:
+                    - img
+                    - text: Валюта
+              - button "Экспорт" [ref=e140]:
+                - img
+                - text: Экспорт
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - checkbox "Выбрать все" [ref=e144]
+              - button "Дата" [ref=e146]:
+                - text: Дата
+                - img [ref=e147]
+              - button "Идентификатор" [ref=e151]:
+                - text: Идентификатор
+                - img [ref=e152]
+              - button "Клиент" [ref=e156]:
+                - text: Клиент
+                - img [ref=e157]
+              - generic [ref=e160]: Назначение
+              - generic [ref=e161]: Сумма
+              - button "В тенге" [ref=e163]:
+                - text: В тенге
+                - img [ref=e164]
+              - button "Комплаенс" [ref=e168]:
+                - text: Комплаенс
+                - img [ref=e169]
+              - button "Приоритет" [ref=e173]:
+                - text: Приоритет
+                - img [ref=e174]
+              - button "Риск" [ref=e178]:
+                - text: Риск
+                - img [ref=e179]
+              - button "Филиал" [ref=e183]:
+                - text: Филиал
+                - img [ref=e184]
+            - button "Выбрать строку 19.06.2026 TX-S001 Касенов Темирлан А. 111 Выплата заработной платы по трудовому договору 480 000,00 KZT 480 000,00 KZT Завершена Низкий Низкий ALM-001 Раскрыть" [ref=e189] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e191]
+              - generic [ref=e193]: 19.06.2026
+              - link "TX-S001" [ref=e195]:
+                - /url: /transactions/TX-S001/
+              - link "Касенов Темирлан А." [ref=e197]:
+                - /url: /clients/CL-S01/
+              - generic [ref=e199]:
+                - generic [ref=e200]: "111"
+                - generic [ref=e201]: Выплата заработной платы по трудовому договору
+              - generic [ref=e203]: 480 000,00 KZT
+              - generic [ref=e205]: 480 000,00 KZT
+              - generic [ref=e207]: Завершена
+              - generic [ref=e210]: Низкий
+              - generic [ref=e213]: Низкий
+              - generic [ref=e217]: ALM-001
+              - button "Раскрыть" [ref=e218]:
+                - img [ref=e219]
+            - button "Выбрать строку 18.06.2026 TX-S002 Касенов Темирлан А. 119 Оплата приобретённых товаров и услуг резидентами Республики Казахстан 24 800,00 KZT 24 800,00 KZT Завершена Низкий Низкий ALM-001 Раскрыть" [ref=e222] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e224]
+              - generic [ref=e226]: 18.06.2026
+              - link "TX-S002" [ref=e228]:
+                - /url: /transactions/TX-S002/
+              - link "Касенов Темирлан А." [ref=e230]:
+                - /url: /clients/CL-S01/
+              - generic [ref=e232]:
+                - generic [ref=e233]: "119"
+                - generic [ref=e234]: Оплата приобретённых товаров и услуг резидентами Республики Казахстан
+              - generic [ref=e236]: 24 800,00 KZT
+              - generic [ref=e238]: 24 800,00 KZT
+              - generic [ref=e240]: Завершена
+              - generic [ref=e243]: Низкий
+              - generic [ref=e246]: Низкий
+              - generic [ref=e250]: ALM-001
+              - button "Раскрыть" [ref=e251]:
+                - img [ref=e252]
+            - button "Выбрать строку 19.06.2026 TX-S003 Серикбаева Айгерим Н. 590 Поступление денег от иностранного контрагента за оказанные услуги 75 000,00 USD 39 750 000,00 KZT Завершена Средний Средний ALM-001 Раскрыть" [ref=e255] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e257]
+              - generic [ref=e259]: 19.06.2026
+              - link "TX-S003" [ref=e261]:
+                - /url: /transactions/TX-S003/
+              - link "Серикбаева Айгерим Н." [ref=e263]:
+                - /url: /clients/CL-S02/
+              - generic [ref=e265]:
+                - generic [ref=e266]: "590"
+                - generic [ref=e267]: Поступление денег от иностранного контрагента за оказанные услуги
+              - generic [ref=e269]: 75 000,00 USD
+              - generic [ref=e271]: 39 750 000,00 KZT
+              - generic [ref=e273]: Завершена
+              - generic [ref=e276]: Средний
+              - generic [ref=e279]: Средний
+              - generic [ref=e283]: ALM-001
+              - button "Раскрыть" [ref=e284]:
+                - img [ref=e285]
+            - button "Выбрать строку 13.06.2026 TX-S004 Серикбаева Айгерим Н. 424 Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале 8 500 000,00 KZT 8 500 000,00 KZT Завершена Низкий Низкий ALM-001 Раскрыть" [ref=e288] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e290]
+              - generic [ref=e292]: 13.06.2026
+              - link "TX-S004" [ref=e294]:
+                - /url: /transactions/TX-S004/
+              - link "Серикбаева Айгерим Н." [ref=e296]:
+                - /url: /clients/CL-S02/
+              - generic [ref=e298]:
+                - generic [ref=e299]: "424"
+                - generic [ref=e300]: Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале
+              - generic [ref=e302]: 8 500 000,00 KZT
+              - generic [ref=e304]: 8 500 000,00 KZT
+              - generic [ref=e306]: Завершена
+              - generic [ref=e309]: Низкий
+              - generic [ref=e312]: Низкий
+              - generic [ref=e316]: ALM-001
+              - button "Раскрыть" [ref=e317]:
+                - img [ref=e318]
+            - button "Выбрать строку 19.06.2026 TX-S007 ТОО «Caspian Trade Group» 343 Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке 999 300,00 KZT 999 300,00 KZT Ожидание Высокий Высокий ALA-014 Раскрыть" [ref=e321] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e323]
+              - generic [ref=e325]: 19.06.2026
+              - link "TX-S007" [ref=e327]:
+                - /url: /transactions/TX-S007/
+              - link "ТОО «Caspian Trade Group»" [ref=e329]:
+                - /url: /clients/CL-S03/
+              - generic [ref=e331]:
+                - generic [ref=e332]: "343"
+                - generic [ref=e333]: Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке
+              - generic [ref=e335]: 999 300,00 KZT
+              - generic [ref=e337]: 999 300,00 KZT
+              - generic [ref=e339]: Ожидание
+              - generic [ref=e342]: Высокий
+              - generic [ref=e345]: Высокий
+              - generic [ref=e349]: ALA-014
+              - button "Раскрыть" [ref=e350]:
+                - img [ref=e351]
+            - button "Выбрать строку 19.06.2026 TX-S008 ТОО «Caspian Trade Group» 343 Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке 999 400,00 KZT 999 400,00 KZT Ожидание Высокий Высокий ALA-014 Раскрыть" [ref=e354] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e356]
+              - generic [ref=e358]: 19.06.2026
+              - link "TX-S008" [ref=e360]:
+                - /url: /transactions/TX-S008/
+              - link "ТОО «Caspian Trade Group»" [ref=e362]:
+                - /url: /clients/CL-S03/
+              - generic [ref=e364]:
+                - generic [ref=e365]: "343"
+                - generic [ref=e366]: Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке
+              - generic [ref=e368]: 999 400,00 KZT
+              - generic [ref=e370]: 999 400,00 KZT
+              - generic [ref=e372]: Ожидание
+              - generic [ref=e375]: Высокий
+              - generic [ref=e378]: Высокий
+              - generic [ref=e382]: ALA-014
+              - button "Раскрыть" [ref=e383]:
+                - img [ref=e384]
+            - button "Выбрать строку 19.06.2026 TX-S009 ТОО «Caspian Trade Group» 343 Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке 999 500,00 KZT 999 500,00 KZT Ожидание Высокий Высокий ALA-014 Раскрыть" [ref=e387] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e389]
+              - generic [ref=e391]: 19.06.2026
+              - link "TX-S009" [ref=e393]:
+                - /url: /transactions/TX-S009/
+              - link "ТОО «Caspian Trade Group»" [ref=e395]:
+                - /url: /clients/CL-S03/
+              - generic [ref=e397]:
+                - generic [ref=e398]: "343"
+                - generic [ref=e399]: Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке
+              - generic [ref=e401]: 999 500,00 KZT
+              - generic [ref=e403]: 999 500,00 KZT
+              - generic [ref=e405]: Ожидание
+              - generic [ref=e408]: Высокий
+              - generic [ref=e411]: Высокий
+              - generic [ref=e415]: ALA-014
+              - button "Раскрыть" [ref=e416]:
+                - img [ref=e417]
+            - button "Выбрать строку 19.06.2026 TX-S0010 ТОО «Caspian Trade Group» 343 Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке 999 600,00 KZT 999 600,00 KZT Ожидание Высокий Высокий ALA-014 Раскрыть" [ref=e420] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e422]
+              - generic [ref=e424]: 19.06.2026
+              - link "TX-S0010" [ref=e426]:
+                - /url: /transactions/TX-S0010/
+              - link "ТОО «Caspian Trade Group»" [ref=e428]:
+                - /url: /clients/CL-S03/
+              - generic [ref=e430]:
+                - generic [ref=e431]: "343"
+                - generic [ref=e432]: Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке
+              - generic [ref=e434]: 999 600,00 KZT
+              - generic [ref=e436]: 999 600,00 KZT
+              - generic [ref=e438]: Ожидание
+              - generic [ref=e441]: Высокий
+              - generic [ref=e444]: Высокий
+              - generic [ref=e448]: ALA-014
+              - button "Раскрыть" [ref=e449]:
+                - img [ref=e450]
+            - button "Выбрать строку 18.06.2026 TX-S011 АО «Steppe Logistics» 590 Поступление денег от иностранного контрагента за оказанные услуги 250 000,00 USD 132 500 000,00 KZT Отклонена Высокий Критический AST-002 Раскрыть" [ref=e453] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e455]
+              - generic [ref=e457]: 18.06.2026
+              - link "TX-S011" [ref=e459]:
+                - /url: /transactions/TX-S011/
+              - link "АО «Steppe Logistics»" [ref=e461]:
+                - /url: /clients/CL-S04/
+              - generic [ref=e463]:
+                - generic [ref=e464]: "590"
+                - generic [ref=e465]: Поступление денег от иностранного контрагента за оказанные услуги
+              - generic [ref=e467]: 250 000,00 USD
+              - generic [ref=e469]: 132 500 000,00 KZT
+              - generic [ref=e471]: Отклонена
+              - generic [ref=e474]: Высокий
+              - generic [ref=e477]: Критический
+              - generic [ref=e482]: AST-002
+              - button "Раскрыть" [ref=e483]:
+                - img [ref=e484]
+            - button "Выбрать строку 18.06.2026 TX-S012 Жумабеков Ержан К. 119 Прочие безвозмездные переводы денег физическим лицам 4 200 000,00 KZT 4 200 000,00 KZT Ожидание Средний Средний ALM-001 Раскрыть" [ref=e487] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e489]
+              - generic [ref=e491]: 18.06.2026
+              - link "TX-S012" [ref=e493]:
+                - /url: /transactions/TX-S012/
+              - link "Жумабеков Ержан К." [ref=e495]:
+                - /url: /clients/CL-S05/
+              - generic [ref=e497]:
+                - generic [ref=e498]: "119"
+                - generic [ref=e499]: Прочие безвозмездные переводы денег физическим лицам
+              - generic [ref=e501]: 4 200 000,00 KZT
+              - generic [ref=e503]: 4 200 000,00 KZT
+              - generic [ref=e505]: Ожидание
+              - generic [ref=e508]: Средний
+              - generic [ref=e511]: Средний
+              - generic [ref=e515]: ALM-001
+              - button "Раскрыть" [ref=e516]:
+                - img [ref=e517]
+            - button "Выбрать строку 19.06.2026 TX-S013 ИП Ахметова Мадина Б. 510 Финансовый лизинг (платёж по графику) 580 000,00 KZT 580 000,00 KZT Завершена Низкий Низкий SHY-007 Раскрыть" [ref=e520] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e522]
+              - generic [ref=e524]: 19.06.2026
+              - link "TX-S013" [ref=e526]:
+                - /url: /transactions/TX-S013/
+              - link "ИП Ахметова Мадина Б." [ref=e528]:
+                - /url: /clients/CL-S06/
+              - generic [ref=e530]:
+                - generic [ref=e531]: "510"
+                - generic [ref=e532]: Финансовый лизинг (платёж по графику)
+              - generic [ref=e534]: 580 000,00 KZT
+              - generic [ref=e536]: 580 000,00 KZT
+              - generic [ref=e538]: Завершена
+              - generic [ref=e541]: Низкий
+              - generic [ref=e544]: Низкий
+              - generic [ref=e548]: SHY-007
+              - button "Раскрыть" [ref=e549]:
+                - img [ref=e550]
+            - button "Выбрать строку 18.06.2026 TX-002a Турсынов Тимур С. 343 Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке 997 600,00 KZT 997 600,00 KZT Завершена Низкий Низкий ALM-001 Раскрыть" [ref=e553] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e555]
+              - generic [ref=e557]: 18.06.2026
+              - link "TX-002a" [ref=e559]:
+                - /url: /transactions/TX-002a/
+              - link "Турсынов Тимур С." [ref=e561]:
+                - /url: /clients/CL-000v/
+              - generic [ref=e563]:
+                - generic [ref=e564]: "343"
+                - generic [ref=e565]: Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке
+              - generic [ref=e567]: 997 600,00 KZT
+              - generic [ref=e569]: 997 600,00 KZT
+              - generic [ref=e571]: Завершена
+              - generic [ref=e574]: Низкий
+              - generic [ref=e577]: Низкий
+              - generic [ref=e581]: ALM-001
+              - button "Раскрыть" [ref=e582]:
+                - img [ref=e583]
+            - button "Выбрать строку 18.06.2026 TX-002c ИП «Khan Tengri» 424 Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале 1 022 290,00 EUR 592 928 200,00 KZT Завершена Средний Средний ALA-014 Раскрыть" [ref=e586] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e588]
+              - generic [ref=e590]: 18.06.2026
+              - link "TX-002c" [ref=e592]:
+                - /url: /transactions/TX-002c/
+              - link "ИП «Khan Tengri»" [ref=e594]:
+                - /url: /clients/CL-000x/
+              - generic [ref=e596]:
+                - generic [ref=e597]: "424"
+                - generic [ref=e598]: Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале
+              - generic [ref=e600]: 1 022 290,00 EUR
+              - generic [ref=e602]: 592 928 200,00 KZT
+              - generic [ref=e604]: Завершена
+              - generic [ref=e607]: Средний
+              - generic [ref=e610]: Средний
+              - generic [ref=e614]: ALA-014
+              - button "Раскрыть" [ref=e615]:
+                - img [ref=e616]
+            - button "Выбрать строку 18.06.2026 TX-002e Жумабеков Ержан А. 119 Прочие безвозмездные переводы денег физическим лицам 1 046 980,00 CNY 76 429 540,00 KZT Завершена Средний Критический SHY-007 Раскрыть" [ref=e619] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e621]
+              - generic [ref=e623]: 18.06.2026
+              - link "TX-002e" [ref=e625]:
+                - /url: /transactions/TX-002e/
+              - link "Жумабеков Ержан А." [ref=e627]:
+                - /url: /clients/CL-000z/
+              - generic [ref=e629]:
+                - generic [ref=e630]: "119"
+                - generic [ref=e631]: Прочие безвозмездные переводы денег физическим лицам
+              - generic [ref=e633]: 1 046 980,00 CNY
+              - generic [ref=e635]: 76 429 540,00 KZT
+              - generic [ref=e637]: Завершена
+              - generic [ref=e640]: Средний
+              - generic [ref=e643]: Критический
+              - generic [ref=e648]: SHY-007
+              - button "Раскрыть" [ref=e649]:
+                - img [ref=e650]
+            - button "Выбрать строку 18.06.2026 TX-002g ТОО «Caspian Trade» 343 Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке 1 071 670,00 USD 567 985 100,00 KZT Обработана Средний Низкий ALA-001 Раскрыть" [ref=e653] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e655]
+              - generic [ref=e657]: 18.06.2026
+              - link "TX-002g" [ref=e659]:
+                - /url: /transactions/TX-002g/
+              - link "ТОО «Caspian Trade»" [ref=e661]:
+                - /url: /clients/CL-0011/
+              - generic [ref=e663]:
+                - generic [ref=e664]: "343"
+                - generic [ref=e665]: Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке
+              - generic [ref=e667]: 1 071 670,00 USD
+              - generic [ref=e669]: 567 985 100,00 KZT
+              - generic [ref=e671]: Обработана
+              - generic [ref=e674]: Средний
+              - generic [ref=e677]: Низкий
+              - generic [ref=e681]: ALA-001
+              - button "Раскрыть" [ref=e682]:
+                - img [ref=e683]
+            - button "Выбрать строку 18.06.2026 TX-002i Турсынов Тимур С. 424 Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале 1 096 360,00 RUB 6 139 616,00 KZT Ожидание Средний Высокий AST-002 Раскрыть" [ref=e686] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e688]
+              - generic [ref=e690]: 18.06.2026
+              - link "TX-002i" [ref=e692]:
+                - /url: /transactions/TX-002i/
+              - link "Турсынов Тимур С." [ref=e694]:
+                - /url: /clients/CL-0013/
+              - generic [ref=e696]:
+                - generic [ref=e697]: "424"
+                - generic [ref=e698]: Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале
+              - generic [ref=e700]: 1 096 360,00 RUB
+              - generic [ref=e702]: 6 139 616,00 KZT
+              - generic [ref=e704]: Ожидание
+              - generic [ref=e707]: Средний
+              - generic [ref=e710]: Высокий
+              - generic [ref=e714]: AST-002
+              - button "Раскрыть" [ref=e715]:
+                - img [ref=e716]
+            - button "Выбрать строку 18.06.2026 TX-002k АО «Eurasia Foods» 119 Прочие безвозмездные переводы денег физическим лицам 1 121 050,00 KZT 1 121 050,00 KZT Завершена Средний Низкий ALM-001 Раскрыть" [ref=e719] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e721]
+              - generic [ref=e723]: 18.06.2026
+              - link "TX-002k" [ref=e725]:
+                - /url: /transactions/TX-002k/
+              - link "АО «Eurasia Foods»" [ref=e727]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e729]:
+                - generic [ref=e730]: "119"
+                - generic [ref=e731]: Прочие безвозмездные переводы денег физическим лицам
+              - generic [ref=e733]: 1 121 050,00 KZT
+              - generic [ref=e735]: 1 121 050,00 KZT
+              - generic [ref=e737]: Завершена
+              - generic [ref=e740]: Средний
+              - generic [ref=e743]: Низкий
+              - generic [ref=e747]: ALM-001
+              - button "Раскрыть" [ref=e748]:
+                - img [ref=e749]
+            - button "Выбрать строку 18.06.2026 TX-002m Жумабеков Ержан А. 343 Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке 1 145 740,00 EUR 664 529 200,00 KZT Завершена Средний Средний ALA-014 Раскрыть" [ref=e752] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e754]
+              - generic [ref=e756]: 18.06.2026
+              - link "TX-002m" [ref=e758]:
+                - /url: /transactions/TX-002m/
+              - link "Жумабеков Ержан А." [ref=e760]:
+                - /url: /clients/CL-0017/
+              - generic [ref=e762]:
+                - generic [ref=e763]: "343"
+                - generic [ref=e764]: Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке
+              - generic [ref=e766]: 1 145 740,00 EUR
+              - generic [ref=e768]: 664 529 200,00 KZT
+              - generic [ref=e770]: Завершена
+              - generic [ref=e773]: Средний
+              - generic [ref=e776]: Средний
+              - generic [ref=e780]: ALA-014
+              - button "Раскрыть" [ref=e781]:
+                - img [ref=e782]
+            - button "Выбрать строку 18.06.2026 TX-002o ИП «Astana Build» 424 Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале 1 170 430,00 CNY 85 441 390,00 KZT Завершена Средний Критический SHY-007 Раскрыть" [ref=e785] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e787]
+              - generic [ref=e789]: 18.06.2026
+              - link "TX-002o" [ref=e791]:
+                - /url: /transactions/TX-002o/
+              - link "ИП «Astana Build»" [ref=e793]:
+                - /url: /clients/CL-0019/
+              - generic [ref=e795]:
+                - generic [ref=e796]: "424"
+                - generic [ref=e797]: Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале
+              - generic [ref=e799]: 1 170 430,00 CNY
+              - generic [ref=e801]: 85 441 390,00 KZT
+              - generic [ref=e803]: Завершена
+              - generic [ref=e806]: Средний
+              - generic [ref=e809]: Критический
+              - generic [ref=e814]: SHY-007
+              - button "Раскрыть" [ref=e815]:
+                - img [ref=e816]
+            - button "Выбрать строку 18.06.2026 TX-002q Турсынов Тимур С. 119 Прочие безвозмездные переводы денег физическим лицам 1 195 120,00 USD 633 413 600,00 KZT Обработана Средний Низкий ALA-001 Раскрыть" [ref=e819] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e821]
+              - generic [ref=e823]: 18.06.2026
+              - link "TX-002q" [ref=e825]:
+                - /url: /transactions/TX-002q/
+              - link "Турсынов Тимур С." [ref=e827]:
+                - /url: /clients/CL-001b/
+              - generic [ref=e829]:
+                - generic [ref=e830]: "119"
+                - generic [ref=e831]: Прочие безвозмездные переводы денег физическим лицам
+              - generic [ref=e833]: 1 195 120,00 USD
+              - generic [ref=e835]: 633 413 600,00 KZT
+              - generic [ref=e837]: Обработана
+              - generic [ref=e840]: Средний
+              - generic [ref=e843]: Низкий
+              - generic [ref=e847]: ALA-001
+              - button "Раскрыть" [ref=e848]:
+                - img [ref=e849]
+            - button "Выбрать строку 18.06.2026 TX-002s ТОО «Steppe Drilling» 343 Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке 1 219 810,00 RUB 6 830 936,00 KZT Ожидание Средний Высокий AST-002 Раскрыть" [ref=e852] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e854]
+              - generic [ref=e856]: 18.06.2026
+              - link "TX-002s" [ref=e858]:
+                - /url: /transactions/TX-002s/
+              - link "ТОО «Steppe Drilling»" [ref=e860]:
+                - /url: /clients/CL-001d/
+              - generic [ref=e862]:
+                - generic [ref=e863]: "343"
+                - generic [ref=e864]: Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке
+              - generic [ref=e866]: 1 219 810,00 RUB
+              - generic [ref=e868]: 6 830 936,00 KZT
+              - generic [ref=e870]: Ожидание
+              - generic [ref=e873]: Средний
+              - generic [ref=e876]: Высокий
+              - generic [ref=e880]: AST-002
+              - button "Раскрыть" [ref=e881]:
+                - img [ref=e882]
+            - button "Выбрать строку 17.06.2026 TX-002u ТОО «Алматы Логистикс» 424 Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале 1 244 500,00 KZT 1 244 500,00 KZT Завершена Средний Низкий ALM-001 Раскрыть" [ref=e885] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e887]
+              - generic [ref=e889]: 17.06.2026
+              - link "TX-002u" [ref=e891]:
+                - /url: /transactions/TX-002u/
+              - link "ТОО «Алматы Логистикс»" [ref=e893]:
+                - /url: /clients/CL-0001/
+              - generic [ref=e895]:
+                - generic [ref=e896]: "424"
+                - generic [ref=e897]: Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале
+              - generic [ref=e899]: 1 244 500,00 KZT
+              - generic [ref=e901]: 1 244 500,00 KZT
+              - generic [ref=e903]: Завершена
+              - generic [ref=e906]: Средний
+              - generic [ref=e909]: Низкий
+              - generic [ref=e913]: ALM-001
+              - button "Раскрыть" [ref=e914]:
+                - img [ref=e915]
+            - button "Выбрать строку 17.06.2026 TX-002w Жумабеков Ержан А. 119 Прочие безвозмездные переводы денег физическим лицам 1 269 190,00 EUR 736 130 200,00 KZT Завершена Средний Средний ALA-014 Раскрыть" [ref=e918] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e920]
+              - generic [ref=e922]: 17.06.2026
+              - link "TX-002w" [ref=e924]:
+                - /url: /transactions/TX-002w/
+              - link "Жумабеков Ержан А." [ref=e926]:
+                - /url: /clients/CL-0003/
+              - generic [ref=e928]:
+                - generic [ref=e929]: "119"
+                - generic [ref=e930]: Прочие безвозмездные переводы денег физическим лицам
+              - generic [ref=e932]: 1 269 190,00 EUR
+              - generic [ref=e934]: 736 130 200,00 KZT
+              - generic [ref=e936]: Завершена
+              - generic [ref=e939]: Средний
+              - generic [ref=e942]: Средний
+              - generic [ref=e946]: ALA-014
+              - button "Раскрыть" [ref=e947]:
+                - img [ref=e948]
+            - button "Выбрать строку 17.06.2026 TX-002y АО «Khan Tengri» 343 Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке 1 293 880,00 CNY 94 453 240,00 KZT Завершена Средний Критический SHY-007 Раскрыть" [ref=e951] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e953]
+              - generic [ref=e955]: 17.06.2026
+              - link "TX-002y" [ref=e957]:
+                - /url: /transactions/TX-002y/
+              - link "АО «Khan Tengri»" [ref=e959]:
+                - /url: /clients/CL-0005/
+              - generic [ref=e961]:
+                - generic [ref=e962]: "343"
+                - generic [ref=e963]: Переводы клиентом денег со своего текущего счета в одном банке на свой текущий счет в другом банке
+              - generic [ref=e965]: 1 293 880,00 CNY
+              - generic [ref=e967]: 94 453 240,00 KZT
+              - generic [ref=e969]: Завершена
+              - generic [ref=e972]: Средний
+              - generic [ref=e975]: Критический
+              - generic [ref=e980]: SHY-007
+              - button "Раскрыть" [ref=e981]:
+                - img [ref=e982]
+            - button "Выбрать строку 17.06.2026 TX-0030 Турсынов Тимур С. 424 Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале 1 318 570,00 USD 698 842 100,00 KZT Обработана Средний Низкий ALA-001 Раскрыть" [ref=e985] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e987]
+              - generic [ref=e989]: 17.06.2026
+              - link "TX-0030" [ref=e991]:
+                - /url: /transactions/TX-0030/
+              - link "Турсынов Тимур С." [ref=e993]:
+                - /url: /clients/CL-0007/
+              - generic [ref=e995]:
+                - generic [ref=e996]: "424"
+                - generic [ref=e997]: Покупка, выкуп акций и документов, подтверждающих участие в уставном капитале
+              - generic [ref=e999]: 1 318 570,00 USD
+              - generic [ref=e1001]: 698 842 100,00 KZT
+              - generic [ref=e1003]: Обработана
+              - generic [ref=e1006]: Средний
+              - generic [ref=e1009]: Низкий
+              - generic [ref=e1013]: ALA-001
+              - button "Раскрыть" [ref=e1014]:
+                - img [ref=e1015]
+          - generic [ref=e1017]:
+            - generic [ref=e1018]: 311 записей
+            - generic [ref=e1019]:
+              - generic [ref=e1020]: Стр. 1 из 13
+              - generic [ref=e1021]:
+                - button "Предыдущая страница" [disabled]:
+                  - img
+                - button "Следующая страница" [ref=e1022]:
+                  - img
+    - button "D · Утренняя смена ЦПК" [ref=e1023]:
+      - img
+      - generic [ref=e1024]: D
+      - generic [ref=e1025]: ·
+      - generic [ref=e1026]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e1028]:
+      - img [ref=e1029]
+  - generic [ref=e1033]:
+    - heading "Command Palette" [level=2] [ref=e1034]
+    - paragraph [ref=e1035]: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic [ref=e1040] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e1041]:
+      - img [ref=e1042]
+    - generic [ref=e1045]:
+      - button "Open issues overlay" [ref=e1046]:
+        - generic [ref=e1047]:
+          - generic [ref=e1048]: "0"
+          - generic [ref=e1049]: "1"
+        - generic [ref=e1050]: Issue
+      - button "Collapse issues badge" [ref=e1051]:
+        - img [ref=e1052]
+  - alert [ref=e1054]

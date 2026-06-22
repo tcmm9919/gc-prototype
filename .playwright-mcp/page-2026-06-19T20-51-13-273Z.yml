@@ -1,0 +1,254 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+        - generic [ref=e24]:
+          - generic [ref=e25]: Работа
+          - link "Клиенты" [ref=e26] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e27]
+            - generic [ref=e32]: Клиенты
+          - link "Транзакции 65" [ref=e33] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e34]
+            - generic [ref=e37]: Транзакции
+            - generic [ref=e38]: "65"
+          - link "Оповещения 62" [ref=e39] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e40]
+            - generic [ref=e43]: Оповещения
+            - generic [ref=e44]: "62"
+          - link "Кейсы 42" [ref=e45] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e46]
+            - generic [ref=e48]: Кейсы
+            - generic [ref=e49]: "42"
+          - link "Риск-факторы" [ref=e50] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e51]
+            - generic [ref=e53]: Риск-факторы
+        - generic [ref=e54]:
+          - generic [ref=e55]: Инструменты
+          - link "Правила" [ref=e56] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e57]
+            - generic [ref=e60]: Правила
+          - link "Сценарии" [ref=e61] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e62]
+            - generic [ref=e66]: Сценарии
+          - link "AI" [ref=e67] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e68]
+            - generic [ref=e71]: AI
+      - generic [ref=e72]:
+        - link "Настройки" [ref=e74] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e75]
+          - generic [ref=e78]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e80]:
+          - img "Madina S." [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: Madina S.
+            - generic [ref=e84]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e85]
+    - main [ref=e88]:
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - img [ref=e92]
+            - heading "Правила" [level=1] [ref=e95]
+          - generic [ref=e96]:
+            - button "Сменить язык" [ref=e97]:
+              - img
+            - button "Уведомления" [ref=e98]:
+              - img
+            - button "Тёмная тема" [ref=e100]:
+              - img
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - generic [ref=e104]:
+              - button "Все 12" [ref=e105]:
+                - generic [ref=e106]: Все
+                - generic [ref=e107]: "12"
+              - button "Активные 10" [ref=e108]:
+                - img [ref=e110]
+                - generic [ref=e112]: Активные
+                - generic [ref=e113]: "10"
+              - button "Выключенные 2" [ref=e114]:
+                - img [ref=e116]
+                - generic [ref=e120]: Выключенные
+                - generic [ref=e121]: "2"
+            - generic [ref=e122]:
+              - generic [ref=e124]:
+                - img [ref=e125]
+                - textbox "Поиск по названию или описанию..." [ref=e128]
+              - link "Новое правило" [ref=e130] [cursor=pointer]:
+                - /url: /rules/new/
+                - img
+                - text: Новое правило
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - checkbox "Выбрать все" [ref=e134]
+              - button "Название" [ref=e136]:
+                - text: Название
+                - img [ref=e137]
+              - button "Описание" [ref=e141]:
+                - text: Описание
+                - img [ref=e142]
+              - button "Сущность" [ref=e146]:
+                - text: Сущность
+                - img [ref=e147]
+              - button "Статус" [ref=e151]:
+                - text: Статус
+                - img [ref=e152]
+              - button "Автор" [ref=e156]:
+                - text: Автор
+                - img [ref=e157]
+              - button "Обновлено" [ref=e161]:
+                - text: Обновлено
+                - img [ref=e162]
+            - button "Выбрать строку Крупный перевод нерезиденту Атомарное условие, используемое в сценариях расследования. Группа Включено Madina S. около 2 лет назад" [ref=e166] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e168]
+              - link "Крупный перевод нерезиденту" [ref=e170]:
+                - /url: /rules/RL-00kl/
+              - generic [ref=e172]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e173]: Группа
+              - generic [ref=e175]: Включено
+              - generic [ref=e177]: Madina S.
+              - generic [ref=e179]: около 2 лет назад
+            - button "Выбрать строку Несоответствие профилю клиента Атомарное условие, используемое в сценариях расследования. Группа Включено A. T. около 2 лет назад" [ref=e181] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e183]
+              - link "Несоответствие профилю клиента" [ref=e185]:
+                - /url: /rules/RL-00ko/
+              - generic [ref=e187]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e188]: Группа
+              - generic [ref=e190]: Включено
+              - generic [ref=e192]: A. T.
+              - generic [ref=e194]: около 2 лет назад
+            - button "Выбрать строку Серия мелких транзакций Атомарное условие, используемое в сценариях расследования. Группа Включено Madina S. около 2 лет назад" [ref=e196] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e198]
+              - link "Серия мелких транзакций" [ref=e200]:
+                - /url: /rules/RL-00kr/
+              - generic [ref=e202]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e203]: Группа
+              - generic [ref=e205]: Включено
+              - generic [ref=e207]: Madina S.
+              - generic [ref=e209]: около 2 лет назад
+            - button "Выбрать строку Кассовая операция > 1 млн KZT Атомарное условие, используемое в сценариях расследования. Группа Выключено A. T. около 2 лет назад" [ref=e211] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e213]
+              - link "Кассовая операция > 1 млн KZT" [ref=e215]:
+                - /url: /rules/RL-00ku/
+              - generic [ref=e217]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e218]: Группа
+              - generic [ref=e220]: Выключено
+              - generic [ref=e222]: A. T.
+              - generic [ref=e224]: около 2 лет назад
+            - button "Выбрать строку Транзакция в страну высокого риска Атомарное условие, используемое в сценариях расследования. Группа Включено Madina S. около 2 лет назад" [ref=e226] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e228]
+              - link "Транзакция в страну высокого риска" [ref=e230]:
+                - /url: /rules/RL-00kx/
+              - generic [ref=e232]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e233]: Группа
+              - generic [ref=e235]: Включено
+              - generic [ref=e237]: Madina S.
+              - generic [ref=e239]: около 2 лет назад
+            - button "Выбрать строку Крупный перевод нерезиденту Атомарное условие, используемое в сценариях расследования. Группа Включено A. T. около 2 лет назад" [ref=e241] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e243]
+              - link "Крупный перевод нерезиденту" [ref=e245]:
+                - /url: /rules/RL-00l0/
+              - generic [ref=e247]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e248]: Группа
+              - generic [ref=e250]: Включено
+              - generic [ref=e252]: A. T.
+              - generic [ref=e254]: около 2 лет назад
+            - button "Выбрать строку Несоответствие профилю клиента Атомарное условие, используемое в сценариях расследования. Группа Включено Madina S. около 2 лет назад" [ref=e256] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e258]
+              - link "Несоответствие профилю клиента" [ref=e260]:
+                - /url: /rules/RL-00l3/
+              - generic [ref=e262]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e263]: Группа
+              - generic [ref=e265]: Включено
+              - generic [ref=e267]: Madina S.
+              - generic [ref=e269]: около 2 лет назад
+            - button "Выбрать строку Серия мелких транзакций Атомарное условие, используемое в сценариях расследования. Группа Включено A. T. около 2 лет назад" [ref=e271] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e273]
+              - link "Серия мелких транзакций" [ref=e275]:
+                - /url: /rules/RL-00l6/
+              - generic [ref=e277]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e278]: Группа
+              - generic [ref=e280]: Включено
+              - generic [ref=e282]: A. T.
+              - generic [ref=e284]: около 2 лет назад
+            - button "Выбрать строку Кассовая операция > 1 млн KZT Атомарное условие, используемое в сценариях расследования. Группа Включено Madina S. около 2 лет назад" [ref=e286] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e288]
+              - link "Кассовая операция > 1 млн KZT" [ref=e290]:
+                - /url: /rules/RL-00l9/
+              - generic [ref=e292]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e293]: Группа
+              - generic [ref=e295]: Включено
+              - generic [ref=e297]: Madina S.
+              - generic [ref=e299]: около 2 лет назад
+            - button "Выбрать строку Транзакция в страну высокого риска Атомарное условие, используемое в сценариях расследования. Группа Включено A. T. около 2 лет назад" [ref=e301] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e303]
+              - link "Транзакция в страну высокого риска" [ref=e305]:
+                - /url: /rules/RL-00lc/
+              - generic [ref=e307]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e308]: Группа
+              - generic [ref=e310]: Включено
+              - generic [ref=e312]: A. T.
+              - generic [ref=e314]: около 2 лет назад
+            - button "Выбрать строку Крупный перевод нерезиденту Атомарное условие, используемое в сценариях расследования. Группа Выключено Madina S. около 2 лет назад" [ref=e316] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e318]
+              - link "Крупный перевод нерезиденту" [ref=e320]:
+                - /url: /rules/RL-00lf/
+              - generic [ref=e322]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e323]: Группа
+              - generic [ref=e325]: Выключено
+              - generic [ref=e327]: Madina S.
+              - generic [ref=e329]: около 2 лет назад
+            - button "Выбрать строку Несоответствие профилю клиента Атомарное условие, используемое в сценариях расследования. Группа Включено A. T. около 2 лет назад" [ref=e331] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e333]
+              - link "Несоответствие профилю клиента" [ref=e335]:
+                - /url: /rules/RL-00li/
+              - generic [ref=e337]: Атомарное условие, используемое в сценариях расследования.
+              - generic [ref=e338]: Группа
+              - generic [ref=e340]: Включено
+              - generic [ref=e342]: A. T.
+              - generic [ref=e344]: около 2 лет назад
+          - generic [ref=e345]:
+            - generic [ref=e346]: 12 записей
+            - generic [ref=e347]:
+              - generic [ref=e348]: Стр. 1 из 1
+              - generic [ref=e349]:
+                - button "Предыдущая страница" [disabled]:
+                  - img
+                - button "Следующая страница" [disabled]:
+                  - img
+    - button "D · Утренняя смена ЦПК" [ref=e350]:
+      - img
+      - generic [ref=e351]: D
+      - generic [ref=e352]: ·
+      - generic [ref=e353]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e355]:
+      - img [ref=e356]
+  - generic [ref=e360]:
+    - heading "Command Palette" [level=2] [ref=e361]
+    - paragraph [ref=e362]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e368] [cursor=pointer]:
+    - img [ref=e369]
+  - alert [ref=e372]

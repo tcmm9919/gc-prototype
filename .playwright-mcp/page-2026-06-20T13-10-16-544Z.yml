@@ -1,0 +1,853 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+          - link "AI чат" [ref=e24] [cursor=pointer]:
+            - /url: /chat/
+            - img [ref=e25]
+            - generic [ref=e27]: AI чат
+        - generic [ref=e28]:
+          - generic [ref=e29]: Работа
+          - link "Клиенты" [ref=e30] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e31]
+            - generic [ref=e36]: Клиенты
+          - link "Транзакции 65" [ref=e37] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e38]
+            - generic [ref=e41]: Транзакции
+            - generic [ref=e42]: "65"
+          - link "Оповещения 62" [ref=e43] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e44]
+            - generic [ref=e47]: Оповещения
+            - generic [ref=e48]: "62"
+          - link "Кейсы 42" [ref=e49] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e50]
+            - generic [ref=e52]: Кейсы
+            - generic [ref=e53]: "42"
+          - link "Риск-факторы" [ref=e54] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e55]
+            - generic [ref=e57]: Риск-факторы
+        - generic [ref=e58]:
+          - generic [ref=e59]: Инструменты
+          - link "Правила" [ref=e60] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e61]
+            - generic [ref=e64]: Правила
+          - link "Сценарии" [ref=e65] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e66]
+            - generic [ref=e70]: Сценарии
+          - link "Агенты" [ref=e71] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e72]
+            - generic [ref=e75]: Агенты
+      - generic [ref=e76]:
+        - link "Настройки" [ref=e78] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e79]
+          - generic [ref=e82]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e84]:
+          - img "Madina S." [ref=e85]
+          - generic [ref=e86]:
+            - generic [ref=e87]: Madina S.
+            - generic [ref=e88]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e89]
+    - main [ref=e92]:
+      - main [ref=e93]:
+        - generic [ref=e94]:
+          - heading "Настройки" [level=1] [ref=e96]
+          - generic [ref=e97]:
+            - button "Сменить язык" [ref=e98]:
+              - img
+            - button "Уведомления" [ref=e99]:
+              - img
+            - button "Сменить тему" [ref=e101]:
+              - img
+        - generic [ref=e104]:
+          - navigation "Настройки" [ref=e106]:
+            - link "Ключи" [ref=e107] [cursor=pointer]:
+              - /url: /settings/system/
+              - img [ref=e108]
+              - generic [ref=e111]: Ключи
+            - link "Пользователи" [ref=e112] [cursor=pointer]:
+              - /url: /settings/users/
+              - img [ref=e113]
+              - generic [ref=e118]: Пользователи
+            - link "ML-модели" [ref=e119] [cursor=pointer]:
+              - /url: /settings/instructions/
+              - img [ref=e120]
+              - generic [ref=e132]: ML-модели
+            - link "Использование LLM" [ref=e133] [cursor=pointer]:
+              - /url: /settings/llm-usage/
+              - img [ref=e134]
+              - generic [ref=e136]: Использование LLM
+            - link "Журнал аудита" [ref=e137] [cursor=pointer]:
+              - /url: /settings/audit/
+              - img [ref=e138]
+              - generic [ref=e141]: Журнал аудита
+          - generic [ref=e142]:
+            - generic [ref=e143]:
+              - heading "Использование LLM" [level=2] [ref=e144]
+              - paragraph [ref=e145]: Токены, стоимость и латентность вызовов
+            - generic [ref=e146]:
+              - paragraph [ref=e147]: Сводка за последние 30 дн.
+              - generic [ref=e148]:
+                - generic [ref=e150]:
+                  - text: Всего вызовов
+                  - generic [ref=e151]: "162"
+                - generic [ref=e153]:
+                  - text: Входные токены
+                  - generic [ref=e154]: 418 277
+                - generic [ref=e156]:
+                  - text: Выходные токены
+                  - generic [ref=e157]: 157 383
+                - generic [ref=e159]:
+                  - text: Поиск / инструменты
+                  - generic [ref=e160]: 875 800
+                - generic [ref=e162]:
+                  - text: Всего токенов
+                  - generic [ref=e163]: 1 451 460
+                - generic [ref=e165]:
+                  - text: Стоимость, всего
+                  - generic [ref=e166]: 883 ₸
+              - generic [ref=e167]:
+                - generic [ref=e170]:
+                  - generic [ref=e171]:
+                    - img [ref=e172]
+                    - searchbox "Поиск по агенту, модели..." [ref=e175]
+                  - generic [ref=e176]:
+                    - button "Все модели" [ref=e177]:
+                      - img
+                      - text: Все модели
+                    - button "Все агенты" [ref=e178]:
+                      - img
+                      - text: Все агенты
+                    - button "Все статусы" [ref=e179]:
+                      - img
+                      - text: Все статусы
+                - generic [ref=e180]:
+                  - generic [ref=e181]:
+                    - button "Время" [ref=e183]:
+                      - text: Время
+                      - img [ref=e184]
+                    - button "Агент" [ref=e188]:
+                      - text: Агент
+                      - img [ref=e189]
+                    - button "Модель" [ref=e193]:
+                      - text: Модель
+                      - img [ref=e194]
+                    - button "Вход" [ref=e198]:
+                      - text: Вход
+                      - img [ref=e199]
+                    - button "Выход" [ref=e203]:
+                      - text: Выход
+                      - img [ref=e204]
+                    - button "Инструменты" [ref=e208]:
+                      - text: Инструменты
+                      - img [ref=e209]
+                    - button "Рассуждение" [ref=e213]:
+                      - text: Рассуждение
+                      - img [ref=e214]
+                    - button "Кэш" [ref=e218]:
+                      - text: Кэш
+                      - img [ref=e219]
+                    - generic [ref=e222]: Итого
+                    - button "Стоимость" [ref=e224]:
+                      - text: Стоимость
+                      - img [ref=e225]
+                    - button "Латентность" [ref=e229]:
+                      - text: Латентность
+                      - img [ref=e230]
+                    - button "Статус" [ref=e234]:
+                      - text: Статус
+                      - img [ref=e235]
+                  - button "Открыть запрос chat_agent" [ref=e239] [cursor=pointer]:
+                    - generic [ref=e241]: 13.06.2026 17:58
+                    - generic [ref=e243]: chat_agent
+                    - generic [ref=e245]: gemma-3-27b-it/latest
+                    - generic [ref=e247]: 2 607
+                    - generic [ref=e249]: "853"
+                    - generic [ref=e251]: "0"
+                    - generic [ref=e253]: "0"
+                    - generic [ref=e255]: "0"
+                    - generic [ref=e257]: 3 460
+                    - generic [ref=e259]: 1,78 ₸
+                    - generic [ref=e261]: 20 233 ms
+                    - generic [ref=e263]: Успешно
+                  - button "Открыть запрос compliance_agent" [ref=e266] [cursor=pointer]:
+                    - generic [ref=e268]: 13.06.2026 17:48
+                    - generic [ref=e270]: compliance_agent
+                    - generic [ref=e272]: deepseek-v32/latest
+                    - generic [ref=e274]: 2 630
+                    - generic [ref=e276]: "870"
+                    - generic [ref=e278]: "0"
+                    - generic [ref=e280]: 1 430
+                    - generic [ref=e282]: "0"
+                    - generic [ref=e284]: 4 930
+                    - generic [ref=e286]: 4,31 ₸
+                    - generic [ref=e288]: 20 370 ms
+                    - generic [ref=e290]: Успешно
+                  - button "Открыть запрос converter" [ref=e293] [cursor=pointer]:
+                    - generic [ref=e295]: 13.06.2026 17:38
+                    - generic [ref=e297]: converter
+                    - generic [ref=e299]: gpt-oss-120b/latest
+                    - generic [ref=e301]: 6 253
+                    - generic [ref=e303]: "887"
+                    - generic [ref=e305]: "0"
+                    - generic [ref=e307]: "0"
+                    - generic [ref=e309]: "0"
+                    - generic [ref=e311]: 7 140
+                    - generic [ref=e313]: 4,19 ₸
+                    - generic [ref=e315]: 20 507 ms
+                    - generic [ref=e317]: Успешно
+                  - button "Открыть запрос edd_full" [ref=e320] [cursor=pointer]:
+                    - generic [ref=e322]: 13.06.2026 17:28
+                    - generic [ref=e324]: edd_full
+                    - generic [ref=e326]: qwen3-235b-a22b-fp8/latest
+                    - generic [ref=e328]: 2 676
+                    - generic [ref=e330]: "904"
+                    - generic [ref=e332]: "0"
+                    - generic [ref=e334]: "0"
+                    - generic [ref=e336]: "0"
+                    - generic [ref=e338]: 3 580
+                    - generic [ref=e340]: 4,64 ₸
+                    - generic [ref=e342]: 20 644 ms
+                    - generic [ref=e344]: Успешно
+                  - button "Открыть запрос edd_short" [ref=e347] [cursor=pointer]:
+                    - generic [ref=e349]: 13.06.2026 17:18
+                    - generic [ref=e351]: edd_short
+                    - generic [ref=e353]: yandexgpt-5.1/latest
+                    - generic [ref=e355]: 2 699
+                    - generic [ref=e357]: "921"
+                    - generic [ref=e359]: "0"
+                    - generic [ref=e361]: "0"
+                    - generic [ref=e363]: "0"
+                    - generic [ref=e365]: 3 620
+                    - generic [ref=e367]: 4,45 ₸
+                    - generic [ref=e369]: 20 781 ms
+                    - generic [ref=e371]: Успешно
+                  - button "Открыть запрос monitoring_agent" [ref=e374] [cursor=pointer]:
+                    - generic [ref=e376]: 13.06.2026 17:08
+                    - generic [ref=e378]: monitoring_agent
+                    - generic [ref=e380]: gemma-3-27b-it/latest
+                    - generic [ref=e382]: 2 722
+                    - generic [ref=e384]: "938"
+                    - generic [ref=e386]: 41 434
+                    - generic [ref=e388]: "0"
+                    - generic [ref=e390]: "0"
+                    - generic [ref=e392]: 45 094
+                    - generic [ref=e394]: 9,69 ₸
+                    - generic [ref=e396]: 38 918 ms
+                    - generic [ref=e398]: Ошибка
+                  - button "Открыть запрос search_agent" [ref=e401] [cursor=pointer]:
+                    - generic [ref=e403]: 13.06.2026 16:58
+                    - generic [ref=e405]: search_agent
+                    - generic [ref=e407]: deepseek-v32/latest
+                    - generic [ref=e409]: 2 745
+                    - generic [ref=e411]: "955"
+                    - generic [ref=e413]: "0"
+                    - generic [ref=e415]: 1 495
+                    - generic [ref=e417]: 3 165
+                    - generic [ref=e419]: 5 195
+                    - generic [ref=e421]: 4,63 ₸
+                    - generic [ref=e423]: 21 055 ms
+                    - generic [ref=e425]: Успешно
+                  - button "Открыть запрос agent" [ref=e428] [cursor=pointer]:
+                    - generic [ref=e430]: 13.06.2026 16:48
+                    - generic [ref=e432]: agent
+                    - generic [ref=e434]: gpt-oss-120b/latest
+                    - generic [ref=e436]: 2 768
+                    - generic [ref=e438]: "972"
+                    - generic [ref=e440]: "0"
+                    - generic [ref=e442]: "0"
+                    - generic [ref=e444]: "0"
+                    - generic [ref=e446]: 3 740
+                    - generic [ref=e448]: 2,67 ₸
+                    - generic [ref=e450]: 21 192 ms
+                    - generic [ref=e452]: Успешно
+                  - button "Открыть запрос chat_agent" [ref=e455] [cursor=pointer]:
+                    - generic [ref=e457]: 13.06.2026 16:38
+                    - generic [ref=e459]: chat_agent
+                    - generic [ref=e461]: qwen3-235b-a22b-fp8/latest
+                    - generic [ref=e463]: 2 791
+                    - generic [ref=e465]: "989"
+                    - generic [ref=e467]: "0"
+                    - generic [ref=e469]: "0"
+                    - generic [ref=e471]: "0"
+                    - generic [ref=e473]: 3 780
+                    - generic [ref=e475]: 4,95 ₸
+                    - generic [ref=e477]: 21 329 ms
+                    - generic [ref=e479]: Успешно
+                  - button "Открыть запрос compliance_agent" [ref=e482] [cursor=pointer]:
+                    - generic [ref=e484]: 13.06.2026 16:28
+                    - generic [ref=e486]: compliance_agent
+                    - generic [ref=e488]: yandexgpt-5.1/latest
+                    - generic [ref=e490]: 2 814
+                    - generic [ref=e492]: 1 006
+                    - generic [ref=e494]: "0"
+                    - generic [ref=e496]: "0"
+                    - generic [ref=e498]: "0"
+                    - generic [ref=e500]: 3 820
+                    - generic [ref=e502]: 4,74 ₸
+                    - generic [ref=e504]: 21 466 ms
+                    - generic [ref=e506]: Успешно
+                  - button "Открыть запрос converter" [ref=e509] [cursor=pointer]:
+                    - generic [ref=e511]: 13.06.2026 16:18
+                    - generic [ref=e513]: converter
+                    - generic [ref=e515]: gemma-3-27b-it/latest
+                    - generic [ref=e517]: 6 437
+                    - generic [ref=e519]: 1 023
+                    - generic [ref=e521]: "0"
+                    - generic [ref=e523]: "0"
+                    - generic [ref=e525]: "0"
+                    - generic [ref=e527]: 7 460
+                    - generic [ref=e529]: 3,38 ₸
+                    - generic [ref=e531]: 21 603 ms
+                    - generic [ref=e533]: Успешно
+                  - button "Открыть запрос edd_full" [ref=e536] [cursor=pointer]:
+                    - generic [ref=e538]: 13.06.2026 16:08
+                    - generic [ref=e540]: edd_full
+                    - generic [ref=e542]: deepseek-v32/latest
+                    - generic [ref=e544]: 2 860
+                    - generic [ref=e546]: 1 040
+                    - generic [ref=e548]: "0"
+                    - generic [ref=e550]: 1 560
+                    - generic [ref=e552]: "0"
+                    - generic [ref=e554]: 5 460
+                    - generic [ref=e556]: 4,95 ₸
+                    - generic [ref=e558]: 21 740 ms
+                    - generic [ref=e560]: Успешно
+                  - button "Открыть запрос edd_short" [ref=e563] [cursor=pointer]:
+                    - generic [ref=e565]: 13.06.2026 15:58
+                    - generic [ref=e567]: edd_short
+                    - generic [ref=e569]: gpt-oss-120b/latest
+                    - generic [ref=e571]: 2 883
+                    - generic [ref=e573]: 1 057
+                    - generic [ref=e575]: "0"
+                    - generic [ref=e577]: "0"
+                    - generic [ref=e579]: "0"
+                    - generic [ref=e581]: 3 940
+                    - generic [ref=e583]: 2,85 ₸
+                    - generic [ref=e585]: 21 877 ms
+                    - generic [ref=e587]: Успешно
+                  - button "Открыть запрос monitoring_agent" [ref=e590] [cursor=pointer]:
+                    - generic [ref=e592]: 13.06.2026 15:48
+                    - generic [ref=e594]: monitoring_agent
+                    - generic [ref=e596]: qwen3-235b-a22b-fp8/latest
+                    - generic [ref=e598]: 2 906
+                    - generic [ref=e600]: 1 074
+                    - generic [ref=e602]: 41 682
+                    - generic [ref=e604]: "0"
+                    - generic [ref=e606]: 3 242
+                    - generic [ref=e608]: 45 662
+                    - generic [ref=e610]: 24,85 ₸
+                    - generic [ref=e612]: 40 014 ms
+                    - generic [ref=e614]: Успешно
+                  - button "Открыть запрос search_agent" [ref=e617] [cursor=pointer]:
+                    - generic [ref=e619]: 13.06.2026 15:38
+                    - generic [ref=e621]: search_agent
+                    - generic [ref=e623]: yandexgpt-5.1/latest
+                    - generic [ref=e625]: 2 929
+                    - generic [ref=e627]: 1 091
+                    - generic [ref=e629]: "0"
+                    - generic [ref=e631]: "0"
+                    - generic [ref=e633]: "0"
+                    - generic [ref=e635]: 4 020
+                    - generic [ref=e637]: 5,04 ₸
+                    - generic [ref=e639]: 22 151 ms
+                    - generic [ref=e641]: Успешно
+                  - button "Открыть запрос agent" [ref=e644] [cursor=pointer]:
+                    - generic [ref=e646]: 13.06.2026 15:28
+                    - generic [ref=e648]: agent
+                    - generic [ref=e650]: gemma-3-27b-it/latest
+                    - generic [ref=e652]: 2 952
+                    - generic [ref=e654]: 1 108
+                    - generic [ref=e656]: "0"
+                    - generic [ref=e658]: "0"
+                    - generic [ref=e660]: "0"
+                    - generic [ref=e662]: 4 060
+                    - generic [ref=e664]: 2,15 ₸
+                    - generic [ref=e666]: 22 288 ms
+                    - generic [ref=e668]: Успешно
+                  - button "Открыть запрос chat_agent" [ref=e671] [cursor=pointer]:
+                    - generic [ref=e673]: 13.06.2026 15:18
+                    - generic [ref=e675]: chat_agent
+                    - generic [ref=e677]: deepseek-v32/latest
+                    - generic [ref=e679]: 2 975
+                    - generic [ref=e681]: 1 125
+                    - generic [ref=e683]: "0"
+                    - generic [ref=e685]: 1 625
+                    - generic [ref=e687]: "0"
+                    - generic [ref=e689]: 5 725
+                    - generic [ref=e691]: 5,27 ₸
+                    - generic [ref=e693]: 22 425 ms
+                    - generic [ref=e695]: Успешно
+                  - button "Открыть запрос compliance_agent" [ref=e698] [cursor=pointer]:
+                    - generic [ref=e700]: 13.06.2026 15:08
+                    - generic [ref=e702]: compliance_agent
+                    - generic [ref=e704]: gpt-oss-120b/latest
+                    - generic [ref=e706]: 2 998
+                    - generic [ref=e708]: 1 142
+                    - generic [ref=e710]: "0"
+                    - generic [ref=e712]: "0"
+                    - generic [ref=e714]: "0"
+                    - generic [ref=e716]: 4 140
+                    - generic [ref=e718]: 3,02 ₸
+                    - generic [ref=e720]: 22 562 ms
+                    - generic [ref=e722]: Успешно
+                  - button "Открыть запрос converter" [ref=e725] [cursor=pointer]:
+                    - generic [ref=e727]: 13.06.2026 14:58
+                    - generic [ref=e729]: converter
+                    - generic [ref=e731]: qwen3-235b-a22b-fp8/latest
+                    - generic [ref=e733]: 6 621
+                    - generic [ref=e735]: 1 159
+                    - generic [ref=e737]: "0"
+                    - generic [ref=e739]: "0"
+                    - generic [ref=e741]: "0"
+                    - generic [ref=e743]: 7 780
+                    - generic [ref=e745]: 8,95 ₸
+                    - generic [ref=e747]: 22 699 ms
+                    - generic [ref=e749]: Ошибка
+                  - button "Открыть запрос edd_full" [ref=e752] [cursor=pointer]:
+                    - generic [ref=e754]: 13.06.2026 14:48
+                    - generic [ref=e756]: edd_full
+                    - generic [ref=e758]: yandexgpt-5.1/latest
+                    - generic [ref=e760]: 3 044
+                    - generic [ref=e762]: 1 176
+                    - generic [ref=e764]: "0"
+                    - generic [ref=e766]: "0"
+                    - generic [ref=e768]: "0"
+                    - generic [ref=e770]: 4 220
+                    - generic [ref=e772]: 5,34 ₸
+                    - generic [ref=e774]: 22 836 ms
+                    - generic [ref=e776]: Успешно
+                  - button "Открыть запрос edd_short" [ref=e779] [cursor=pointer]:
+                    - generic [ref=e781]: 13.06.2026 14:38
+                    - generic [ref=e783]: edd_short
+                    - generic [ref=e785]: gemma-3-27b-it/latest
+                    - generic [ref=e787]: 3 067
+                    - generic [ref=e789]: 1 193
+                    - generic [ref=e791]: "0"
+                    - generic [ref=e793]: "0"
+                    - generic [ref=e795]: 3 319
+                    - generic [ref=e797]: 4 260
+                    - generic [ref=e799]: 2,27 ₸
+                    - generic [ref=e801]: 22 973 ms
+                    - generic [ref=e803]: Успешно
+                  - button "Открыть запрос monitoring_agent" [ref=e806] [cursor=pointer]:
+                    - generic [ref=e808]: 13.06.2026 14:28
+                    - generic [ref=e810]: monitoring_agent
+                    - generic [ref=e812]: deepseek-v32/latest
+                    - generic [ref=e814]: 3 090
+                    - generic [ref=e816]: 1 210
+                    - generic [ref=e818]: 41 930
+                    - generic [ref=e820]: 1 690
+                    - generic [ref=e822]: "0"
+                    - generic [ref=e824]: 47 920
+                    - generic [ref=e826]: 20,37 ₸
+                    - generic [ref=e828]: 41 110 ms
+                    - generic [ref=e830]: Успешно
+                  - button "Открыть запрос search_agent" [ref=e833] [cursor=pointer]:
+                    - generic [ref=e835]: 13.06.2026 14:18
+                    - generic [ref=e837]: search_agent
+                    - generic [ref=e839]: gpt-oss-120b/latest
+                    - generic [ref=e841]: 3 113
+                    - generic [ref=e843]: 1 227
+                    - generic [ref=e845]: "0"
+                    - generic [ref=e847]: "0"
+                    - generic [ref=e849]: "0"
+                    - generic [ref=e851]: 4 340
+                    - generic [ref=e853]: 3,19 ₸
+                    - generic [ref=e855]: 23 247 ms
+                    - generic [ref=e857]: Успешно
+                  - button "Открыть запрос agent" [ref=e860] [cursor=pointer]:
+                    - generic [ref=e862]: 13.06.2026 14:08
+                    - generic [ref=e864]: agent
+                    - generic [ref=e866]: qwen3-235b-a22b-fp8/latest
+                    - generic [ref=e868]: 3 136
+                    - generic [ref=e870]: 1 244
+                    - generic [ref=e872]: "0"
+                    - generic [ref=e874]: "0"
+                    - generic [ref=e876]: "0"
+                    - generic [ref=e878]: 4 380
+                    - generic [ref=e880]: 5,87 ₸
+                    - generic [ref=e882]: 23 384 ms
+                    - generic [ref=e884]: Успешно
+                  - button "Открыть запрос chat_agent" [ref=e887] [cursor=pointer]:
+                    - generic [ref=e889]: 13.06.2026 13:58
+                    - generic [ref=e891]: chat_agent
+                    - generic [ref=e893]: yandexgpt-5.1/latest
+                    - generic [ref=e895]: 3 159
+                    - generic [ref=e897]: 1 261
+                    - generic [ref=e899]: "0"
+                    - generic [ref=e901]: "0"
+                    - generic [ref=e903]: "0"
+                    - generic [ref=e905]: 4 420
+                    - generic [ref=e907]: 5,64 ₸
+                    - generic [ref=e909]: 23 521 ms
+                    - generic [ref=e911]: Успешно
+                  - button "Открыть запрос compliance_agent" [ref=e914] [cursor=pointer]:
+                    - generic [ref=e916]: 13.06.2026 13:48
+                    - generic [ref=e918]: compliance_agent
+                    - generic [ref=e920]: gemma-3-27b-it/latest
+                    - generic [ref=e922]: 3 182
+                    - generic [ref=e924]: 1 278
+                    - generic [ref=e926]: "0"
+                    - generic [ref=e928]: "0"
+                    - generic [ref=e930]: "0"
+                    - generic [ref=e932]: 4 460
+                    - generic [ref=e934]: 2,40 ₸
+                    - generic [ref=e936]: 23 658 ms
+                    - generic [ref=e938]: Успешно
+                  - button "Открыть запрос converter" [ref=e941] [cursor=pointer]:
+                    - generic [ref=e943]: 13.06.2026 13:38
+                    - generic [ref=e945]: converter
+                    - generic [ref=e947]: deepseek-v32/latest
+                    - generic [ref=e949]: 6 805
+                    - generic [ref=e951]: 1 295
+                    - generic [ref=e953]: "0"
+                    - generic [ref=e955]: 1 755
+                    - generic [ref=e957]: "0"
+                    - generic [ref=e959]: 9 855
+                    - generic [ref=e961]: 8,45 ₸
+                    - generic [ref=e963]: 23 795 ms
+                    - generic [ref=e965]: Успешно
+                  - button "Открыть запрос edd_full" [ref=e968] [cursor=pointer]:
+                    - generic [ref=e970]: 13.06.2026 13:28
+                    - generic [ref=e972]: edd_full
+                    - generic [ref=e974]: gpt-oss-120b/latest
+                    - generic [ref=e976]: 3 228
+                    - generic [ref=e978]: 1 312
+                    - generic [ref=e980]: "0"
+                    - generic [ref=e982]: "0"
+                    - generic [ref=e984]: 3 396
+                    - generic [ref=e986]: 4 540
+                    - generic [ref=e988]: 3,37 ₸
+                    - generic [ref=e990]: 23 932 ms
+                    - generic [ref=e992]: Успешно
+                  - button "Открыть запрос edd_short" [ref=e995] [cursor=pointer]:
+                    - generic [ref=e997]: 13.06.2026 13:18
+                    - generic [ref=e999]: edd_short
+                    - generic [ref=e1001]: qwen3-235b-a22b-fp8/latest
+                    - generic [ref=e1003]: 3 251
+                    - generic [ref=e1005]: 1 329
+                    - generic [ref=e1007]: "0"
+                    - generic [ref=e1009]: "0"
+                    - generic [ref=e1011]: "0"
+                    - generic [ref=e1013]: 4 580
+                    - generic [ref=e1015]: 6,18 ₸
+                    - generic [ref=e1017]: 24 069 ms
+                    - generic [ref=e1019]: Успешно
+                  - button "Открыть запрос monitoring_agent" [ref=e1022] [cursor=pointer]:
+                    - generic [ref=e1024]: 13.06.2026 13:08
+                    - generic [ref=e1026]: monitoring_agent
+                    - generic [ref=e1028]: yandexgpt-5.1/latest
+                    - generic [ref=e1030]: 3 274
+                    - generic [ref=e1032]: 1 346
+                    - generic [ref=e1034]: 42 178
+                    - generic [ref=e1036]: "0"
+                    - generic [ref=e1038]: "0"
+                    - generic [ref=e1040]: 46 798
+                    - generic [ref=e1042]: 23,77 ₸
+                    - generic [ref=e1044]: 42 206 ms
+                    - generic [ref=e1046]: Успешно
+                  - button "Открыть запрос search_agent" [ref=e1049] [cursor=pointer]:
+                    - generic [ref=e1051]: 13.06.2026 12:58
+                    - generic [ref=e1053]: search_agent
+                    - generic [ref=e1055]: gemma-3-27b-it/latest
+                    - generic [ref=e1057]: 3 297
+                    - generic [ref=e1059]: 1 363
+                    - generic [ref=e1061]: "0"
+                    - generic [ref=e1063]: "0"
+                    - generic [ref=e1065]: "0"
+                    - generic [ref=e1067]: 4 660
+                    - generic [ref=e1069]: 2,52 ₸
+                    - generic [ref=e1071]: 24 343 ms
+                    - generic [ref=e1073]: Успешно
+                  - button "Открыть запрос agent" [ref=e1076] [cursor=pointer]:
+                    - generic [ref=e1078]: 13.06.2026 12:48
+                    - generic [ref=e1080]: agent
+                    - generic [ref=e1082]: deepseek-v32/latest
+                    - generic [ref=e1084]: 3 320
+                    - generic [ref=e1086]: 1 380
+                    - generic [ref=e1088]: "0"
+                    - generic [ref=e1090]: "320"
+                    - generic [ref=e1092]: "0"
+                    - generic [ref=e1094]: 5 020
+                    - generic [ref=e1096]: 6,23 ₸
+                    - generic [ref=e1098]: 24 480 ms
+                    - generic [ref=e1100]: Ошибка
+                  - button "Открыть запрос chat_agent" [ref=e1103] [cursor=pointer]:
+                    - generic [ref=e1105]: 13.06.2026 12:38
+                    - generic [ref=e1107]: chat_agent
+                    - generic [ref=e1109]: gpt-oss-120b/latest
+                    - generic [ref=e1111]: 3 343
+                    - generic [ref=e1113]: 1 397
+                    - generic [ref=e1115]: "0"
+                    - generic [ref=e1117]: "0"
+                    - generic [ref=e1119]: "0"
+                    - generic [ref=e1121]: 4 740
+                    - generic [ref=e1123]: 3,54 ₸
+                    - generic [ref=e1125]: 24 617 ms
+                    - generic [ref=e1127]: Успешно
+                  - button "Открыть запрос compliance_agent" [ref=e1130] [cursor=pointer]:
+                    - generic [ref=e1132]: 13.06.2026 12:28
+                    - generic [ref=e1134]: compliance_agent
+                    - generic [ref=e1136]: qwen3-235b-a22b-fp8/latest
+                    - generic [ref=e1138]: 3 366
+                    - generic [ref=e1140]: 1 414
+                    - generic [ref=e1142]: "0"
+                    - generic [ref=e1144]: "0"
+                    - generic [ref=e1146]: "0"
+                    - generic [ref=e1148]: 4 780
+                    - generic [ref=e1150]: 6,49 ₸
+                    - generic [ref=e1152]: 24 754 ms
+                    - generic [ref=e1154]: Успешно
+                  - button "Открыть запрос converter" [ref=e1157] [cursor=pointer]:
+                    - generic [ref=e1159]: 13.06.2026 12:18
+                    - generic [ref=e1161]: converter
+                    - generic [ref=e1163]: yandexgpt-5.1/latest
+                    - generic [ref=e1165]: 6 989
+                    - generic [ref=e1167]: 1 431
+                    - generic [ref=e1169]: "0"
+                    - generic [ref=e1171]: "0"
+                    - generic [ref=e1173]: 3 473
+                    - generic [ref=e1175]: 8 420
+                    - generic [ref=e1177]: 9,28 ₸
+                    - generic [ref=e1179]: 24 891 ms
+                    - generic [ref=e1181]: Успешно
+                  - button "Открыть запрос edd_full" [ref=e1184] [cursor=pointer]:
+                    - generic [ref=e1186]: 13.06.2026 12:08
+                    - generic [ref=e1188]: edd_full
+                    - generic [ref=e1190]: gemma-3-27b-it/latest
+                    - generic [ref=e1192]: "412"
+                    - generic [ref=e1194]: 1 448
+                    - generic [ref=e1196]: "0"
+                    - generic [ref=e1198]: "0"
+                    - generic [ref=e1200]: "0"
+                    - generic [ref=e1202]: 1 860
+                    - generic [ref=e1204]: 1,52 ₸
+                    - generic [ref=e1206]: 25 028 ms
+                    - generic [ref=e1208]: Успешно
+                  - button "Открыть запрос edd_short" [ref=e1211] [cursor=pointer]:
+                    - generic [ref=e1213]: 13.06.2026 11:58
+                    - generic [ref=e1215]: edd_short
+                    - generic [ref=e1217]: deepseek-v32/latest
+                    - generic [ref=e1219]: "435"
+                    - generic [ref=e1221]: 1 465
+                    - generic [ref=e1223]: "0"
+                    - generic [ref=e1225]: "385"
+                    - generic [ref=e1227]: "0"
+                    - generic [ref=e1229]: 2 285
+                    - generic [ref=e1231]: 4,44 ₸
+                    - generic [ref=e1233]: 25 165 ms
+                    - generic [ref=e1235]: Успешно
+                  - button "Открыть запрос monitoring_agent" [ref=e1238] [cursor=pointer]:
+                    - generic [ref=e1240]: 13.06.2026 11:48
+                    - generic [ref=e1242]: monitoring_agent
+                    - generic [ref=e1244]: gpt-oss-120b/latest
+                    - generic [ref=e1246]: "458"
+                    - generic [ref=e1248]: 1 482
+                    - generic [ref=e1250]: 42 426
+                    - generic [ref=e1252]: "0"
+                    - generic [ref=e1254]: "0"
+                    - generic [ref=e1256]: 44 366
+                    - generic [ref=e1258]: 12,27 ₸
+                    - generic [ref=e1260]: 43 302 ms
+                    - generic [ref=e1262]: Успешно
+                  - button "Открыть запрос search_agent" [ref=e1265] [cursor=pointer]:
+                    - generic [ref=e1267]: 13.06.2026 11:38
+                    - generic [ref=e1269]: search_agent
+                    - generic [ref=e1271]: qwen3-235b-a22b-fp8/latest
+                    - generic [ref=e1273]: "481"
+                    - generic [ref=e1275]: 1 499
+                    - generic [ref=e1277]: "0"
+                    - generic [ref=e1279]: "0"
+                    - generic [ref=e1281]: "0"
+                    - generic [ref=e1283]: 1 980
+                    - generic [ref=e1285]: 3,97 ₸
+                    - generic [ref=e1287]: 25 439 ms
+                    - generic [ref=e1289]: Успешно
+                  - button "Открыть запрос agent" [ref=e1292] [cursor=pointer]:
+                    - generic [ref=e1294]: 13.06.2026 11:28
+                    - generic [ref=e1296]: agent
+                    - generic [ref=e1298]: yandexgpt-5.1/latest
+                    - generic [ref=e1300]: "504"
+                    - generic [ref=e1302]: 1 516
+                    - generic [ref=e1304]: "0"
+                    - generic [ref=e1306]: "0"
+                    - generic [ref=e1308]: "0"
+                    - generic [ref=e1310]: 2 020
+                    - generic [ref=e1312]: 3,99 ₸
+                    - generic [ref=e1314]: 25 576 ms
+                    - generic [ref=e1316]: Успешно
+                  - button "Открыть запрос chat_agent" [ref=e1319] [cursor=pointer]:
+                    - generic [ref=e1321]: 13.06.2026 11:18
+                    - generic [ref=e1323]: chat_agent
+                    - generic [ref=e1325]: gemma-3-27b-it/latest
+                    - generic [ref=e1327]: "527"
+                    - generic [ref=e1329]: 1 533
+                    - generic [ref=e1331]: "0"
+                    - generic [ref=e1333]: "0"
+                    - generic [ref=e1335]: "0"
+                    - generic [ref=e1337]: 2 060
+                    - generic [ref=e1339]: 1,64 ₸
+                    - generic [ref=e1341]: 25 713 ms
+                    - generic [ref=e1343]: Успешно
+                  - button "Открыть запрос compliance_agent" [ref=e1346] [cursor=pointer]:
+                    - generic [ref=e1348]: 13.06.2026 11:08
+                    - generic [ref=e1350]: compliance_agent
+                    - generic [ref=e1352]: deepseek-v32/latest
+                    - generic [ref=e1354]: "550"
+                    - generic [ref=e1356]: 1 550
+                    - generic [ref=e1358]: "0"
+                    - generic [ref=e1360]: "450"
+                    - generic [ref=e1362]: 3 550
+                    - generic [ref=e1364]: 2 550
+                    - generic [ref=e1366]: 4,76 ₸
+                    - generic [ref=e1368]: 25 850 ms
+                    - generic [ref=e1370]: Успешно
+                  - button "Открыть запрос converter" [ref=e1373] [cursor=pointer]:
+                    - generic [ref=e1375]: 13.06.2026 10:58
+                    - generic [ref=e1377]: converter
+                    - generic [ref=e1379]: gpt-oss-120b/latest
+                    - generic [ref=e1381]: 5 173
+                    - generic [ref=e1383]: 1 567
+                    - generic [ref=e1385]: "0"
+                    - generic [ref=e1387]: "0"
+                    - generic [ref=e1389]: "0"
+                    - generic [ref=e1391]: 6 740
+                    - generic [ref=e1393]: 4,64 ₸
+                    - generic [ref=e1395]: 25 987 ms
+                    - generic [ref=e1397]: Успешно
+                  - button "Открыть запрос edd_full" [ref=e1400] [cursor=pointer]:
+                    - generic [ref=e1402]: 13.06.2026 10:48
+                    - generic [ref=e1404]: edd_full
+                    - generic [ref=e1406]: qwen3-235b-a22b-fp8/latest
+                    - generic [ref=e1408]: "596"
+                    - generic [ref=e1410]: 1 584
+                    - generic [ref=e1412]: "0"
+                    - generic [ref=e1414]: "0"
+                    - generic [ref=e1416]: "0"
+                    - generic [ref=e1418]: 2 180
+                    - generic [ref=e1420]: 4,28 ₸
+                    - generic [ref=e1422]: 26 124 ms
+                    - generic [ref=e1424]: Успешно
+                  - button "Открыть запрос edd_short" [ref=e1427] [cursor=pointer]:
+                    - generic [ref=e1429]: 13.06.2026 10:38
+                    - generic [ref=e1431]: edd_short
+                    - generic [ref=e1433]: yandexgpt-5.1/latest
+                    - generic [ref=e1435]: "619"
+                    - generic [ref=e1437]: 1 601
+                    - generic [ref=e1439]: "0"
+                    - generic [ref=e1441]: "0"
+                    - generic [ref=e1443]: "0"
+                    - generic [ref=e1445]: 2 220
+                    - generic [ref=e1447]: 4,29 ₸
+                    - generic [ref=e1449]: 26 261 ms
+                    - generic [ref=e1451]: Ошибка
+                  - button "Открыть запрос monitoring_agent" [ref=e1454] [cursor=pointer]:
+                    - generic [ref=e1456]: 13.06.2026 10:28
+                    - generic [ref=e1458]: monitoring_agent
+                    - generic [ref=e1460]: gemma-3-27b-it/latest
+                    - generic [ref=e1462]: "642"
+                    - generic [ref=e1464]: 1 618
+                    - generic [ref=e1466]: 42 674
+                    - generic [ref=e1468]: "0"
+                    - generic [ref=e1470]: "0"
+                    - generic [ref=e1472]: 44 934
+                    - generic [ref=e1474]: 9,79 ₸
+                    - generic [ref=e1476]: 44 398 ms
+                    - generic [ref=e1478]: Успешно
+                  - button "Открыть запрос search_agent" [ref=e1481] [cursor=pointer]:
+                    - generic [ref=e1483]: 13.06.2026 10:18
+                    - generic [ref=e1485]: search_agent
+                    - generic [ref=e1487]: deepseek-v32/latest
+                    - generic [ref=e1489]: "665"
+                    - generic [ref=e1491]: 1 635
+                    - generic [ref=e1493]: "0"
+                    - generic [ref=e1495]: "515"
+                    - generic [ref=e1497]: "0"
+                    - generic [ref=e1499]: 2 815
+                    - generic [ref=e1501]: 5,08 ₸
+                    - generic [ref=e1503]: 26 535 ms
+                    - generic [ref=e1505]: Успешно
+                  - button "Открыть запрос agent" [ref=e1508] [cursor=pointer]:
+                    - generic [ref=e1510]: 13.06.2026 10:08
+                    - generic [ref=e1512]: agent
+                    - generic [ref=e1514]: gpt-oss-120b/latest
+                    - generic [ref=e1516]: "688"
+                    - generic [ref=e1518]: 1 652
+                    - generic [ref=e1520]: "0"
+                    - generic [ref=e1522]: "0"
+                    - generic [ref=e1524]: "0"
+                    - generic [ref=e1526]: 2 340
+                    - generic [ref=e1528]: 2,65 ₸
+                    - generic [ref=e1530]: 26 672 ms
+                    - generic [ref=e1532]: Успешно
+                  - button "Открыть запрос chat_agent" [ref=e1535] [cursor=pointer]:
+                    - generic [ref=e1537]: 13.06.2026 09:58
+                    - generic [ref=e1539]: chat_agent
+                    - generic [ref=e1541]: qwen3-235b-a22b-fp8/latest
+                    - generic [ref=e1543]: "711"
+                    - generic [ref=e1545]: 1 669
+                    - generic [ref=e1547]: "0"
+                    - generic [ref=e1549]: "0"
+                    - generic [ref=e1551]: 3 627
+                    - generic [ref=e1553]: 2 380
+                    - generic [ref=e1555]: 4,59 ₸
+                    - generic [ref=e1557]: 26 809 ms
+                    - generic [ref=e1559]: Успешно
+                  - button "Открыть запрос compliance_agent" [ref=e1562] [cursor=pointer]:
+                    - generic [ref=e1564]: 13.06.2026 09:48
+                    - generic [ref=e1566]: compliance_agent
+                    - generic [ref=e1568]: yandexgpt-5.1/latest
+                    - generic [ref=e1570]: "734"
+                    - generic [ref=e1572]: 1 686
+                    - generic [ref=e1574]: "0"
+                    - generic [ref=e1576]: "0"
+                    - generic [ref=e1578]: "0"
+                    - generic [ref=e1580]: 2 420
+                    - generic [ref=e1582]: 4,58 ₸
+                    - generic [ref=e1584]: 26 946 ms
+                    - generic [ref=e1586]: Успешно
+                - generic [ref=e1588]:
+                  - generic [ref=e1589]: 162 записи
+                  - generic [ref=e1590]:
+                    - generic [ref=e1591]: Стр. 1 из 4
+                    - generic [ref=e1592]:
+                      - button "Предыдущая страница" [disabled]:
+                        - img
+                      - button "Следующая страница" [ref=e1593]:
+                        - img
+    - button "D · Утренняя смена ЦПК" [ref=e1594]:
+      - img
+      - generic [ref=e1595]: D
+      - generic [ref=e1596]: ·
+      - generic [ref=e1597]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e1599]:
+      - img [ref=e1600]
+  - generic [ref=e1604]:
+    - heading "Command Palette" [level=2] [ref=e1605]
+    - paragraph [ref=e1606]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e1612] [cursor=pointer]:
+    - img [ref=e1613]
+  - alert [ref=e1616]

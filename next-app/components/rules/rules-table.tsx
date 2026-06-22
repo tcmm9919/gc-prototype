@@ -24,13 +24,11 @@ const RULES_VIEWS: DataTableView<Rule>[] = [
   {
     id: "active",
     label: "Активные",
-    icon: <Power className="size-3.5 text-primary" />,
     predicate: (r) => r.enabled === true,
   },
   {
     id: "disabled",
     label: "Выключенные",
-    icon: <PowerOff className="size-3.5 text-muted-foreground" />,
     predicate: (r) => r.enabled === false,
   },
 ];

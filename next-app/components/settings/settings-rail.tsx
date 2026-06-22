@@ -25,7 +25,7 @@ export function SettingsRail() {
                 "flex items-center gap-2.5 rounded-lg px-3 py-2 text-[14px] transition-colors",
                 active
                   ? "bg-primary/[0.08] font-medium text-foreground"
-                  : "text-muted-foreground hover:bg-foreground/[0.04] hover:text-foreground",
+                  : "text-foreground hover:bg-foreground/[0.04]",
               )}
             >
               <Icon className="size-4 shrink-0" />

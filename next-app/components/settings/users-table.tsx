@@ -3,12 +3,26 @@
 import * as React from "react";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Plus } from "lucide-react";
+import { toast } from "sonner";
 import { useMockData, type User, type UserRole } from "@/lib/mock";
 import { DataTable } from "@/components/ext/data-table";
 import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { AvatarCircle } from "@/components/ext/entity-header";
 import { initialsFromName } from "@/lib/format";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { NativeSelect, NativeSelectOption } from "@/components/ui/native-select";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const ROLE_LABEL: Record<UserRole, string> = {
   admin: "Администратор",
@@ -18,8 +32,79 @@ const ROLE_LABEL: Record<UserRole, string> = {
   risk_manager: "Риск-менеджер",
   designer: "Сценарист",
   auditor: "Аудитор",
-  ai_agent: "ai_agent",
+  ai_agent: "AI-агент",
 };
+
+const ASSIGNABLE_ROLES: UserRole[] = [
+  "admin",
+  "compliance_lead",
+  "compliance_officer",
+  "analyst",
+  "risk_manager",
+  "auditor",
+];
+
+function AddUserDialog({ trigger }: { trigger: React.ReactNode }) {
+  const [open, setOpen] = React.useState(false);
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [role, setRole] = React.useState<UserRole>("compliance_officer");
+  const canSubmit = name.trim() && email.trim();
+
+  const submit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!canSubmit) return;
+    toast.success(`Приглашение отправлено: ${name.trim()}`, {
+      description: `${email.trim()} · ${ROLE_LABEL[role]}`,
+    });
+    setName("");
+    setEmail("");
+    setRole("compliance_officer");
+    setOpen(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
+      <DialogContent className="sm:max-w-md">
+        <DialogHeader>
+          <DialogTitle>Добавить пользователя</DialogTitle>
+          <DialogDescription>Новому сотруднику придёт приглашение на корпоративную почту.</DialogDescription>
+        </DialogHeader>
+        <form onSubmit={submit} className="space-y-4">
+          <div className="space-y-1.5">
+            <Label htmlFor="new-user-name">Имя</Label>
+            <Input id="new-user-name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Айгерим Серикбаева" autoFocus />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="new-user-email">Email</Label>
+            <Input id="new-user-email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="name@globerce.capital" />
+          </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="new-user-role">Роль</Label>
+            <NativeSelect id="new-user-role" value={role} onChange={(e) => setRole(e.target.value as UserRole)}>
+              {ASSIGNABLE_ROLES.map((r) => (
+                <NativeSelectOption key={r} value={r}>
+                  {ROLE_LABEL[r]}
+                </NativeSelectOption>
+              ))}
+            </NativeSelect>
+          </div>
+          <DialogFooter>
+            <DialogClose asChild>
+              <Button type="button" variant="outline">
+                Отмена
+              </Button>
+            </DialogClose>
+            <Button type="submit" disabled={!canSubmit}>
+              Отправить приглашение
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
 
 function formatDate(iso?: string): string {
   if (!iso) return "—";
@@ -52,10 +137,10 @@ export function UsersTable() {
       header: "Роль",
       cell: ({ getValue }) => {
         const role = getValue() as UserRole;
-        if (role === "ai_agent") {
-          return <span className="text-xs font-mono text-muted-foreground">ai_agent</span>;
-        }
-        return <StatusBadge tone="info">{ROLE_LABEL[role]}</StatusBadge>;
+        // AI-агент отличаем нейтральным тоном от человеческих ролей (info)
+        return (
+          <StatusBadge tone={role === "ai_agent" ? "muted" : "info"}>{ROLE_LABEL[role]}</StatusBadge>
+        );
       },
     },
     {
@@ -84,16 +169,24 @@ export function UsersTable() {
       globalFilterPlaceholder="Поиск по имени, email, роли..."
       pageSize={15}
       toolbar={
-        <Button size="xl">
-          <Plus className="size-4" />
-          Добавить пользователя
-        </Button>
+        <AddUserDialog
+          trigger={
+            <Button size="xl">
+              <Plus className="size-4" />
+              Добавить пользователя
+            </Button>
+          }
+        />
       }
       emptyAction={
-        <Button size="sm" variant="outline">
-          <Plus className="size-4" />
-          Добавить пользователя
-        </Button>
+        <AddUserDialog
+          trigger={
+            <Button size="sm" variant="outline">
+              <Plus className="size-4" />
+              Добавить пользователя
+            </Button>
+          }
+        />
       }
     />
   );

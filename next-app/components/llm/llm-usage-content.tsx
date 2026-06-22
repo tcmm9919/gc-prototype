@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import Link from "next/link";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Filter } from "lucide-react";
 
@@ -42,6 +41,18 @@ function formatNumber(n: number): string {
   return new Intl.NumberFormat("ru-RU").format(n);
 }
 
+// Стоимость моделей биллится в USD, но интерфейс банка ведётся в KZT
+// (default_currency = KZT) — приводим к тенге по демо-курсу.
+const KZT_PER_USD = 470;
+function formatKzt(usd: number, fractionDigits = 0): string {
+  return (
+    new Intl.NumberFormat("ru-RU", {
+      minimumFractionDigits: fractionDigits,
+      maximumFractionDigits: fractionDigits,
+    }).format(usd * KZT_PER_USD) + " ₸"
+  );
+}
+
 function formatDateTime(iso: string): string {
   const d = new Date(iso);
   return d.toLocaleDateString("ru-RU") + " " + d.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" });
@@ -49,12 +60,67 @@ function formatDateTime(iso: string): string {
 
 function KpiCard({ label, value, accent }: { label: string; value: React.ReactNode; accent?: boolean }) {
   return (
-    <Card>
-      <CardContent className="p-4 space-y-1">
+    <Card className="border-border py-0">
+      <CardContent className="space-y-1 px-4 py-3">
         <span className="text-xs text-muted-foreground">{label}</span>
         <div className={`text-xl font-semibold tabular-nums ${accent ? "text-primary" : ""}`}>{value}</div>
       </CardContent>
     </Card>
+  );
+}
+
+function formatCostUsd(usd: number): string {
+  return "$" + usd.toFixed(usd < 0.01 ? 4 : 2);
+}
+
+function ExpandedRow({ req }: { req: LLMUsageRequest }) {
+  const inputCost = req.costUSD * (req.inputTokens / Math.max(1, req.inputTokens + req.outputTokens));
+  const outputCost = req.costUSD - inputCost;
+
+  return (
+    <div className="grid gap-4 lg:grid-cols-2">
+      <div className="space-y-1.5">
+        <p className="text-xs text-muted-foreground">Вход ({formatNumber(req.inputTokens)} симв.)</p>
+        <pre className="max-h-48 overflow-auto whitespace-pre-wrap rounded-md border border-border/60 bg-muted/30 px-3 py-2 font-mono text-xs leading-relaxed">
+          {req.promptPreview}
+        </pre>
+      </div>
+      <div className="space-y-1.5">
+        <p className="text-xs text-muted-foreground">Выход ({formatNumber(req.outputTokens)} симв.)</p>
+        <pre className="max-h-48 overflow-auto whitespace-pre-wrap rounded-md border border-border/60 bg-muted/30 px-3 py-2 font-mono text-xs leading-relaxed">
+          {req.responsePreview}
+        </pre>
+      </div>
+      <div className="lg:col-span-2">
+        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+          <span>Prompt ID: <span className="font-mono">{req.id.slice(0, 16)}</span></span>
+          <span>Response ID: <span className="font-mono">{req.id}</span></span>
+          <span>Полная модель: <span className="font-mono">{req.model}</span></span>
+        </div>
+        <div className="mt-3 flex flex-wrap items-center gap-x-8 gap-y-2 text-sm">
+          <div>
+            <p className="text-xs text-muted-foreground">Стоимость входа</p>
+            <p className="font-medium tabular-nums">{formatCostUsd(inputCost)}</p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground">Стоимость выхода</p>
+            <p className="font-medium tabular-nums">{formatCostUsd(outputCost)}</p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground">Стоимость инструментов</p>
+            <p className="font-medium tabular-nums">$0</p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground">Стоимость кэша</p>
+            <p className="font-medium tabular-nums">$0</p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground">Всего</p>
+            <p className="font-medium tabular-nums text-primary">{formatCostUsd(req.costUSD)}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -177,9 +243,9 @@ export function LLMUsageContent() {
     {
       accessorKey: "costUSD",
       header: "Стоимость",
-      meta: { width: "minmax(0, 0.85fr)" },
+      meta: { width: "minmax(0, 0.9fr)" },
       cell: ({ getValue }) => (
-        <span className="tabular-nums text-sm">${(getValue() as number).toFixed(4)}</span>
+        <span className="tabular-nums text-sm whitespace-nowrap">{formatKzt(getValue() as number, 2)}</span>
       ),
     },
     {
@@ -202,12 +268,7 @@ export function LLMUsageContent() {
 
   return (
     <div className="pb-12 space-y-6">
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">Сводка за последние 30 дн.</p>
-        <Link href="#" className="text-sm text-primary hover:underline">
-          Цены за токен
-        </Link>
-      </div>
+      <p className="text-sm text-muted-foreground">Сводка за последние 30 дн.</p>
 
       <div className="grid gap-3 grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
         <KpiCard label="Всего вызовов" value={formatNumber(summary.calls)} />
@@ -215,7 +276,7 @@ export function LLMUsageContent() {
         <KpiCard label="Выходные токены" value={formatNumber(summary.output)} />
         <KpiCard label="Поиск / инструменты" value={formatNumber(summary.tools)} />
         <KpiCard label="Всего токенов" value={formatNumber(summary.total)} />
-        <KpiCard label="Стоимость, всего" value={`$${summary.cost.toFixed(2)}`} accent />
+        <KpiCard label="Стоимость, всего" value={formatKzt(summary.cost)} accent />
       </div>
 
       <DataTable<LLMUsageRequest>
@@ -223,6 +284,7 @@ export function LLMUsageContent() {
         data={filtered}
         columns={columns}
         globalFilterPlaceholder="Поиск по агенту, модели..."
+        renderExpanded={(r) => <ExpandedRow req={r} />}
         pageSize={50}
         globalFilterFn={(row, _c, value) => {
           const q = String(value).toLowerCase();

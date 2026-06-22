@@ -1,0 +1,294 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+        - generic [ref=e24]:
+          - generic [ref=e25]: Работа
+          - link "Клиенты" [ref=e26] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e27]
+            - generic [ref=e32]: Клиенты
+          - link "Транзакции 65" [ref=e33] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e34]
+            - generic [ref=e37]: Транзакции
+            - generic [ref=e38]: "65"
+          - link "Оповещения 62" [ref=e39] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e40]
+            - generic [ref=e43]: Оповещения
+            - generic [ref=e44]: "62"
+          - link "Кейсы 42" [ref=e45] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e46]
+            - generic [ref=e48]: Кейсы
+            - generic [ref=e49]: "42"
+          - link "Риск-факторы" [ref=e50] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e51]
+            - generic [ref=e53]: Риск-факторы
+        - generic [ref=e54]:
+          - generic [ref=e55]: Инструменты
+          - link "Правила" [ref=e56] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e57]
+            - generic [ref=e60]: Правила
+          - link "Сценарии" [ref=e61] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e62]
+            - generic [ref=e66]: Сценарии
+          - link "AI" [ref=e67] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e68]
+            - generic [ref=e71]: AI
+      - generic [ref=e72]:
+        - link "Настройки" [ref=e74] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e75]
+          - generic [ref=e78]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e80]:
+          - img "Madina S." [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: Madina S.
+            - generic [ref=e84]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e85]
+    - main [ref=e88]:
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - img [ref=e92]
+            - heading "Главная" [level=1] [ref=e97]
+          - generic [ref=e98]:
+            - button "Сменить язык" [ref=e99]:
+              - img
+            - button "Уведомления" [ref=e100]:
+              - img
+            - button "Тёмная тема" [ref=e102]:
+              - img
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - generic [ref=e108]:
+              - generic [ref=e109]:
+                - generic [ref=e110]:
+                  - heading "Моя очередь" [level=2] [ref=e111]
+                  - paragraph [ref=e112]: отсортировано по SLA × риску
+                - button "Все типы" [ref=e113]:
+                  - text: Все типы
+                  - img [ref=e114]
+              - generic [ref=e116]:
+                - generic [ref=e117]:
+                  - generic [ref=e118]:
+                    - generic [ref=e119]: На мне
+                    - generic [ref=e120]: ·
+                    - generic [ref=e121]: "1"
+                  - 'button "branch 4 200 000 KZT IES-33 ПДЛ Жумабеков Ержан К. · #AL-MORN-03 через 3 ч 27 м Открыть" [ref=e123] [cursor=pointer]':
+                    - generic [ref=e125]:
+                      - generic [ref=e126]:
+                        - generic [ref=e127]: branch
+                        - generic [ref=e128]: 4 200 000 KZT
+                      - generic [ref=e129]:
+                        - generic [ref=e130]: IES-33
+                        - generic [ref=e131]: ПДЛ
+                      - generic [ref=e132]: "Жумабеков Ержан К. · #AL-MORN-03"
+                    - generic [ref=e133]:
+                      - generic [ref=e134]: через 3 ч 27 м
+                      - button "Открыть" [ref=e135]
+                - generic [ref=e136]:
+                  - generic [ref=e137]:
+                    - generic [ref=e138]: Доступные
+                    - generic [ref=e139]: ·
+                    - generic [ref=e140]: "4"
+                  - generic [ref=e141]:
+                    - 'button "branch 999 300 KZT IES-1 санкции RU → IR ТОО «Caspian Trade Group» · #AL-MORN-01 через 46 мин Взять в работу" [ref=e142] [cursor=pointer]':
+                      - generic [ref=e144]:
+                        - generic [ref=e145]:
+                          - generic [ref=e146]: branch
+                          - generic [ref=e147]: 999 300 KZT
+                        - generic [ref=e148]:
+                          - generic [ref=e149]: IES-1
+                          - generic [ref=e150]: санкции
+                          - generic [ref=e151]: RU → IR
+                        - generic [ref=e152]: "ТОО «Caspian Trade Group» · #AL-MORN-01"
+                      - generic [ref=e153]:
+                        - generic [ref=e154]: через 46 мин
+                        - button "Взять в работу" [ref=e155]
+                    - 'button "branch 999 400 KZT IES-8 обнал наличные ТОО «Caspian Trade Group» · #AL-MORN-02 через 2 ч 13 м Взять в работу" [ref=e156] [cursor=pointer]':
+                      - generic [ref=e158]:
+                        - generic [ref=e159]:
+                          - generic [ref=e160]: branch
+                          - generic [ref=e161]: 999 400 KZT
+                        - generic [ref=e162]:
+                          - generic [ref=e163]: IES-8
+                          - generic [ref=e164]: обнал
+                          - generic [ref=e165]: наличные
+                        - generic [ref=e166]: "ТОО «Caspian Trade Group» · #AL-MORN-02"
+                      - generic [ref=e167]:
+                        - generic [ref=e168]: через 2 ч 13 м
+                        - button "Взять в работу" [ref=e169]
+                    - 'button "web 580 000 KZT IES-12 структурирование Жумабеков Ержан К. · #AL-MORN-04 через 5 ч 59 м Взять в работу" [ref=e170] [cursor=pointer]':
+                      - generic [ref=e172]:
+                        - generic [ref=e173]:
+                          - generic [ref=e174]: web
+                          - generic [ref=e175]: 580 000 KZT
+                        - generic [ref=e176]:
+                          - generic [ref=e177]: IES-12
+                          - generic [ref=e178]: структурирование
+                        - generic [ref=e179]: "Жумабеков Ержан К. · #AL-MORN-04"
+                      - generic [ref=e180]:
+                        - generic [ref=e181]: через 5 ч 59 м
+                        - button "Взять в работу" [ref=e182]
+                    - 'button "api 1 022 290 EUR IES-5 крипта KZ → DE Серикбаева Айгерим Н. · #AL-MORN-05 через 23 ч 59 м Взять в работу" [ref=e183] [cursor=pointer]':
+                      - generic [ref=e185]:
+                        - generic [ref=e186]:
+                          - generic [ref=e187]: api
+                          - generic [ref=e188]: 1 022 290 EUR
+                        - generic [ref=e189]:
+                          - generic [ref=e190]: IES-5
+                          - generic [ref=e191]: крипта
+                          - generic [ref=e192]: KZ → DE
+                        - generic [ref=e193]: "Серикбаева Айгерим Н. · #AL-MORN-05"
+                      - generic [ref=e194]:
+                        - generic [ref=e195]: через 23 ч 59 м
+                        - button "Взять в работу" [ref=e196]
+              - link "Открыть всю очередь →" [ref=e197] [cursor=pointer]:
+                - /url: /alerts/
+            - generic [ref=e198]:
+              - generic [ref=e199]:
+                - generic [ref=e200]:
+                  - img [ref=e202]
+                  - generic [ref=e205]:
+                    - heading "AI обработал 4 кейсов автоматически" [level=3] [ref=e206]
+                    - paragraph [ref=e207]: Требуется ваше подтверждение · политика 4-eyes
+                - link "Проверить все" [ref=e208] [cursor=pointer]:
+                  - /url: /cases/?filter=ai-pending-review
+                  - text: Проверить все
+                  - img
+              - generic [ref=e209]:
+                - generic [ref=e211]:
+                  - generic [ref=e212]: CASE-20260519-7F6A3D24
+                  - generic [ref=e213]:
+                    - paragraph [ref=e214]: Одобрено · IES-3 не подтвердился
+                    - paragraph [ref=e215]:
+                      - generic [ref=e216]: Уверенность 94%
+                      - text: · 5 мин назад
+                  - generic [ref=e217]:
+                    - button "Согласен" [ref=e218]:
+                      - img
+                      - text: Согласен
+                    - button "Открыть" [ref=e219]
+                - generic [ref=e221]:
+                  - generic [ref=e222]: CASE-20260519-D88E7899
+                  - generic [ref=e223]:
+                    - paragraph [ref=e224]: Эскалировано · AI сомневается
+                    - paragraph [ref=e225]:
+                      - generic [ref=e226]: Уверенность 58%
+                      - text: · требует внимания · 25 мин назад
+                  - generic [ref=e227]:
+                    - button "Принять" [ref=e228]:
+                      - img
+                      - text: Принять
+                    - button "Открыть" [ref=e229]
+                - generic [ref=e231]:
+                  - generic [ref=e232]: CASE-20260519-A1B2C3D4
+                  - generic [ref=e233]:
+                    - paragraph [ref=e234]: Одобрено · скоринг низкий риск
+                    - paragraph [ref=e235]:
+                      - generic [ref=e236]: Уверенность 91%
+                      - text: · 1 ч назад
+                  - generic [ref=e237]:
+                    - button "Согласен" [ref=e238]:
+                      - img
+                      - text: Согласен
+                    - button "Открыть" [ref=e239]
+                - generic [ref=e241]:
+                  - generic [ref=e242]: CASE-20260519-9F8E7D6C
+                  - generic [ref=e243]:
+                    - paragraph [ref=e244]: Одобрено · санкционная проверка чисто
+                    - paragraph [ref=e245]:
+                      - generic [ref=e246]: Уверенность 96%
+                      - text: · вчера 11:59
+                  - generic [ref=e247]:
+                    - button "Согласен" [ref=e248]:
+                      - img
+                      - text: Согласен
+                    - button "Открыть" [ref=e249]
+          - generic [ref=e250]:
+            - link "Compliance Officer AI Закрыто 4 кейса за смену Сэкономлено ~2,0 ч ручной работы" [ref=e251] [cursor=pointer]:
+              - /url: /agents/compliance-officer/
+              - generic [ref=e252]:
+                - generic [ref=e253]:
+                  - img [ref=e255]
+                  - heading "Compliance Officer AI" [level=3] [ref=e258]
+                - img [ref=e259]
+              - generic [ref=e262]:
+                - generic [ref=e263]:
+                  - text: Закрыто
+                  - generic [ref=e264]: "4"
+                  - generic [ref=e265]: кейса за смену
+                - generic [ref=e266]:
+                  - text: Сэкономлено
+                  - generic [ref=e267]: ~2,0 ч
+                  - text: ручной работы
+            - generic [ref=e268]:
+              - generic [ref=e269]:
+                - button "Моё состояние" [ref=e270]
+                - button "Очередь по риску" [ref=e271]
+              - generic [ref=e272]:
+                - generic [ref=e273]:
+                  - generic [ref=e274]: В работе
+                  - generic [ref=e275]: "1"
+                - generic [ref=e276]:
+                  - generic [ref=e277]: Просрочено
+                  - generic [ref=e278]: "0"
+                - generic [ref=e279]:
+                  - generic [ref=e280]: Закрыто сегодня
+                  - generic [ref=e281]: "3"
+            - generic [ref=e282]:
+              - generic [ref=e283]:
+                - heading "Клиент ответил" [level=3] [ref=e284]
+                - generic [ref=e285]: "3"
+              - generic [ref=e286]:
+                - link "#AL-MORN-CHAT-01 Прислал документ 14 мин" [ref=e287] [cursor=pointer]:
+                  - /url: /alerts/AL-MORN-CHAT-01/?tab=chat
+                  - generic [ref=e288]:
+                    - generic [ref=e289]: "#AL-MORN-CHAT-01"
+                    - generic [ref=e290]: Прислал документ
+                  - generic [ref=e291]: 14 мин
+                - link "#AL-MORN-CHAT-02 Ответил на запрос 60 мин" [ref=e292] [cursor=pointer]:
+                  - /url: /alerts/AL-MORN-CHAT-02/?tab=chat
+                  - generic [ref=e293]:
+                    - generic [ref=e294]: "#AL-MORN-CHAT-02"
+                    - generic [ref=e295]: Ответил на запрос
+                  - generic [ref=e296]: 60 мин
+                - link "#AL-MORN-CHAT-03 Прислал договор 120 мин" [ref=e297] [cursor=pointer]:
+                  - /url: /alerts/AL-MORN-CHAT-03/?tab=chat
+                  - generic [ref=e298]:
+                    - generic [ref=e299]: "#AL-MORN-CHAT-03"
+                    - generic [ref=e300]: Прислал договор
+                  - generic [ref=e301]: 120 мин
+    - button "D · Утренняя смена ЦПК" [ref=e302]:
+      - img
+      - generic [ref=e303]: D
+      - generic [ref=e304]: ·
+      - generic [ref=e305]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e307]:
+      - img [ref=e308]
+  - generic [ref=e312]:
+    - heading "Command Palette" [level=2] [ref=e313]
+    - paragraph [ref=e314]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e320] [cursor=pointer]:
+    - img [ref=e321]

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, BrainCircuit, Database, LineChart } from "lucide-react";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { ShineBorder } from "@/components/ui/shine-border";
+import { StateSwitch } from "@/components/ext/state-switch";
 
 const MODELS = [
   {
@@ -41,14 +42,15 @@ const MODELS = [
 
 export default function Page() {
   return (
-    <div className="flex flex-col gap-3 pb-12">
+    <StateSwitch skeleton="list" emptyTitle="Инструкций пока нет">
+      <div className="flex flex-col gap-3 pb-12">
       {MODELS.map((m) => {
         const isBase = m.href === "/settings/instructions/bank-offline-fs";
         return (
         <Link
           key={m.href}
           href={m.href}
-          className="group block rounded-2xl border border-transparent dark:border-border bg-card p-5 transition-colors hover:border-primary/40"
+          className="group block rounded-2xl border border-border bg-card p-5 transition-colors hover:border-primary/40"
         >
           <div className="flex items-start gap-4">
             <div className="flex size-11 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -85,6 +87,7 @@ export default function Page() {
         </Link>
         );
       })}
-    </div>
+      </div>
+    </StateSwitch>
   );
 }

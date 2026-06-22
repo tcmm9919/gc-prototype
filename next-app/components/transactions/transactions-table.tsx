@@ -63,19 +63,16 @@ const TRANSACTIONS_VIEWS: DataTableView<Transaction>[] = [
   {
     id: "pending-review",
     label: "Ожидают review",
-    icon: <AlertCircle className="size-3.5 text-risk-medium" />,
     predicate: (t) => t.complianceStatus === "Ожидание",
   },
   {
     id: "high-risk",
     label: "Высокий риск",
-    icon: <Flame className="size-3.5 text-risk-critical" />,
     predicate: (t) => t.riskLevel === "critical" || t.riskLevel === "high",
   },
   {
     id: "large-amount",
     label: "> 1 млн KZT",
-    icon: <TrendingUp className="size-3.5" />,
     predicate: (t) => t.amountKZT > 1_000_000,
   },
 ];

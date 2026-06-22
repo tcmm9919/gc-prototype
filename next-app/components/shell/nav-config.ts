@@ -8,6 +8,7 @@ import {
   Workflow,
   MessageSquare,
   Bot,
+  BrainCircuit,
   Settings,
   ShieldAlert,
 } from "lucide-react";
@@ -52,6 +53,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { label: "Правила", href: "/rules", icon: ListChecks },
       { label: "Сценарии", href: "/workflows", icon: Workflow },
       { label: "Агенты", href: "/ai", icon: Bot },
+      { label: "ML Модели", href: "/settings/instructions", icon: BrainCircuit },
     ],
   },
   {

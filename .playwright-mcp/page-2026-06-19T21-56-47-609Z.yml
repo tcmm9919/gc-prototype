@@ -1,0 +1,159 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e6]: F
+        - button "Развернуть" [ref=e7]:
+          - img [ref=e8]
+      - generic [ref=e11]:
+        - link "Дашборд" [ref=e13] [cursor=pointer]:
+          - /url: /dashboard/
+          - img [ref=e14]
+        - generic [ref=e19]:
+          - link "Клиенты" [ref=e20] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e21]
+          - link "Транзакции" [ref=e26] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e27]
+          - link "Оповещения" [ref=e31] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e32]
+          - link "Кейсы" [ref=e36] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e37]
+          - link "Риск-факторы" [ref=e40] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e41]
+        - generic [ref=e43]:
+          - link "Правила" [ref=e44] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e45]
+          - link "Сценарии" [ref=e48] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e49]
+          - link "AI" [ref=e53] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e54]
+      - generic [ref=e57]:
+        - link "Настройки" [ref=e59] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e60]
+        - button "Madina S." [ref=e64]:
+          - img "Madina S." [ref=e65]
+    - main [ref=e66]:
+      - main [ref=e67]:
+        - generic [ref=e68]:
+          - generic [ref=e69]:
+            - img [ref=e70]
+            - heading "Настройки" [level=1] [ref=e73]
+          - generic [ref=e74]:
+            - button "Сменить язык" [ref=e75]:
+              - img
+            - button "Уведомления" [ref=e76]:
+              - img
+            - button "Сменить тему" [ref=e78]:
+              - img
+        - generic [ref=e81]:
+          - navigation "Настройки" [ref=e83]:
+            - link "Ключи" [ref=e84] [cursor=pointer]:
+              - /url: /settings/system/
+              - img [ref=e85]
+              - generic [ref=e88]: Ключи
+            - link "Пользователи" [ref=e89] [cursor=pointer]:
+              - /url: /settings/users/
+              - img [ref=e90]
+              - generic [ref=e95]: Пользователи
+            - link "ML-модели" [ref=e96] [cursor=pointer]:
+              - /url: /settings/instructions/
+              - img [ref=e97]
+              - generic [ref=e109]: ML-модели
+            - link "Использование LLM" [ref=e110] [cursor=pointer]:
+              - /url: /settings/llm-usage/
+              - img [ref=e111]
+              - generic [ref=e113]: Использование LLM
+            - link "Журнал аудита" [ref=e114] [cursor=pointer]:
+              - /url: /settings/audit/
+              - img [ref=e115]
+              - generic [ref=e118]: Журнал аудита
+          - generic [ref=e119]:
+            - generic [ref=e120]:
+              - heading "Ключи" [level=2] [ref=e121]
+              - paragraph [ref=e122]: SLA, валюта, пороги риска, конфиг агента
+            - generic [ref=e123]:
+              - generic [ref=e124]:
+                - generic [ref=e125]:
+                  - generic [ref=e126]: Ключ
+                  - generic [ref=e127]: Значение
+                  - generic [ref=e128]: Описание
+                  - generic [ref=e129]: Обновлено
+                - generic [ref=e130]:
+                  - generic [ref=e131]: compliance_agent_config
+                  - generic [ref=e132]: "{\"enabled\":true,\"manager_email\":\"tenizbaia@freedombank.kz\",\"send_email_on_dispatch\":true,\"send_email_on_clear\":true,\"send_email_on_fail\":true,\"send_email_on_escalate\":true}"
+                  - generic [ref=e133]: Compliance Officer AI runtime configuration
+                  - generic [ref=e134]: 05.05.2026 20:27
+                - generic [ref=e135]:
+                  - generic [ref=e136]: default_timezone
+                  - generic [ref=e137]: "{\"timezone\":\"Asia/Almaty\",\"offset\":\"UTC+5\"}"
+                  - generic [ref=e138]: Default timezone for reports
+                  - generic [ref=e139]: 27.04.2026 11:37
+                - generic [ref=e140]:
+                  - generic [ref=e141]: sla_medium_hours
+                  - generic [ref=e142]: "{\"hours\":72}"
+                  - generic [ref=e143]: SLA for medium severity alerts
+                  - generic [ref=e144]: 24.04.2026 15:54
+                - generic [ref=e145]:
+                  - generic [ref=e146]: sla_low_hours
+                  - generic [ref=e147]: "{\"hours\":168}"
+                  - generic [ref=e148]: SLA for low severity alerts
+                  - generic [ref=e149]: 24.04.2026 15:54
+                - generic [ref=e150]:
+                  - generic [ref=e151]: sla_critical_hours
+                  - generic [ref=e152]: "{\"hours\":4}"
+                  - generic [ref=e153]: SLA for critical alerts
+                  - generic [ref=e154]: 24.04.2026 15:54
+                - generic [ref=e155]:
+                  - generic [ref=e156]: default_currency
+                  - generic [ref=e157]: "{\"currency\":\"KZT\"}"
+                  - generic [ref=e158]: Default currency for reports
+                  - generic [ref=e159]: 24.04.2026 15:54
+                - generic [ref=e160]:
+                  - generic [ref=e161]: risk_thresholds
+                  - generic [ref=e162]: "{\"low\":25,\"medium\":50,\"high\":75}"
+                  - generic [ref=e163]: Risk score category thresholds
+                  - generic [ref=e164]: 24.04.2026 15:54
+                - generic [ref=e165]:
+                  - generic [ref=e166]: sla_high_hours
+                  - generic [ref=e167]: "{\"hours\":24}"
+                  - generic [ref=e168]: SLA for high severity alerts
+                  - generic [ref=e169]: 24.04.2026 15:54
+              - generic [ref=e171]:
+                - heading "Добавить / обновить настройку" [level=3] [ref=e172]
+                - generic [ref=e173]:
+                  - textbox "Ключ" [ref=e174]
+                  - 'textbox "Значение (JSON, напр. {\"sla_hours\": 24})" [ref=e175]'
+                  - textbox "Описание" [ref=e176]
+                - button "Сохранить" [disabled]
+    - button "D · Утренняя смена ЦПК" [ref=e177]:
+      - img
+      - generic [ref=e178]: D
+      - generic [ref=e179]: ·
+      - generic [ref=e180]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e182]:
+      - img [ref=e183]
+  - generic [ref=e187]:
+    - heading "Command Palette" [level=2] [ref=e188]
+    - paragraph [ref=e189]: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic [ref=e194] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e195]:
+      - img [ref=e196]
+    - generic [ref=e199]:
+      - button "Open issues overlay" [ref=e200]:
+        - generic [ref=e201]:
+          - generic [ref=e202]: "0"
+          - generic [ref=e203]: "1"
+        - generic [ref=e204]: Issue
+      - button "Collapse issues badge" [ref=e205]:
+        - img [ref=e206]
+  - alert [ref=e208]

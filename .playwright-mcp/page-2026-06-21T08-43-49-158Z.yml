@@ -1,0 +1,158 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+          - link "AI чат" [ref=e24] [cursor=pointer]:
+            - /url: /chat/
+            - img [ref=e25]
+            - generic [ref=e27]: AI чат
+        - generic [ref=e28]:
+          - generic [ref=e29]: Работа
+          - link "Клиенты" [ref=e30] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e31]
+            - generic [ref=e36]: Клиенты
+          - link "Транзакции 65" [ref=e37] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e38]
+            - generic [ref=e41]: Транзакции
+            - generic [ref=e42]: "65"
+          - link "Оповещения 62" [ref=e43] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e44]
+            - generic [ref=e47]: Оповещения
+            - generic [ref=e48]: "62"
+          - link "Кейсы 42" [ref=e49] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e50]
+            - generic [ref=e52]: Кейсы
+            - generic [ref=e53]: "42"
+          - link "Риск-факторы" [ref=e54] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e55]
+            - generic [ref=e57]: Риск-факторы
+        - generic [ref=e58]:
+          - generic [ref=e59]: Инструменты
+          - link "Правила" [ref=e60] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e61]
+            - generic [ref=e64]: Правила
+          - link "Сценарии" [ref=e65] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e66]
+            - generic [ref=e70]: Сценарии
+          - link "Агенты" [ref=e71] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e72]
+            - generic [ref=e75]: Агенты
+      - generic [ref=e76]:
+        - link "Настройки" [ref=e78] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e79]
+          - generic [ref=e82]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e84]:
+          - img "Madina S." [ref=e85]
+          - generic [ref=e86]:
+            - generic [ref=e87]: Madina S.
+            - generic [ref=e88]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e89]
+    - main [ref=e92]:
+      - main [ref=e93]:
+        - generic [ref=e94]:
+          - heading "Правила" [level=1] [ref=e96]
+          - generic [ref=e97]:
+            - button "Сменить язык" [ref=e98]:
+              - img
+            - button "Уведомления" [ref=e99]:
+              - img
+            - button "Сменить тему" [ref=e101]:
+              - img
+        - generic [ref=e102]:
+          - generic [ref=e104]:
+            - heading "Новое правило" [level=1] [ref=e105]
+            - paragraph [ref=e106]: Конструктор условий с группами AND/OR
+          - generic [ref=e107]:
+            - generic [ref=e108]:
+              - heading "Метаданные" [level=4] [ref=e109]
+              - generic [ref=e110]:
+                - generic [ref=e111]:
+                  - generic [ref=e112]: Название
+                  - textbox "Название" [ref=e113]:
+                    - /placeholder: Напр. Крупный перевод нерезиденту
+                - generic [ref=e114]:
+                  - generic [ref=e115]: Категория
+                  - combobox [ref=e116]:
+                    - img
+                  - combobox [ref=e117]
+                - generic [ref=e118]:
+                  - generic [ref=e119]: Описание
+                  - textbox "Описание" [ref=e120]
+                - generic [ref=e121]:
+                  - generic [ref=e122]: Severity
+                  - combobox [ref=e123]:
+                    - img
+                  - combobox [ref=e124]
+                - generic [ref=e125]:
+                  - switch "Правило включено" [checked] [ref=e126]
+                  - checkbox [checked]
+                  - generic [ref=e127] [cursor=pointer]: Правило включено
+            - generic [ref=e128]:
+              - generic [ref=e129]:
+                - generic [ref=e130]:
+                  - heading "Условия" [level=4] [ref=e131]
+                  - paragraph [ref=e132]: Срабатывает, когда выполнены все условия (AND).
+                - button "Добавить" [ref=e133]:
+                  - img
+                  - text: Добавить
+              - generic [ref=e135]:
+                - combobox [ref=e136]:
+                  - img
+                - combobox [ref=e137]
+                - combobox [ref=e138]:
+                  - img
+                - combobox [ref=e139]
+                - textbox "Значение" [ref=e140]: "1000000"
+                - button "Удалить условие" [ref=e141]:
+                  - img
+            - generic [ref=e142]:
+              - heading "Действия при срабатывании" [level=4] [ref=e143]
+              - generic [ref=e144]:
+                - generic [ref=e145]:
+                  - checkbox "Создать оповещение" [checked] [ref=e146]
+                  - generic [ref=e147]: Создать оповещение
+                - generic [ref=e148]:
+                  - checkbox "Повысить риск клиента" [ref=e149]
+                  - generic [ref=e150]: Повысить риск клиента
+                - generic [ref=e151]:
+                  - checkbox "Отправить в кейс" [ref=e152]
+                  - generic [ref=e153]: Отправить в кейс
+                - generic [ref=e154]:
+                  - checkbox "Заблокировать операцию" [ref=e155]
+                  - generic [ref=e156]: Заблокировать операцию
+    - button "D · Утренняя смена ЦПК" [ref=e157]:
+      - img
+      - generic [ref=e158]: D
+      - generic [ref=e159]: ·
+      - generic [ref=e160]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e162]:
+      - img [ref=e163]
+  - generic [ref=e167]:
+    - heading "Command Palette" [level=2] [ref=e168]
+    - paragraph [ref=e169]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e175] [cursor=pointer]:
+    - img [ref=e176]
+  - alert [ref=e179]

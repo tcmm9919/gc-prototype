@@ -1,0 +1,176 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+        - generic [ref=e24]:
+          - generic [ref=e25]: Работа
+          - link "Клиенты" [ref=e26] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e27]
+            - generic [ref=e32]: Клиенты
+          - link "Транзакции 65" [ref=e33] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e34]
+            - generic [ref=e37]: Транзакции
+            - generic [ref=e38]: "65"
+          - link "Оповещения 62" [ref=e39] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e40]
+            - generic [ref=e43]: Оповещения
+            - generic [ref=e44]: "62"
+          - link "Кейсы 42" [ref=e45] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e46]
+            - generic [ref=e48]: Кейсы
+            - generic [ref=e49]: "42"
+          - link "Риск-факторы" [ref=e50] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e51]
+            - generic [ref=e53]: Риск-факторы
+        - generic [ref=e54]:
+          - generic [ref=e55]: Инструменты
+          - link "Правила" [ref=e56] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e57]
+            - generic [ref=e60]: Правила
+          - link "Сценарии" [ref=e61] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e62]
+            - generic [ref=e66]: Сценарии
+          - link "AI" [ref=e67] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e68]
+            - generic [ref=e71]: AI
+      - generic [ref=e72]:
+        - link "Настройки" [ref=e74] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e75]
+          - generic [ref=e78]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e80]:
+          - img "Madina S." [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: Madina S.
+            - generic [ref=e84]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e85]
+    - main [ref=e88]:
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - img [ref=e92]
+            - heading "Настройки" [level=1] [ref=e95]
+          - generic [ref=e96]:
+            - button "Сменить язык" [ref=e97]:
+              - img
+            - button "Уведомления" [ref=e98]:
+              - img
+            - button "Тёмная тема" [ref=e222]:
+              - img
+        - generic [ref=e103]:
+          - navigation "Настройки" [ref=e105]:
+            - link "Ключи" [ref=e106] [cursor=pointer]:
+              - /url: /settings/system/
+              - img [ref=e107]
+              - generic [ref=e110]: Ключи
+            - link "Пользователи" [ref=e111] [cursor=pointer]:
+              - /url: /settings/users/
+              - img [ref=e112]
+              - generic [ref=e117]: Пользователи
+            - link "ML-модели" [active] [ref=e118] [cursor=pointer]:
+              - /url: /settings/instructions/
+              - img [ref=e119]
+              - generic [ref=e131]: ML-модели
+            - link "Использование LLM" [ref=e132] [cursor=pointer]:
+              - /url: /settings/llm-usage/
+              - img [ref=e133]
+              - generic [ref=e135]: Использование LLM
+            - link "Журнал аудита" [ref=e136] [cursor=pointer]:
+              - /url: /settings/audit/
+              - img [ref=e137]
+              - generic [ref=e140]: Журнал аудита
+          - generic [ref=e141]:
+            - generic [ref=e142]:
+              - heading "ML-модели" [level=2] [ref=e223]
+              - paragraph [ref=e144]: "Каталог моделей: Feature Store, TSAD, CTSM"
+            - generic [ref=e224]:
+              - link "Bank Offline Feature Store Основа v1.4 · 29 апр 2026 Подготовка данных · PostgreSQL + TimescaleDB Централизованный пайплайн ежедневной подготовки признаков. Превращает сырые данные DWH в две ML-готовые таблицы — основа всех остальных моделей. PostgreSQL TimescaleDB Kedro Airflow Открыть инструкцию" [ref=e225] [cursor=pointer]:
+                - /url: /settings/instructions/bank-offline-fs/
+                - generic [ref=e226]:
+                  - img [ref=e228]
+                  - generic [ref=e232]:
+                    - generic [ref=e233]:
+                      - heading "Bank Offline Feature Store" [level=3] [ref=e234]
+                      - generic [ref=e235]: Основа
+                      - generic [ref=e236]: v1.4 · 29 апр 2026
+                    - paragraph [ref=e237]: Подготовка данных · PostgreSQL + TimescaleDB
+                    - paragraph [ref=e238]: Централизованный пайплайн ежедневной подготовки признаков. Превращает сырые данные DWH в две ML-готовые таблицы — основа всех остальных моделей.
+                    - generic [ref=e239]:
+                      - generic [ref=e240]:
+                        - generic [ref=e241]: PostgreSQL
+                        - generic [ref=e243]: TimescaleDB
+                        - generic [ref=e245]: Kedro
+                        - generic [ref=e247]: Airflow
+                      - generic [ref=e249]:
+                        - text: Открыть инструкцию
+                        - img [ref=e250]
+              - link "Time Series Anomaly Detection v1.2 · 24 апр 2026 Детекция аномалий · TSAD Анализирует исторические клиентские временные ряды и выдаёт признак аномальности — для проактивных оповещений комплаенс-офицеров. Python Statsmodels Prophet Открыть инструкцию" [ref=e252] [cursor=pointer]:
+                - /url: /settings/instructions/tsad/
+                - generic [ref=e253]:
+                  - img [ref=e255]
+                  - generic [ref=e258]:
+                    - generic [ref=e259]:
+                      - heading "Time Series Anomaly Detection" [level=3] [ref=e260]
+                      - generic [ref=e261]: v1.2 · 24 апр 2026
+                    - paragraph [ref=e262]: Детекция аномалий · TSAD
+                    - paragraph [ref=e263]: Анализирует исторические клиентские временные ряды и выдаёт признак аномальности — для проактивных оповещений комплаенс-офицеров.
+                    - generic [ref=e264]:
+                      - generic [ref=e265]:
+                        - generic [ref=e266]: Python
+                        - generic [ref=e268]: Statsmodels
+                        - generic [ref=e270]: Prophet
+                      - generic [ref=e272]:
+                        - text: Открыть инструкцию
+                        - img [ref=e273]
+              - link "Compliance Tabular Supervised Model v2.0 · 27 апр 2026 Скоринг фрода · CTSM (Pied Piper) Продакшен ML-система выявления подтверждённого мошенничества. CatBoost ежедневно скорит активных клиентов и присваивает балл риска. CatBoost Python Открыть инструкцию" [ref=e275] [cursor=pointer]:
+                - /url: /settings/instructions/ctsm/
+                - generic [ref=e276]:
+                  - img [ref=e278]
+                  - generic [ref=e290]:
+                    - generic [ref=e291]:
+                      - heading "Compliance Tabular Supervised Model" [level=3] [ref=e292]
+                      - generic [ref=e293]: v2.0 · 27 апр 2026
+                    - paragraph [ref=e294]: Скоринг фрода · CTSM (Pied Piper)
+                    - paragraph [ref=e295]: Продакшен ML-система выявления подтверждённого мошенничества. CatBoost ежедневно скорит активных клиентов и присваивает балл риска.
+                    - generic [ref=e296]:
+                      - generic [ref=e297]:
+                        - generic [ref=e298]: CatBoost
+                        - generic [ref=e300]: Python
+                      - generic [ref=e302]:
+                        - text: Открыть инструкцию
+                        - img [ref=e303]
+    - button "D · Утренняя смена ЦПК" [ref=e199]:
+      - img
+      - generic [ref=e200]: D
+      - generic [ref=e201]: ·
+      - generic [ref=e202]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e204]:
+      - img [ref=e205]
+  - generic [ref=e209]:
+    - heading "Command Palette" [level=2] [ref=e210]
+    - paragraph [ref=e211]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e217] [cursor=pointer]:
+    - img [ref=e218]
+  - alert [ref=e221]

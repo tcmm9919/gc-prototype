@@ -1,4 +1,4 @@
-import { Settings as SettingsIcon, Users, BrainCircuit, Activity, ScrollText } from "lucide-react"
+import { Settings as SettingsIcon, Users, BrainCircuit, Activity, Gauge, ScrollText } from "lucide-react"
 
 export type SettingsNavItem = {
   label: string
@@ -29,6 +29,8 @@ export const SETTINGS_NAV: SettingsNavGroup[] = [
         description: "Каталог моделей: Feature Store, TSAD, CTSM", eyebrow: "Каталог · документация", unit: "модели" },
       { label: "Использование LLM", href: "/settings/llm-usage", icon: Activity,
         description: "Токены, стоимость и латентность вызовов", eyebrow: "Расходы · мониторинг", unit: "запросов" },
+      { label: "Лимиты AI", href: "/settings/ai-limits", icon: Gauge,
+        description: "Дневной и месячный лимит токенов на группы и пользователей. Дашборд расходов и контроль превышений.", eyebrow: "Лимиты · контроль", unit: "лимитов" },
     ],
   },
   {

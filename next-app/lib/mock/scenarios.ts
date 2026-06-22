@@ -70,7 +70,10 @@ export const scenarioPresets: Record<ScenarioPreset, ScenarioBundle> = {
   criticalAlert: {
     ...full,
     alerts: full.alerts.map((a, i) => (i < 5 ? { ...a, severity: "critical" as const, status: "new" as const } : a)),
-    clients: full.clients.map((c, i) => (i < 5 ? { ...c, riskLevel: "critical" as const, status: "review" as const } : c)),
+    clients: full.clients.map((c, i) =>
+      // score тоже поднимаем (≥75), чтобы критический уровень совпадал с карточкой клиента
+      i < 5 ? { ...c, internalScore: Math.max(c.internalScore, 88), riskLevel: "critical" as const, status: "review" as const } : c,
+    ),
   },
 };
 

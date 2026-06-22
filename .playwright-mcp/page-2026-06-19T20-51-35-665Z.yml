@@ -1,0 +1,322 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+        - generic [ref=e24]:
+          - generic [ref=e25]: Работа
+          - link "Клиенты" [ref=e26] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e27]
+            - generic [ref=e32]: Клиенты
+          - link "Транзакции 65" [ref=e33] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e34]
+            - generic [ref=e37]: Транзакции
+            - generic [ref=e38]: "65"
+          - link "Оповещения 62" [ref=e39] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e40]
+            - generic [ref=e43]: Оповещения
+            - generic [ref=e44]: "62"
+          - link "Кейсы 42" [ref=e45] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e46]
+            - generic [ref=e48]: Кейсы
+            - generic [ref=e49]: "42"
+          - link "Риск-факторы" [ref=e50] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e51]
+            - generic [ref=e53]: Риск-факторы
+        - generic [ref=e54]:
+          - generic [ref=e55]: Инструменты
+          - link "Правила" [ref=e56] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e57]
+            - generic [ref=e60]: Правила
+          - link "Сценарии" [ref=e61] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e62]
+            - generic [ref=e66]: Сценарии
+          - link "AI" [ref=e67] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e68]
+            - generic [ref=e71]: AI
+      - generic [ref=e72]:
+        - link "Настройки" [ref=e74] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e75]
+          - generic [ref=e78]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e80]:
+          - img "Madina S." [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: Madina S.
+            - generic [ref=e84]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e85]
+    - main [ref=e88]:
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - img [ref=e92]
+            - heading "Конструктор сценариев" [level=1] [ref=e96]
+          - generic [ref=e97]:
+            - button "Сменить язык" [ref=e98]:
+              - img
+            - button "Уведомления" [ref=e99]:
+              - img
+            - button "Тёмная тема" [ref=e101]:
+              - img
+        - generic [ref=e103]:
+          - link "Создать" [ref=e105] [cursor=pointer]:
+            - /url: /workflows/builder/
+            - img
+            - text: Создать
+          - generic [ref=e106]:
+            - paragraph [ref=e107]: Сценарий запускается по одному клиенту
+            - generic [ref=e108]:
+              - generic [ref=e109]: ID
+              - generic [ref=e110]: Название
+              - generic [ref=e111]: Тип
+              - generic [ref=e112]: Создано
+            - generic [ref=e114]:
+              - link "#MORN-IES1" [ref=e115] [cursor=pointer]:
+                - /url: /workflows/SC-MORN-IES1/
+              - link "Санкционная проверка контрагента" [ref=e116] [cursor=pointer]:
+                - /url: /workflows/SC-MORN-IES1/
+              - generic [ref=e118]: Клиентский
+              - generic [ref=e120]: —
+              - button "Удалить" [ref=e121]:
+                - img [ref=e122]
+            - generic [ref=e125]:
+              - link "#MORN-IES8" [ref=e126] [cursor=pointer]:
+                - /url: /workflows/SC-MORN-IES8/
+              - link "Обналичивание через кэш-пункты" [ref=e127] [cursor=pointer]:
+                - /url: /workflows/SC-MORN-IES8/
+              - generic [ref=e129]: Клиентский
+              - generic [ref=e131]: —
+              - button "Удалить" [ref=e132]:
+                - img [ref=e133]
+            - generic [ref=e136]:
+              - link "#MORN-IES33" [ref=e137] [cursor=pointer]:
+                - /url: /workflows/SC-MORN-IES33/
+              - link "Перевод связанному с ПДЛ" [ref=e138] [cursor=pointer]:
+                - /url: /workflows/SC-MORN-IES33/
+              - generic [ref=e140]: Клиентский
+              - generic [ref=e142]: —
+              - button "Удалить" [ref=e143]:
+                - img [ref=e144]
+            - generic [ref=e147]:
+              - link "#MORN-IES12" [ref=e148] [cursor=pointer]:
+                - /url: /workflows/SC-MORN-IES12/
+              - link "Структурирование операций" [ref=e149] [cursor=pointer]:
+                - /url: /workflows/SC-MORN-IES12/
+              - generic [ref=e151]: Клиентский
+              - generic [ref=e153]: —
+              - button "Удалить" [ref=e154]:
+                - img [ref=e155]
+            - generic [ref=e158]:
+              - link "#MORN-IES5" [ref=e159] [cursor=pointer]:
+                - /url: /workflows/SC-MORN-IES5/
+              - link "Криптообменная операция" [ref=e160] [cursor=pointer]:
+                - /url: /workflows/SC-MORN-IES5/
+              - generic [ref=e162]: Клиентский
+              - generic [ref=e164]: —
+              - button "Удалить" [ref=e165]:
+                - img [ref=e166]
+            - generic [ref=e169]:
+              - link "#00ll" [ref=e170] [cursor=pointer]:
+                - /url: /workflows/SC-00ll/
+              - link "Резкий рост оборотов клиента" [ref=e171] [cursor=pointer]:
+                - /url: /workflows/SC-00ll/
+              - generic [ref=e173]: Клиентский
+              - generic [ref=e175]: 28.04.2024
+              - button "Удалить" [ref=e176]:
+                - img [ref=e177]
+            - generic [ref=e180]:
+              - link "#00lm" [ref=e181] [cursor=pointer]:
+                - /url: /workflows/SC-00lm/
+              - link "Цепочка переводов на нерезидентов" [ref=e182] [cursor=pointer]:
+                - /url: /workflows/SC-00lm/
+              - generic [ref=e184]: Клиентский
+              - generic [ref=e186]: 27.04.2024
+              - button "Удалить" [ref=e187]:
+                - img [ref=e188]
+            - generic [ref=e191]:
+              - link "#00ln" [ref=e192] [cursor=pointer]:
+                - /url: /workflows/SC-00ln/
+              - link "Группа связанных клиентов с общим бенефициаром" [ref=e193] [cursor=pointer]:
+                - /url: /workflows/SC-00ln/
+              - generic [ref=e195]: Клиентский
+              - generic [ref=e197]: 26.04.2024
+              - button "Удалить" [ref=e198]:
+                - img [ref=e199]
+            - generic [ref=e202]:
+              - link "#00lo" [ref=e203] [cursor=pointer]:
+                - /url: /workflows/SC-00lo/
+              - link "Сделки с PEP без обоснования" [ref=e204] [cursor=pointer]:
+                - /url: /workflows/SC-00lo/
+              - generic [ref=e206]: Клиентский
+              - generic [ref=e208]: 25.04.2024
+              - button "Удалить" [ref=e209]:
+                - img [ref=e210]
+            - generic [ref=e213]:
+              - link "#00lp" [ref=e214] [cursor=pointer]:
+                - /url: /workflows/SC-00lp/
+              - link "Подозрительные ночные переводы" [ref=e215] [cursor=pointer]:
+                - /url: /workflows/SC-00lp/
+              - generic [ref=e217]: Клиентский
+              - generic [ref=e219]: 24.04.2024
+              - button "Удалить" [ref=e220]:
+                - img [ref=e221]
+            - generic [ref=e224]:
+              - link "#00lq" [ref=e225] [cursor=pointer]:
+                - /url: /workflows/SC-00lq/
+              - link "Резкий рост оборотов клиента" [ref=e226] [cursor=pointer]:
+                - /url: /workflows/SC-00lq/
+              - generic [ref=e228]: Клиентский
+              - generic [ref=e230]: 23.04.2024
+              - button "Удалить" [ref=e231]:
+                - img [ref=e232]
+            - generic [ref=e235]:
+              - link "#00lr" [ref=e236] [cursor=pointer]:
+                - /url: /workflows/SC-00lr/
+              - link "Цепочка переводов на нерезидентов" [ref=e237] [cursor=pointer]:
+                - /url: /workflows/SC-00lr/
+              - generic [ref=e239]: Клиентский
+              - generic [ref=e241]: 22.04.2024
+              - button "Удалить" [ref=e242]:
+                - img [ref=e243]
+            - generic [ref=e246]:
+              - link "#00ls" [ref=e247] [cursor=pointer]:
+                - /url: /workflows/SC-00ls/
+              - link "Группа связанных клиентов с общим бенефициаром" [ref=e248] [cursor=pointer]:
+                - /url: /workflows/SC-00ls/
+              - generic [ref=e250]: Клиентский
+              - generic [ref=e252]: 21.04.2024
+              - button "Удалить" [ref=e253]:
+                - img [ref=e254]
+            - generic [ref=e257]:
+              - link "#00lt" [ref=e258] [cursor=pointer]:
+                - /url: /workflows/SC-00lt/
+              - link "Сделки с PEP без обоснования" [ref=e259] [cursor=pointer]:
+                - /url: /workflows/SC-00lt/
+              - generic [ref=e261]: Клиентский
+              - generic [ref=e263]: 20.04.2024
+              - button "Удалить" [ref=e264]:
+                - img [ref=e265]
+            - generic [ref=e268]:
+              - link "#00lu" [ref=e269] [cursor=pointer]:
+                - /url: /workflows/SC-00lu/
+              - link "Подозрительные ночные переводы" [ref=e270] [cursor=pointer]:
+                - /url: /workflows/SC-00lu/
+              - generic [ref=e272]: Клиентский
+              - generic [ref=e274]: 19.04.2024
+              - button "Удалить" [ref=e275]:
+                - img [ref=e276]
+            - generic [ref=e279]:
+              - link "#00lv" [ref=e280] [cursor=pointer]:
+                - /url: /workflows/SC-00lv/
+              - link "Резкий рост оборотов клиента" [ref=e281] [cursor=pointer]:
+                - /url: /workflows/SC-00lv/
+              - generic [ref=e283]: Клиентский
+              - generic [ref=e285]: 18.04.2024
+              - button "Удалить" [ref=e286]:
+                - img [ref=e287]
+            - generic [ref=e290]:
+              - link "#00lw" [ref=e291] [cursor=pointer]:
+                - /url: /workflows/SC-00lw/
+              - link "Цепочка переводов на нерезидентов" [ref=e292] [cursor=pointer]:
+                - /url: /workflows/SC-00lw/
+              - generic [ref=e294]: Клиентский
+              - generic [ref=e296]: 17.04.2024
+              - button "Удалить" [ref=e297]:
+                - img [ref=e298]
+            - generic [ref=e301]:
+              - link "#00lx" [ref=e302] [cursor=pointer]:
+                - /url: /workflows/SC-00lx/
+              - link "Группа связанных клиентов с общим бенефициаром" [ref=e303] [cursor=pointer]:
+                - /url: /workflows/SC-00lx/
+              - generic [ref=e305]: Клиентский
+              - generic [ref=e307]: 16.04.2024
+              - button "Удалить" [ref=e308]:
+                - img [ref=e309]
+            - generic [ref=e312]:
+              - link "#00ly" [ref=e313] [cursor=pointer]:
+                - /url: /workflows/SC-00ly/
+              - link "Сделки с PEP без обоснования" [ref=e314] [cursor=pointer]:
+                - /url: /workflows/SC-00ly/
+              - generic [ref=e316]: Клиентский
+              - generic [ref=e318]: 15.04.2024
+              - button "Удалить" [ref=e319]:
+                - img [ref=e320]
+            - generic [ref=e323]:
+              - link "#00lz" [ref=e324] [cursor=pointer]:
+                - /url: /workflows/SC-00lz/
+              - link "Подозрительные ночные переводы" [ref=e325] [cursor=pointer]:
+                - /url: /workflows/SC-00lz/
+              - generic [ref=e327]: Клиентский
+              - generic [ref=e329]: 14.04.2024
+              - button "Удалить" [ref=e330]:
+                - img [ref=e331]
+            - generic [ref=e334]:
+              - link "#00m0" [ref=e335] [cursor=pointer]:
+                - /url: /workflows/SC-00m0/
+              - link "Резкий рост оборотов клиента" [ref=e336] [cursor=pointer]:
+                - /url: /workflows/SC-00m0/
+              - generic [ref=e338]: Клиентский
+              - generic [ref=e340]: 13.04.2024
+              - button "Удалить" [ref=e341]:
+                - img [ref=e342]
+            - generic [ref=e345]:
+              - link "#00m1" [ref=e346] [cursor=pointer]:
+                - /url: /workflows/SC-00m1/
+              - link "Цепочка переводов на нерезидентов" [ref=e347] [cursor=pointer]:
+                - /url: /workflows/SC-00m1/
+              - generic [ref=e349]: Клиентский
+              - generic [ref=e351]: 12.04.2024
+              - button "Удалить" [ref=e352]:
+                - img [ref=e353]
+            - generic [ref=e356]:
+              - link "#00m2" [ref=e357] [cursor=pointer]:
+                - /url: /workflows/SC-00m2/
+              - link "Группа связанных клиентов с общим бенефициаром" [ref=e358] [cursor=pointer]:
+                - /url: /workflows/SC-00m2/
+              - generic [ref=e360]: Клиентский
+              - generic [ref=e362]: 11.04.2024
+              - button "Удалить" [ref=e363]:
+                - img [ref=e364]
+    - button "D · Утренняя смена ЦПК" [ref=e367]:
+      - img
+      - generic [ref=e368]: D
+      - generic [ref=e369]: ·
+      - generic [ref=e370]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e372]:
+      - img [ref=e373]
+  - generic [ref=e377]:
+    - heading "Command Palette" [level=2] [ref=e378]
+    - paragraph [ref=e379]: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic [ref=e384] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e385]:
+      - img [ref=e386]
+    - generic [ref=e389]:
+      - button "Open issues overlay" [ref=e390]:
+        - generic [ref=e391]:
+          - generic [ref=e392]: "0"
+          - generic [ref=e393]: "1"
+        - generic [ref=e394]: Issue
+      - button "Collapse issues badge" [ref=e395]:
+        - img [ref=e396]
+  - alert [ref=e398]

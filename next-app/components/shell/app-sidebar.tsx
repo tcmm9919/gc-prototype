@@ -11,6 +11,23 @@ import { ProfileMenu } from "./profile-menu";
 import { useMockData } from "@/lib/mock";
 import { cn } from "@/lib/utils";
 
+const NARROW_QUERY = "(max-width: 1023px)";
+
+/** Сворачивать сайдбар в компактный рейл на узких экранах (планшет/мобайл, <1024).
+ *  useSyncExternalStore — SSR-безопасно (сервер отдаёт false → совпадает с первым
+ *  клиентским рендером, без hydration mismatch). */
+function useNarrowViewport() {
+  return React.useSyncExternalStore(
+    (cb) => {
+      const mql = window.matchMedia(NARROW_QUERY);
+      mql.addEventListener("change", cb);
+      return () => mql.removeEventListener("change", cb);
+    },
+    () => window.matchMedia(NARROW_QUERY).matches,
+    () => false,
+  );
+}
+
 function isActive(pathname: string, href: string) {
   const n = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
   if (href === "/dashboard") return n === href;
@@ -24,7 +41,10 @@ export function AppSidebar() {
   const pathname = usePathname() ?? "";
   const data = useMockData();
   const { state, toggleSidebar } = useSidebar();
-  const expanded = state === "expanded";
+  const narrow = useNarrowViewport();
+  // На узких экранах (<1024) держим компактный 88px-рейл, иначе раскрытый сайдбар
+  // (256px) съедает контент и таблицы. Тоггл по-прежнему работает на десктопе.
+  const expanded = state === "expanded" && !narrow;
 
   const liveBadges = React.useMemo<Record<string, number>>(
     () => ({

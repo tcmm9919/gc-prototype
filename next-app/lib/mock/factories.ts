@@ -29,6 +29,7 @@ import type {
   User,
   UserRole,
 } from "./types";
+import { getRiskConfig } from "@/lib/scoring/sources";
 
 let seq = 0;
 const id = (prefix: string) => `${prefix}-${(++seq).toString(36).padStart(4, "0")}`;
@@ -84,14 +85,16 @@ export function makeClient(over: Partial<Client> = {}): Client {
     type === "legal"
       ? `${pick(LEGAL_PREFIXES, i)} «${pick(LEGAL_NAMES, i)}»`
       : `${pick(LAST_NAMES, i)} ${pick(isMale ? FIRST_NAMES_M : FIRST_NAMES_F, i)} ${pick(LAST_NAMES, i + 3)[0]}.`;
-  const riskLevel: RiskLevel = pick<RiskLevel>(["low", "medium", "high", "critical"], i);
+  const internalScore = 30 + ((i * 13) % 70);
+  // riskLevel всегда выводим из score (пороги 25/50/75) — иначе бейдж и карточка расходятся.
+  const riskLevel: RiskLevel = getRiskConfig(internalScore).key;
   return {
     id: over.id ?? id("CL"),
     fullName,
     type,
     segment: pick(SEGMENTS, i),
     riskLevel,
-    internalScore: 30 + ((i * 13) % 70),
+    internalScore,
     iin: type === "individual" ? String(900101400000 + i * 73).slice(0, 12) : undefined,
     bin: type === "legal" ? String(210101400000 + i * 91).slice(0, 12) : undefined,
     birthDate: type === "individual" ? `19${70 + (i % 30)}-0${(i % 9) + 1}-1${(i % 9)}` : undefined,
@@ -538,7 +541,7 @@ const RF_POOL: Omit<RiskFactor, "id">[] = [
 ];
 
 export function makeRiskFactor(over: Partial<RiskFactor> = {}): RiskFactor {
-  const i = seq;
+  const i = seq++;
   const t = RF_POOL[i % RF_POOL.length];
   return {
     id: over.id ?? `RF-${(i + 1).toString(36).padStart(4, "0")}`,

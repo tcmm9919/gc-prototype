@@ -1,0 +1,472 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e6]: F
+        - button "Развернуть" [ref=e7]:
+          - img [ref=e8]
+      - generic [ref=e11]:
+        - link "Дашборд" [ref=e13] [cursor=pointer]:
+          - /url: /dashboard/
+          - img [ref=e14]
+        - generic [ref=e19]:
+          - link "Клиенты" [ref=e20] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e21]
+          - link "Транзакции" [ref=e26] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e27]
+          - link "Оповещения" [ref=e31] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e32]
+          - link "Кейсы" [ref=e36] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e37]
+          - link "Риск-факторы" [ref=e40] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e41]
+        - generic [ref=e43]:
+          - link "Правила" [ref=e44] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e45]
+          - link "Сценарии" [ref=e48] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e49]
+          - link "AI" [ref=e53] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e54]
+      - generic [ref=e57]:
+        - link "Настройки" [ref=e59] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e60]
+        - button "Madina S." [ref=e64]:
+          - img "Madina S." [ref=e65]
+    - main [ref=e66]:
+      - main [ref=e67]:
+        - generic [ref=e68]:
+          - generic [ref=e69]:
+            - img [ref=e70]
+            - heading "Клиенты" [level=1] [ref=e75]
+          - generic [ref=e76]:
+            - button "Сменить язык" [ref=e77]:
+              - img
+            - button "Уведомления" [ref=e78]:
+              - img
+            - button "Светлая тема" [ref=e80]:
+              - img
+        - generic [ref=e82]:
+          - generic [ref=e83]:
+            - generic [ref=e84]:
+              - button "Все 86" [ref=e85]:
+                - generic [ref=e86]: Все
+                - generic [ref=e87]: "86"
+              - button "Critical risk 30" [ref=e88]:
+                - img [ref=e90]
+                - generic [ref=e92]: Critical risk
+                - generic [ref=e93]: "30"
+              - button "В EDD 14" [ref=e94]:
+                - img [ref=e96]
+                - generic [ref=e98]: В EDD
+                - generic [ref=e99]: "14"
+              - button "Заблокированные 14" [ref=e100]:
+                - img [ref=e102]
+                - generic [ref=e105]: Заблокированные
+                - generic [ref=e106]: "14"
+            - generic [ref=e107]:
+              - generic [ref=e108]:
+                - generic [ref=e109]:
+                  - img [ref=e110]
+                  - textbox "Поиск по имени, ID..." [ref=e113]
+                - generic [ref=e114]:
+                  - button "Риск" [ref=e115]:
+                    - img
+                    - text: Риск
+                  - button "Статус" [ref=e116]:
+                    - img
+                    - text: Статус
+                  - button "Тип" [ref=e117]:
+                    - img
+                    - text: Тип
+              - generic [ref=e118]:
+                - button "Экспорт" [ref=e119]:
+                  - img
+                  - text: Экспорт
+                - button "Добавить клиента" [ref=e120]:
+                  - img
+                  - text: Добавить клиента
+          - generic [ref=e121]:
+            - generic [ref=e122]:
+              - checkbox "Выбрать все" [ref=e124]
+              - button "Клиент" [ref=e126]:
+                - text: Клиент
+                - img [ref=e127]
+              - button "Тип" [ref=e131]:
+                - text: Тип
+                - img [ref=e132]
+              - button "Риск" [ref=e136]:
+                - text: Риск
+                - img [ref=e137]
+              - button "Скор" [ref=e141]:
+                - text: Скор
+                - img [ref=e142]
+              - button "Статус" [ref=e146]:
+                - text: Статус
+                - img [ref=e147]
+              - button "Ответственный" [ref=e151]:
+                - text: Ответственный
+                - img [ref=e152]
+              - button "Посл. операция" [ref=e156]:
+                - text: Посл. операция
+                - img [ref=e157]
+            - button "Открыть клиента Касенов Темирлан А." [ref=e161] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e163]
+              - link "Касенов Темирлан А. CL-S01 Розничный" [ref=e165]:
+                - /url: /clients/CL-S01/
+                - generic [ref=e166]: КТ
+                - generic [ref=e167]:
+                  - generic [ref=e168]: Касенов Темирлан А.
+                  - generic [ref=e169]:
+                    - generic [ref=e170]: CL-S01
+                    - generic [ref=e173]: Розничный
+              - generic [ref=e174]: Физ. лицо
+              - generic [ref=e176]: Средний
+              - generic [ref=e180]: "32"
+              - generic [ref=e184]: Активен
+              - generic [ref=e186]: Madina S.
+              - generic [ref=e188]: около 2 часов назад
+            - button "Открыть клиента Серикбаева Айгерим Н." [ref=e190] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e192]
+              - link "Серикбаева Айгерим Н. CL-S02 Private banking VIP" [ref=e194]:
+                - /url: /clients/CL-S02/
+                - generic [ref=e195]: СА
+                - generic [ref=e196]:
+                  - generic [ref=e197]: Серикбаева Айгерим Н.
+                  - generic [ref=e198]:
+                    - generic [ref=e199]: CL-S02
+                    - generic [ref=e202]: Private banking
+                    - generic [ref=e205]: VIP
+              - generic [ref=e206]: Физ. лицо
+              - generic [ref=e208]: Высокий
+              - generic [ref=e212]: "58"
+              - generic [ref=e216]: Активен
+              - generic [ref=e218]: A. Tuyakbayev
+              - generic [ref=e220]: около 18 часов назад
+            - button "Открыть клиента ТОО «Caspian Trade Group»" [ref=e222] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e224]
+              - link "ТОО «Caspian Trade Group» CL-S03 Корпоративный структурирование? под мониторингом" [ref=e226]:
+                - /url: /clients/CL-S03/
+                - generic [ref=e227]: ТC
+                - generic [ref=e228]:
+                  - generic [ref=e229]: ТОО «Caspian Trade Group»
+                  - generic [ref=e230]:
+                    - generic [ref=e231]: CL-S03
+                    - generic [ref=e234]: Корпоративный
+                    - generic [ref=e237]: структурирование?
+                    - generic [ref=e240]: под мониторингом
+              - generic [ref=e241]: Юр. лицо
+              - generic [ref=e243]: Критический
+              - generic [ref=e248]: "78"
+              - generic [ref=e252]: На проверке
+              - generic [ref=e254]: Madina S.
+              - generic [ref=e256]: около 3 часов назад
+            - button "Открыть клиента АО «Steppe Logistics»" [ref=e258] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e260]
+              - link "АО «Steppe Logistics» CL-S04 Корпоративный санкции OFAC indirect" [ref=e262]:
+                - /url: /clients/CL-S04/
+                - generic [ref=e263]: АS
+                - generic [ref=e264]:
+                  - generic [ref=e265]: АО «Steppe Logistics»
+                  - generic [ref=e266]:
+                    - generic [ref=e267]: CL-S04
+                    - generic [ref=e270]: Корпоративный
+                    - generic [ref=e273]: санкции
+                    - generic [ref=e276]: OFAC indirect
+              - generic [ref=e277]: Юр. лицо
+              - generic [ref=e279]: Критический
+              - generic [ref=e284]: "94"
+              - generic [ref=e288]: Заблокирован
+              - generic [ref=e290]: A. Tuyakbayev
+              - generic [ref=e292]: 2 дня назад
+            - button "Открыть клиента Жумабеков Ержан К." [ref=e294] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e296]
+              - link "Жумабеков Ержан К. CL-S05 Премиум PEP-родственник" [ref=e298]:
+                - /url: /clients/CL-S05/
+                - generic [ref=e299]: ЖЕ
+                - generic [ref=e300]:
+                  - generic [ref=e301]: Жумабеков Ержан К.
+                  - generic [ref=e302]:
+                    - generic [ref=e303]: CL-S05
+                    - generic [ref=e306]: Премиум
+                    - generic [ref=e309]: PEP-родственник
+              - generic [ref=e310]: Физ. лицо
+              - generic [ref=e312]: Высокий
+              - generic [ref=e316]: "64"
+              - generic [ref=e320]: EDD
+              - generic [ref=e322]: A. Tuyakbayev
+              - generic [ref=e324]: 1 день назад
+            - button "Открыть клиента ИП Ахметова Мадина Б." [ref=e326] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e328]
+              - link "ИП Ахметова Мадина Б. CL-S06 Малый бизнес" [ref=e330]:
+                - /url: /clients/CL-S06/
+                - generic [ref=e331]: ИА
+                - generic [ref=e332]:
+                  - generic [ref=e333]: ИП Ахметова Мадина Б.
+                  - generic [ref=e334]:
+                    - generic [ref=e335]: CL-S06
+                    - generic [ref=e338]: Малый бизнес
+              - generic [ref=e339]: Юр. лицо
+              - generic [ref=e341]: Средний
+              - generic [ref=e345]: "28"
+              - generic [ref=e349]: Активен
+              - generic [ref=e351]: A. D.
+              - generic [ref=e353]: около 7 часов назад
+            - button "Открыть клиента ТОО «Алматы Логистикс»" [ref=e355] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e357]
+              - link "ТОО «Алматы Логистикс» CL-0001 Розничный PEP" [ref=e359]:
+                - /url: /clients/CL-0001/
+                - generic [ref=e360]: ТА
+                - generic [ref=e361]:
+                  - generic [ref=e362]: ТОО «Алматы Логистикс»
+                  - generic [ref=e363]:
+                    - generic [ref=e364]: CL-0001
+                    - generic [ref=e367]: Розничный
+                    - generic [ref=e370]: PEP
+              - generic [ref=e371]: Юр. лицо
+              - generic [ref=e373]: Средний
+              - generic [ref=e377]: "30"
+              - generic [ref=e381]: Активен
+              - generic [ref=e383]: T. Kunapyanov
+              - generic [ref=e385]: меньше минуты назад
+            - button "Открыть клиента Серикбаев Мадина Б." [ref=e387] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e389]
+              - link "Серикбаев Мадина Б. CL-0002 Премиум" [ref=e391]:
+                - /url: /clients/CL-0002/
+                - generic [ref=e392]: СМ
+                - generic [ref=e393]:
+                  - generic [ref=e394]: Серикбаев Мадина Б.
+                  - generic [ref=e395]:
+                    - generic [ref=e396]: CL-0002
+                    - generic [ref=e399]: Премиум
+              - generic [ref=e400]: Физ. лицо
+              - generic [ref=e402]: Средний
+              - generic [ref=e406]: "43"
+              - generic [ref=e410]: Активен
+              - generic [ref=e412]: A. Tuyakbayev
+              - generic [ref=e414]: около 1 часа назад
+            - button "Открыть клиента Жумабеков Ержан А." [ref=e416] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e418]
+              - link "Жумабеков Ержан А. CL-0003 Малый бизнес" [ref=e420]:
+                - /url: /clients/CL-0003/
+                - generic [ref=e421]: ЖЕ
+                - generic [ref=e422]:
+                  - generic [ref=e423]: Жумабеков Ержан А.
+                  - generic [ref=e424]:
+                    - generic [ref=e425]: CL-0003
+                    - generic [ref=e428]: Малый бизнес
+              - generic [ref=e429]: Физ. лицо
+              - generic [ref=e431]: Высокий
+              - generic [ref=e435]: "56"
+              - generic [ref=e439]: Активен
+              - generic [ref=e441]: Madina S.
+              - generic [ref=e443]: около 2 часов назад
+            - button "Открыть клиента Ахметов Жанар Т." [ref=e445] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e447]
+              - link "Ахметов Жанар Т. CL-0004 Корпоративный" [ref=e449]:
+                - /url: /clients/CL-0004/
+                - generic [ref=e450]: АЖ
+                - generic [ref=e451]:
+                  - generic [ref=e452]: Ахметов Жанар Т.
+                  - generic [ref=e453]:
+                    - generic [ref=e454]: CL-0004
+                    - generic [ref=e457]: Корпоративный
+              - generic [ref=e458]: Физ. лицо
+              - generic [ref=e460]: Высокий
+              - generic [ref=e464]: "69"
+              - generic [ref=e468]: На проверке
+              - generic [ref=e470]: A. D.
+              - generic [ref=e472]: около 3 часов назад
+            - button "Открыть клиента АО «Khan Tengri»" [ref=e474] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e476]
+              - link "АО «Khan Tengri» CL-0005 Private banking" [ref=e478]:
+                - /url: /clients/CL-0005/
+                - generic [ref=e479]: АK
+                - generic [ref=e480]:
+                  - generic [ref=e481]: АО «Khan Tengri»
+                  - generic [ref=e482]:
+                    - generic [ref=e483]: CL-0005
+                    - generic [ref=e486]: Private banking
+              - generic [ref=e487]: Юр. лицо
+              - generic [ref=e489]: Критический
+              - generic [ref=e494]: "82"
+              - generic [ref=e498]: EDD
+              - generic [ref=e500]: M. M.
+              - generic [ref=e502]: около 4 часов назад
+            - button "Открыть клиента Абдрахманов Сауле К." [ref=e504] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e506]
+              - link "Абдрахманов Сауле К. CL-0006 Розничный PEP" [ref=e508]:
+                - /url: /clients/CL-0006/
+                - generic [ref=e509]: АС
+                - generic [ref=e510]:
+                  - generic [ref=e511]: Абдрахманов Сауле К.
+                  - generic [ref=e512]:
+                    - generic [ref=e513]: CL-0006
+                    - generic [ref=e516]: Розничный
+                    - generic [ref=e519]: PEP
+              - generic [ref=e520]: Физ. лицо
+              - generic [ref=e522]: Критический
+              - generic [ref=e527]: "95"
+              - generic [ref=e531]: Заблокирован
+              - generic [ref=e533]: A. T.
+              - generic [ref=e535]: около 5 часов назад
+            - button "Открыть клиента Турсынов Тимур С." [ref=e537] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e539]
+              - link "Турсынов Тимур С. CL-0007 Премиум" [ref=e541]:
+                - /url: /clients/CL-0007/
+                - generic [ref=e542]: ТТ
+                - generic [ref=e543]:
+                  - generic [ref=e544]: Турсынов Тимур С.
+                  - generic [ref=e545]:
+                    - generic [ref=e546]: CL-0007
+                    - generic [ref=e549]: Премиум
+              - generic [ref=e550]: Физ. лицо
+              - generic [ref=e552]: Средний
+              - generic [ref=e556]: "38"
+              - generic [ref=e560]: Активен
+              - generic [ref=e562]: T. Kunapyanov
+              - generic [ref=e564]: около 6 часов назад
+            - button "Открыть клиента Балтабаев Айгерим Ж." [ref=e566] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e568]
+              - link "Балтабаев Айгерим Ж. CL-0008 Малый бизнес" [ref=e570]:
+                - /url: /clients/CL-0008/
+                - generic [ref=e571]: БА
+                - generic [ref=e572]:
+                  - generic [ref=e573]: Балтабаев Айгерим Ж.
+                  - generic [ref=e574]:
+                    - generic [ref=e575]: CL-0008
+                    - generic [ref=e578]: Малый бизнес
+              - generic [ref=e579]: Физ. лицо
+              - generic [ref=e581]: Высокий
+              - generic [ref=e585]: "51"
+              - generic [ref=e589]: Активен
+              - generic [ref=e591]: A. Tuyakbayev
+              - generic [ref=e593]: около 7 часов назад
+            - button "Открыть клиента ИП «Caspian Trade»" [ref=e595] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e597]
+              - link "ИП «Caspian Trade» CL-0009 Корпоративный" [ref=e599]:
+                - /url: /clients/CL-0009/
+                - generic [ref=e600]: ИC
+                - generic [ref=e601]:
+                  - generic [ref=e602]: ИП «Caspian Trade»
+                  - generic [ref=e603]:
+                    - generic [ref=e604]: CL-0009
+                    - generic [ref=e607]: Корпоративный
+              - generic [ref=e608]: Юр. лицо
+              - generic [ref=e610]: Высокий
+              - generic [ref=e614]: "64"
+              - generic [ref=e618]: Активен
+              - generic [ref=e620]: Madina S.
+              - generic [ref=e622]: около 8 часов назад
+            - button "Открыть клиента Серикбаев Динара Б." [ref=e624] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e626]
+              - link "Серикбаев Динара Б. CL-000a Private banking" [ref=e628]:
+                - /url: /clients/CL-000a/
+                - generic [ref=e629]: СД
+                - generic [ref=e630]:
+                  - generic [ref=e631]: Серикбаев Динара Б.
+                  - generic [ref=e632]:
+                    - generic [ref=e633]: CL-000a
+                    - generic [ref=e636]: Private banking
+              - generic [ref=e637]: Физ. лицо
+              - generic [ref=e639]: Критический
+              - generic [ref=e644]: "77"
+              - generic [ref=e648]: На проверке
+              - generic [ref=e650]: A. D.
+              - generic [ref=e652]: около 9 часов назад
+            - button "Открыть клиента Жумабеков Ержан А." [ref=e654] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e656]
+              - link "Жумабеков Ержан А. CL-000b Розничный PEP" [ref=e658]:
+                - /url: /clients/CL-000b/
+                - generic [ref=e659]: ЖЕ
+                - generic [ref=e660]:
+                  - generic [ref=e661]: Жумабеков Ержан А.
+                  - generic [ref=e662]:
+                    - generic [ref=e663]: CL-000b
+                    - generic [ref=e666]: Розничный
+                    - generic [ref=e669]: PEP
+              - generic [ref=e670]: Физ. лицо
+              - generic [ref=e672]: Критический
+              - generic [ref=e677]: "90"
+              - generic [ref=e681]: EDD
+              - generic [ref=e683]: M. M.
+              - generic [ref=e685]: около 10 часов назад
+            - button "Открыть клиента Ахметов Гульнара Т." [ref=e687] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e689]
+              - link "Ахметов Гульнара Т. CL-000c Премиум" [ref=e691]:
+                - /url: /clients/CL-000c/
+                - generic [ref=e692]: АГ
+                - generic [ref=e693]:
+                  - generic [ref=e694]: Ахметов Гульнара Т.
+                  - generic [ref=e695]:
+                    - generic [ref=e696]: CL-000c
+                    - generic [ref=e699]: Премиум
+              - generic [ref=e700]: Физ. лицо
+              - generic [ref=e702]: Средний
+              - generic [ref=e706]: "33"
+              - generic [ref=e710]: Заблокирован
+              - generic [ref=e712]: A. T.
+              - generic [ref=e714]: около 11 часов назад
+            - button "Открыть клиента ТОО «Eurasia Foods»" [ref=e716] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e718]
+              - link "ТОО «Eurasia Foods» CL-000d Малый бизнес" [ref=e720]:
+                - /url: /clients/CL-000d/
+                - generic [ref=e721]: ТE
+                - generic [ref=e722]:
+                  - generic [ref=e723]: ТОО «Eurasia Foods»
+                  - generic [ref=e724]:
+                    - generic [ref=e725]: CL-000d
+                    - generic [ref=e728]: Малый бизнес
+              - generic [ref=e729]: Юр. лицо
+              - generic [ref=e731]: Средний
+              - generic [ref=e735]: "46"
+              - generic [ref=e739]: Активен
+              - generic [ref=e741]: T. Kunapyanov
+              - generic [ref=e743]: около 12 часов назад
+            - button "Открыть клиента Абдрахманов Аружан К." [ref=e745] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e747]
+              - link "Абдрахманов Аружан К. CL-000e Корпоративный" [ref=e749]:
+                - /url: /clients/CL-000e/
+                - generic [ref=e750]: АА
+                - generic [ref=e751]:
+                  - generic [ref=e752]: Абдрахманов Аружан К.
+                  - generic [ref=e753]:
+                    - generic [ref=e754]: CL-000e
+                    - generic [ref=e757]: Корпоративный
+              - generic [ref=e758]: Физ. лицо
+              - generic [ref=e760]: Высокий
+              - generic [ref=e764]: "59"
+              - generic [ref=e768]: Активен
+              - generic [ref=e770]: A. Tuyakbayev
+              - generic [ref=e772]: около 13 часов назад
+          - generic [ref=e773]:
+            - generic [ref=e774]: 86 записей
+            - generic [ref=e775]:
+              - generic [ref=e776]: Стр. 1 из 5
+              - generic [ref=e777]:
+                - button "Предыдущая страница" [disabled]:
+                  - img
+                - button "Следующая страница" [ref=e778]:
+                  - img
+    - button "D · Утренняя смена ЦПК" [ref=e779]:
+      - img
+      - generic [ref=e780]: D
+      - generic [ref=e781]: ·
+      - generic [ref=e782]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e784]:
+      - img [ref=e785]
+  - generic [ref=e789]:
+    - heading "Command Palette" [level=2] [ref=e790]
+    - paragraph [ref=e791]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e797] [cursor=pointer]:
+    - img [ref=e798]
+  - alert [ref=e801]

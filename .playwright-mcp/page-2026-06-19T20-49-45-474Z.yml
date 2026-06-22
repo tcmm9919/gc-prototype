@@ -1,0 +1,552 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+        - generic [ref=e24]:
+          - generic [ref=e25]: Работа
+          - link "Клиенты" [ref=e26] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e27]
+            - generic [ref=e32]: Клиенты
+          - link "Транзакции 65" [ref=e33] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e34]
+            - generic [ref=e37]: Транзакции
+            - generic [ref=e38]: "65"
+          - link "Оповещения 62" [ref=e39] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e40]
+            - generic [ref=e43]: Оповещения
+            - generic [ref=e44]: "62"
+          - link "Кейсы 42" [ref=e45] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e46]
+            - generic [ref=e48]: Кейсы
+            - generic [ref=e49]: "42"
+          - link "Риск-факторы" [ref=e50] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e51]
+            - generic [ref=e53]: Риск-факторы
+        - generic [ref=e54]:
+          - generic [ref=e55]: Инструменты
+          - link "Правила" [ref=e56] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e57]
+            - generic [ref=e60]: Правила
+          - link "Сценарии" [ref=e61] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e62]
+            - generic [ref=e66]: Сценарии
+          - link "AI" [ref=e67] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e68]
+            - generic [ref=e71]: AI
+      - generic [ref=e72]:
+        - link "Настройки" [ref=e74] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e75]
+          - generic [ref=e78]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e80]:
+          - img "Madina S." [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: Madina S.
+            - generic [ref=e84]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e85]
+    - main [ref=e88]:
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - img [ref=e92]
+            - heading "Оповещения" [level=1] [ref=e95]
+          - generic [ref=e96]:
+            - button "Сменить язык" [ref=e97]:
+              - img
+            - button "Уведомления" [ref=e98]:
+              - img
+            - button "Тёмная тема" [ref=e100]:
+              - img
+        - generic [ref=e102]:
+          - generic [ref=e103]:
+            - generic [ref=e104]:
+              - button "Все 75" [ref=e105]:
+                - generic [ref=e106]: Все
+                - generic [ref=e107]: "75"
+              - button "Красная зона 1" [ref=e108]:
+                - img [ref=e110]
+                - generic [ref=e112]: Красная зона
+                - generic [ref=e113]: "1"
+              - button "На мне 14" [ref=e114]:
+                - img [ref=e116]
+                - generic [ref=e119]: На мне
+                - generic [ref=e120]: "14"
+              - button "Критические 16" [ref=e121]:
+                - img [ref=e123]
+                - generic [ref=e125]: Критические
+                - generic [ref=e126]: "16"
+              - button "Клиент ответил 3" [ref=e127]:
+                - img [ref=e129]
+                - generic [ref=e131]: Клиент ответил
+                - generic [ref=e132]: "3"
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - img [ref=e136]
+                - textbox "Поиск по ID, клиенту, правилу..." [ref=e139]
+              - generic [ref=e140]:
+                - button "Серьёзность" [ref=e141]:
+                  - img
+                  - text: Серьёзность
+                - button "Статус" [ref=e142]:
+                  - img
+                  - text: Статус
+          - generic [ref=e143]:
+            - generic [ref=e144]:
+              - checkbox "Выбрать все" [ref=e146]
+              - button "Идентификатор" [ref=e148]:
+                - text: Идентификатор
+                - img [ref=e149]
+              - button "Оповещение" [ref=e153]:
+                - text: Оповещение
+                - img [ref=e154]
+              - button "Важность" [ref=e158]:
+                - text: Важность
+                - img [ref=e159]
+              - button "Статус" [ref=e163]:
+                - text: Статус
+                - img [ref=e164]
+              - button "Срок" [ref=e168]:
+                - text: Срок
+                - img [ref=e169]
+              - generic [ref=e172]: Кейс
+              - button "Создано" [ref=e174]:
+                - text: Создано
+                - img [ref=e175]
+            - button "Выбрать строку AL-MORN-01 Срабатывание правила Rule 'Санкционная проверка' triggered by transaction TX-S007 Критическая Открыто через 47 м — 15 минут назад Раскрыть" [ref=e180] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e182]
+              - link "AL-MORN-01" [ref=e184]:
+                - /url: /alerts/AL-MORN-01/
+              - generic [ref=e186]:
+                - text: Срабатывание правила
+                - paragraph [ref=e187]: Rule 'Санкционная проверка' triggered by transaction TX-S007
+              - generic [ref=e189]: Критическая
+              - generic "Новое оповещение — ещё не взято в работу" [ref=e192]:
+                - generic [ref=e193]: Открыто
+              - generic [ref=e196]: через 47 м
+              - generic [ref=e198]: —
+              - generic [ref=e200]: 15 минут назад
+              - button "Раскрыть" [ref=e201]:
+                - img [ref=e202]
+            - button "Выбрать строку AL-MORN-02 Срабатывание правила Rule 'Обнал' triggered by transaction TX-S008 Высокая Открыто через 2 ч 14 м — 30 минут назад Раскрыть" [ref=e205] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e207]
+              - link "AL-MORN-02" [ref=e209]:
+                - /url: /alerts/AL-MORN-02/
+              - generic [ref=e211]:
+                - text: Срабатывание правила
+                - paragraph [ref=e212]: Rule 'Обнал' triggered by transaction TX-S008
+              - generic [ref=e214]: Высокая
+              - generic "Новое оповещение — ещё не взято в работу" [ref=e217]:
+                - generic [ref=e218]: Открыто
+              - generic [ref=e221]: через 2 ч 14 м
+              - generic [ref=e223]: —
+              - generic [ref=e225]: 30 минут назад
+              - button "Раскрыть" [ref=e226]:
+                - img [ref=e227]
+            - button "Выбрать строку AL-MORN-03 Срабатывание правила Rule 'Перевод ПДЛ' triggered by transaction TX-S012 Средняя На проверке через 3 ч 28 м — около 1 часа назад Раскрыть" [ref=e230] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e232]
+              - link "AL-MORN-03" [ref=e234]:
+                - /url: /alerts/AL-MORN-03/
+              - generic [ref=e236]:
+                - text: Срабатывание правила
+                - paragraph [ref=e237]: Rule 'Перевод ПДЛ' triggered by transaction TX-S012
+              - generic [ref=e239]: Средняя
+              - generic "Взято в работу, идёт разбор" [ref=e242]:
+                - generic [ref=e243]: На проверке
+              - generic [ref=e246]: через 3 ч 28 м
+              - generic [ref=e248]: —
+              - generic [ref=e250]: около 1 часа назад
+              - button "Раскрыть" [ref=e251]:
+                - img [ref=e252]
+            - button "Выбрать строку AL-MORN-04 Срабатывание правила Rule 'Структурирование' triggered by transaction TX-S013 Средняя Открыто через 6 ч — около 1 часа назад Раскрыть" [ref=e255] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e257]
+              - link "AL-MORN-04" [ref=e259]:
+                - /url: /alerts/AL-MORN-04/
+              - generic [ref=e261]:
+                - text: Срабатывание правила
+                - paragraph [ref=e262]: Rule 'Структурирование' triggered by transaction TX-S013
+              - generic [ref=e264]: Средняя
+              - generic "Новое оповещение — ещё не взято в работу" [ref=e267]:
+                - generic [ref=e268]: Открыто
+              - generic [ref=e271]: через 6 ч
+              - generic [ref=e273]: —
+              - generic [ref=e275]: около 1 часа назад
+              - button "Раскрыть" [ref=e276]:
+                - img [ref=e277]
+            - button "Выбрать строку AL-MORN-05 Срабатывание правила Rule 'Крипта' triggered by transaction TX-002c Низкая Открыто через 24 ч — около 2 часов назад Раскрыть" [ref=e280] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e282]
+              - link "AL-MORN-05" [ref=e284]:
+                - /url: /alerts/AL-MORN-05/
+              - generic [ref=e286]:
+                - text: Срабатывание правила
+                - paragraph [ref=e287]: Rule 'Крипта' triggered by transaction TX-002c
+              - generic [ref=e289]: Низкая
+              - generic "Новое оповещение — ещё не взято в работу" [ref=e292]:
+                - generic [ref=e293]: Открыто
+              - generic [ref=e296]: через 24 ч
+              - generic [ref=e298]: —
+              - generic [ref=e300]: около 2 часов назад
+              - button "Раскрыть" [ref=e301]:
+                - img [ref=e302]
+            - button "Выбрать строку AL-MORN-CHAT-01 Срабатывание правила Rule 'Запрос документа' triggered by transaction TX-S001 Средняя На проверке через 12 ч Кейсы около 3 часов назад Раскрыть" [ref=e305] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e307]
+              - link "AL-MORN-CHAT-01" [ref=e309]:
+                - /url: /alerts/AL-MORN-CHAT-01/
+              - generic [ref=e311]:
+                - text: Срабатывание правила
+                - paragraph [ref=e312]: Rule 'Запрос документа' triggered by transaction TX-S001
+              - generic [ref=e314]: Средняя
+              - generic "Взято в работу, идёт разбор" [ref=e317]:
+                - generic [ref=e318]: На проверке
+              - generic [ref=e321]: через 12 ч
+              - link "Кейсы" [ref=e323]:
+                - /url: /cases/CASE-20260519-7F6A3D24/
+              - generic [ref=e325]: около 3 часов назад
+              - button "Раскрыть" [ref=e326]:
+                - img [ref=e327]
+            - button "Выбрать строку AL-MORN-CHAT-02 Срабатывание правила Rule 'Уточнение контрагента' triggered by transaction TX-S007 Высокая На проверке через 7 ч — около 7 часов назад Раскрыть" [ref=e330] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e332]
+              - link "AL-MORN-CHAT-02" [ref=e334]:
+                - /url: /alerts/AL-MORN-CHAT-02/
+              - generic [ref=e336]:
+                - text: Срабатывание правила
+                - paragraph [ref=e337]: Rule 'Уточнение контрагента' triggered by transaction TX-S007
+              - generic [ref=e339]: Высокая
+              - generic "Взято в работу, идёт разбор" [ref=e342]:
+                - generic [ref=e343]: На проверке
+              - generic [ref=e346]: через 7 ч
+              - generic [ref=e348]: —
+              - generic [ref=e350]: около 7 часов назад
+              - button "Раскрыть" [ref=e351]:
+                - img [ref=e352]
+            - button "Выбрать строку AL-MORN-CHAT-03 Срабатывание правила Rule 'Договор' triggered by transaction TX-S012 Средняя На проверке через 10 ч — около 12 часов назад Раскрыть" [ref=e355] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e357]
+              - link "AL-MORN-CHAT-03" [ref=e359]:
+                - /url: /alerts/AL-MORN-CHAT-03/
+              - generic [ref=e361]:
+                - text: Срабатывание правила
+                - paragraph [ref=e362]: Rule 'Договор' triggered by transaction TX-S012
+              - generic [ref=e364]: Средняя
+              - generic "Взято в работу, идёт разбор" [ref=e367]:
+                - generic [ref=e368]: На проверке
+              - generic [ref=e371]: через 10 ч
+              - generic [ref=e373]: —
+              - generic [ref=e375]: около 12 часов назад
+              - button "Раскрыть" [ref=e376]:
+                - img [ref=e377]
+            - button "Выбрать строку AL-S01 Срабатывание правила Rule 'Large International Transfer' triggered by transaction TX-S003 Средняя Закрыто — Кейсы около 17 часов назад Раскрыть" [ref=e380] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e382]
+              - link "AL-S01" [ref=e384]:
+                - /url: /alerts/AL-S01/
+              - generic [ref=e386]:
+                - text: Срабатывание правила
+                - paragraph [ref=e387]: Rule 'Large International Transfer' triggered by transaction TX-S003
+              - generic [ref=e389]: Средняя
+              - generic "Разбор завершён" [ref=e392]:
+                - generic [ref=e393]: Закрыто
+              - generic [ref=e396]: —
+              - link "Кейсы" [ref=e398]:
+                - /url: /cases/CASE-20260519-9F8E7D6C/
+              - generic [ref=e400]: около 17 часов назад
+              - button "Раскрыть" [ref=e401]:
+                - img [ref=e402]
+            - button "Выбрать строку AL-S02 Срабатывание правила Rule 'Velocity Spike (Cash)' triggered by transaction TX-S007 Высокая На проверке — Кейсы около 6 часов назад Раскрыть" [ref=e405] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e407]
+              - link "AL-S02" [ref=e409]:
+                - /url: /alerts/AL-S02/
+              - generic [ref=e411]:
+                - text: Срабатывание правила
+                - paragraph [ref=e412]: Rule 'Velocity Spike (Cash)' triggered by transaction TX-S007
+              - generic [ref=e414]: Высокая
+              - generic "Взято в работу, идёт разбор" [ref=e417]:
+                - generic [ref=e418]: На проверке
+              - generic [ref=e421]: —
+              - link "Кейсы" [ref=e423]:
+                - /url: /cases/CASE-20260516-A1B2C3D4/
+              - generic [ref=e425]: около 6 часов назад
+              - button "Раскрыть" [ref=e426]:
+                - img [ref=e427]
+            - button "Выбрать строку AL-S03 Срабатывание правила Rule 'Round-Amount Cash' triggered by transaction TX-S008 Высокая На проверке — Кейсы около 5 часов назад Раскрыть" [ref=e430] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e432]
+              - link "AL-S03" [ref=e434]:
+                - /url: /alerts/AL-S03/
+              - generic [ref=e436]:
+                - text: Срабатывание правила
+                - paragraph [ref=e437]: Rule 'Round-Amount Cash' triggered by transaction TX-S008
+              - generic [ref=e439]: Высокая
+              - generic "Взято в работу, идёт разбор" [ref=e442]:
+                - generic [ref=e443]: На проверке
+              - generic [ref=e446]: —
+              - link "Кейсы" [ref=e448]:
+                - /url: /cases/CASE-20260516-A1B2C3D4/
+              - generic [ref=e450]: около 5 часов назад
+              - button "Раскрыть" [ref=e451]:
+                - img [ref=e452]
+            - button "Выбрать строку AL-S04 Срабатывание правила Rule 'Severance Rule' triggered by transaction TX-S009 Критическая Эскалировано — Кейсы около 4 часов назад Раскрыть" [ref=e455] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e457]
+              - link "AL-S04" [ref=e459]:
+                - /url: /alerts/AL-S04/
+              - generic [ref=e461]:
+                - text: Срабатывание правила
+                - paragraph [ref=e462]: Rule 'Severance Rule' triggered by transaction TX-S009
+              - generic [ref=e464]: Критическая
+              - generic "Передано на уровень выше" [ref=e467]:
+                - generic [ref=e468]: Эскалировано
+              - generic [ref=e471]: —
+              - link "Кейсы" [ref=e473]:
+                - /url: /cases/CASE-20260516-A1B2C3D4/
+              - generic [ref=e475]: около 4 часов назад
+              - button "Раскрыть" [ref=e476]:
+                - img [ref=e477]
+            - button "Выбрать строку AL-S05 Срабатывание правила Rule 'OFAC Sanctions Match' triggered by transaction TX-S011 Критическая Эскалировано — Кейсы 2 дня назад Раскрыть" [ref=e480] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e482]
+              - link "AL-S05" [ref=e484]:
+                - /url: /alerts/AL-S05/
+              - generic [ref=e486]:
+                - text: Срабатывание правила
+                - paragraph [ref=e487]: Rule 'OFAC Sanctions Match' triggered by transaction TX-S011
+              - generic [ref=e489]: Критическая
+              - generic "Передано на уровень выше" [ref=e492]:
+                - generic [ref=e493]: Эскалировано
+              - generic [ref=e496]: —
+              - link "Кейсы" [ref=e498]:
+                - /url: /cases/CASE-20260515-E5F6A7B8/
+              - generic [ref=e500]: 2 дня назад
+              - button "Раскрыть" [ref=e501]:
+                - img [ref=e502]
+            - button "Выбрать строку AL-S06 Срабатывание правила Rule 'High-Risk Counterparty Country' triggered by transaction TX-S011 Критическая Эскалировано — Кейсы 2 дня назад Раскрыть" [ref=e505] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e507]
+              - link "AL-S06" [ref=e509]:
+                - /url: /alerts/AL-S06/
+              - generic [ref=e511]:
+                - text: Срабатывание правила
+                - paragraph [ref=e512]: Rule 'High-Risk Counterparty Country' triggered by transaction TX-S011
+              - generic [ref=e514]: Критическая
+              - generic "Передано на уровень выше" [ref=e517]:
+                - generic [ref=e518]: Эскалировано
+              - generic [ref=e521]: —
+              - link "Кейсы" [ref=e523]:
+                - /url: /cases/CASE-20260515-E5F6A7B8/
+              - generic [ref=e525]: 2 дня назад
+              - button "Раскрыть" [ref=e526]:
+                - img [ref=e527]
+            - button "Выбрать строку AL-S07 Срабатывание правила Rule 'PEP Activity' triggered by transaction TX-S012 Средняя На проверке — Кейсы 1 день назад Раскрыть" [ref=e530] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e532]
+              - link "AL-S07" [ref=e534]:
+                - /url: /alerts/AL-S07/
+              - generic [ref=e536]:
+                - text: Срабатывание правила
+                - paragraph [ref=e537]: Rule 'PEP Activity' triggered by transaction TX-S012
+              - generic [ref=e539]: Средняя
+              - generic "Взято в работу, идёт разбор" [ref=e542]:
+                - generic [ref=e543]: На проверке
+              - generic [ref=e546]: —
+              - link "Кейсы" [ref=e548]:
+                - /url: /cases/CASE-20260514-C9D0E1F2/
+              - generic [ref=e550]: 1 день назад
+              - button "Раскрыть" [ref=e551]:
+                - img [ref=e552]
+            - button "Выбрать строку AL-00ix Срабатывание правила Rule 'High-Risk Country' triggered by transaction — Низкая Открыто — — 7 дней назад Раскрыть" [ref=e555] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e557]
+              - link "AL-00ix" [ref=e559]:
+                - /url: /alerts/AL-00ix/
+              - generic [ref=e561]:
+                - text: Срабатывание правила
+                - paragraph [ref=e562]: Rule 'High-Risk Country' triggered by transaction —
+              - generic [ref=e564]: Низкая
+              - generic "Новое оповещение — ещё не взято в работу" [ref=e567]:
+                - generic [ref=e568]: Открыто
+              - generic [ref=e571]: —
+              - generic [ref=e573]: —
+              - generic [ref=e575]: 7 дней назад
+              - button "Раскрыть" [ref=e576]:
+                - img [ref=e577]
+            - button "Выбрать строку AL-00iy Срабатывание правила Rule 'Velocity Spike' triggered by transaction TX-002a Средняя Открыто — — 7 дней назад Раскрыть" [ref=e580] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e582]
+              - link "AL-00iy" [ref=e584]:
+                - /url: /alerts/AL-00iy/
+              - generic [ref=e586]:
+                - text: Срабатывание правила
+                - paragraph [ref=e587]: Rule 'Velocity Spike' triggered by transaction TX-002a
+              - generic [ref=e589]: Средняя
+              - generic "Новое оповещение — ещё не взято в работу" [ref=e592]:
+                - generic [ref=e593]: Открыто
+              - generic [ref=e596]: —
+              - generic [ref=e598]: —
+              - generic [ref=e600]: 7 дней назад
+              - button "Раскрыть" [ref=e601]:
+                - img [ref=e602]
+            - button "Выбрать строку AL-00iz Срабатывание правила Rule 'Round-Amount Cash' triggered by transaction — Средняя На проверке — — 7 дней назад Раскрыть" [ref=e605] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e607]
+              - link "AL-00iz" [ref=e609]:
+                - /url: /alerts/AL-00iz/
+              - generic [ref=e611]:
+                - text: Срабатывание правила
+                - paragraph [ref=e612]: Rule 'Round-Amount Cash' triggered by transaction —
+              - generic [ref=e614]: Средняя
+              - generic "Взято в работу, идёт разбор" [ref=e617]:
+                - generic [ref=e618]: На проверке
+              - generic [ref=e621]: —
+              - generic [ref=e623]: —
+              - generic [ref=e625]: 7 дней назад
+              - button "Раскрыть" [ref=e626]:
+                - img [ref=e627]
+            - button "Выбрать строку AL-00j0 Срабатывание правила Rule 'PEP Match' triggered by transaction — Высокая Эскалировано — — 7 дней назад Раскрыть" [ref=e630] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e632]
+              - link "AL-00j0" [ref=e634]:
+                - /url: /alerts/AL-00j0/
+              - generic [ref=e636]:
+                - text: Срабатывание правила
+                - paragraph [ref=e637]: Rule 'PEP Match' triggered by transaction —
+              - generic [ref=e639]: Высокая
+              - generic "Передано на уровень выше" [ref=e642]:
+                - generic [ref=e643]: Эскалировано
+              - generic [ref=e646]: —
+              - generic [ref=e648]: —
+              - generic [ref=e650]: 7 дней назад
+              - button "Раскрыть" [ref=e651]:
+                - img [ref=e652]
+            - button "Выбрать строку AL-00j1 Срабатывание правила Rule 'Severance Rule' triggered by transaction TX-002d Критическая Закрыто — — 7 дней назад Раскрыть" [ref=e655] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e657]
+              - link "AL-00j1" [ref=e659]:
+                - /url: /alerts/AL-00j1/
+              - generic [ref=e661]:
+                - text: Срабатывание правила
+                - paragraph [ref=e662]: Rule 'Severance Rule' triggered by transaction TX-002d
+              - generic [ref=e664]: Критическая
+              - generic "Разбор завершён" [ref=e667]:
+                - generic [ref=e668]: Закрыто
+              - generic [ref=e671]: —
+              - generic [ref=e673]: —
+              - generic [ref=e675]: 7 дней назад
+              - button "Раскрыть" [ref=e676]:
+                - img [ref=e677]
+            - button "Выбрать строку AL-00j2 Срабатывание правила Rule 'Late-night Transfers' triggered by transaction — Низкая Открыто — — 7 дней назад Раскрыть" [ref=e680] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e682]
+              - link "AL-00j2" [ref=e684]:
+                - /url: /alerts/AL-00j2/
+              - generic [ref=e686]:
+                - text: Срабатывание правила
+                - paragraph [ref=e687]: Rule 'Late-night Transfers' triggered by transaction —
+              - generic [ref=e689]: Низкая
+              - generic "Новое оповещение — ещё не взято в работу" [ref=e692]:
+                - generic [ref=e693]: Открыто
+              - generic [ref=e696]: —
+              - generic [ref=e698]: —
+              - generic [ref=e700]: 7 дней назад
+              - button "Раскрыть" [ref=e701]:
+                - img [ref=e702]
+            - button "Выбрать строку AL-00j3 Срабатывание правила Rule 'High-Risk Country' triggered by transaction — Средняя Открыто — — 7 дней назад Раскрыть" [ref=e705] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e707]
+              - link "AL-00j3" [ref=e709]:
+                - /url: /alerts/AL-00j3/
+              - generic [ref=e711]:
+                - text: Срабатывание правила
+                - paragraph [ref=e712]: Rule 'High-Risk Country' triggered by transaction —
+              - generic [ref=e714]: Средняя
+              - generic "Новое оповещение — ещё не взято в работу" [ref=e717]:
+                - generic [ref=e718]: Открыто
+              - generic [ref=e721]: —
+              - generic [ref=e723]: —
+              - generic [ref=e725]: 7 дней назад
+              - button "Раскрыть" [ref=e726]:
+                - img [ref=e727]
+            - button "Выбрать строку AL-00j4 Срабатывание правила Rule 'Velocity Spike' triggered by transaction TX-002g Средняя На проверке — — 7 дней назад Раскрыть" [ref=e730] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e732]
+              - link "AL-00j4" [ref=e734]:
+                - /url: /alerts/AL-00j4/
+              - generic [ref=e736]:
+                - text: Срабатывание правила
+                - paragraph [ref=e737]: Rule 'Velocity Spike' triggered by transaction TX-002g
+              - generic [ref=e739]: Средняя
+              - generic "Взято в работу, идёт разбор" [ref=e742]:
+                - generic [ref=e743]: На проверке
+              - generic [ref=e746]: —
+              - generic [ref=e748]: —
+              - generic [ref=e750]: 7 дней назад
+              - button "Раскрыть" [ref=e751]:
+                - img [ref=e752]
+            - button "Выбрать строку AL-00j5 Срабатывание правила Rule 'Round-Amount Cash' triggered by transaction — Высокая Эскалировано — — 7 дней назад Раскрыть" [ref=e755] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e757]
+              - link "AL-00j5" [ref=e759]:
+                - /url: /alerts/AL-00j5/
+              - generic [ref=e761]:
+                - text: Срабатывание правила
+                - paragraph [ref=e762]: Rule 'Round-Amount Cash' triggered by transaction —
+              - generic [ref=e764]: Высокая
+              - generic "Передано на уровень выше" [ref=e767]:
+                - generic [ref=e768]: Эскалировано
+              - generic [ref=e771]: —
+              - generic [ref=e773]: —
+              - generic [ref=e775]: 7 дней назад
+              - button "Раскрыть" [ref=e776]:
+                - img [ref=e777]
+            - button "Выбрать строку AL-00j6 Срабатывание правила Rule 'PEP Match' triggered by transaction — Критическая Закрыто — — 7 дней назад Раскрыть" [ref=e780] [cursor=pointer]:
+              - checkbox "Выбрать строку" [ref=e782]
+              - link "AL-00j6" [ref=e784]:
+                - /url: /alerts/AL-00j6/
+              - generic [ref=e786]:
+                - text: Срабатывание правила
+                - paragraph [ref=e787]: Rule 'PEP Match' triggered by transaction —
+              - generic [ref=e789]: Критическая
+              - generic "Разбор завершён" [ref=e792]:
+                - generic [ref=e793]: Закрыто
+              - generic [ref=e796]: —
+              - generic [ref=e798]: —
+              - generic [ref=e800]: 7 дней назад
+              - button "Раскрыть" [ref=e801]:
+                - img [ref=e802]
+          - generic [ref=e804]:
+            - generic [ref=e805]: 75 записей
+            - generic [ref=e806]:
+              - generic [ref=e807]: Стр. 1 из 3
+              - generic [ref=e808]:
+                - button "Предыдущая страница" [disabled]:
+                  - img
+                - button "Следующая страница" [ref=e809]:
+                  - img
+    - button "D · Утренняя смена ЦПК" [ref=e810]:
+      - img
+      - generic [ref=e811]: D
+      - generic [ref=e812]: ·
+      - generic [ref=e813]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e815]:
+      - img [ref=e816]
+  - generic [ref=e820]:
+    - heading "Command Palette" [level=2] [ref=e821]
+    - paragraph [ref=e822]: Search for a command to run...
+  - region "Notifications alt+T"
+  - generic [ref=e827] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e828]:
+      - img [ref=e829]
+    - generic [ref=e832]:
+      - button "Open issues overlay" [ref=e833]:
+        - generic [ref=e834]:
+          - generic [ref=e835]: "1"
+          - generic [ref=e836]: "2"
+        - generic [ref=e837]:
+          - text: Issue
+          - generic [ref=e838]: s
+      - button "Collapse issues badge" [ref=e839]:
+        - img [ref=e840]
+  - alert [ref=e842]

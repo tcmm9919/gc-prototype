@@ -1,0 +1,318 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e6]: F
+        - button "Развернуть" [ref=e7]:
+          - img [ref=e8]
+      - generic [ref=e11]:
+        - link "Дашборд" [ref=e13] [cursor=pointer]:
+          - /url: /dashboard/
+          - img [ref=e14]
+        - generic [ref=e19]:
+          - link "Клиенты" [ref=e20] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e21]
+          - link "Транзакции" [ref=e26] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e27]
+          - link "Оповещения" [ref=e31] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e32]
+          - link "Кейсы" [ref=e36] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e37]
+          - link "Риск-факторы" [ref=e40] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e41]
+        - generic [ref=e43]:
+          - link "Правила" [ref=e44] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e45]
+          - link "Сценарии" [ref=e48] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e49]
+          - link "AI" [ref=e53] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e54]
+      - generic [ref=e57]:
+        - link "Настройки" [ref=e59] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e60]
+        - button "Madina S." [ref=e64]:
+          - img "Madina S." [ref=e65]
+    - main [ref=e66]:
+      - main [ref=e67]:
+        - generic [ref=e68]:
+          - generic [ref=e69]:
+            - img [ref=e70]
+            - heading "Настройки" [level=1] [ref=e73]
+          - generic [ref=e74]:
+            - button "Сменить язык" [ref=e75]:
+              - img
+            - button "Уведомления" [ref=e76]:
+              - img
+            - button "Сменить тему" [ref=e78]:
+              - img
+        - generic [ref=e81]:
+          - navigation "Настройки" [ref=e83]:
+            - link "Ключи" [ref=e84] [cursor=pointer]:
+              - /url: /settings/system/
+              - img [ref=e85]
+              - generic [ref=e88]: Ключи
+            - link "Пользователи" [ref=e89] [cursor=pointer]:
+              - /url: /settings/users/
+              - img [ref=e90]
+              - generic [ref=e95]: Пользователи
+            - link "ML-модели" [ref=e96] [cursor=pointer]:
+              - /url: /settings/instructions/
+              - img [ref=e97]
+              - generic [ref=e109]: ML-модели
+            - link "Использование LLM" [ref=e110] [cursor=pointer]:
+              - /url: /settings/llm-usage/
+              - img [ref=e111]
+              - generic [ref=e113]: Использование LLM
+            - link "Журнал аудита" [ref=e114] [cursor=pointer]:
+              - /url: /settings/audit/
+              - img [ref=e115]
+              - generic [ref=e118]: Журнал аудита
+          - generic [ref=e119]:
+            - generic [ref=e120]:
+              - heading "Журнал аудита" [level=2] [ref=e121]
+              - paragraph [ref=e122]: Действия пользователей и системы
+            - generic [ref=e123]:
+              - generic [ref=e125]:
+                - generic [ref=e126]:
+                  - generic [ref=e127]:
+                    - img [ref=e128]
+                    - searchbox "Поиск по действию, пользователю, IP..." [ref=e131]
+                  - generic [ref=e132]:
+                    - button "Все действия" [ref=e133]:
+                      - img
+                      - text: Все действия
+                    - button "Все ресурсы" [ref=e134]:
+                      - img
+                      - text: Все ресурсы
+                - button "Экспорт CSV" [ref=e136]:
+                  - img
+                  - text: Экспорт CSV
+              - generic [ref=e137]:
+                - generic [ref=e138]:
+                  - button "Время" [ref=e140]:
+                    - text: Время
+                    - img [ref=e141]
+                  - button "Действие" [ref=e145]:
+                    - text: Действие
+                    - img [ref=e146]
+                  - button "Ресурс" [ref=e150]:
+                    - text: Ресурс
+                    - img [ref=e151]
+                  - button "Пользователь" [ref=e155]:
+                    - text: Пользователь
+                    - img [ref=e156]
+                  - button "IP" [ref=e160]:
+                    - text: IP
+                    - img [ref=e161]
+                - generic [ref=e165]:
+                  - generic [ref=e167]: 17.06.2026 07:53
+                  - generic [ref=e169]: Обновление
+                  - generic [ref=e172]: Отчёт
+                  - generic [ref=e174]: meir@globerce.capital
+                  - generic [ref=e176]: 127.0.0.1
+                - generic [ref=e178]:
+                  - generic [ref=e180]: 17.06.2026 07:48
+                  - generic [ref=e182]: Удаление
+                  - generic [ref=e185]: Клиент
+                  - generic [ref=e187]: system
+                  - generic [ref=e189]: 127.0.0.1
+                - generic [ref=e191]:
+                  - generic [ref=e193]: 17.06.2026 07:43
+                  - generic [ref=e195]: Вход
+                  - generic [ref=e198]: Транзакция
+                  - generic [ref=e200]: Compliance Officer AI
+                  - generic [ref=e202]: 10.233.79.201
+                - generic [ref=e204]:
+                  - generic [ref=e206]: 17.06.2026 07:38
+                  - generic [ref=e208]: Одобрение
+                  - generic [ref=e211]: Алерт
+                  - generic [ref=e213]: t.kunapyanov@gmail.com
+                  - generic [ref=e215]: 10.233.70.98
+                - generic [ref=e217]:
+                  - generic [ref=e219]: 17.06.2026 07:33
+                  - generic [ref=e221]: Отправка
+                  - generic [ref=e224]: Кейс
+                  - generic [ref=e226]: a.tuyakbayev@globerce.capital
+                  - generic [ref=e228]: 10.233.87.104
+                - generic [ref=e230]:
+                  - generic [ref=e232]: 17.06.2026 07:28
+                  - generic [ref=e234]: Запуск
+                  - generic [ref=e237]: Правило
+                  - generic [ref=e239]: madina.satybaldiyeva@globerce.capital
+                  - generic [ref=e241]: 127.0.0.1
+                - generic [ref=e243]:
+                  - generic [ref=e245]: 17.06.2026 07:23
+                  - generic [ref=e247]: Пересчёт
+                  - generic [ref=e250]: Сценарий
+                  - generic [ref=e252]: a.ovezov@globerce.capital
+                  - generic [ref=e254]: 10.233.80.37
+                - generic [ref=e256]:
+                  - generic [ref=e258]: 17.06.2026 07:18
+                  - generic [ref=e260]: Создание
+                  - generic [ref=e263]: Риск
+                  - generic [ref=e265]: system
+                  - generic [ref=e267]: 127.0.0.1
+                - generic [ref=e269]:
+                  - generic [ref=e271]: 17.06.2026 07:13
+                  - generic [ref=e273]: Обновление
+                  - generic [ref=e276]: Риск-атрибуты
+                  - generic [ref=e278]: system
+                  - generic [ref=e280]: 127.0.0.1
+                - generic [ref=e282]:
+                  - generic [ref=e284]: 17.06.2026 07:08
+                  - generic [ref=e286]: Удаление
+                  - generic [ref=e289]: Отчёт
+                  - generic [ref=e291]: Compliance Officer AI
+                  - generic [ref=e293]: 10.233.87.104
+                - generic [ref=e295]:
+                  - generic [ref=e297]: 17.06.2026 07:03
+                  - generic [ref=e299]: Вход
+                  - generic [ref=e302]: Клиент
+                  - generic [ref=e304]: t.kunapyanov@gmail.com
+                  - generic [ref=e306]: 127.0.0.1
+                - generic [ref=e308]:
+                  - generic [ref=e310]: 17.06.2026 06:58
+                  - generic [ref=e312]: Одобрение
+                  - generic [ref=e315]: Транзакция
+                  - generic [ref=e317]: a.tuyakbayev@globerce.capital
+                  - generic [ref=e319]: 10.233.80.37
+                - generic [ref=e321]:
+                  - generic [ref=e323]: 17.06.2026 06:53
+                  - generic [ref=e325]: Отправка
+                  - generic [ref=e328]: Алерт
+                  - generic [ref=e330]: madina.satybaldiyeva@globerce.capital
+                  - generic [ref=e332]: 10.233.79.201
+                - generic [ref=e334]:
+                  - generic [ref=e336]: 17.06.2026 06:48
+                  - generic [ref=e338]: Запуск
+                  - generic [ref=e341]: Кейс
+                  - generic [ref=e343]: a.ovezov@globerce.capital
+                  - generic [ref=e345]: 10.233.70.98
+                - generic [ref=e347]:
+                  - generic [ref=e349]: 17.06.2026 06:43
+                  - generic [ref=e351]: Пересчёт
+                  - generic [ref=e354]: Правило
+                  - generic [ref=e356]: meir@globerce.capital
+                  - generic [ref=e358]: 10.233.87.104
+                - generic [ref=e360]:
+                  - generic [ref=e362]: 17.06.2026 06:38
+                  - generic [ref=e364]: Создание
+                  - generic [ref=e367]: Сценарий
+                  - generic [ref=e369]: system
+                  - generic [ref=e371]: 127.0.0.1
+                - generic [ref=e373]:
+                  - generic [ref=e375]: 17.06.2026 06:33
+                  - generic [ref=e377]: Обновление
+                  - generic [ref=e380]: Риск
+                  - generic [ref=e382]: Compliance Officer AI
+                  - generic [ref=e384]: 10.233.80.37
+                - generic [ref=e386]:
+                  - generic [ref=e388]: 17.06.2026 06:28
+                  - generic [ref=e390]: Удаление
+                  - generic [ref=e393]: Риск-атрибуты
+                  - generic [ref=e395]: t.kunapyanov@gmail.com
+                  - generic [ref=e397]: 10.233.79.201
+                - generic [ref=e399]:
+                  - generic [ref=e401]: 17.06.2026 06:23
+                  - generic [ref=e403]: Вход
+                  - generic [ref=e406]: Отчёт
+                  - generic [ref=e408]: a.tuyakbayev@globerce.capital
+                  - generic [ref=e410]: 10.233.70.98
+                - generic [ref=e412]:
+                  - generic [ref=e414]: 17.06.2026 06:18
+                  - generic [ref=e416]: Одобрение
+                  - generic [ref=e419]: Клиент
+                  - generic [ref=e421]: madina.satybaldiyeva@globerce.capital
+                  - generic [ref=e423]: 10.233.87.104
+                - generic [ref=e425]:
+                  - generic [ref=e427]: 17.06.2026 06:13
+                  - generic [ref=e429]: Отправка
+                  - generic [ref=e432]: Транзакция
+                  - generic [ref=e434]: a.ovezov@globerce.capital
+                  - generic [ref=e436]: 127.0.0.1
+                - generic [ref=e438]:
+                  - generic [ref=e440]: 17.06.2026 06:08
+                  - generic [ref=e442]: Запуск
+                  - generic [ref=e445]: Алерт
+                  - generic [ref=e447]: meir@globerce.capital
+                  - generic [ref=e449]: 10.233.80.37
+                - generic [ref=e451]:
+                  - generic [ref=e453]: 17.06.2026 06:03
+                  - generic [ref=e455]: Пересчёт
+                  - generic [ref=e458]: Кейс
+                  - generic [ref=e460]: system
+                  - generic [ref=e462]: 127.0.0.1
+                - generic [ref=e464]:
+                  - generic [ref=e466]: 17.06.2026 05:58
+                  - generic [ref=e468]: Создание
+                  - generic [ref=e471]: Правило
+                  - generic [ref=e473]: Compliance Officer AI
+                  - generic [ref=e475]: 10.233.70.98
+                - generic [ref=e477]:
+                  - generic [ref=e479]: 17.06.2026 05:53
+                  - generic [ref=e481]: Обновление
+                  - generic [ref=e484]: Сценарий
+                  - generic [ref=e486]: t.kunapyanov@gmail.com
+                  - generic [ref=e488]: 10.233.87.104
+                - generic [ref=e490]:
+                  - generic [ref=e492]: 17.06.2026 05:48
+                  - generic [ref=e494]: Удаление
+                  - generic [ref=e497]: Риск
+                  - generic [ref=e499]: a.tuyakbayev@globerce.capital
+                  - generic [ref=e501]: 127.0.0.1
+                - generic [ref=e503]:
+                  - generic [ref=e505]: 17.06.2026 05:43
+                  - generic [ref=e507]: Вход
+                  - generic [ref=e510]: Риск-атрибуты
+                  - generic [ref=e512]: madina.satybaldiyeva@globerce.capital
+                  - generic [ref=e514]: 10.233.80.37
+                - generic [ref=e516]:
+                  - generic [ref=e518]: 17.06.2026 05:38
+                  - generic [ref=e520]: Одобрение
+                  - generic [ref=e523]: Отчёт
+                  - generic [ref=e525]: a.ovezov@globerce.capital
+                  - generic [ref=e527]: 10.233.79.201
+                - generic [ref=e529]:
+                  - generic [ref=e531]: 17.06.2026 05:33
+                  - generic [ref=e533]: Отправка
+                  - generic [ref=e536]: Клиент
+                  - generic [ref=e538]: meir@globerce.capital
+                  - generic [ref=e540]: 10.233.70.98
+                - generic [ref=e542]:
+                  - generic [ref=e544]: 17.06.2026 05:28
+                  - generic [ref=e546]: Запуск
+                  - generic [ref=e549]: Транзакция
+                  - generic [ref=e551]: system
+                  - generic [ref=e553]: 127.0.0.1
+              - generic [ref=e554]:
+                - generic [ref=e555]: 200 записей
+                - generic [ref=e556]:
+                  - generic [ref=e557]: Стр. 1 из 7
+                  - generic [ref=e558]:
+                    - button "Предыдущая страница" [disabled]:
+                      - img
+                    - button "Следующая страница" [ref=e559]:
+                      - img
+    - button "D · Утренняя смена ЦПК" [ref=e560]:
+      - img
+      - generic [ref=e561]: D
+      - generic [ref=e562]: ·
+      - generic [ref=e563]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e565]:
+      - img [ref=e566]
+  - generic [ref=e570]:
+    - heading "Command Palette" [level=2] [ref=e571]
+    - paragraph [ref=e572]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e578] [cursor=pointer]:
+    - img [ref=e579]
+  - alert [ref=e582]

@@ -1,0 +1,456 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+        - generic [ref=e24]:
+          - generic [ref=e25]: Работа
+          - link "Клиенты" [ref=e26] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e27]
+            - generic [ref=e32]: Клиенты
+          - link "Транзакции 65" [ref=e33] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e34]
+            - generic [ref=e37]: Транзакции
+            - generic [ref=e38]: "65"
+          - link "Оповещения 62" [ref=e39] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e40]
+            - generic [ref=e43]: Оповещения
+            - generic [ref=e44]: "62"
+          - link "Кейсы 42" [ref=e45] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e46]
+            - generic [ref=e48]: Кейсы
+            - generic [ref=e49]: "42"
+          - link "Риск-факторы" [ref=e50] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e51]
+            - generic [ref=e53]: Риск-факторы
+        - generic [ref=e54]:
+          - generic [ref=e55]: Инструменты
+          - link "Правила" [ref=e56] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e57]
+            - generic [ref=e60]: Правила
+          - link "Сценарии" [ref=e61] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e62]
+            - generic [ref=e66]: Сценарии
+          - link "AI" [ref=e67] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e68]
+            - generic [ref=e71]: AI
+      - generic [ref=e72]:
+        - link "Настройки" [ref=e74] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e75]
+          - generic [ref=e78]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e80]:
+          - img "Madina S." [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: Madina S.
+            - generic [ref=e84]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e85]
+    - main [ref=e88]:
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - img [ref=e92]
+            - heading "Кейсы" [level=1] [ref=e94]
+          - generic [ref=e95]:
+            - button "Сменить язык" [ref=e96]:
+              - img
+            - button "Уведомления" [ref=e97]:
+              - img
+            - button "Тёмная тема" [ref=e99]:
+              - img
+        - generic [ref=e101]:
+          - generic [ref=e102]:
+            - generic [ref=e103]:
+              - button "Все 42" [ref=e104]:
+                - generic [ref=e105]: Все
+                - generic [ref=e106]: "42"
+              - button "На мне 1" [ref=e107]:
+                - img [ref=e109]
+                - generic [ref=e112]: На мне
+                - generic [ref=e113]: "1"
+              - button "Просроченные 0" [ref=e114]:
+                - img [ref=e116]
+                - generic [ref=e119]: Просроченные
+                - generic [ref=e120]: "0"
+              - button "Эскалированные 2" [ref=e121]:
+                - img [ref=e123]
+                - generic [ref=e125]: Эскалированные
+                - generic [ref=e126]: "2"
+              - button "Закрыто сегодня 3" [ref=e127]:
+                - img [ref=e129]
+                - generic [ref=e132]: Закрыто сегодня
+                - generic [ref=e133]: "3"
+            - generic [ref=e134]:
+              - generic [ref=e135]:
+                - generic [ref=e136]:
+                  - img [ref=e137]
+                  - textbox "Поиск по ID, типу, клиенту..." [ref=e140]
+                - button "Статус" [ref=e142]:
+                  - img
+                  - text: Статус
+              - link "Новый кейс" [ref=e144] [cursor=pointer]:
+                - /url: /cases/new/
+                - img
+                - text: Новый кейс
+          - generic [ref=e145]:
+            - generic [ref=e146]:
+              - generic [ref=e147]:
+                - checkbox "Выбрать все" [ref=e148]
+                - checkbox
+              - button "Кейс №" [ref=e150]:
+                - text: Кейс №
+                - img [ref=e151]
+              - button "Статус" [ref=e155]:
+                - text: Статус
+                - img [ref=e156]
+              - button "Клиент" [ref=e160]:
+                - text: Клиент
+                - img [ref=e161]
+              - button "Исполнитель" [ref=e165]:
+                - text: Исполнитель
+                - img [ref=e166]
+              - button "Создано" [ref=e170]:
+                - text: Создано
+                - img [ref=e171]
+            - button "Выбрать строку CASE-20260519-7F6A3D24 AI завершил автоматическую проверку. Решено Касенов Темирлан А. Compliance Officer AI около 2 часов назад Раскрыть" [ref=e176] [cursor=pointer]:
+              - generic [ref=e177]:
+                - checkbox "Выбрать строку" [ref=e178]
+                - checkbox
+              - generic [ref=e180]:
+                - link "CASE-20260519-7F6A3D24" [ref=e181]:
+                  - /url: /cases/CASE-20260519-7F6A3D24/
+                - paragraph [ref=e182]: AI завершил автоматическую проверку.
+              - generic [ref=e184]: Решено
+              - link "Касенов Темирлан А." [ref=e187]:
+                - /url: /clients/CL-S01/
+              - generic [ref=e189]: Compliance Officer AI
+              - generic [ref=e191]: около 2 часов назад
+              - button "Раскрыть" [ref=e192]:
+                - img [ref=e193]
+            - button "Выбрать строку CASE-20260519-D88E7899 AI неуверен в OFAC-match, эскалирует. Эскалировано АО «Steppe Logistics» Compliance Officer AI около 3 часов назад Раскрыть" [ref=e196] [cursor=pointer]:
+              - generic [ref=e197]:
+                - checkbox "Выбрать строку" [ref=e198]
+                - checkbox
+              - generic [ref=e200]:
+                - link "CASE-20260519-D88E7899" [ref=e201]:
+                  - /url: /cases/CASE-20260519-D88E7899/
+                - paragraph [ref=e202]: AI неуверен в OFAC-match, эскалирует.
+              - generic [ref=e204]: Эскалировано
+              - link "АО «Steppe Logistics»" [ref=e207]:
+                - /url: /clients/CL-S04/
+              - generic [ref=e209]: Compliance Officer AI
+              - generic [ref=e211]: около 3 часов назад
+              - button "Раскрыть" [ref=e212]:
+                - img [ref=e213]
+            - 'button "Выбрать строку CASE-20260519-A1B2C3D4 AI: скоринг низкий риск. Решено Серикбаев Мадина Б. Compliance Officer AI около 4 часов назад Раскрыть" [ref=e216] [cursor=pointer]':
+              - generic [ref=e217]:
+                - checkbox "Выбрать строку" [ref=e218]
+                - checkbox
+              - generic [ref=e220]:
+                - link "CASE-20260519-A1B2C3D4" [ref=e221]:
+                  - /url: /cases/CASE-20260519-A1B2C3D4/
+                - paragraph [ref=e222]: "AI: скоринг низкий риск."
+              - generic [ref=e224]: Решено
+              - link "Серикбаев Мадина Б." [ref=e227]:
+                - /url: /clients/CL-0002/
+              - generic [ref=e229]: Compliance Officer AI
+              - generic [ref=e231]: около 4 часов назад
+              - button "Раскрыть" [ref=e232]:
+                - img [ref=e233]
+            - 'button "Выбрать строку CASE-20260519-9F8E7D6C AI: санкционная проверка чисто. Решено Серикбаева Айгерим Н. Compliance Officer AI 1 день назад Раскрыть" [ref=e236] [cursor=pointer]':
+              - generic [ref=e237]:
+                - checkbox "Выбрать строку" [ref=e238]
+                - checkbox
+              - generic [ref=e240]:
+                - link "CASE-20260519-9F8E7D6C" [ref=e241]:
+                  - /url: /cases/CASE-20260519-9F8E7D6C/
+                - paragraph [ref=e242]: "AI: санкционная проверка чисто."
+              - generic [ref=e244]: Решено
+              - link "Серикбаева Айгерим Н." [ref=e247]:
+                - /url: /clients/CL-S02/
+              - generic [ref=e249]: Compliance Officer AI
+              - generic [ref=e251]: 1 день назад
+              - button "Раскрыть" [ref=e252]:
+                - img [ref=e253]
+            - button "Выбрать строку CASE-20260516-A1B2C3D4 Серия снятий по ~999 000 ₸ в течение нескольких часов через разные кэш-пункты. Признаки smurfing-паттерна. В работе ТОО «Caspian Trade Group» Madina S. 1 день назад Раскрыть" [ref=e256] [cursor=pointer]:
+              - generic [ref=e257]:
+                - checkbox "Выбрать строку" [ref=e258]
+                - checkbox
+              - generic [ref=e260]:
+                - link "CASE-20260516-A1B2C3D4" [ref=e261]:
+                  - /url: /cases/CASE-20260516-A1B2C3D4/
+                - paragraph [ref=e262]: Серия снятий по ~999 000 ₸ в течение нескольких часов через разные кэш-пункты. Признаки smurfing-паттерна.
+              - generic [ref=e264]: В работе
+              - link "ТОО «Caspian Trade Group»" [ref=e267]:
+                - /url: /clients/CL-S03/
+              - generic [ref=e268]: Madina S.
+              - generic [ref=e270]: 1 день назад
+              - button "Раскрыть" [ref=e271]:
+                - img [ref=e272]
+            - button "Выбрать строку CASE-20260515-E5F6A7B8 Платёж заблокирован — получатель из OFAC SDN List. Заведена эскалация в комплаенс-комитет банка. Эскалировано АО «Steppe Logistics» A. Tuyakbayev 2 дня назад Раскрыть" [ref=e275] [cursor=pointer]:
+              - generic [ref=e276]:
+                - checkbox "Выбрать строку" [ref=e277]
+                - checkbox
+              - generic [ref=e279]:
+                - link "CASE-20260515-E5F6A7B8" [ref=e280]:
+                  - /url: /cases/CASE-20260515-E5F6A7B8/
+                - paragraph [ref=e281]: Платёж заблокирован — получатель из OFAC SDN List. Заведена эскалация в комплаенс-комитет банка.
+              - generic [ref=e283]: Эскалировано
+              - link "АО «Steppe Logistics»" [ref=e286]:
+                - /url: /clients/CL-S04/
+              - generic [ref=e287]: A. Tuyakbayev
+              - generic [ref=e289]: 2 дня назад
+              - button "Раскрыть" [ref=e290]:
+                - img [ref=e291]
+            - button "Выбрать строку CASE-20260514-C9D0E1F2 Расширенная проверка PEP-родственника. Запрошены документы по источнику средств за 12 месяцев. Открыто Жумабеков Ержан К. A. Tuyakbayev 1 день назад Раскрыть" [ref=e294] [cursor=pointer]:
+              - generic [ref=e295]:
+                - checkbox "Выбрать строку" [ref=e296]
+                - checkbox
+              - generic [ref=e298]:
+                - link "CASE-20260514-C9D0E1F2" [ref=e299]:
+                  - /url: /cases/CASE-20260514-C9D0E1F2/
+                - paragraph [ref=e300]: Расширенная проверка PEP-родственника. Запрошены документы по источнику средств за 12 месяцев.
+              - generic [ref=e302]: Открыто
+              - link "Жумабеков Ержан К." [ref=e305]:
+                - /url: /clients/CL-S05/
+              - generic [ref=e306]: A. Tuyakbayev
+              - generic [ref=e308]: 1 день назад
+              - button "Раскрыть" [ref=e309]:
+                - img [ref=e310]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e313] [cursor=pointer]:
+              - generic [ref=e314]:
+                - checkbox "Выбрать строку" [ref=e315]
+                - checkbox
+              - generic [ref=e317]:
+                - link "CASE-20240610-585BC3A4" [ref=e318]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e319]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e321]: Решено
+              - link "АО «Eurasia Foods»" [ref=e324]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e326]: Compliance Officer AI
+              - generic [ref=e328]: около 2 лет назад
+              - button "Раскрыть" [ref=e329]:
+                - img [ref=e330]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e333] [cursor=pointer]:
+              - generic [ref=e334]:
+                - checkbox "Выбрать строку" [ref=e335]
+                - checkbox
+              - generic [ref=e337]:
+                - link "CASE-20240610-585BC3A4" [ref=e338]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e339]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e341]: Решено
+              - link "АО «Eurasia Foods»" [ref=e344]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e346]: Compliance Officer AI
+              - generic [ref=e348]: около 2 лет назад
+              - button "Раскрыть" [ref=e349]:
+                - img [ref=e350]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e353] [cursor=pointer]:
+              - generic [ref=e354]:
+                - checkbox "Выбрать строку" [ref=e355]
+                - checkbox
+              - generic [ref=e357]:
+                - link "CASE-20240610-585BC3A4" [ref=e358]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e359]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e361]: Решено
+              - link "АО «Eurasia Foods»" [ref=e364]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e366]: Compliance Officer AI
+              - generic [ref=e368]: около 2 лет назад
+              - button "Раскрыть" [ref=e369]:
+                - img [ref=e370]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e373] [cursor=pointer]:
+              - generic [ref=e374]:
+                - checkbox "Выбрать строку" [ref=e375]
+                - checkbox
+              - generic [ref=e377]:
+                - link "CASE-20240610-585BC3A4" [ref=e378]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e379]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e381]: Решено
+              - link "АО «Eurasia Foods»" [ref=e384]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e386]: Compliance Officer AI
+              - generic [ref=e388]: около 2 лет назад
+              - button "Раскрыть" [ref=e389]:
+                - img [ref=e390]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e393] [cursor=pointer]:
+              - generic [ref=e394]:
+                - checkbox "Выбрать строку" [ref=e395]
+                - checkbox
+              - generic [ref=e397]:
+                - link "CASE-20240610-585BC3A4" [ref=e398]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e399]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e401]: Решено
+              - link "АО «Eurasia Foods»" [ref=e404]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e406]: Compliance Officer AI
+              - generic [ref=e408]: около 2 лет назад
+              - button "Раскрыть" [ref=e409]:
+                - img [ref=e410]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e413] [cursor=pointer]:
+              - generic [ref=e414]:
+                - checkbox "Выбрать строку" [ref=e415]
+                - checkbox
+              - generic [ref=e417]:
+                - link "CASE-20240610-585BC3A4" [ref=e418]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e419]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e421]: Решено
+              - link "АО «Eurasia Foods»" [ref=e424]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e426]: Compliance Officer AI
+              - generic [ref=e428]: около 2 лет назад
+              - button "Раскрыть" [ref=e429]:
+                - img [ref=e430]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e433] [cursor=pointer]:
+              - generic [ref=e434]:
+                - checkbox "Выбрать строку" [ref=e435]
+                - checkbox
+              - generic [ref=e437]:
+                - link "CASE-20240610-585BC3A4" [ref=e438]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e439]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e441]: Решено
+              - link "АО «Eurasia Foods»" [ref=e444]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e446]: Compliance Officer AI
+              - generic [ref=e448]: около 2 лет назад
+              - button "Раскрыть" [ref=e449]:
+                - img [ref=e450]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e453] [cursor=pointer]:
+              - generic [ref=e454]:
+                - checkbox "Выбрать строку" [ref=e455]
+                - checkbox
+              - generic [ref=e457]:
+                - link "CASE-20240610-585BC3A4" [ref=e458]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e459]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e461]: Решено
+              - link "АО «Eurasia Foods»" [ref=e464]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e466]: Compliance Officer AI
+              - generic [ref=e468]: около 2 лет назад
+              - button "Раскрыть" [ref=e469]:
+                - img [ref=e470]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e473] [cursor=pointer]:
+              - generic [ref=e474]:
+                - checkbox "Выбрать строку" [ref=e475]
+                - checkbox
+              - generic [ref=e477]:
+                - link "CASE-20240610-585BC3A4" [ref=e478]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e479]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e481]: Решено
+              - link "АО «Eurasia Foods»" [ref=e484]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e486]: Compliance Officer AI
+              - generic [ref=e488]: около 2 лет назад
+              - button "Раскрыть" [ref=e489]:
+                - img [ref=e490]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e493] [cursor=pointer]:
+              - generic [ref=e494]:
+                - checkbox "Выбрать строку" [ref=e495]
+                - checkbox
+              - generic [ref=e497]:
+                - link "CASE-20240610-585BC3A4" [ref=e498]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e499]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e501]: Решено
+              - link "АО «Eurasia Foods»" [ref=e504]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e506]: Compliance Officer AI
+              - generic [ref=e508]: около 2 лет назад
+              - button "Раскрыть" [ref=e509]:
+                - img [ref=e510]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e513] [cursor=pointer]:
+              - generic [ref=e514]:
+                - checkbox "Выбрать строку" [ref=e515]
+                - checkbox
+              - generic [ref=e517]:
+                - link "CASE-20240610-585BC3A4" [ref=e518]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e519]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e521]: Решено
+              - link "АО «Eurasia Foods»" [ref=e524]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e526]: Compliance Officer AI
+              - generic [ref=e528]: около 2 лет назад
+              - button "Раскрыть" [ref=e529]:
+                - img [ref=e530]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e533] [cursor=pointer]:
+              - generic [ref=e534]:
+                - checkbox "Выбрать строку" [ref=e535]
+                - checkbox
+              - generic [ref=e537]:
+                - link "CASE-20240610-585BC3A4" [ref=e538]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e539]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e541]: Решено
+              - link "АО «Eurasia Foods»" [ref=e544]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e546]: Compliance Officer AI
+              - generic [ref=e548]: около 2 лет назад
+              - button "Раскрыть" [ref=e549]:
+                - img [ref=e550]
+            - button "Выбрать строку CASE-20240610-585BC3A4 Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline. Решено АО «Eurasia Foods» Compliance Officer AI около 2 лет назад Раскрыть" [ref=e553] [cursor=pointer]:
+              - generic [ref=e554]:
+                - checkbox "Выбрать строку" [ref=e555]
+                - checkbox
+              - generic [ref=e557]:
+                - link "CASE-20240610-585BC3A4" [ref=e558]:
+                  - /url: /cases/CASE-20240610-585BC3A4/
+                - paragraph [ref=e559]: Сработало правило аномальной транзакции. Воркфлоу 'Income Proof Remediation' собирает справку о доходах и обновляет declared_monthly_income, что позволит пересчитать baseline.
+              - generic [ref=e561]: Решено
+              - link "АО «Eurasia Foods»" [ref=e564]:
+                - /url: /clients/CL-0015/
+              - generic [ref=e566]: Compliance Officer AI
+              - generic [ref=e568]: около 2 лет назад
+              - button "Раскрыть" [ref=e569]:
+                - img [ref=e570]
+          - generic [ref=e572]:
+            - generic [ref=e573]: 42 записи
+            - generic [ref=e574]:
+              - generic [ref=e575]: Стр. 1 из 3
+              - generic [ref=e576]:
+                - button "Предыдущая страница" [disabled]:
+                  - img
+                - button "Следующая страница" [ref=e577]:
+                  - img
+    - button "D · Утренняя смена ЦПК" [ref=e578]:
+      - img
+      - generic [ref=e579]: D
+      - generic [ref=e580]: ·
+      - generic [ref=e581]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e583]:
+      - img [ref=e584]
+  - generic [ref=e588]:
+    - heading "Command Palette" [level=2] [ref=e589]
+    - paragraph [ref=e590]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e596] [cursor=pointer]:
+    - img [ref=e597]

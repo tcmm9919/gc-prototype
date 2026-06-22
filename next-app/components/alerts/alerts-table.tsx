@@ -75,25 +75,21 @@ const ALERTS_VIEWS: DataTableView<Alert>[] = [
   {
     id: "red-zone",
     label: "Красная зона",
-    icon: <AlertOctagon className="size-3.5 text-risk-critical" />,
     predicate: (a) => isInRedSLAZone(a.deadline) && a.status !== "closed",
   },
   {
     id: "my-queue",
     label: "На мне",
-    icon: <User className="size-3.5" />,
     predicate: (a) => a.responsibleId === currentUser.id && a.status !== "closed",
   },
   {
     id: "critical",
     label: "Критические",
-    icon: <Flame className="size-3.5 text-risk-critical" />,
     predicate: (a) => a.severity === "critical",
   },
   {
     id: "client-responded",
     label: "Клиент ответил",
-    icon: <MessageCircle className="size-3.5" />,
     predicate: (a) => (a as Alert & { client_chat_status?: string }).client_chat_status === "client_responded",
   },
 ];

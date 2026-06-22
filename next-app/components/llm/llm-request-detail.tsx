@@ -36,7 +36,7 @@ export function LLMRequestDetail({ id }: { id: string }) {
       />
 
       <div className="grid gap-4 p-6 lg:grid-cols-3">
-        <Card>
+        <Card className="border-border">
           <CardHeader>
             <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
               <Coins className="size-4" />
@@ -46,7 +46,13 @@ export function LLMRequestDetail({ id }: { id: string }) {
           <CardContent className="space-y-2 text-sm">
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Стоимость</span>
-              <span className="font-medium tabular-nums">${req.costUSD.toFixed(4)}</span>
+              {/* в KZT по демо-курсу — согласовано со списком LLM Usage (470 ₸/$) */}
+              <span className="font-medium tabular-nums">
+                {new Intl.NumberFormat("ru-RU", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(
+                  req.costUSD * 470,
+                )}{" "}
+                ₸
+              </span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Input</span>
@@ -63,7 +69,7 @@ export function LLMRequestDetail({ id }: { id: string }) {
           </CardContent>
         </Card>
 
-        <Card className="lg:col-span-2">
+        <Card className="lg:col-span-2 border-border">
           <CardHeader>
             <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
               <MessageSquare className="size-4" />
@@ -83,7 +89,7 @@ export function LLMRequestDetail({ id }: { id: string }) {
         </Card>
 
         {req.relatedEntityType && req.relatedEntityId ? (
-          <Card className="lg:col-span-3">
+          <Card className="lg:col-span-3 border-border">
             <CardHeader>
               <CardTitle className="text-sm font-medium text-muted-foreground">Связанная сущность</CardTitle>
             </CardHeader>

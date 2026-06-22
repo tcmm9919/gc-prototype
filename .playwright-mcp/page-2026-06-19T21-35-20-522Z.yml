@@ -1,0 +1,27 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]: F
+      - generic [ref=e5]:
+        - generic [ref=e6]: Freedom AI
+        - generic [ref=e7]: Globerce Compliance
+    - generic [ref=e9]:
+      - generic [ref=e10]:
+        - heading "Вход в GCP" [level=1] [ref=e11]
+        - paragraph [ref=e12]: Используйте корпоративную почту Freedom Bank
+      - generic [ref=e13]:
+        - generic [ref=e14]:
+          - generic [ref=e15]: Почта
+          - textbox "Почта" [ref=e16]: e.zhumabekov@freedom.kz
+        - generic [ref=e17]:
+          - generic [ref=e18]:
+            - generic [ref=e19]: Пароль
+            - link "Забыли?" [ref=e20] [cursor=pointer]:
+              - /url: /forgot-password/
+          - textbox "Пароль" [ref=e21]: ••••••••
+      - button "Войти" [ref=e22]
+      - paragraph [ref=e23]: "Mock-auth: любые непустые поля проводят к шагу 2FA. После ввода кода — главный экран."
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e29] [cursor=pointer]:
+    - img [ref=e30]
+  - alert [ref=e33]

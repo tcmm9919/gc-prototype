@@ -1,0 +1,189 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+          - link "AI чат" [ref=e24] [cursor=pointer]:
+            - /url: /chat/
+            - img [ref=e25]
+            - generic [ref=e27]: AI чат
+        - generic [ref=e28]:
+          - generic [ref=e29]: Работа
+          - link "Клиенты" [ref=e30] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e31]
+            - generic [ref=e36]: Клиенты
+          - link "Транзакции 65" [ref=e37] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e38]
+            - generic [ref=e41]: Транзакции
+            - generic [ref=e42]: "65"
+          - link "Оповещения 62" [ref=e43] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e44]
+            - generic [ref=e47]: Оповещения
+            - generic [ref=e48]: "62"
+          - link "Кейсы 42" [ref=e49] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e50]
+            - generic [ref=e52]: Кейсы
+            - generic [ref=e53]: "42"
+          - link "Риск-факторы" [ref=e54] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e55]
+            - generic [ref=e57]: Риск-факторы
+        - generic [ref=e58]:
+          - generic [ref=e59]: Инструменты
+          - link "Правила" [ref=e60] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e61]
+            - generic [ref=e64]: Правила
+          - link "Сценарии" [ref=e65] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e66]
+            - generic [ref=e70]: Сценарии
+          - link "Агенты" [ref=e71] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e72]
+            - generic [ref=e75]: Агенты
+      - generic [ref=e76]:
+        - link "Настройки" [ref=e78] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e79]
+          - generic [ref=e82]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e84]:
+          - img "Madina S." [ref=e85]
+          - generic [ref=e86]:
+            - generic [ref=e87]: Madina S.
+            - generic [ref=e88]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e89]
+    - main [ref=e92]:
+      - main [ref=e93]:
+        - generic [ref=e94]:
+          - heading "Настройки" [level=1] [ref=e96]
+          - generic [ref=e97]:
+            - button "Сменить язык" [ref=e98]:
+              - img
+            - button "Уведомления" [ref=e99]:
+              - img
+            - button "Сменить тему" [ref=e101]:
+              - img
+        - generic [ref=e104]:
+          - navigation "Настройки" [ref=e106]:
+            - link "Ключи" [ref=e107] [cursor=pointer]:
+              - /url: /settings/system/
+              - img [ref=e108]
+              - generic [ref=e111]: Ключи
+            - link "Пользователи" [ref=e112] [cursor=pointer]:
+              - /url: /settings/users/
+              - img [ref=e113]
+              - generic [ref=e118]: Пользователи
+            - link "ML-модели" [ref=e119] [cursor=pointer]:
+              - /url: /settings/instructions/
+              - img [ref=e120]
+              - generic [ref=e132]: ML-модели
+            - link "Использование LLM" [ref=e133] [cursor=pointer]:
+              - /url: /settings/llm-usage/
+              - img [ref=e134]
+              - generic [ref=e136]: Использование LLM
+            - link "Журнал аудита" [ref=e137] [cursor=pointer]:
+              - /url: /settings/audit/
+              - img [ref=e138]
+              - generic [ref=e141]: Журнал аудита
+          - generic [ref=e142]:
+            - generic [ref=e143]:
+              - heading "Ключи" [level=2] [ref=e144]
+              - paragraph [ref=e145]: SLA, валюта, пороги риска, конфиг агента
+            - generic [ref=e146]:
+              - table "Системные настройки" [ref=e148]:
+                - rowgroup [ref=e149]:
+                  - row "Ключ Значение Описание Обновлено" [ref=e150]:
+                    - columnheader "Ключ" [ref=e151]
+                    - columnheader "Значение" [ref=e152]
+                    - columnheader "Описание" [ref=e153]
+                    - columnheader "Обновлено" [ref=e154]
+                - rowgroup [ref=e155]:
+                  - 'row "compliance_agent_config {\"enabled\":true,\"manager_email\":\"tenizbaia@freedombank.kz\",\"send_email_on_dispatch\":true,\"send_email_on_clear\":true,\"send_email_on_fail\":true,\"send_email_on_escalate\":true} Конфигурация рантайма Compliance Officer AI 05.05.2026 20:27" [ref=e156]':
+                    - cell "compliance_agent_config" [ref=e157]
+                    - 'cell "{\"enabled\":true,\"manager_email\":\"tenizbaia@freedombank.kz\",\"send_email_on_dispatch\":true,\"send_email_on_clear\":true,\"send_email_on_fail\":true,\"send_email_on_escalate\":true}" [ref=e158]'
+                    - cell "Конфигурация рантайма Compliance Officer AI" [ref=e159]
+                    - cell "05.05.2026 20:27" [ref=e160]
+                  - 'row "default_timezone {\"timezone\":\"Asia/Almaty\",\"offset\":\"UTC+5\"} Часовой пояс по умолчанию для отчётов 27.04.2026 11:37" [ref=e161]':
+                    - cell "default_timezone" [ref=e162]
+                    - 'cell "{\"timezone\":\"Asia/Almaty\",\"offset\":\"UTC+5\"}" [ref=e163]'
+                    - cell "Часовой пояс по умолчанию для отчётов" [ref=e164]
+                    - cell "27.04.2026 11:37" [ref=e165]
+                  - 'row "sla_medium_hours {\"hours\":72} SLA для алертов средней важности 24.04.2026 15:54" [ref=e166]':
+                    - cell "sla_medium_hours" [ref=e167]
+                    - 'cell "{\"hours\":72}" [ref=e168]'
+                    - cell "SLA для алертов средней важности" [ref=e169]
+                    - cell "24.04.2026 15:54" [ref=e170]
+                  - 'row "sla_low_hours {\"hours\":168} SLA для алертов низкой важности 24.04.2026 15:54" [ref=e171]':
+                    - cell "sla_low_hours" [ref=e172]
+                    - 'cell "{\"hours\":168}" [ref=e173]'
+                    - cell "SLA для алертов низкой важности" [ref=e174]
+                    - cell "24.04.2026 15:54" [ref=e175]
+                  - 'row "sla_critical_hours {\"hours\":4} SLA для критических алертов 24.04.2026 15:54" [ref=e176]':
+                    - cell "sla_critical_hours" [ref=e177]
+                    - 'cell "{\"hours\":4}" [ref=e178]'
+                    - cell "SLA для критических алертов" [ref=e179]
+                    - cell "24.04.2026 15:54" [ref=e180]
+                  - 'row "default_currency {\"currency\":\"KZT\"} Валюта по умолчанию для отчётов 24.04.2026 15:54" [ref=e181]':
+                    - cell "default_currency" [ref=e182]
+                    - 'cell "{\"currency\":\"KZT\"}" [ref=e183]'
+                    - cell "Валюта по умолчанию для отчётов" [ref=e184]
+                    - cell "24.04.2026 15:54" [ref=e185]
+                  - 'row "risk_thresholds {\"low\":25,\"medium\":50,\"high\":75} Пороги категорий риск-скора 24.04.2026 15:54" [ref=e186]':
+                    - cell "risk_thresholds" [ref=e187]
+                    - 'cell "{\"low\":25,\"medium\":50,\"high\":75}" [ref=e188]'
+                    - cell "Пороги категорий риск-скора" [ref=e189]
+                    - cell "24.04.2026 15:54" [ref=e190]
+                  - 'row "sla_high_hours {\"hours\":24} SLA для алертов высокой важности 24.04.2026 15:54" [ref=e191]':
+                    - cell "sla_high_hours" [ref=e192]
+                    - 'cell "{\"hours\":24}" [ref=e193]'
+                    - cell "SLA для алертов высокой важности" [ref=e194]
+                    - cell "24.04.2026 15:54" [ref=e195]
+              - generic [ref=e197]:
+                - heading "Добавить настройку" [level=3] [ref=e198]
+                - paragraph [ref=e199]: Если ключ уже существует — его значение обновится.
+                - generic [ref=e200]:
+                  - generic [ref=e201]:
+                    - generic [ref=e202]:
+                      - generic [ref=e203]: Ключ
+                      - textbox "Ключ" [ref=e204]:
+                        - /placeholder: sla_hours
+                    - generic [ref=e205]:
+                      - generic [ref=e206]: Значение (JSON)
+                      - textbox "Значение (JSON)" [ref=e207]:
+                        - /placeholder: "{\"hours\": 24}"
+                    - generic [ref=e208]:
+                      - generic [ref=e209]: Описание
+                      - textbox "Описание" [ref=e210]:
+                        - /placeholder: Краткое описание
+                  - button "Сохранить" [disabled]
+    - button "D · Утренняя смена ЦПК" [ref=e211]:
+      - img
+      - generic [ref=e212]: D
+      - generic [ref=e213]: ·
+      - generic [ref=e214]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e216]:
+      - img [ref=e217]
+  - generic [ref=e221]:
+    - heading "Command Palette" [level=2] [ref=e222]
+    - paragraph [ref=e223]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e229] [cursor=pointer]:
+    - img [ref=e230]
+  - alert [ref=e233]

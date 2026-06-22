@@ -1,0 +1,212 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+        - generic [ref=e24]:
+          - generic [ref=e25]: Работа
+          - link "Клиенты" [ref=e26] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e27]
+            - generic [ref=e32]: Клиенты
+          - link "Транзакции 65" [ref=e33] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e34]
+            - generic [ref=e37]: Транзакции
+            - generic [ref=e38]: "65"
+          - link "Оповещения 62" [ref=e39] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e40]
+            - generic [ref=e43]: Оповещения
+            - generic [ref=e44]: "62"
+          - link "Кейсы 42" [ref=e45] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e46]
+            - generic [ref=e48]: Кейсы
+            - generic [ref=e49]: "42"
+          - link "Риск-факторы" [ref=e50] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e51]
+            - generic [ref=e53]: Риск-факторы
+        - generic [ref=e54]:
+          - generic [ref=e55]: Инструменты
+          - link "Правила" [ref=e56] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e57]
+            - generic [ref=e60]: Правила
+          - link "Сценарии" [ref=e61] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e62]
+            - generic [ref=e66]: Сценарии
+          - link "AI" [ref=e67] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e68]
+            - generic [ref=e71]: AI
+      - generic [ref=e72]:
+        - link "Настройки" [ref=e74] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e75]
+          - generic [ref=e78]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e80]:
+          - img "Madina S." [ref=e81]
+          - generic [ref=e82]:
+            - generic [ref=e83]: Madina S.
+            - generic [ref=e84]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e85]
+    - main [ref=e88]:
+      - main [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - img [ref=e92]
+            - heading "Настройки" [level=1] [ref=e95]
+          - generic [ref=e96]:
+            - button "Сменить язык" [ref=e97]:
+              - img
+            - button "Уведомления" [ref=e98]:
+              - img
+            - button "Тёмная тема" [ref=e222]:
+              - img
+        - generic [ref=e103]:
+          - navigation "Настройки" [ref=e105]:
+            - link "Ключи" [ref=e106] [cursor=pointer]:
+              - /url: /settings/system/
+              - img [ref=e107]
+              - generic [ref=e110]: Ключи
+            - link "Пользователи" [ref=e111] [cursor=pointer]:
+              - /url: /settings/users/
+              - img [ref=e112]
+              - generic [ref=e117]: Пользователи
+            - link "ML-модели" [ref=e118] [cursor=pointer]:
+              - /url: /settings/instructions/
+              - img [ref=e119]
+              - generic [ref=e131]: ML-модели
+            - link "Использование LLM" [ref=e132] [cursor=pointer]:
+              - /url: /settings/llm-usage/
+              - img [ref=e133]
+              - generic [ref=e135]: Использование LLM
+            - link "Журнал аудита" [ref=e136] [cursor=pointer]:
+              - /url: /settings/audit/
+              - img [ref=e137]
+              - generic [ref=e140]: Журнал аудита
+          - generic [ref=e141]:
+            - generic [ref=e305]:
+              - generic [ref=e306]:
+                - heading "Bank Offline Feature Store" [level=1] [ref=e307]
+                - paragraph [ref=e308]: Офлайн-фичестор для построения признаков по банковским данным клиента и транзакций
+              - generic [ref=e310]: В продакшене
+            - generic [ref=e312]:
+              - generic [ref=e313]:
+                - generic [ref=e314]:
+                  - generic [ref=e316]:
+                    - img [ref=e317]
+                    - text: Назначение
+                  - generic [ref=e320]:
+                    - paragraph [ref=e321]: Centralized офлайн-store, который собирает данные банковской CRM, транзакционные потоки и внешние справочники в единое типизированное хранилище фичей для обучения и оффлайн-инференса ML-моделей CTSM и TSAD.
+                    - paragraph [ref=e322]: Поддерживает point-in-time correctness — все фичи доступны на любую историческую дату.
+                - generic [ref=e323]:
+                  - generic [ref=e325]:
+                    - img [ref=e326]
+                    - text: Архитектура
+                  - generic [ref=e329]:
+                    - paragraph [ref=e330]:
+                      - strong [ref=e331]: "Хранилище:"
+                      - text: PostgreSQL 15 + расширение TimescaleDB для управляемых hypertable по временным рядам транзакций.
+                    - paragraph [ref=e332]:
+                      - strong [ref=e333]: "Пайплайны:"
+                      - text: Kedro для DAG-описания feature-pipelines с автоматическим версионированием.
+                    - paragraph [ref=e334]:
+                      - strong [ref=e335]: "Оркестрация:"
+                      - text: Airflow с расписанием перерасчёта (ежедневно ночью + on-demand для backfill).
+                - generic [ref=e336]:
+                  - generic [ref=e338]:
+                    - img [ref=e339]
+                    - text: Структура и схемы
+                  - list [ref=e343]:
+                    - listitem [ref=e344]:
+                      - code [ref=e345]: clients
+                      - text: — измерение клиентов (slowly changing dimension)
+                    - listitem [ref=e346]:
+                      - code [ref=e347]: transactions_hyper
+                      - text: — hypertable, партиционирование по дате
+                    - listitem [ref=e348]:
+                      - code [ref=e349]: features_client_d
+                      - text: — дневной снимок фичей клиента
+                    - listitem [ref=e350]:
+                      - code [ref=e351]: features_client_w
+                      - text: — недельные агрегаты
+                    - listitem [ref=e352]:
+                      - code [ref=e353]: counterparties_blacklist
+                      - text: — справочник высоких рисков
+                - generic [ref=e354]:
+                  - generic [ref=e356]:
+                    - img [ref=e357]
+                    - text: Примеры фичей
+                  - list [ref=e361]:
+                    - listitem [ref=e362]: Сумма входящих/исходящих за 7/30/90 дней
+                    - listitem [ref=e363]: Количество уникальных контрагентов за 30 дней
+                    - listitem [ref=e364]: Доля трансгранов от общего оборота
+                    - listitem [ref=e365]: Volatility расходов (стандартное отклонение по дням)
+                    - listitem [ref=e366]: Z-score текущей суммы относительно профиля
+                    - listitem [ref=e367]: Velocity (количество операций в скользящем окне 1ч/24ч)
+                - generic [ref=e368]:
+                  - generic [ref=e370]:
+                    - img [ref=e371]
+                    - text: Частота обновления
+                  - paragraph [ref=e375]: Дневные снимки — каждую ночь в 02:00 Asia/Almaty. Real-time-фичи (velocity) — стримом через Kafka.
+              - complementary [ref=e376]:
+                - generic [ref=e377]:
+                  - generic [ref=e379]:
+                    - img [ref=e380]
+                    - text: Метаданные
+                  - generic [ref=e384]:
+                    - generic [ref=e385]:
+                      - generic [ref=e386]: Владелец
+                      - generic [ref=e387]: Команда Data Engineering
+                    - generic [ref=e388]:
+                      - generic [ref=e389]: Стек
+                      - generic [ref=e390]:
+                        - generic [ref=e391]: PostgreSQL
+                        - generic [ref=e393]: TimescaleDB
+                        - generic [ref=e395]: Kedro
+                        - generic [ref=e397]: Airflow
+                        - generic [ref=e399]: Python 3.11
+                - generic [ref=e401]:
+                  - generic [ref=e403]:
+                    - img [ref=e404]
+                    - text: Связано
+                  - generic [ref=e408]:
+                    - generic [ref=e409]:
+                      - img [ref=e410]
+                      - generic [ref=e414]: Bank Offline FS
+                    - generic [ref=e415]:
+                      - img [ref=e416]
+                      - generic [ref=e419]: "Сценарии: 4 использования"
+                - generic [ref=e421]:
+                  - paragraph [ref=e422]: Раздел = knowledge base без UI запуска/мониторинга (стикер 6).
+                  - paragraph [ref=e423]: Если потребуется ML-Ops функциональность — расширяем отдельной фазой.
+    - button "D · Утренняя смена ЦПК" [ref=e199]:
+      - img
+      - generic [ref=e200]: D
+      - generic [ref=e201]: ·
+      - generic [ref=e202]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e204]:
+      - img [ref=e205]
+  - generic [ref=e209]:
+    - heading "Command Palette" [level=2] [ref=e210]
+    - paragraph [ref=e211]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e217] [cursor=pointer]:
+    - img [ref=e218]
+  - alert [ref=e221]

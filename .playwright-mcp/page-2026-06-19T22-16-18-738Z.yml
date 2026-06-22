@@ -1,0 +1,325 @@
+- generic:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic: F
+          - generic:
+            - generic: Freedom AI
+            - generic: Globerce Compliance
+          - button:
+            - img
+      - generic:
+        - generic:
+          - generic: Обзор
+          - link:
+            - /url: /dashboard/
+            - img
+            - generic: Дашборд
+        - generic:
+          - generic: Работа
+          - link:
+            - /url: /clients/
+            - img
+            - generic: Клиенты
+          - link:
+            - /url: /transactions/
+            - img
+            - generic: Транзакции
+            - generic: "65"
+          - link:
+            - /url: /alerts/
+            - img
+            - generic: Оповещения
+            - generic: "62"
+          - link:
+            - /url: /cases/
+            - img
+            - generic: Кейсы
+            - generic: "42"
+          - link:
+            - /url: /risk-factors/
+            - img
+            - generic: Риск-факторы
+        - generic:
+          - generic: Инструменты
+          - link:
+            - /url: /rules/
+            - img
+            - generic: Правила
+          - link:
+            - /url: /workflows/
+            - img
+            - generic: Сценарии
+          - link:
+            - /url: /ai/
+            - img
+            - generic: AI
+      - generic:
+        - generic:
+          - link:
+            - /url: /settings/
+            - img
+            - generic: Настройки
+        - generic:
+          - button:
+            - img
+            - generic:
+              - generic: Madina S.
+              - generic: madina.satybaldiyeva@globerce.capital
+            - img
+    - main:
+      - main:
+        - generic:
+          - generic:
+            - img
+            - heading [level=1]: Настройки
+          - generic:
+            - button:
+              - img
+            - button:
+              - img
+            - button:
+              - img
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - navigation:
+                  - link:
+                    - /url: /settings/system/
+                    - img
+                    - generic: Ключи
+                  - link:
+                    - /url: /settings/users/
+                    - img
+                    - generic: Пользователи
+                  - link:
+                    - /url: /settings/instructions/
+                    - img
+                    - generic: ML-модели
+                  - link:
+                    - /url: /settings/llm-usage/
+                    - img
+                    - generic: Использование LLM
+                  - link:
+                    - /url: /settings/audit/
+                    - img
+                    - generic: Журнал аудита
+              - generic:
+                - generic:
+                  - heading [level=2]: Пользователи
+                  - paragraph: Учётные записи, роли и доступы офицеров
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - img
+                          - searchbox
+                      - generic:
+                        - button [expanded]:
+                          - img
+                          - text: Добавить пользователя
+                  - generic:
+                    - generic:
+                      - generic:
+                        - button:
+                          - text: Имя
+                          - img
+                      - generic:
+                        - button:
+                          - text: Email
+                          - img
+                      - generic:
+                        - button:
+                          - text: Роль
+                          - img
+                      - generic:
+                        - button:
+                          - text: Статус
+                          - img
+                      - generic:
+                        - button:
+                          - text: Создан
+                          - img
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: TK
+                            - generic: T. Kunapyanov
+                        - generic:
+                          - generic: t.kunapyanov@gmail.com
+                        - generic:
+                          - generic: Администратор
+                        - generic:
+                          - generic: Отключён
+                        - generic:
+                          - generic: 15.05.2026
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: AT
+                            - generic: A. Tuyakbayev
+                        - generic:
+                          - generic: a.tuyakbayev@globerce.capital
+                        - generic:
+                          - generic: Администратор
+                        - generic:
+                          - generic: Отключён
+                        - generic:
+                          - generic: 15.05.2026
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: MS
+                            - generic: Madina S.
+                        - generic:
+                          - generic: madina.satybaldiyeva@globerce.capital
+                        - generic:
+                          - generic: Администратор
+                        - generic:
+                          - generic: Отключён
+                        - generic:
+                          - generic: 04.05.2026
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: CO
+                            - generic: Compliance Officer AI
+                        - generic:
+                          - generic: compliance.ai@globerce.local
+                        - generic:
+                          - generic: AI-агент
+                        - generic:
+                          - generic: Неактивен
+                        - generic:
+                          - generic: 29.04.2026
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: AD
+                            - generic: A. D.
+                        - generic:
+                          - generic: a.ovezov@globerce.capital
+                        - generic:
+                          - generic: Администратор
+                        - generic:
+                          - generic: Отключён
+                        - generic:
+                          - generic: 24.04.2026
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: MM
+                            - generic: M. M.
+                        - generic:
+                          - generic: meir@globerce.capital
+                        - generic:
+                          - generic: Администратор
+                        - generic:
+                          - generic: Отключён
+                        - generic:
+                          - generic: 24.04.2026
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: AT
+                            - generic: A. T.
+                        - generic:
+                          - generic: tenizbaia@freedombank.kz
+                        - generic:
+                          - generic: Администратор
+                        - generic:
+                          - generic: Отключён
+                        - generic:
+                          - generic: 24.04.2026
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: EC
+                            - generic: E. C.
+                        - generic:
+                          - generic: yevgeniy@globerce.capital
+                        - generic:
+                          - generic: Администратор
+                        - generic:
+                          - generic: Отключён
+                        - generic:
+                          - generic: 24.04.2026
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic: IL
+                            - generic: I. L.
+                        - generic:
+                          - generic: ilya.lizikov@globerce.capital
+                        - generic:
+                          - generic: Администратор
+                        - generic:
+                          - generic: Отключён
+                        - generic:
+                          - generic: 24.04.2026
+                  - generic:
+                    - generic: 9 записей
+                    - generic:
+                      - generic: Стр. 1 из 1
+                      - generic:
+                        - button [disabled]:
+                          - img
+                        - button [disabled]:
+                          - img
+    - button [ref=e355]:
+      - img
+      - generic [ref=e333]: D
+      - generic [ref=e334]: ·
+      - generic [ref=e335]: Утренняя смена ЦПК
+    - generic:
+      - button:
+        - img
+  - generic:
+    - heading [level=2]: Command Palette
+    - paragraph: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e350] [cursor=pointer]:
+    - img [ref=e351]
+  - alert
+  - dialog "Добавить пользователя" [ref=e357]:
+    - generic [ref=e358]:
+      - heading "Добавить пользователя" [level=2] [ref=e359]
+      - paragraph [ref=e360]: Новому сотруднику придёт приглашение на корпоративную почту.
+    - generic [ref=e361]:
+      - generic [ref=e362]:
+        - generic [ref=e363]: Имя
+        - textbox "Имя" [active] [ref=e364]:
+          - /placeholder: Айгерим Серикбаева
+      - generic [ref=e365]:
+        - generic [ref=e366]: Email
+        - textbox "Email" [ref=e367]:
+          - /placeholder: name@globerce.capital
+      - generic [ref=e368]:
+        - generic [ref=e369]: Роль
+        - generic [ref=e370]:
+          - combobox "Роль" [ref=e371]:
+            - option "Администратор"
+            - option "Старший офицер"
+            - option "Офицер" [selected]
+            - option "Аналитик"
+            - option "Риск-менеджер"
+            - option "Аудитор"
+          - img
+      - generic [ref=e372]:
+        - button "Отмена" [ref=e373]
+        - button "Отправить приглашение" [disabled]
+    - button "Close" [ref=e374]:
+      - img
+      - generic [ref=e375]: Close

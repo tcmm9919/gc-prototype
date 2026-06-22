@@ -1,0 +1,27 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - img [ref=e5]
+      - generic [ref=e8]:
+        - generic [ref=e9]: GCP
+        - generic [ref=e10]: Compliance Platform
+    - generic [ref=e12]:
+      - generic [ref=e13]:
+        - heading "Вход в GCP" [level=1] [ref=e14]
+        - paragraph [ref=e15]: Используйте корпоративную почту Freedom Bank
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - generic [ref=e18]: Почта
+          - textbox "Почта" [ref=e19]: e.zhumabekov@freedom.kz
+        - generic [ref=e20]:
+          - generic [ref=e21]:
+            - generic [ref=e22]: Пароль
+            - link "Забыли?" [ref=e23] [cursor=pointer]:
+              - /url: /forgot-password/
+          - textbox "Пароль" [ref=e24]: ••••••••
+      - button "Войти" [ref=e25]
+      - paragraph [ref=e26]: "Mock-auth: любые непустые поля проводят к шагу 2FA. После ввода кода — главный экран."
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e32] [cursor=pointer]:
+    - img [ref=e33]
+  - alert [ref=e36]

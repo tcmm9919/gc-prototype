@@ -7,7 +7,9 @@ export function RelativeTime({ iso, className }: { iso?: string; className?: str
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <span className={cn("text-muted-foreground", className)}>{formatRelative(iso)}</span>
+        {/* relative-время считается от текущего момента → сервер и клиент дают
+            разные строки. suppressHydrationWarning гасит ложный mismatch. */}
+        <span suppressHydrationWarning className={cn("text-muted-foreground", className)}>{formatRelative(iso)}</span>
       </TooltipTrigger>
       <TooltipContent>{formatDateTime(iso)}</TooltipContent>
     </Tooltip>

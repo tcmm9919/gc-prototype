@@ -20,7 +20,7 @@ const TONE: Record<Tone, { bg: string; text: string; dot: string }> = {
   },
   success: {
     bg: "bg-primary/10 dark:bg-primary/15",
-    text: "text-primary",
+    text: "text-primary-strong",
     dot: "bg-primary",
   },
   warning: {

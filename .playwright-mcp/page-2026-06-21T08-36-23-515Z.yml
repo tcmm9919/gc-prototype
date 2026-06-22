@@ -1,0 +1,206 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: F
+        - generic [ref=e7]:
+          - generic [ref=e8]: Freedom AI
+          - generic [ref=e9]: Globerce Compliance
+        - button "Свернуть" [ref=e10]:
+          - img [ref=e11]
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - generic [ref=e16]: Обзор
+          - link "Дашборд" [ref=e17] [cursor=pointer]:
+            - /url: /dashboard/
+            - img [ref=e18]
+            - generic [ref=e23]: Дашборд
+          - link "AI чат" [ref=e24] [cursor=pointer]:
+            - /url: /chat/
+            - img [ref=e25]
+            - generic [ref=e27]: AI чат
+        - generic [ref=e28]:
+          - generic [ref=e29]: Работа
+          - link "Клиенты" [ref=e30] [cursor=pointer]:
+            - /url: /clients/
+            - img [ref=e31]
+            - generic [ref=e36]: Клиенты
+          - link "Транзакции 65" [ref=e37] [cursor=pointer]:
+            - /url: /transactions/
+            - img [ref=e38]
+            - generic [ref=e41]: Транзакции
+            - generic [ref=e42]: "65"
+          - link "Оповещения 62" [ref=e43] [cursor=pointer]:
+            - /url: /alerts/
+            - img [ref=e44]
+            - generic [ref=e47]: Оповещения
+            - generic [ref=e48]: "62"
+          - link "Кейсы 42" [ref=e49] [cursor=pointer]:
+            - /url: /cases/
+            - img [ref=e50]
+            - generic [ref=e52]: Кейсы
+            - generic [ref=e53]: "42"
+          - link "Риск-факторы" [ref=e54] [cursor=pointer]:
+            - /url: /risk-factors/
+            - img [ref=e55]
+            - generic [ref=e57]: Риск-факторы
+        - generic [ref=e58]:
+          - generic [ref=e59]: Инструменты
+          - link "Правила" [ref=e60] [cursor=pointer]:
+            - /url: /rules/
+            - img [ref=e61]
+            - generic [ref=e64]: Правила
+          - link "Сценарии" [ref=e65] [cursor=pointer]:
+            - /url: /workflows/
+            - img [ref=e66]
+            - generic [ref=e70]: Сценарии
+          - link "Агенты" [ref=e71] [cursor=pointer]:
+            - /url: /ai/
+            - img [ref=e72]
+            - generic [ref=e75]: Агенты
+      - generic [ref=e76]:
+        - link "Настройки" [ref=e78] [cursor=pointer]:
+          - /url: /settings/
+          - img [ref=e79]
+          - generic [ref=e82]: Настройки
+        - button "Madina S. Madina S. madina.satybaldiyeva@globerce.capital" [ref=e84]:
+          - img "Madina S." [ref=e85]
+          - generic [ref=e86]:
+            - generic [ref=e87]: Madina S.
+            - generic [ref=e88]: madina.satybaldiyeva@globerce.capital
+          - img [ref=e89]
+    - main [ref=e92]:
+      - main [ref=e93]:
+        - generic [ref=e94]:
+          - heading "Риск-факторы" [level=1] [ref=e96]
+          - generic [ref=e97]:
+            - button "Сменить язык" [ref=e98]:
+              - img
+            - button "Уведомления" [ref=e99]:
+              - img
+            - button "Сменить тему" [ref=e101]:
+              - img
+        - generic [ref=e103]:
+          - generic [ref=e105]:
+            - generic [ref=e107]:
+              - img [ref=e108]
+              - searchbox "Поиск по названию, источнику..." [ref=e111]
+            - button "Добавить атрибут" [ref=e113]:
+              - img
+              - text: Добавить атрибут
+          - generic [ref=e114]:
+            - generic [ref=e115]:
+              - button "Название" [ref=e117]:
+                - text: Название
+                - img [ref=e118]
+              - button "Тип" [ref=e122]:
+                - text: Тип
+                - img [ref=e123]
+              - button "Источник" [ref=e127]:
+                - text: Источник
+                - img [ref=e128]
+              - generic [ref=e131]: Корзины
+              - button "Вес · доля" [ref=e133]:
+                - text: Вес · доля
+                - img [ref=e134]
+              - button "Активен" [ref=e138]:
+                - text: Активен
+                - img [ref=e139]
+            - button "Риск-фактор Проверка на ПДЛ" [ref=e144] [cursor=pointer]:
+              - generic [ref=e146]:
+                - generic [ref=e147]: Проверка на ПДЛ
+                - generic [ref=e148]: Совпадение клиента со списком публичных должностных лиц.
+              - generic [ref=e150]: Поле клиента
+              - generic [ref=e153]: customers.pdl
+              - generic "1 корзин" [ref=e155]:
+                - generic [ref=e157]: "1"
+              - generic [ref=e162]: "0.1"
+              - generic [ref=e164]: Активен
+              - generic [ref=e167]:
+                - button "Редактировать «Проверка на ПДЛ»" [ref=e168]:
+                  - img
+                - button "Удалить «Проверка на ПДЛ»" [ref=e169]:
+                  - img
+            - button "Риск-фактор Крупная кассовая операция" [ref=e171] [cursor=pointer]:
+              - generic [ref=e173]:
+                - generic [ref=e174]: Крупная кассовая операция
+                - generic [ref=e175]: Максимальная сумма операции за период.
+              - generic [ref=e177]: Транзакция
+              - generic [ref=e180]: transactions.amount_kzt
+              - generic "2 корзин" [ref=e182]:
+                - generic [ref=e185]: "2"
+              - generic [ref=e190]: "0.2"
+              - generic [ref=e192]: Активен
+              - generic [ref=e195]:
+                - button "Редактировать «Крупная кассовая операция»" [ref=e196]:
+                  - img
+                - button "Удалить «Крупная кассовая операция»" [ref=e197]:
+                  - img
+            - button "Риск-фактор Негативные медиа" [ref=e199] [cursor=pointer]:
+              - generic [ref=e201]:
+                - generic [ref=e202]: Негативные медиа
+                - generic [ref=e203]: Число adverse-media упоминаний клиента.
+              - generic [ref=e205]: Медиа
+              - generic [ref=e208]: media.adverse_count
+              - generic "2 корзин" [ref=e210]:
+                - generic [ref=e213]: "2"
+              - generic [ref=e217]: "0.15"
+              - generic [ref=e219]: Выкл.
+              - generic [ref=e222]:
+                - button "Редактировать «Негативные медиа»" [ref=e223]:
+                  - img
+                - button "Удалить «Негативные медиа»" [ref=e224]:
+                  - img
+            - button "Риск-фактор Частота транзакций" [ref=e226] [cursor=pointer]:
+              - generic [ref=e228]:
+                - generic [ref=e229]: Частота транзакций
+                - generic [ref=e230]: Количество операций за 30 дней.
+              - generic [ref=e232]: Транзакция
+              - generic [ref=e235]: transactions.count_30d
+              - generic "2 корзин" [ref=e237]:
+                - generic [ref=e240]: "2"
+              - generic [ref=e245]: "0.2"
+              - generic [ref=e247]: Активен
+              - generic [ref=e250]:
+                - button "Редактировать «Частота транзакций»" [ref=e251]:
+                  - img
+                - button "Удалить «Частота транзакций»" [ref=e252]:
+                  - img
+            - button "Риск-фактор Скоринговый балл" [ref=e254] [cursor=pointer]:
+              - generic [ref=e256]:
+                - generic [ref=e257]: Скоринговый балл
+                - generic [ref=e258]: Итоговый ML-скор клиента из истории скоринга.
+              - generic [ref=e260]: Скоринг
+              - generic [ref=e263]: scoring_history.total
+              - generic "3 корзин" [ref=e265]:
+                - generic [ref=e269]: "3"
+              - generic [ref=e274]: "0.35"
+              - generic [ref=e276]: Активен
+              - generic [ref=e279]:
+                - button "Редактировать «Скоринговый балл»" [ref=e280]:
+                  - img
+                - button "Удалить «Скоринговый балл»" [ref=e281]:
+                  - img
+          - generic [ref=e282]:
+            - generic [ref=e283]: 5 записей
+            - generic [ref=e284]:
+              - generic [ref=e285]: Стр. 1 из 1
+              - generic [ref=e286]:
+                - button "Предыдущая страница" [disabled]:
+                  - img
+                - button "Следующая страница" [disabled]:
+                  - img
+    - button "D · Утренняя смена ЦПК" [ref=e287]:
+      - img
+      - generic [ref=e288]: D
+      - generic [ref=e289]: ·
+      - generic [ref=e290]: Утренняя смена ЦПК
+    - button "Открыть AI-ассистента" [ref=e292]:
+      - img [ref=e293]
+  - generic [ref=e297]:
+    - heading "Command Palette" [level=2] [ref=e298]
+    - paragraph [ref=e299]: Search for a command to run...
+  - region "Notifications alt+T"
+  - button "Open Next.js Dev Tools" [ref=e305] [cursor=pointer]:
+    - img [ref=e306]
+  - alert [ref=e309]

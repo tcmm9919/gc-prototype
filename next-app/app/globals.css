@@ -42,6 +42,7 @@
     /* Brand — Freedom green, refined for paper */
     --primary: oklch(0.52 0.14 152);                /* deep forest */
     --primary-foreground: oklch(0.99 0.005 95);
+    --primary-strong: oklch(0.44 0.15 152);         /* darker forest — text on primary/10 tint, WCAG AA on white */
     --primary-soft: oklch(0.62 0.13 150);
     --primary-glow: oklch(0.62 0.13 150 / 0.18);
     --primary-tint: oklch(0.96 0.03 150);
@@ -50,8 +51,8 @@
     --secondary: oklch(0.97 0.003 250);
     --secondary-foreground: oklch(0.20 0.008 250);
     --muted: oklch(0.96 0.003 250);
-    --muted-foreground: oklch(0.48 0.008 250);
-    --subtle-foreground: oklch(0.62 0.008 250);
+    --muted-foreground: oklch(0.46 0.008 250);    /* затемнён для WCAG AA на белом */
+    --subtle-foreground: oklch(0.52 0.008 250);   /* третичный текст — поднят контраст до AA */
     --ink-soft: oklch(0.38 0.008 250);
     --accent: oklch(0.96 0.003 250);
     --accent-foreground: oklch(0.20 0.008 250);
@@ -122,6 +123,7 @@
     /* Bright mint primary for dark */
     --primary: oklch(0.78 0.20 145);              /* punchier green for dark */
     --primary-foreground: oklch(0.12 0.05 145);
+    --primary-strong: var(--primary);            /* dark tint already passes — reuse bright mint */
     --primary-soft: oklch(0.82 0.18 145);
     --primary-glow: oklch(0.78 0.20 145 / 0.35);
     --primary-tint: oklch(0.30 0.10 145);
@@ -188,6 +190,7 @@
     --color-popover-foreground: var(--popover-foreground);
     --color-primary: var(--primary);
     --color-primary-foreground: var(--primary-foreground);
+    --color-primary-strong: var(--primary-strong);
     --color-primary-soft: var(--primary-soft);
     --color-primary-tint: var(--primary-tint);
     --color-secondary: var(--secondary);

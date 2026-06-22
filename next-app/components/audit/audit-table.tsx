@@ -38,6 +38,18 @@ const ACTION_TONE: Record<AuditAction, "success" | "warning" | "danger" | "muted
   recalculate: "muted",
 };
 
+// RU-метки для технических значений действий (интерфейс полностью русский)
+const ACTION_LABEL: Record<AuditAction, string> = {
+  "Создание": "Создание",
+  "Обновление": "Обновление",
+  "Удаление": "Удаление",
+  "Вход": "Вход",
+  "Одобрение": "Одобрение",
+  "Отправка": "Отправка",
+  run: "Запуск",
+  recalculate: "Пересчёт",
+};
+
 const RESOURCES: ReadonlyArray<AuditResource> = [
   "client",
   "transaction",
@@ -60,8 +72,8 @@ const RESOURCE_LABEL: Record<AuditResource, string> = {
   report: "Отчёт",
   agent: "Агент",
   settings: "Настройки",
-  risk: "risk",
-  "risk-attributes": "risk-attributes",
+  risk: "Риск",
+  "risk-attributes": "Риск-атрибуты",
 };
 
 function formatDateTime(iso: string): string {
@@ -105,7 +117,7 @@ export function AuditTable() {
       header: "Действие",
       meta: { width: "minmax(0, 2fr)" },
       cell: ({ getValue }) => (
-        <StatusBadge tone={ACTION_TONE[getValue() as AuditAction]}>{getValue() as string}</StatusBadge>
+        <StatusBadge tone={ACTION_TONE[getValue() as AuditAction]}>{ACTION_LABEL[getValue() as AuditAction]}</StatusBadge>
       ),
     },
     {
@@ -185,7 +197,7 @@ export function AuditTable() {
                   checked={actionFilter.has(a)}
                   onCheckedChange={() => setActionFilter((s) => toggle(s, a))}
                 >
-                  {a}
+                  {ACTION_LABEL[a]}
                 </DropdownMenuCheckboxItem>
               ))}
             </DropdownMenuContent>
