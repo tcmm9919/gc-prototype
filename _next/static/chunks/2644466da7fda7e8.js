@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,32035,e=>{"use strict";var t=e.i(71645),s=e.i(18566);function u(){let e=(0,s.useRouter)();return t.useEffect(()=>{e.replace("/settings/system")},[e]),null}e.s(["default",()=>u])}]);
