@@ -99,7 +99,7 @@ function AIValueCard({ aiCases }: { aiCases: Case[] }) {
 
   return (
     <Link
-      href="/agents/compliance-officer"
+      href="/ai/compliance-agent"
       className="group/aicard rounded-2xl border border-transparent dark:border-border bg-card p-5 flex flex-col gap-4 hover:bg-foreground/[0.02] dark:hover:bg-white/[0.06] transition-colors"
     >
       <div className="flex items-center justify-between gap-3">
@@ -844,7 +844,7 @@ export function ExecutorDashboard() {
               </Button>
             )}
             <Button asChild variant="outline">
-              <Link href="/agents/compliance-officer">
+              <Link href="/ai/compliance-agent">
                 Отчёт ассистента
                 <ArrowUpRight className="size-4" />
               </Link>

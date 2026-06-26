@@ -67,7 +67,7 @@ const activityCases: ActivityCase[] = [
     statusLabel: "Перезагрузка инструкции",
     minutesAgo: 45,
     exactTime: "16:11",
-    href: "/agents/compliance-officer",
+    href: "/ai/compliance-agent",
   },
   {
     id: "CASE-20260506-A1B2C3D4",
@@ -316,7 +316,7 @@ export function DashboardContent() {
             </div>
             <div className="flex items-center shrink-0">
               <Button size="lg" asChild className="h-10 px-4 text-[13px] font-medium">
-                <Link href="/agents/compliance-officer">
+                <Link href="/ai/compliance-agent">
                   <Sparkles className="size-3.5" />
                   Compliance Officer AI
                   <ArrowUpRight className="size-3.5" />
@@ -419,7 +419,7 @@ export function DashboardContent() {
               </span>
             </div>
             <Link
-              href="/agents/compliance-officer"
+              href="/ai/compliance-agent"
               className="inline-flex items-center gap-1 text-[12px] font-medium text-primary hover:gap-1.5 transition-all shrink-0"
             >
               Открыть
