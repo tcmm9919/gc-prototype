@@ -30,15 +30,23 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }}
       style={
         {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
+          "--normal-bg": "var(--card)",
+          "--normal-text": "var(--card-foreground)",
           "--normal-border": "var(--border)",
           "--border-radius": "var(--radius)",
+          "--width": "380px",
         } as React.CSSProperties
       }
       toastOptions={{
         classNames: {
-          toast: "cn-toast",
+          // Белый тост, контент на всю ширину, кнопки — полноширокие снизу (стек)
+          toast: "cn-toast !flex !flex-col !items-stretch !gap-2 !bg-card !text-card-foreground !border-border !shadow-lg",
+          icon: "!m-0 self-start",
+          content: "!w-full",
+          title: "!w-full text-sm font-medium",
+          description: "!w-full !text-muted-foreground",
+          actionButton: "!w-full !justify-center",
+          cancelButton: "!w-full !justify-center",
         },
       }}
       {...props}
