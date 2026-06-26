@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ru" suppressHydrationWarning className="dark antialiased">
+    <html lang="ru" suppressHydrationWarning className="antialiased">
       <body>
         <ThemeProvider>
           <TooltipProvider delayDuration={150}>

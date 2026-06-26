@@ -10,9 +10,9 @@ function ThemeProvider({
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="dark"
+      defaultTheme="light"
       enableSystem={false}
-      storageKey="gcp-theme-v4"
+      storageKey="gcp-theme-v5"
       disableTransitionOnChange
       {...props}
     >
