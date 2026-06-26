@@ -202,6 +202,7 @@ export function ChatScreen() {
       ...data.alerts.map((a) => ({ id: a.id, label: a.ruleName ?? "" })),
       ...data.cases.map((c) => ({ id: c.id, label: c.type ?? "" })),
       ...data.scenarios.map((s) => ({ id: s.id, label: s.name ?? "" })),
+      ...data.rules.map((r) => ({ id: r.id, label: r.name ?? "" })),
     ],
     [data],
   );

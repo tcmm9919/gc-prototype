@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowLeftRight, Bell, Folder, User, Workflow } from "lucide-react";
+import { ArrowLeftRight, Bell, Folder, ListChecks, User, Workflow } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const PREFIX_META: Record<string, { href: (id: string) => string; icon: React.ComponentType<{ className?: string }>; tone: string; label: string }> = {
@@ -12,11 +12,12 @@ const PREFIX_META: Record<string, { href: (id: string) => string; icon: React.Co
   // Реальные кейсы в моках — формата CASE-… (slice(0,2) === "CA")
   CA: { href: (id) => `/cases/${id}`, icon: Folder, tone: "bg-risk-high/10 text-risk-high border-risk-high/30 hover:bg-risk-high/15", label: "кейс" },
   SC: { href: (id) => `/workflows/${id}`, icon: Workflow, tone: "bg-muted text-foreground border-border hover:bg-accent", label: "сценарий" },
+  RL: { href: (id) => `/rules/${id}`, icon: ListChecks, tone: "bg-primary/10 text-primary border-primary/30 hover:bg-primary/15", label: "правило" },
 };
 
 // Упоминания: новый синтаксис «/CL-…» (не после буквы/цифры/слэша — чтобы не ловить URL),
 // плюс старый «[CL-…]» для совместимости с демо-контентом.
-const ID_PATTERN = /\[((?:CL|TX|AL|CS|SC|CASE)-[a-zA-Z0-9-]+)\]|(?<![\w/])\/((?:CL|TX|AL|CS|SC|CASE)-[a-zA-Z0-9-]+)/g;
+const ID_PATTERN = /\[((?:CL|TX|AL|CS|SC|RL|CASE)-[a-zA-Z0-9-]+)\]|(?<![\w/])\/((?:CL|TX|AL|CS|SC|RL|CASE)-[a-zA-Z0-9-]+)/g;
 
 export function EntityPill({ id, className, inverted }: { id: string; className?: string; inverted?: boolean }) {
   const prefix = id.slice(0, 2);

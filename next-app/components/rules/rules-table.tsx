@@ -40,6 +40,16 @@ export function RulesTable() {
 
   const columns: ColumnDef<Rule>[] = [
     {
+      accessorKey: "id",
+      header: "ID",
+      meta: { width: "minmax(0, 0.7fr)" },
+      cell: ({ row }) => (
+        <Link href={`/rules/${row.original.id}`} className="font-mono text-xs text-primary hover:underline">
+          {row.original.id}
+        </Link>
+      ),
+    },
+    {
       accessorKey: "name",
       header: "Название",
       meta: { width: "minmax(0, 1.6fr)" },
