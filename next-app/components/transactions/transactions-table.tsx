@@ -154,18 +154,13 @@ export function TransactionsTable() {
     {
       id: "amount",
       header: "Сумма",
+      meta: { width: "minmax(0, 1.1fr)" },
       cell: ({ row }) => (
-        <span className="tabular-nums text-sm whitespace-nowrap">
-          {formatAmount(row.original.amount, row.original.currency)}
-        </span>
-      ),
-    },
-    {
-      accessorKey: "amountKZT",
-      header: "В тенге",
-      cell: ({ row }) => (
-        <span className="tabular-nums text-sm whitespace-nowrap text-muted-foreground">
-          {formatAmount(row.original.amountKZT, "KZT")}
+        <span className="flex flex-col leading-tight tabular-nums">
+          <span className="whitespace-nowrap text-sm">{formatAmount(row.original.amount, row.original.currency)}</span>
+          {row.original.currency !== "KZT" ? (
+            <span className="whitespace-nowrap text-xs text-muted-foreground">≈ {formatAmount(row.original.amountKZT, "KZT")}</span>
+          ) : null}
         </span>
       ),
     },

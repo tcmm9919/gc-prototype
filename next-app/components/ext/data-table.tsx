@@ -152,7 +152,7 @@ export function DataTable<T>({
   // Каждая колонка получает пол ширины COL_MIN, чтобы не схлопывалась в 0 и не
   // налезала на соседнюю. Дробные пропорции (Xfr) из meta.width сохраняются —
   // меняем только нижнюю границу minmax(0, …) → minmax(COL_MINpx, …).
-  const COL_MIN = 150;
+  const COL_MIN = 112;
   const resolveTrack = (w?: string) =>
     (w ?? "minmax(0, 1fr)").replace(/minmax\(\s*0\s*,/, `minmax(${COL_MIN}px,`);
   const resolveMinPx = (w?: string) => {
