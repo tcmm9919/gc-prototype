@@ -21,15 +21,23 @@ function isDetailRoute(pathname: string): boolean {
 export function AppMain({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? "";
   const detail = isDetailRoute(pathname);
+  const white = isWhiteCanvas(pathname);
 
   return (
     <main
       className={cn(
         "flex-1 min-w-0 min-h-0 overflow-y-auto [scrollbar-gutter:stable]",
         detail && "bg-detail-canvas",
+        white && "bg-card",
       )}
     >
       {children}
     </main>
   );
+}
+
+// Страницы с белой канвой (без серого фона) — напр. галерея агентов.
+function isWhiteCanvas(pathname: string): boolean {
+  const n = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
+  return n === "/ai/agents" || n === "/ai";
 }

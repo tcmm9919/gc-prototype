@@ -154,6 +154,47 @@ export const seedAgents: Agent[] = [
 - Каждый фактор риска — с указанием источника данных.
 - Не включай рекомендации по решению — только описание рисков.`,
   }),
+  // Доп. агенты для масштаба списка — разные модели/инструменты/статусы.
+  makeAgent({
+    id: "AG-5",
+    name: "Скрининг по санкционным спискам",
+    description: "Сверяет клиента и контрагентов с OFAC / EU / UN / локальными списками и формирует вердикт.",
+    model: "deepseek-v32/latest",
+    enabled: true,
+    tools: ["read_client", "check_sanctions", "search_web", "generate_report"],
+  }),
+  makeAgent({
+    id: "AG-6",
+    name: "Анализ транзакционных паттернов",
+    description: "Выявляет нетипичные паттерны переводов: дробление, транзит, velocity-всплески.",
+    model: "qwen3-235b-a22b-fp8/latest",
+    enabled: true,
+    tools: ["get_transactions", "call_ml_model", "explain"],
+  }),
+  makeAgent({
+    id: "AG-7",
+    name: "Adverse media монитор",
+    description: "Сканирует открытые источники на негативные упоминания о клиенте и его связях.",
+    model: "gpt-oss-120b/latest",
+    enabled: true,
+    tools: ["search_web", "summarize", "generate_report"],
+  }),
+  makeAgent({
+    id: "AG-8",
+    name: "Генератор SAR-черновиков",
+    description: "Готовит черновик отчёта о подозрительной операции (SAR) по кейсу.",
+    model: "gemma-3-27b-it/latest",
+    enabled: false,
+    tools: ["read_case", "get_transactions", "generate_report"],
+  }),
+  makeAgent({
+    id: "AG-9",
+    name: "Классификатор назначений платежей",
+    description: "Определяет экономический смысл операции по назначению и КНП.",
+    model: "yandexgpt-5.1/latest",
+    enabled: true,
+    tools: ["get_transactions", "classify"],
+  }),
 ];
 export const seedAudit: AuditEvent[] = many(makeAuditEvent, 200);
 export const seedLLMUsage: LLMUsageRequest[] = many(makeLLMUsage, 162);

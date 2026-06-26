@@ -32,6 +32,7 @@ import {
   seedRules,
   seedScenarios,
   seedTransactions,
+  seedAgents,
 } from "./seeds";
 import {
   morningShiftAlerts,
@@ -81,5 +82,11 @@ export function getAllTransactionIds(): string[] {
 export function getAllRuleIds(): string[] {
   return uniq([
     ...seedRules.map((r) => r.id),
+  ]);
+}
+
+export function getAllAgentIds(): string[] {
+  return uniq([
+    ...seedAgents.map((a) => a.id),
   ]);
 }
