@@ -55,9 +55,16 @@ export const seedClients: Client[] = [...storyClients, ...many(makeClient, 80)].
   ...c,
   riskLevel: getRiskConfig(c.internalScore).key,
 }));
-export const seedTransactions: Transaction[] = [...storyTransactions, ...many(makeTransaction, 300)];
-export const seedAlerts: Alert[] = [...storyAlerts, ...many(makeAlert, 60)];
-export const seedCases: Case[] = [...storyCases, ...many(makeCase, 35)];
+// Демо-объём для карточных табов: ~100 айтемов на клиента CL-S01 — чтобы
+// пагинация в карточных списках (Транзакции/Оповещения/Кейсы) реально листалась.
+const BULK_CLIENT = "CL-S01";
+const bulkTransactions = Array.from({ length: 100 }, () => makeTransaction({ clientId: BULK_CLIENT }));
+const bulkAlerts = Array.from({ length: 100 }, () => makeAlert({ clientId: BULK_CLIENT }));
+const bulkCases = Array.from({ length: 100 }, () => makeCase({ clientId: BULK_CLIENT }));
+
+export const seedTransactions: Transaction[] = [...storyTransactions, ...many(makeTransaction, 300), ...bulkTransactions];
+export const seedAlerts: Alert[] = [...storyAlerts, ...many(makeAlert, 60), ...bulkAlerts];
+export const seedCases: Case[] = [...storyCases, ...many(makeCase, 35), ...bulkCases];
 export const seedRules: Rule[] = many(makeRule, 12);
 export const seedScenarios: ComplianceScenario[] = many(makeScenario, 18);
 export const seedAgents: Agent[] = [
