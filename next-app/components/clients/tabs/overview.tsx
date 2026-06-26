@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import {
   ShieldAlert,
   ShieldCheck,
@@ -10,8 +11,10 @@ import {
   AlertTriangle,
   Lock,
   Crown,
+  History,
 } from "lucide-react"
 import type { Client, ClientFlags } from "@/lib/mock"
+import { useMockData } from "@/lib/mock"
 import { Button } from "@/components/ui/button"
 import { StatusBadge } from "@/components/ext/status-badge"
 import { cn } from "@/lib/utils"
@@ -64,6 +67,26 @@ const DOCUMENTS = [
 ]
 
 export function ClientOverview({ client }: { client: Client }) {
+  const data = useMockData()
+
+  // История запусков сценариев по клиенту — детерминированный mock.
+  const scenarioRuns = React.useMemo(() => {
+    const scs = data.scenarios
+    if (!scs.length) return []
+    const seed = Array.from(client.id).reduce((a, c) => a + c.charCodeAt(0), 0)
+    const STATUSES = [
+      { key: "success", label: "Успешно", tone: "success" as const },
+      { key: "success", label: "Успешно", tone: "success" as const },
+      { key: "error", label: "Ошибка", tone: "danger" as const },
+      { key: "running", label: "В процессе", tone: "info" as const },
+    ]
+    const n = Math.min(scs.length, 4)
+    return Array.from({ length: n }, (_, i) => {
+      const sc = scs[(seed + i) % scs.length]
+      const at = new Date(Date.now() - (i * 53 + 8) * 3_600_000)
+      return { id: sc.id, name: sc.name, at, ...STATUSES[(seed + i) % STATUSES.length] }
+    })
+  }, [client.id, data.scenarios])
 
   const nameParts = client.fullName.split(" ")
   const detailFields: Array<{ label: string; value: React.ReactNode }> = [
@@ -87,21 +110,22 @@ export function ClientOverview({ client }: { client: Client }) {
   ).filter((key) => flags[key] === true)
 
   return (
-    <div className="flex flex-col gap-6">
-      {/* Подробности — на всю ширину, белая карта + контур */}
+    <div className="@container flex flex-col gap-6">
+      {/* Подробности — список «лейбл → значение»; колонки адаптируются к ширине
+          самой колонки (container query), значения переносятся, не обрезаются. */}
       <div className="rounded-2xl border border-border bg-card p-5">
-        <h3 className="mb-5 font-heading text-[15px] font-semibold tracking-[-0.01em] text-foreground">
+        <h3 className="mb-4 font-heading text-[15px] font-semibold tracking-[-0.01em] text-foreground">
           Подробности
         </h3>
-        <div className="grid gap-x-8 gap-y-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <dl className="grid grid-cols-1 gap-x-10 gap-y-1 @[40rem]:grid-cols-2">
           {detailFields.map((f) => (
             <Field key={f.label} label={f.label} value={f.value} />
           ))}
-        </div>
+        </dl>
       </div>
 
       {/* Документы (слева, шире) + Канал (справа, уже) */}
-      <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
+      <div className="grid gap-6 @[48rem]:grid-cols-[2fr_1fr]">
         {/* Документы клиента */}
         <div className="rounded-2xl border border-border bg-card p-5">
           <div className="mb-4 flex items-center justify-between gap-3">
@@ -118,9 +142,9 @@ export function ClientOverview({ client }: { client: Client }) {
             {DOCUMENTS.slice(0, 4).map((d) => (
               <div
                 key={d.name}
-                className="flex items-center justify-between gap-2 rounded-xl bg-foreground/[0.03] px-3 py-2 text-xs dark:bg-white/[0.03]"
+                className="flex items-start justify-between gap-2 rounded-xl bg-foreground/[0.03] px-3 py-2 text-xs dark:bg-white/[0.03]"
               >
-                <span className="truncate font-mono text-primary">{d.name}</span>
+                <span className="min-w-0 break-all font-mono text-primary">{d.name}</span>
                 <StatusBadge tone="muted">{d.tag}</StatusBadge>
               </div>
             ))}
@@ -148,6 +172,37 @@ export function ClientOverview({ client }: { client: Client }) {
         </div>
       </div>
 
+      {/* История запусков сценариев */}
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <h3 className="mb-4 inline-flex items-center gap-2 font-heading text-[15px] font-semibold tracking-[-0.01em] text-foreground">
+          <History className="size-4 text-muted-foreground" />
+          История запусков сценариев
+          <span className="font-normal text-muted-foreground">{scenarioRuns.length}</span>
+        </h3>
+        {scenarioRuns.length > 0 ? (
+          <ul className="space-y-1.5">
+            {scenarioRuns.map((r, i) => (
+              <li
+                key={`${r.id}-${i}`}
+                className="flex items-center justify-between gap-3 rounded-xl bg-foreground/[0.03] px-3 py-2.5 dark:bg-white/[0.03]"
+              >
+                <span className="flex min-w-0 items-center gap-2.5">
+                  <Link href={`/workflows/${r.id}`} className="truncate text-sm font-medium text-primary hover:underline">
+                    {r.name}
+                  </Link>
+                  <span className="shrink-0 text-xs text-muted-foreground">
+                    {r.at.toLocaleDateString("ru-RU")} {r.at.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" })}
+                  </span>
+                </span>
+                <StatusBadge tone={r.tone}>{r.label}</StatusBadge>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-muted-foreground">Сценарии по клиенту не запускались</p>
+        )}
+      </div>
+
       {/* ACTIVE FLAGS — тоже белая карта + контур */}
       {activeFlags.length > 0 ? (
         <div className="rounded-2xl border border-border bg-card p-4">
@@ -169,11 +224,9 @@ export function ClientOverview({ client }: { client: Client }) {
 
 function Field({ label, value }: { label: string; value: React.ReactNode }) {
   return (
-    <div className="flex min-w-0 flex-col gap-0.5">
-      <span className="text-xs text-muted-foreground">
-        {label}
-      </span>
-      <p className="truncate text-sm font-medium">{value}</p>
+    <div className="flex items-baseline justify-between gap-6 border-b border-border/40 py-2 last:border-b-0 @[40rem]:[&:nth-last-child(2)]:border-b-0">
+      <dt className="shrink-0 text-xs text-muted-foreground">{label}</dt>
+      <dd className="min-w-0 break-words text-right text-sm font-medium">{value}</dd>
     </div>
   )
 }

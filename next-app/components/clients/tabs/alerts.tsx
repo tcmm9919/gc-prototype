@@ -7,6 +7,7 @@ import { useMockData, type Alert } from "@/lib/mock";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { EmptyState } from "@/components/ext/empty-state";
 import { RelativeTime } from "@/components/ext/relative-time";
+import { usePaged, PagerFooter } from "@/components/ext/pager";
 
 const SEVERITY_TONE: Record<Alert["severity"], "info" | "warning" | "danger"> = {
   low: "info", medium: "warning", high: "warning", critical: "danger",
@@ -21,6 +22,7 @@ const STATUS_LABEL: Record<Alert["status"], string> = {
 export function ClientAlerts({ clientId }: { clientId: string }) {
   const data = useMockData();
   const alerts = data.alerts.filter((a) => a.clientId === clientId);
+  const paged = usePaged(alerts, 12);
 
   if (alerts.length === 0) {
     return (
@@ -29,8 +31,9 @@ export function ClientAlerts({ clientId }: { clientId: string }) {
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      {alerts.map((a, idx) => (
+    <div className="flex h-full min-h-0 flex-col gap-2">
+      <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-0.5">
+        {paged.pageItems.map((a, idx) => (
         <motion.div
           key={a.id}
           initial={{ opacity: 0, y: 6 }}
@@ -53,7 +56,21 @@ export function ClientAlerts({ clientId }: { clientId: string }) {
             </div>
           </Link>
         </motion.div>
-      ))}
+        ))}
+      </div>
+      <div className="shrink-0 border-t border-border/60 pt-2">
+        <PagerFooter
+          page={paged.page}
+          pageCount={paged.pageCount}
+          total={paged.total}
+          from={paged.from}
+          to={paged.to}
+          pageSize={paged.pageSize}
+          onPage={paged.setPage}
+          onPageSize={paged.setPageSize}
+          unit="оповещений"
+        />
+      </div>
     </div>
   );
 }

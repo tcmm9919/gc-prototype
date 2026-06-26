@@ -47,7 +47,7 @@ export function ClientDocuments() {
           </Button>
         }
       >
-        <div className="grid gap-2 md:grid-cols-2">
+        <div className="@container grid gap-2 @[40rem]:grid-cols-2">
           {DOCS.map((d) => {
             const Icon = ICON[d.type];
             return (
@@ -60,7 +60,7 @@ export function ClientDocuments() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
-                    <span className="font-medium text-sm truncate">{d.name}</span>
+                    <span className="font-medium text-sm break-all">{d.name}</span>
                     <Button variant="ghost" size="icon" className="size-7 -mt-1 -mr-1" aria-label="Скачать">
                       <Download className="size-4" />
                     </Button>
