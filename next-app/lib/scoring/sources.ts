@@ -72,7 +72,8 @@ export const SCORE_SOURCES: Record<ScoreSourceKey, ScoreSourceMeta> = {
     drillDownType: "news_list",
     relatedTab: "news",
   },
-  // open question #4: решено — ПДЛ участвует в формуле как критический источник.
+  // PRD: формула — 4 фактора (30/40/15/15). ПДЛ показывается как отдельная
+  // проверка, но НЕ участвует во взвешенном среднем (решение Тимы 2026-06-26).
   pdl_check: {
     label: "Проверка на ПДЛ",
     color: "oklch(0.58 0.19 300)", // фиолетовый
@@ -80,6 +81,8 @@ export const SCORE_SOURCES: Record<ScoreSourceKey, ScoreSourceMeta> = {
     modelLabel: "customers.pdl",
     drillDownType: "pdl_details",
     relatedTab: null,
+    dimmed: true,
+    excludeFromFormula: true,
   },
 }
 
@@ -90,13 +93,13 @@ export const RISK_WEIGHTS: Record<ScoreSourceKey, number> & {
   _config_version: string
   _updated_at: string
 } = {
-  anomalous_transactions: 0.26,
-  internal_scoring: 0.36,
-  edd_agent: 0.14,
-  news_agent: 0.14,
-  pdl_check: 0.1,
-  _config_version: "risk_v2.5",
-  _updated_at: "2026-04-12T10:00:00Z",
+  anomalous_transactions: 0.3,
+  internal_scoring: 0.4,
+  edd_agent: 0.15,
+  news_agent: 0.15,
+  pdl_check: 0, // вне формулы (excludeFromFormula)
+  _config_version: "risk_v3.0",
+  _updated_at: "2026-06-26T00:00:00Z",
 }
 
 /** Средняя латентность одного агента (для оценки времени пересчёта), сек */

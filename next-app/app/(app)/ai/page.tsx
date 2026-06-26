@@ -1,11 +1,26 @@
 import Link from "next/link";
-import { ArrowRight, Bot, Shield, CheckCircle2 } from "lucide-react";
+import { ArrowRight, Bot, Shield, CheckCircle2, MessageSquare } from "lucide-react";
 import { PageHeader } from "@/components/ext/page-header";
 import { StateSwitch } from "@/components/ext/state-switch";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 
 const TILES = [
+  {
+    href: "/chat",
+    icon: MessageSquare,
+    title: "Чат",
+    eyebrow: "AI-ассистент · Диалог",
+    description:
+      "Контекстный AI-ассистент комплаенс-офицера. Задавайте вопросы по клиентам, транзакциям и кейсам, генерируйте черновики отчётов и решений.",
+    bullets: [
+      "Контекст сущностей — упоминайте клиента, кейс или транзакцию прямо в диалоге",
+      "Черновики — отчёты, объяснения риска, ответы менеджеру",
+      "Веб-поиск — подтягивает открытые источники по запросу",
+    ],
+    cta: "Открыть чат",
+    tone: "bg-primary/15 text-primary",
+  },
   {
     href: "/ai/agents",
     icon: Bot,
@@ -42,15 +57,15 @@ export default function Page() {
   return (
     <>
       <PageHeader
-        title="AI-агенты"
-        description="Настраиваемые AI-агенты и автоматизированный Комплаенс-агент для обработки оповещений и автоматизации комплаенс-задач."
+        title="Искусственный интеллект"
+        description="AI-инструменты платформы: чат-ассистент, настраиваемые агенты и автоматизированный Комплаенс-агент для обработки оповещений и комплаенс-задач."
       />
       <StateSwitch
         skeleton="list"
         emptyTitle="Агентов нет"
         emptyDescription="Создайте первого агента или подключите Комплаенс-агента."
       >
-        <div className="grid gap-4 pb-6 md:grid-cols-2">
+        <div className="grid gap-4 pb-6 md:grid-cols-2 lg:grid-cols-3">
           {TILES.map((t) => (
             <Card key={t.href} className="h-full">
               <CardContent className="flex h-full flex-col gap-3 p-5">

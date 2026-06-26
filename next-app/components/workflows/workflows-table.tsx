@@ -15,12 +15,12 @@ import { Button } from "@/components/ui/button";
 const TYPE_LABEL = { client: "Клиентский", group: "Групповой" } as const;
 const TYPE_TONE = { client: "info", group: "warning" } as const;
 
-// TODO[ночной-прогон]: спека §4.1–4.2 описывает 3 таба с Групповой/Встроенный disabled+tooltip.
-// Модель знает только type "client" | "group" (нет "embedded"), а DataTableView не поддерживает
-// disabled/tooltip. Реализовано как обычные views по существующим типам — без disabled-состояния.
+// 3 таба под PRD: Клиентский / Групповой (активные) + Встроенный (disabled, «В разработке»).
+// Модель сценария знает type "client" | "group"; «Встроенный» — заглушка-вкладка.
 const WORKFLOW_VIEWS: DataTableView<ComplianceScenario>[] = [
   { id: "client", label: "Клиентский", predicate: (s) => s.type === "client" },
   { id: "group", label: "Групповой", predicate: (s) => s.type === "group" },
+  { id: "embedded", label: "Встроенный", disabled: true, tooltip: "В разработке" },
 ];
 
 export function WorkflowsTable() {

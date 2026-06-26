@@ -21,13 +21,10 @@ import {
 import type { ScoreContribution } from "@/lib/scoring/formula"
 import { cn } from "@/lib/utils"
 
-const WEIGHT_ROWS = [
-  "anomalous_transactions",
-  "internal_scoring",
-  "edd_agent",
-  "news_agent",
-  "pdl_check",
-] as const
+// Формула — 4 фактора (ПДЛ вне формулы, excludeFromFormula).
+const WEIGHT_ROWS = (
+  ["anomalous_transactions", "internal_scoring", "edd_agent", "news_agent", "pdl_check"] as const
+).filter((k) => !SCORE_SOURCES[k].excludeFromFormula)
 
 interface ProfileHeaderProps {
   finalScore: number

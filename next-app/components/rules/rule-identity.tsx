@@ -36,6 +36,7 @@ export function RuleIdentity({ rule }: { rule: Rule }) {
 
           <div className="flex flex-col gap-2.5 rounded-xl bg-foreground/[0.03] p-4 dark:bg-white/[0.04]">
             <Row label="Автор" value={author} />
+            <Row label="Версия" value={`v${rule.version ?? 1}`} />
             <Row label="Обновлено" value={formatDateTime(rule.updatedAt)} />
             <Row label="Условий" value={rule.conditions.length} />
           </div>

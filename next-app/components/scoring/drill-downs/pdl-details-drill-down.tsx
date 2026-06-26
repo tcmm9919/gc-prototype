@@ -4,7 +4,7 @@ import * as React from "react"
 import { AlertTriangle, Check } from "lucide-react"
 import { formatDateTime } from "@/lib/format"
 
-// open question #4: решено — ПДЛ участвует в формуле как критический источник.
+// PRD: формула — 4 фактора (30/40/15/15). ПДЛ — отдельная проверка вне формулы.
 
 /** Списки ПДЛ: какой совпал (match), какие чисты */
 const PDL_LISTS: Array<{ label: string; matched: boolean }> = [

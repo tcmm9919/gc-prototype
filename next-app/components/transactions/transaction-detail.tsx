@@ -37,9 +37,25 @@ export function TransactionDetail({ id }: { id: string }) {
   const alerts = data.alerts.filter((a) => a.transactionId === tx.id)
   const cases = data.cases.filter((c) => c.linkedTransactionIds.includes(tx.id))
 
+  const HIGH_RISK_COUNTRIES = ["AE", "TR", "CY", "RU", "IR", "KP", "AF"]
+  type RiskFlag = { label: string; hint: string; tone: "danger" | "warning" | "info" }
+  const riskFlags: RiskFlag[] = []
+  if (tx.amountKZT >= 5_000_000)
+    riskFlags.push({ label: "Крупная сумма", hint: "Операция свыше 5 млн ₸", tone: "warning" })
+  if (tx.currency && tx.currency !== "KZT")
+    riskFlags.push({ label: "Валютная операция", hint: `Операция в ${tx.currency}`, tone: "info" })
+  if (tx.counterparty?.country && HIGH_RISK_COUNTRIES.includes(tx.counterparty.country))
+    riskFlags.push({ label: "Юрисдикция повышенного риска", hint: `Контрагент из ${tx.counterparty.country}`, tone: "danger" })
+  if (tx.riskLevel === "high" || tx.riskLevel === "critical")
+    riskFlags.push({ label: tx.riskLevel === "critical" ? "Критический риск операции" : "Высокий риск операции", hint: "Оценка скоринг-модели операции", tone: tx.riskLevel === "critical" ? "danger" : "warning" })
+  if (alerts.length > 0)
+    riskFlags.push({ label: `Сработавших правил: ${alerts.length}`, hint: "По операции есть оповещения", tone: "danger" })
+  for (const t of tx.tags ?? []) riskFlags.push({ label: t, hint: "Тег операции", tone: "warning" })
+
   const TABS: Array<{ value: string; label: string; count?: number; countTone?: "medium" | "primary" }> = [
     { value: "info", label: "Информация об операции" },
     { value: "parties", label: "Стороны операции" },
+    { value: "risk", label: "Риск-флаги", count: riskFlags.length, countTone: "medium" },
     { value: "alerts", label: "Оповещения", count: alerts.length, countTone: "medium" },
     { value: "cases", label: "Связанные кейсы", count: cases.length, countTone: "primary" },
   ]
@@ -90,6 +106,7 @@ export function TransactionDetail({ id }: { id: string }) {
                 >
                   <h3 className="mb-5 inline-flex items-center gap-2 font-heading text-[22px] font-bold tracking-[-0.02em] text-foreground">
                     {tab === "alerts" ? <AlertTriangle className="size-5 text-risk-medium" /> : null}
+                    {tab === "risk" ? <AlertTriangle className="size-5 text-risk-high" /> : null}
                     {tab === "cases" ? <Briefcase className="size-5 text-primary" /> : null}
                     {activeLabel}
                   </h3>
@@ -168,6 +185,32 @@ export function TransactionDetail({ id }: { id: string }) {
                         )}
                       </div>
                     </div>
+                  )}
+
+                  {/* Риск-флаги */}
+                  {tab === "risk" && (
+                    riskFlags.length > 0 ? (
+                      <ul className="space-y-2">
+                        {riskFlags.map((f, i) => (
+                          <li
+                            key={`${f.label}-${i}`}
+                            className="flex items-center justify-between gap-3 rounded-xl bg-foreground/[0.03] px-3 py-2.5 dark:bg-white/[0.03]"
+                          >
+                            <span className="flex min-w-0 items-center gap-2">
+                              <AlertTriangle
+                                className={`size-3.5 shrink-0 ${
+                                  f.tone === "danger" ? "text-risk-critical" : f.tone === "warning" ? "text-risk-high" : "text-muted-foreground"
+                                }`}
+                              />
+                              <span className="truncate text-sm font-medium">{f.label}</span>
+                            </span>
+                            <span className="shrink-0 text-xs text-muted-foreground">{f.hint}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">Риск-флагов по операции нет</p>
+                    )
                   )}
 
                   {/* Оповещения */}

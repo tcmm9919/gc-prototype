@@ -75,9 +75,46 @@ export function RulesTable() {
       cell: ({ getValue }) => userById.get(getValue() as string)?.fullName ?? "—",
     },
     {
+      accessorKey: "version",
+      header: "Версия",
+      meta: { width: "minmax(0, 0.55fr)" },
+      cell: ({ getValue }) => (
+        <span className="font-mono text-xs text-muted-foreground tabular-nums">v{(getValue() as number) ?? 1}</span>
+      ),
+    },
+    {
       accessorKey: "updatedAt",
       header: "Обновлено",
       cell: ({ getValue }) => <RelativeTime iso={getValue() as string} />,
+    },
+    {
+      id: "actions",
+      header: "Действия",
+      meta: { width: "minmax(0, 0.95fr)" },
+      cell: ({ row }) => {
+        const rule = row.original;
+        return (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-7 text-muted-foreground hover:text-foreground"
+            onClick={(e) => {
+              e.stopPropagation();
+              const next = !rule.enabled;
+              useMockStore.getState().bulkUpdateRules([rule.id], { enabled: next });
+              toast.success(next ? `Правило включено` : `Правило деактивировано`, {
+                action: {
+                  label: "Отменить",
+                  onClick: () => useMockStore.getState().bulkUpdateRules([rule.id], { enabled: rule.enabled }),
+                },
+              });
+            }}
+          >
+            {rule.enabled ? <PowerOff className="size-3.5" /> : <Power className="size-3.5" />}
+            {rule.enabled ? "Деактивировать" : "Включить"}
+          </Button>
+        );
+      },
     },
   ];
 

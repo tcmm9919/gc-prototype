@@ -238,6 +238,7 @@ export function makeRule(over: Partial<Rule> = {}): Rule {
     entity: pick<RuleEntity>(["client", "transaction", "group"], i),
     severity: (["high", "medium", "critical", "low", "high"] as const)[i % 5],
     enabled: i % 7 !== 0,
+    version: [1, 4, 2, 1, 5, 3, 1, 10, 2, 1, 6, 1][i % 12],
     authorId: `USR-${(i % 6) + 1}`,
     updatedAt: new Date(Date.now() - i * 86_400_000).toISOString(),
     conditions: [
@@ -604,10 +605,9 @@ export function makeScoreSources(client: Client): ScoreSourceData[] {
   }
 
   const h = hashStr(client.id);
-  // Все 5 источников (вкл. ПДЛ) участвуют в формуле. Факторы откалиброваны так,
-  // что Σ(factor×weight)/Σweight ≈ 1 → взвешенная сумма ≈ internalScore (без warning).
-  // ПДЛ/Новости — самые «тяжёлые» факторы: на критическом клиенте читаются как
-  // критический/высокий, на спокойном — пропорционально (см. демо-клик до 88).
+  // Формула — 4 фактора (30/40/15/15), ПДЛ вне формулы (excludeFromFormula).
+  // Факторы откалиброваны так, что Σ(factor×weight)/Σweight ≈ 1 → взвешенная
+  // сумма ≈ internalScore (без warning). ПДЛ остаётся как отдельная проверка.
   const factors: Record<ScoreSourceKey, number> = {
     anomalous_transactions: 1.3,
     internal_scoring: 0.6,

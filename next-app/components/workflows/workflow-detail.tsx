@@ -27,6 +27,29 @@ export function WorkflowDetail({ id }: { id: string }) {
   const pipeline = sc.pipeline ?? [];
   const sequentialId = sc.id.replace(/^SC-?/, "").replace(/^0+/, "") || sc.id;
 
+  // Детерминированная mock-история запусков (стабильна для одного сценария).
+  const runs = React.useMemo(() => {
+    const seed = Array.from(sc.id).reduce((a, c) => a + c.charCodeAt(0), 0);
+    const n = Math.min(sc.triggerCount ?? 0, 8);
+    const STATUSES = [
+      { key: "success", label: "Успешно", tone: "success" as const },
+      { key: "success", label: "Успешно", tone: "success" as const },
+      { key: "error", label: "Ошибка", tone: "danger" as const },
+      { key: "success", label: "Успешно", tone: "success" as const },
+      { key: "running", label: "В процессе", tone: "info" as const },
+    ];
+    const hex = (x: number) => (x * 2654435761 >>> 0).toString(16).padStart(8, "0").slice(0, 10);
+    return Array.from({ length: n }, (_, i) => {
+      const at = new Date(Date.now() - (i * 41 + 6) * 3_600_000);
+      return {
+        runId: hex(seed + i * 97),
+        at,
+        ...STATUSES[(seed + i) % STATUSES.length],
+        durationSec: 4 + ((seed + i * 13) % 56),
+      };
+    });
+  }, [sc.id, sc.triggerCount]);
+
   return (
     <div className="pb-6 pt-5">
       <div className="grid items-start gap-6 lg:grid-cols-[336px_minmax(0,1fr)]">
@@ -117,8 +140,30 @@ export function WorkflowDetail({ id }: { id: string }) {
                 />
               </button>
               {historyOpen ? (
-                <div className="mt-3 border-t border-foreground/[0.06] pt-3 text-sm text-muted-foreground dark:border-white/[0.06]">
-                  {sc.triggerCount === 0 ? "Нет запусков" : "Список запусков (mock-данные)."}
+                <div className="mt-3 border-t border-foreground/[0.06] pt-3 dark:border-white/[0.06]">
+                  {runs.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">Нет запусков</p>
+                  ) : (
+                    <ul className="space-y-1.5">
+                      {runs.map((r) => (
+                        <li
+                          key={r.runId}
+                          className="flex items-center justify-between gap-3 rounded-xl bg-foreground/[0.03] px-3 py-2 dark:bg-white/[0.03]"
+                        >
+                          <span className="flex min-w-0 items-center gap-2.5">
+                            <span className="font-mono text-xs text-muted-foreground">{r.runId}</span>
+                            <span className="truncate text-xs text-muted-foreground">
+                              {r.at.toLocaleDateString("ru-RU")} {r.at.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit" })}
+                            </span>
+                            {r.key !== "running" ? (
+                              <span className="text-xs text-muted-foreground/70 tabular-nums">{r.durationSec}с</span>
+                            ) : null}
+                          </span>
+                          <StatusBadge tone={r.tone}>{r.label}</StatusBadge>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               ) : null}
             </div>

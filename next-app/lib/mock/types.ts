@@ -213,6 +213,8 @@ export interface Rule {
   /** Важность правила (бейдж/фильтры). Опционально — дефолт high. */
   severity?: AlertSeverity;
   enabled: boolean;
+  /** Версия правила (растёт при каждом сохранении). Дефолт 1. */
+  version?: number;
   authorId: string;
   updatedAt: string;
   conditions: RuleCondition[];

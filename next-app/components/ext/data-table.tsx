@@ -37,6 +37,10 @@ export interface DataTableView<T> {
   label: string;
   icon?: React.ReactNode;
   predicate?: (item: T) => boolean;
+  /** Вкладка-заглушка: не кликается, приглушена, со всплывающей подсказкой. */
+  disabled?: boolean;
+  /** Текст подсказки (title) для disabled-вкладки, напр. «В разработке». */
+  tooltip?: string;
 }
 
 interface DataTableProps<T> {
@@ -189,6 +193,20 @@ export function DataTable<T>({
             {views.map((v) => {
               const isActive = v.id === activeViewId;
               const count = viewCounts[v.id] ?? 0;
+              if (v.disabled) {
+                return (
+                  <button
+                    key={v.id}
+                    type="button"
+                    disabled
+                    title={v.tooltip ?? "В разработке"}
+                    className="inline-flex h-7 shrink-0 cursor-not-allowed items-center gap-1.5 whitespace-nowrap rounded-md px-2.5 text-[13px] font-medium text-muted-foreground/40 [&_svg]:size-3.5"
+                  >
+                    {v.icon ? <span className="inline-flex">{v.icon}</span> : null}
+                    <span>{v.label}</span>
+                  </button>
+                );
+              }
               return (
                 <button
                   key={v.id}
