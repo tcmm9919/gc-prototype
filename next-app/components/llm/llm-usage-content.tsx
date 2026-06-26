@@ -2,13 +2,21 @@
 
 import * as React from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Filter } from "lucide-react";
+import { Filter, Coins } from "lucide-react";
 
 import { useMockData, type LLMAgentName, type LLMModelName, type LLMUsageRequest } from "@/lib/mock";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ext/data-table";
 import { StatusBadge } from "@/components/ext/status-badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -39,6 +47,54 @@ const AGENTS: ReadonlyArray<LLMAgentName> = [
 
 function formatNumber(n: number): string {
   return new Intl.NumberFormat("ru-RU").format(n);
+}
+
+// Тарифы за 1M токенов (USD), приводятся к ₸ по демо-курсу. Mock-прайс провайдера.
+const MODEL_PRICES: { model: LLMModelName; input: number; output: number }[] = [
+  { model: "deepseek-v32/latest", input: 0.27, output: 1.1 },
+  { model: "gpt-oss-120b/latest", input: 0.15, output: 0.6 },
+  { model: "qwen3-235b-a22b-fp8/latest", input: 0.2, output: 0.85 },
+  { model: "yandexgpt-5.1/latest", input: 0.3, output: 1.2 },
+  { model: "gemma-3-27b-it/latest", input: 0.08, output: 0.3 },
+];
+
+function TokenPricesDialog() {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline" size="xl">
+          <Coins className="size-4" />
+          Цены за токен
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+          <DialogTitle>Цены за токен</DialogTitle>
+          <DialogDescription>Тариф за 1&nbsp;млн токенов, ₸ (по демо-курсу {KZT_PER_USD}&nbsp;₸/$).</DialogDescription>
+        </DialogHeader>
+        <div className="overflow-x-auto rounded-xl border border-border">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border bg-foreground/[0.02] text-left text-[10px] tracking-[0.08em] text-muted-foreground uppercase dark:bg-white/[0.02]">
+                <th className="px-3 py-2 first:pl-4">Модель</th>
+                <th className="px-3 py-2 text-right">Вход / 1M</th>
+                <th className="px-3 py-2 text-right">Выход / 1M</th>
+              </tr>
+            </thead>
+            <tbody>
+              {MODEL_PRICES.map((p) => (
+                <tr key={p.model} className="border-b border-border/60 last:border-0">
+                  <td className="px-3 py-2 pl-4 font-mono text-xs text-foreground">{p.model}</td>
+                  <td className="px-3 py-2 text-right tabular-nums text-muted-foreground">{formatKzt(p.input)}</td>
+                  <td className="px-3 py-2 text-right tabular-nums text-muted-foreground">{formatKzt(p.output)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 }
 
 // Стоимость моделей биллится в USD, но интерфейс банка ведётся в KZT
@@ -286,6 +342,7 @@ export function LLMUsageContent() {
         globalFilterPlaceholder="Поиск по агенту, модели..."
         renderExpanded={(r) => <ExpandedRow req={r} />}
         pageSize={50}
+        toolbar={<TokenPricesDialog />}
         globalFilterFn={(row, _c, value) => {
           const q = String(value).toLowerCase();
           const r = row.original;

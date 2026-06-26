@@ -144,7 +144,7 @@ export default function Page() {
 
         <Card className="border-border">
           <CardContent className="p-4">
-            <h3 className="text-sm font-semibold">Добавить настройку</h3>
+            <h3 className="text-sm font-semibold">Добавить / обновить настройку</h3>
             <p className="mt-1 text-xs text-muted-foreground">
               Если ключ уже существует — его значение обновится.
             </p>

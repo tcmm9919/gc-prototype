@@ -15,7 +15,7 @@ export const SETTINGS_NAV: SettingsNavGroup[] = [
     index: "01",
     label: "Управление",
     items: [
-      { label: "Ключи", href: "/settings/system", icon: SettingsIcon,
+      { label: "Система", href: "/settings/system", icon: SettingsIcon,
         description: "SLA, валюта, пороги риска, конфиг агента", eyebrow: "Конфигурация · ключ-значение", unit: "ключей" },
       { label: "Пользователи", href: "/settings/users", icon: Users,
         description: "Учётные записи, роли и доступы офицеров", eyebrow: "Доступ · роли", unit: "человек" },

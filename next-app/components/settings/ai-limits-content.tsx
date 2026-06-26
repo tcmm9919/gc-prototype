@@ -202,7 +202,7 @@ function UsersTab({
             <thead>
               <tr className="border-b border-border text-left text-[13px] text-muted-foreground">
                 <th className="px-4 py-3 font-normal">Пользователь</th>
-                <th className="px-4 py-3 font-normal">Группа</th>
+                <th className="px-4 py-3 font-normal">Группы</th>
                 <th className="px-4 py-3 text-right font-normal">Сутки</th>
                 <th className="px-4 py-3 font-normal">Загрузка / сутки</th>
                 <th className="px-4 py-3 text-right font-normal">30 дней</th>
