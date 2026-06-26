@@ -5,7 +5,6 @@ import Link from "next/link"
 import { AlertTriangle, Bot, RefreshCcw } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -190,125 +189,103 @@ export default function Page() {
   const [escalate, setEscalate] = React.useState(true)
 
   return (
-    <div className="mx-auto w-full max-w-3xl pt-2 pb-6">
-      <Card className="py-0">
-        <CardContent className="space-y-5 p-5">
-          <div className="space-y-1.5">
-            <div className="flex items-start gap-3">
-              <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+    <div className="pb-6 pt-5">
+      <div className="grid items-start gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
+        {/* LEFT — пассапорт агента (sticky) */}
+        <aside className="self-start lg:sticky lg:top-20">
+          <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-5">
+            <div className="flex flex-col items-start gap-2">
+              <div className="flex size-11 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-emerald-400 text-primary-foreground shadow-sm">
                 <Bot className="size-5" />
               </div>
-              <div className="min-w-0 space-y-1">
-                <h1 className="font-heading text-xl font-bold">
-                  Комплаенс-агент
-                </h1>
-                <p className="text-sm leading-snug text-muted-foreground">
-                  Автоматический LLM-агент: реагирует на новые оповещения, выбирает
-                  подходящий сценарий для клиента и присылает менеджеру итог.
-                </p>
-              </div>
+              <h1 className="font-heading text-[17px] font-bold leading-tight tracking-[-0.02em]">Комплаенс-агент</h1>
+              <StatusBadge tone={enabled ? "success" : "muted"}>{enabled ? "Активен" : "Выключен"}</StatusBadge>
+              <span className="font-mono text-xs text-muted-foreground">AG · compliance-officer</span>
             </div>
-            <div className="flex items-center gap-2 pl-[52px]">
-              <StatusBadge tone={enabled ? "success" : "muted"}>
-                {enabled ? "Активен" : "Выключен"}
-              </StatusBadge>
-              <Button
-                size="sm"
-                variant={enabled ? "destructive" : "default"}
-                onClick={() => setEnabled((v) => !v)}
-              >
-                {enabled ? "Выключить" : "Включить"}
-              </Button>
-            </div>
-          </div>
 
-          <div className="space-y-3 rounded-lg border border-primary/30 bg-primary/5 p-4">
-            <h3 className="flex items-center gap-2 text-sm font-semibold">
+            <p className="text-xs leading-snug text-muted-foreground">
+              Авто-агент: реагирует на новые оповещения, выбирает сценарий для клиента и присылает менеджеру итог.
+            </p>
+
+            <div className="flex flex-col gap-2.5 rounded-xl bg-foreground/[0.03] p-4 dark:bg-white/[0.04]">
+              <CARow label="Модель" value="yandexgpt-5.1" />
+              <CARow label="Тип" value="Авто-агент" />
+              <CARow label="Решений" value={ACTIVITY.length} />
+              <CARow label="Менеджер" value={email.split("@")[0]} />
+            </div>
+
+            <Button
+              size="lg"
+              variant={enabled ? "outline" : "default"}
+              className="w-full justify-center"
+              onClick={() => setEnabled((v) => !v)}
+            >
+              {enabled ? "Выключить агента" : "Включить агента"}
+            </Button>
+          </div>
+        </aside>
+
+        {/* RIGHT — контент */}
+        <div className="flex min-w-0 flex-col gap-4">
+          <section className="space-y-3 rounded-2xl border border-primary/30 bg-primary/5 p-5">
+            <h3 className="flex items-center gap-2 font-heading text-[15px] font-semibold">
               <AlertTriangle className="size-4 text-primary" />
               Принцип работы
             </h3>
-            <ol className="list-decimal space-y-1 pl-5 text-sm">
+            <ol className="list-decimal space-y-1 pl-5 text-sm text-muted-foreground">
               {PRINCIPLE_STEPS.map((s, i) => (
                 <li key={i}>{s}</li>
               ))}
             </ol>
-            <p className="pt-2 text-xs text-muted-foreground">
-              Инструкция модели управляется в Yandex AI console; источник в
-              репозитории —{" "}
-              <code className="font-mono">
-                api/agent_instructions/compliance_officer_instruction.txt
-              </code>
-              .
+            <p className="pt-1 text-xs text-muted-foreground">
+              Инструкция модели управляется в Yandex AI console; источник в репозитории —{" "}
+              <code className="font-mono">api/agent_instructions/compliance_officer_instruction.txt</code>.
             </p>
-          </div>
-        </CardContent>
-      </Card>
+          </section>
 
-      <Card className="mt-4">
-        <CardContent className="space-y-5 p-5">
-          <h3 className="font-semibold">Настройки</h3>
+          <section className="space-y-5 rounded-2xl border border-border bg-card p-5">
+            <h3 className="font-heading text-[15px] font-semibold">Настройки</h3>
 
-          <div className="space-y-1.5">
-            <Label htmlFor="manager-email">
-              Email менеджера для отчётов
-            </Label>
-            <Input
-              id="manager-email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              type="email"
-            />
-            <p className="text-xs text-muted-foreground">
-              Куда отправлять письма с решениями и итогами. Если пусто — агент
-              работает молча, только пишет в журнал.
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <p className="text-sm font-medium">Когда отправлять письма</p>
-            <div className="grid gap-3 md:grid-cols-2">
-              <label className="flex cursor-pointer items-center gap-2 text-sm">
-                <Checkbox
-                  checked={dispatch}
-                  onCheckedChange={(v) => setDispatch(v === true)}
-                />
-                При запуске сценария клиенту
-              </label>
-              <label className="flex cursor-pointer items-center gap-2 text-sm">
-                <Checkbox
-                  checked={clearAuto}
-                  onCheckedChange={(v) => setClearAuto(v === true)}
-                />
-                Когда кейс закрыт автоматически
-              </label>
-              <label className="flex cursor-pointer items-center gap-2 text-sm">
-                <Checkbox
-                  checked={stillTriggers}
-                  onCheckedChange={(v) => setStillTriggers(v === true)}
-                />
-                Когда правило всё ещё срабатывает / клиент не ответил
-              </label>
-              <label className="flex cursor-pointer items-center gap-2 text-sm">
-                <Checkbox
-                  checked={escalate}
-                  onCheckedChange={(v) => setEscalate(v === true)}
-                />
-                Когда агент эскалирует
-              </label>
+            <div className="space-y-1.5">
+              <Label htmlFor="manager-email">Email менеджера для отчётов</Label>
+              <Input id="manager-email" value={email} onChange={(e) => setEmail(e.target.value)} type="email" />
+              <p className="text-xs text-muted-foreground">
+                Куда отправлять письма с решениями и итогами. Если пусто — агент работает молча, только пишет в журнал.
+              </p>
             </div>
-          </div>
-        </CardContent>
-      </Card>
 
-      <Card className="mt-4 gap-0 overflow-hidden py-0">
-        <div className="flex items-center justify-between border-b border-border p-4">
-          <h3 className="font-semibold">Активность агента</h3>
-          <Button variant="outline" size="sm">
-            <RefreshCcw className="size-3.5" />
-            Обновить
-          </Button>
-        </div>
-        <div className="overflow-x-auto">
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Когда отправлять письма</p>
+              <div className="grid gap-3 md:grid-cols-2">
+                <label className="flex cursor-pointer items-center gap-2 text-sm">
+                  <Checkbox checked={dispatch} onCheckedChange={(v) => setDispatch(v === true)} />
+                  При запуске сценария клиенту
+                </label>
+                <label className="flex cursor-pointer items-center gap-2 text-sm">
+                  <Checkbox checked={clearAuto} onCheckedChange={(v) => setClearAuto(v === true)} />
+                  Когда кейс закрыт автоматически
+                </label>
+                <label className="flex cursor-pointer items-center gap-2 text-sm">
+                  <Checkbox checked={stillTriggers} onCheckedChange={(v) => setStillTriggers(v === true)} />
+                  Когда правило всё ещё срабатывает / клиент не ответил
+                </label>
+                <label className="flex cursor-pointer items-center gap-2 text-sm">
+                  <Checkbox checked={escalate} onCheckedChange={(v) => setEscalate(v === true)} />
+                  Когда агент эскалирует
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <section className="overflow-hidden rounded-2xl border border-border bg-card">
+            <div className="flex items-center justify-between border-b border-border p-4">
+              <h3 className="font-heading text-[15px] font-semibold">Активность агента</h3>
+              <Button variant="outline" size="sm">
+                <RefreshCcw className="size-3.5" />
+                Обновить
+              </Button>
+            </div>
+            <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/30 text-xs font-medium uppercase tracking-wider text-muted-foreground">
@@ -367,8 +344,19 @@ export default function Page() {
               ))}
             </tbody>
           </table>
+            </div>
+          </section>
         </div>
-      </Card>
+      </div>
+    </div>
+  )
+}
+
+function CARow({ label, value }: { label: string; value: React.ReactNode }) {
+  return (
+    <div className="flex items-center justify-between gap-3 text-sm">
+      <span className="shrink-0 text-xs text-muted-foreground">{label}</span>
+      <span className="truncate text-right text-sm font-medium">{value}</span>
     </div>
   )
 }
