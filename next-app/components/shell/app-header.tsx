@@ -25,9 +25,10 @@ const STATIC_TITLES: Record<string, string> = {
   "/cases": "Кейсы",
   "/workflows": "Конструктор сценариев",
   "/workflows/builder": "Новый сценарий",
-  "/ai": "Агенты",
+  "/ai": "Искусственный интеллект",
   "/ai/agents": "Агенты",
   "/ai/compliance-agent": "Комплаенс-агент",
+  "/instructions": "ML Модели",
   "/settings": "Настройки",
   "/risk-factors": "Риск-факторы",
   "/profile": "Профиль",
@@ -129,6 +130,66 @@ export function AppHeader() {
           </Link>
           <ChevronRight className="size-4 shrink-0 text-muted-foreground/40" />
           <span className="truncate font-medium text-foreground">{entityLabel}</span>
+        </nav>
+      </header>
+    );
+  }
+
+  // ─── AI-подраздел → хлебные крошки (Искусственный интеллект → раздел → деталь) ───
+  if (parentKey === "ai" && segments.length >= 2) {
+    const AI_LABELS: Record<string, string> = {
+      agents: "Агенты",
+      "compliance-agent": "Комплаенс-агент",
+      "compliance-officer": "Комплаенс-офицер",
+      new: "Новый агент",
+    };
+    const crumbs: { label: string; href: string }[] = [{ label: "Искусственный интеллект", href: "/ai" }];
+    let acc = "/ai";
+    for (let i = 1; i < segments.length; i++) {
+      acc += "/" + segments[i];
+      const seg = decodeURIComponent(segments[i]);
+      const label = AI_LABELS[seg] ?? data.agents?.find((a) => a.id === seg)?.name ?? seg;
+      crumbs.push({ label, href: acc });
+    }
+    return (
+      <header className="sticky top-0 z-30 flex h-14 items-center bg-card px-8">
+        <nav className="flex items-center gap-2 text-[14px]" aria-label="Хлебные крошки">
+          {crumbs.map((c, i) => {
+            const isLast = i === crumbs.length - 1;
+            return (
+              <span key={c.href} className="flex items-center gap-2">
+                {isLast ? (
+                  <span className="truncate font-medium text-foreground">{c.label}</span>
+                ) : (
+                  <Link href={c.href} className="text-muted-foreground transition-colors hover:text-foreground">
+                    {c.label}
+                  </Link>
+                )}
+                {!isLast ? <ChevronRight className="size-4 shrink-0 text-muted-foreground/40" /> : null}
+              </span>
+            );
+          })}
+        </nav>
+      </header>
+    );
+  }
+
+  // ─── ML-модели: деталь → хлебные крошки (ML Модели → модель) ───
+  if (parentKey === "instructions" && segments.length >= 2) {
+    const ML_LABELS: Record<string, string> = {
+      "bank-offline-fs": "Bank Offline Feature Store",
+      tsad: "Time Series Anomaly Detection",
+      ctsm: "Compliance Tabular Supervised Model",
+    };
+    const seg = decodeURIComponent(segments[1]);
+    return (
+      <header className="sticky top-0 z-30 flex h-14 items-center bg-card px-8">
+        <nav className="flex items-center gap-2 text-[14px]" aria-label="Хлебные крошки">
+          <Link href="/instructions" className="text-muted-foreground transition-colors hover:text-foreground">
+            ML Модели
+          </Link>
+          <ChevronRight className="size-4 shrink-0 text-muted-foreground/40" />
+          <span className="truncate font-medium text-foreground">{ML_LABELS[seg] ?? seg}</span>
         </nav>
       </header>
     );
