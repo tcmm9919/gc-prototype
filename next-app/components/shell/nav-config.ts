@@ -53,7 +53,7 @@ export const NAV_GROUPS: NavGroup[] = [
       { label: "Правила", href: "/rules", icon: ListChecks },
       { label: "Сценарии", href: "/workflows", icon: Workflow },
       { label: "Агенты", href: "/ai", icon: Bot },
-      { label: "ML Модели", href: "/settings/instructions", icon: BrainCircuit },
+      { label: "ML Модели", href: "/instructions", icon: BrainCircuit },
     ],
   },
   {
