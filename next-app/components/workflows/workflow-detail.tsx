@@ -14,13 +14,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { StatusBadge } from "@/components/ext/status-badge";
+import { cn } from "@/lib/utils";
 import { WorkflowIdentity } from "./workflow-identity";
+
+// Тег типа входа в блоке «План → Входы» (как на их сайте).
+const INPUT_TYPE_TAG: Record<string, string> = { text: "СТРОКА", select: "СПИСОК", boolean: "ДА/НЕТ" };
 
 export function WorkflowDetail({ id }: { id: string }) {
   const data = useMockData();
   const sc = data.scenarios.find((s) => s.id === id) ?? data.scenarios[0];
   const [selectedClient, setSelectedClient] = React.useState<string>("");
   const [historyOpen, setHistoryOpen] = React.useState(false);
+  const [openSteps, setOpenSteps] = React.useState<ReadonlySet<string>>(new Set());
+  const toggleStep = (id: string) =>
+    setOpenSteps((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
 
   if (!sc) return null;
 
@@ -68,21 +80,91 @@ export function WorkflowDetail({ id }: { id: string }) {
               <ol className="space-y-2">
                 {pipeline.map((step, idx) => {
                   const meta = ACTIVITY_BY_TYPE[step.type as WorkflowActivityType];
+                  const fields = meta?.configFields ?? [];
+                  const open = openSteps.has(step.id);
                   return (
                     <li
                       key={step.id}
-                      className="flex items-start gap-3 rounded-xl bg-foreground/[0.03] px-3 py-2.5 dark:bg-white/[0.03]"
+                      className="overflow-hidden rounded-xl bg-foreground/[0.03] dark:bg-white/[0.03]"
                     >
-                      <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm font-medium text-primary">
-                        {idx + 1}
-                      </span>
-                      <div className="min-w-0 flex-1 space-y-0.5">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-sm font-medium">{step.name ?? meta?.name ?? step.type}</span>
-                          <StatusBadge tone="muted">Шаг {idx + 1}</StatusBadge>
+                      <button
+                        type="button"
+                        onClick={() => fields.length && toggleStep(step.id)}
+                        aria-expanded={open}
+                        className={cn(
+                          "flex w-full items-start gap-3 px-3 py-2.5 text-left",
+                          fields.length && "transition-colors hover:bg-foreground/[0.02] dark:hover:bg-white/[0.02]",
+                        )}
+                      >
+                        <span className="inline-flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-sm font-medium text-primary">
+                          {idx + 1}
+                        </span>
+                        <div className="min-w-0 flex-1 space-y-0.5">
+                          <div className="flex items-center justify-between gap-2">
+                            <span className="text-sm font-medium">{step.name ?? meta?.name ?? step.type}</span>
+                            <span className="flex shrink-0 items-center gap-2">
+                              <StatusBadge tone="muted">Шаг {idx + 1}</StatusBadge>
+                              {fields.length ? (
+                                <ChevronDown
+                                  className={cn("size-4 text-muted-foreground transition-transform", open && "rotate-180")}
+                                />
+                              ) : null}
+                            </span>
+                          </div>
+                          <p className="line-clamp-2 text-xs text-muted-foreground">{meta?.description}</p>
                         </div>
-                        <p className="line-clamp-2 text-xs text-muted-foreground">{meta?.description}</p>
-                      </div>
+                      </button>
+
+                      {open && fields.length ? (
+                        <div className="border-t border-foreground/[0.06] px-3 py-3 sm:pl-[52px] dark:border-white/[0.06]">
+                          <p className="mb-2.5 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                            Входы
+                          </p>
+                          <div className="flex flex-col gap-2.5">
+                            {fields.map((f) => {
+                              const raw = step.config?.[f.key];
+                              const def = "default" in f ? f.default : undefined;
+                              const val =
+                                raw !== undefined && raw !== ""
+                                  ? String(raw)
+                                  : def !== undefined && def !== ""
+                                    ? String(def)
+                                    : "—";
+                              const isRef = /\{\{.*\}\}/.test(val);
+                              return (
+                                <div
+                                  key={f.key}
+                                  className="grid gap-x-3 gap-y-0.5 sm:grid-cols-[minmax(120px,180px)_1fr]"
+                                >
+                                  <span className="flex items-center gap-1.5">
+                                    <span className="font-mono text-xs text-foreground">{f.key}</span>
+                                    <span className="rounded bg-muted px-1 py-0.5 text-[9px] font-medium uppercase tracking-wide text-muted-foreground">
+                                      {INPUT_TYPE_TAG[f.type]}
+                                    </span>
+                                  </span>
+                                  <div className="min-w-0">
+                                    <span
+                                      className={cn(
+                                        "break-words text-sm",
+                                        val === "—"
+                                          ? "text-muted-foreground"
+                                          : isRef
+                                            ? "rounded bg-primary/10 px-1.5 py-0.5 font-mono text-xs text-primary"
+                                            : "text-foreground",
+                                      )}
+                                    >
+                                      {val}
+                                    </span>
+                                    {f.hint ? (
+                                      <p className="mt-0.5 text-[10px] leading-snug text-muted-foreground">{f.hint}</p>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      ) : null}
                     </li>
                   );
                 })}
