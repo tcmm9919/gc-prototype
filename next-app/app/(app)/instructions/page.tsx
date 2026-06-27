@@ -46,15 +46,7 @@ const DERIVED = [
 export default function Page() {
   return (
     <StateSwitch skeleton="list" emptyTitle="Моделей пока нет">
-      <div className="flex flex-col gap-6 pb-12">
-        {/* Заголовок раздела */}
-        <div className="flex flex-col gap-1 pt-1">
-          <h1 className="font-heading text-2xl font-bold tracking-[-0.02em] text-foreground">ML Модели</h1>
-          <p className="text-sm text-muted-foreground">
-            Каталог моделей платформы и витрины признаков. Сначала готовятся данные — затем на них работают модели.
-          </p>
-        </div>
-
+      <div className="flex flex-col gap-6 pb-12 pt-1">
         {/* Основа — крупная карточка-баннер */}
         <Link
           href={BASE.href}

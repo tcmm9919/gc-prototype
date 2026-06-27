@@ -39,5 +39,5 @@ export function AppMain({ children }: { children: React.ReactNode }) {
 // Страницы с белой канвой (без серого фона) — напр. галерея агентов.
 function isWhiteCanvas(pathname: string): boolean {
   const n = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
-  return n === "/ai/agents" || n === "/ai";
+  return n === "/ai/agents" || n === "/ai" || n === "/instructions";
 }
