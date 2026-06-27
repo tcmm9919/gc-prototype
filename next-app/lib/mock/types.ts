@@ -8,7 +8,7 @@ export type AlertStatus = "new" | "in_progress" | "rejected" | "escalated" | "cl
 export type CaseStatus = "open" | "in_progress" | "in_review" | "escalated" | "resolved" | "closed";
 export type CasePriority = "low" | "medium" | "high" | "critical";
 export type RuleEntity = "client" | "transaction" | "group";
-export type ScenarioType = "client" | "group";
+export type ScenarioType = "client" | "group" | "embedded";
 export type ScenarioStatus = "active" | "paused" | "draft";
 export type TransactionStatus = "completed" | "review" | "blocked";
 
@@ -100,6 +100,18 @@ export interface Counterparty {
   iban?: string;
   country?: string;
   bank?: string;
+  // Паспорт участника (как у клиента в карточке транзакции)
+  iinBin?: string;
+  residency?: string;
+  participantType?: string; // «Физ. лицо» / «Юр. лицо»
+  pdl?: boolean;
+  pdlRelative?: boolean;
+  oked?: string;
+  idDoc?: string;
+  birthDate?: string;
+  birthPlace?: string;
+  legalAddress?: string;
+  phone?: string;
 }
 
 export type BranchCode = "ALM-001" | "ALA-001" | "ALA-014" | "AST-002" | "SHY-007";
@@ -196,13 +208,18 @@ export interface Case {
   closed_at?: string;
 }
 
-export type RuleOp = "eq" | "ne" | "gt" | "lt" | "in" | "nin" | "contains" | "between";
+export type RuleOp = "gt" | "gte" | "lt" | "lte" | "eq" | "ne" | "in" | "nin";
+
+/** Категория правила (PRD): Транзакции / Клиенты / Скрининг / Поведение. */
+export type RuleCategory = "transaction" | "client" | "screening" | "behavior";
 
 export interface RuleCondition {
   id: string;
   field: string;
   op: RuleOp;
   value: unknown;
+  /** Режим «Поле»: сравнить с другим полем (вместо литерального значения). */
+  compareField?: string;
 }
 
 export interface Rule {
@@ -210,9 +227,13 @@ export interface Rule {
   name: string;
   description: string;
   entity: RuleEntity;
+  /** Категория правила (PRD): транзакции/клиенты/скрининг/поведение. */
+  category?: RuleCategory;
   /** Важность правила (бейдж/фильтры). Опционально — дефолт high. */
   severity?: AlertSeverity;
   enabled: boolean;
+  /** Черновик (не активирован) — отдельный статус в списке/фильтре. */
+  draft?: boolean;
   /** Версия правила (растёт при каждом сохранении). Дефолт 1. */
   version?: number;
   authorId: string;
@@ -354,7 +375,7 @@ export interface LLMUsageRequest {
 
 export type RiskFactorType = "scoring_history" | "client_field" | "transaction" | "media" | "custom";
 export type RiskFactorAggregation = "latest" | "sum" | "avg" | "max" | "count";
-export type BucketOp = "gte" | "lte" | "eq" | "between";
+export type BucketOp = "eq" | "ne" | "gt" | "gte" | "lt" | "lte" | "between";
 
 export interface RiskBucket {
   op: BucketOp;
@@ -374,6 +395,8 @@ export interface RiskFactor {
   buckets: RiskBucket[];
   weight: number;      // 0..1 — нормализуется по сумме весов
   active: boolean;
+  /** Системный атрибут: можно редактировать и отключать, но не удалять (PRD). */
+  system?: boolean;
 }
 
 export type MockState = "data" | "empty" | "loading" | "error";

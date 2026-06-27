@@ -115,11 +115,26 @@ export function makeClient(over: Partial<Client> = {}): Client {
 
 export function makeCounterparty(over: Partial<Counterparty> = {}): Counterparty {
   const i = seq;
+  const country = pick(COUNTRIES, i);
   return {
     name: `${pick(LEGAL_PREFIXES, i)} «${pick(LEGAL_NAMES, i)}»`,
     iban: `KZ${10 + (i % 90)}${"0".repeat(14)}${1000 + (i % 9000)}`,
-    country: pick(COUNTRIES, i),
+    country,
     bank: pick(["Halyk Bank", "Kaspi", "Forte Bank", "Jusan", "Freedom"], i),
+    iinBin: `${20 + (i % 70)}0140${(100000 + (i * 137) % 899999)}`,
+    residency: country === "KZ" ? "Республика Казахстан" : country,
+    participantType: "Юр. лицо",
+    pdl: false,
+    pdlRelative: false,
+    oked: pick(
+      ["64190 — Денежное посредничество", "46900 — Неспециализированная оптовая торговля", "62010 — Разработка ПО", "68100 — Покупка/продажа недвижимости", "49410 — Грузовые перевозки"],
+      i,
+    ),
+    idDoc: undefined,
+    birthDate: undefined,
+    birthPlace: undefined,
+    legalAddress: `${pick(CITIES, i)}, ${pick(["пр. Абая 10", "ул. Достык 5", "пр. Назарбаева 22", "ул. Сатпаева 90"], i)}`,
+    phone: `+7 (7${10 + (i % 89)}) ${100 + (i % 899)}-${10 + (i % 89)}-${10 + ((i * 7) % 89)}`,
     ...over,
   };
 }
@@ -236,8 +251,10 @@ export function makeRule(over: Partial<Rule> = {}): Rule {
     ),
     description: "Атомарное условие, используемое в сценариях расследования.",
     entity: pick<RuleEntity>(["client", "transaction", "group"], i),
+    category: (["transaction", "client", "screening", "behavior"] as const)[i % 4],
     severity: (["high", "medium", "critical", "low", "high"] as const)[i % 5],
     enabled: i % 7 !== 0,
+    draft: i % 9 === 4,
     version: [1, 4, 2, 1, 5, 3, 1, 10, 2, 1, 6, 1][i % 12],
     authorId: `USR-${(i % 6) + 1}`,
     updatedAt: new Date(Date.now() - i * 86_400_000).toISOString(),
@@ -547,6 +564,8 @@ export function makeRiskFactor(over: Partial<RiskFactor> = {}): RiskFactor {
   return {
     id: over.id ?? `RF-${(i + 1).toString(36).padStart(4, "0")}`,
     ...t,
+    // Сидовые атрибуты — системные: их нельзя удалить, только редактировать/отключать.
+    system: true,
     ...over,
   };
 }
