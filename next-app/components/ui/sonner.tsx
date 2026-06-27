@@ -39,14 +39,14 @@ const Toaster = ({ ...props }: ToasterProps) => {
       }
       toastOptions={{
         classNames: {
-          // Белый тост, контент на всю ширину, кнопки — полноширокие снизу (стек)
-          toast: "cn-toast !flex !flex-col !items-stretch !gap-2 !bg-card !text-card-foreground !border-border !shadow-lg",
-          icon: "!m-0 self-start",
-          content: "!w-full",
-          title: "!w-full text-sm font-medium",
-          description: "!w-full !text-muted-foreground",
-          actionButton: "!w-full !justify-center",
-          cancelButton: "!w-full !justify-center",
+          // Белый тост: иконка + текст слева, кнопки в один ряд справа (напротив текста)
+          toast: "cn-toast !flex !flex-row !items-center !gap-3 !bg-card !text-card-foreground !border-border !shadow-lg",
+          icon: "!m-0 mt-0.5 self-start",
+          content: "!flex-1 !min-w-0",
+          title: "text-sm font-medium",
+          description: "!text-muted-foreground",
+          actionButton: "!shrink-0 !whitespace-nowrap",
+          cancelButton: "!shrink-0 !whitespace-nowrap",
         },
       }}
       {...props}
