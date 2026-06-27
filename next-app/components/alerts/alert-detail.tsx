@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { ExternalLink } from "lucide-react"
 
-import { useMockData } from "@/lib/mock"
+import { useMockData, type RuleCondition } from "@/lib/mock"
 import { Button } from "@/components/ui/button"
 import { StatusBadge } from "@/components/ext/status-badge"
 import { Money } from "@/components/ext/money-kzt"
@@ -22,7 +22,7 @@ const FIELD_LABELS: Record<string, string> = {
   riskLevel: "Уровень риска",
   purposeCode: "Код назначения",
 }
-const OP_SYMBOL: Record<string, string> = { eq: "=", ne: "≠", gt: ">", lt: "<", in: "∈", nin: "∉", contains: "содержит", between: "между" }
+const OP_SYMBOL: Record<string, string> = { eq: "=", ne: "≠", gt: ">", gte: "≥", lt: "<", lte: "≤", in: "∈", nin: "∉", contains: "содержит", between: "между" }
 
 function fmtVal(v: unknown): string {
   if (Array.isArray(v)) return v.join(", ")
@@ -38,9 +38,38 @@ export function AlertDetail({ id }: { id: string }) {
   const client = data.clients.find((c) => c.id === alert.clientId)
   const tx = alert.transactionId ? data.transactions.find((t) => t.id === alert.transactionId) : undefined
   const rule = data.rules.find((r) => r.id === alert.ruleId)
-  // Фолбэк: курируемые алерты ссылаются на RL-S0x, которых нет в seedRules —
-  // показываем условия репрезентативного правила, чтобы блок не пустовал.
-  const conditions = rule?.conditions ?? data.rules[0]?.conditions ?? []
+  // Фолбэк: курируемые алерты ссылаются на RL-S0x, которых нет в seedRules.
+  // Если правило не найдено — синтезируем условие из связанной транзакции
+  // (порог 600 000 ₸ — стандартный регуляторный порог), чтобы показать
+  // реальную сработку, а не чужие условия из rules[0].
+  const conditions: RuleCondition[] =
+    rule?.conditions ??
+    (tx
+      ? [{ id: "synthetic-amount", field: "amountKZT", op: "gte", value: 600_000 }]
+      : [])
+
+  // Фактическое значение поля из транзакции — для блока «Совпавшие условия».
+  const valueForField = (field: string): { display: React.ReactNode; num?: number } => {
+    if (!tx) return { display: "—" }
+    switch (field) {
+      case "amountKZT":
+        return { display: `${tx.amountKZT.toLocaleString("ru-RU")} ₸`, num: tx.amountKZT }
+      case "amount":
+        return { display: `${tx.amount.toLocaleString("ru-RU")} ${tx.currency}`, num: tx.amount }
+      case "counterparty.country":
+        return { display: tx.counterparty.country ?? "—" }
+      case "type":
+        return { display: DIRECTION[tx.type] ?? tx.type }
+      case "channel":
+        return { display: CHANNEL_LABEL[tx.channel] ?? tx.channel }
+      case "riskLevel":
+        return { display: tx.riskLevel }
+      case "purposeCode":
+        return { display: tx.purposeCode }
+      default:
+        return { display: "—" }
+    }
+  }
   const responsible = alert.responsibleId ? data.users.find((u) => u.id === alert.responsibleId)?.fullName : undefined
   const description = `Правило «${alert.ruleName}» сработало${tx ? ` по транзакции ${tx.id} (${tx.amount.toLocaleString("ru-RU")} ${tx.currency})` : ""}.`
 
@@ -83,18 +112,35 @@ export function AlertDetail({ id }: { id: string }) {
             <div className="rounded-2xl border border-transparent dark:border-border bg-card p-5">
               <h4 className="mb-4 font-heading text-[15px] font-semibold">Совпавшие условия</h4>
               <div className="grid gap-3 sm:grid-cols-2">
-                {conditions.map((c) => (
-                  <div key={c.id} className="rounded-xl bg-risk-critical/5 px-4 py-3">
-                    <div className="flex items-start justify-between gap-2">
-                      <span className="text-xs text-muted-foreground">{FIELD_LABELS[c.field] ?? c.field}</span>
-                      <StatusBadge tone="danger">сработало</StatusBadge>
+                {conditions.map((c) => {
+                  const actual = valueForField(c.field)
+                  const threshold = typeof c.value === "number" ? c.value : undefined
+                  const ratio =
+                    actual.num !== undefined &&
+                    threshold !== undefined &&
+                    threshold > 0 &&
+                    (c.op === "gte" || c.op === "gt")
+                      ? actual.num / threshold
+                      : undefined
+                  return (
+                    <div key={c.id} className="rounded-xl bg-risk-critical/5 px-4 py-3">
+                      <div className="flex items-start justify-between gap-2">
+                        <span className="text-xs text-muted-foreground">{FIELD_LABELS[c.field] ?? c.field}</span>
+                        <StatusBadge tone="danger">сработало</StatusBadge>
+                      </div>
+                      <div className="mt-1.5 flex flex-wrap items-baseline gap-1.5 text-sm">
+                        <span className="font-semibold tabular-nums">{actual.display}</span>
+                        <span className="font-mono text-muted-foreground">{OP_SYMBOL[c.op] ?? c.op}</span>
+                        <span className="font-medium tabular-nums">{fmtVal(c.value)}</span>
+                      </div>
+                      {ratio !== undefined ? (
+                        <div className="mt-1 text-xs text-muted-foreground">
+                          = {ratio.toFixed(1).replace(/[.,]0$/, "")}× порога
+                        </div>
+                      ) : null}
                     </div>
-                    <div className="mt-1.5 text-sm">
-                      <span className="font-mono text-muted-foreground">{OP_SYMBOL[c.op] ?? c.op}</span>{" "}
-                      <span className="font-medium">{fmtVal(c.value)}</span>
-                    </div>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             </div>
           ) : null}
