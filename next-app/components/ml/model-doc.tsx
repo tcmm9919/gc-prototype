@@ -174,7 +174,7 @@ export function DocTable({ head, rows }: { head: string[]; rows: React.ReactNode
             {head.map((h, i) => (
               <th
                 key={i}
-                className="px-3 py-2 text-left text-[10px] font-semibold tracking-[0.08em] text-muted-foreground uppercase first:pl-4"
+                className="border-r border-border/60 px-3 py-2 text-left text-[10px] font-semibold tracking-[0.08em] text-muted-foreground uppercase first:pl-4 last:border-r-0"
               >
                 {h}
               </th>
@@ -185,7 +185,7 @@ export function DocTable({ head, rows }: { head: string[]; rows: React.ReactNode
           {rows.map((r, ri) => (
             <tr key={ri} className="border-b border-border/60 last:border-0">
               {r.map((cell, ci) => (
-                <td key={ci} className={cn("px-3 py-2 align-top first:pl-4", ci === 0 ? "text-foreground" : "text-muted-foreground")}>
+                <td key={ci} className={cn("border-r border-border/60 px-3 py-2 align-top first:pl-4 last:border-r-0", ci === 0 ? "text-foreground" : "text-muted-foreground")}>
                   {cell}
                 </td>
               ))}

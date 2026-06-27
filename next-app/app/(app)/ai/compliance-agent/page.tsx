@@ -323,7 +323,7 @@ export default function Page() {
             </div>
 
             <div className="hidden overflow-x-auto md:block">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm [&_td]:border-r [&_td]:border-border/60 [&_td:last-child]:border-r-0 [&_th]:border-r [&_th]:border-border/60 [&_th:last-child]:border-r-0">
             <thead>
               <tr className="border-b border-border bg-muted/30 text-xs font-medium uppercase tracking-wider text-muted-foreground">
                 <th className="whitespace-nowrap px-4 py-2 text-left">

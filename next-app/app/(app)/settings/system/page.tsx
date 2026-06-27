@@ -134,7 +134,7 @@ export default function Page() {
             <div role="rowgroup">
               <div
                 role="row"
-                className="grid min-w-[640px] grid-cols-[1fr_1.5fr_1fr_140px] gap-3 border-b border-border px-4 py-3 text-[13px] font-normal text-muted-foreground"
+                className="grid min-w-[640px] grid-cols-[1fr_1.5fr_1fr_140px] gap-3 border-b border-border px-4 py-3 text-[13px] font-normal text-muted-foreground [&>*]:border-r [&>*]:border-border/60 [&>*]:pr-3 [&>*:last-child]:border-r-0"
               >
                 <span role="columnheader">Ключ</span>
                 <span role="columnheader">Значение</span>
@@ -147,7 +147,7 @@ export default function Page() {
                 <div
                   role="row"
                   key={row.key}
-                  className="grid min-w-[640px] grid-cols-[1fr_1.5fr_1fr_140px] gap-3 border-b border-border/50 px-4 py-3 text-sm last:border-b-0"
+                  className="grid min-w-[640px] grid-cols-[1fr_1.5fr_1fr_140px] gap-3 border-b border-border/50 px-4 py-3 text-sm last:border-b-0 [&>*]:border-r [&>*]:border-border/60 [&>*]:pr-3 [&>*:last-child]:border-r-0"
                 >
                   <span role="cell" className="font-mono text-xs text-foreground">{row.key}</span>
                   <span role="cell" className="font-mono text-xs text-muted-foreground break-all">{prettifyJson(row.value)}</span>

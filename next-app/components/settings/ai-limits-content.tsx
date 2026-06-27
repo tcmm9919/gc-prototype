@@ -235,7 +235,7 @@ function UsersTab({
         </div>
 
         <div className="hidden overflow-x-auto rounded-2xl border border-border bg-card md:block">
-          <table className="w-full min-w-[820px] text-sm">
+          <table className="w-full min-w-[820px] text-sm [&_td]:border-r [&_td]:border-border/60 [&_td:last-child]:border-r-0 [&_th]:border-r [&_th]:border-border/60 [&_th:last-child]:border-r-0">
             <thead>
               <tr className="border-b border-border text-left text-[13px] text-muted-foreground">
                 <th className="px-4 py-3 font-normal">Пользователь</th>

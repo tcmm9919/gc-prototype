@@ -10,7 +10,7 @@ export default function SettingsLayout({ children }: { children: React.ReactNode
   const active = SETTINGS_NAV_ITEMS.find((i) => normalized === i.href)
 
   return (
-    <div className="pb-12 pt-6">
+    <div className="pb-12 pt-4">
       {/* Один глобальный остров: рейл слева + контент справа */}
       <div className="flex h-[calc(100dvh-9rem)] flex-col overflow-hidden rounded-2xl border border-border bg-card lg:flex-row">
         {/* LEFT — навигационный рейл (фиксирован, не скроллится вместе с контентом) */}
