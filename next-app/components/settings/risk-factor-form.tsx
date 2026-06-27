@@ -36,6 +36,7 @@ const TYPE_OPTIONS: { value: RiskFactorType; label: string }[] = [
 
 const SOURCES: { source: string; label: string }[] = [
   { source: "scoring_history.total", label: "Scoring total" },
+  { source: "scoring_history.risk_level", label: "Scoring risk level" },
   { source: "customers.pdl", label: "PDL flag" },
   { source: "customers.pep", label: "PEP flag" },
   { source: "customers.country", label: "Страна резидентства" },
@@ -53,9 +54,12 @@ const AGG_OPTIONS: { value: RiskFactorAggregation; label: string }[] = [
 ]
 
 const OP_OPTIONS: { value: BucketOp; label: string }[] = [
-  { value: "gte", label: "≥" },
-  { value: "lte", label: "≤" },
   { value: "eq", label: "=" },
+  { value: "ne", label: "≠" },
+  { value: "gt", label: ">" },
+  { value: "gte", label: "≥" },
+  { value: "lt", label: "<" },
+  { value: "lte", label: "≤" },
   { value: "between", label: "между" },
 ]
 

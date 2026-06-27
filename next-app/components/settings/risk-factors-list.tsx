@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { Lock, Pencil, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 import { useMockData, type RiskFactor } from "@/lib/mock";
@@ -46,6 +46,11 @@ export function RiskFactorsList({
 
   const confirmDelete = () => {
     if (!pendingDelete) return;
+    if (pendingDelete.system) {
+      toast.error("Системный атрибут нельзя удалить — только отключить");
+      setPendingDelete(null);
+      return;
+    }
     setRemovedIds((prev) => new Set(prev).add(pendingDelete.id));
     toast.success(`Фактор «${pendingDelete.name}» удалён`);
     setPendingDelete(null);
@@ -126,15 +131,25 @@ export function RiskFactorsList({
           <Button variant="ghost" size="icon" className="size-8" aria-label={`Редактировать «${row.original.name}»`} onClick={() => onEdit?.(row.original)}>
             <Pencil className="size-4" />
           </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="size-8 text-muted-foreground hover:text-risk-critical"
-            aria-label={`Удалить «${row.original.name}»`}
-            onClick={() => setPendingDelete(row.original)}
-          >
-            <Trash2 className="size-4" />
-          </Button>
+          {row.original.system ? (
+            <span
+              className="inline-flex size-8 items-center justify-center text-muted-foreground/50"
+              title="Системный атрибут — нельзя удалить, только отключить"
+              aria-label="Системный атрибут — удаление недоступно"
+            >
+              <Lock className="size-4" />
+            </span>
+          ) : (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="size-8 text-muted-foreground hover:text-risk-critical"
+              aria-label={`Удалить «${row.original.name}»`}
+              onClick={() => setPendingDelete(row.original)}
+            >
+              <Trash2 className="size-4" />
+            </Button>
+          )}
         </div>
       ),
     },
