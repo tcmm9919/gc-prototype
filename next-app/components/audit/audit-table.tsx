@@ -165,6 +165,21 @@ export function AuditTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по действию, пользователю, IP..."
       pageSize={30}
+      renderMobileCard={(e) => (
+        <div className="flex flex-col gap-2">
+          <div className="flex items-start justify-between gap-3">
+            <span className="min-w-0 truncate text-sm">
+              {e.entityType ? RESOURCE_LABEL[e.entityType] : "Событие"}
+            </span>
+            <StatusBadge tone={ACTION_TONE[e.action]}>{ACTION_LABEL[e.action]}</StatusBadge>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border pt-2.5 text-xs text-muted-foreground">
+            <span className="truncate">{userDisplay(e.userId)}</span>
+            <span className="font-mono">{e.ip}</span>
+            <span className="ml-auto shrink-0 tabular-nums">{formatDateTime(e.timestamp)}</span>
+          </div>
+        </div>
+      )}
       globalFilterFn={(row, _c, value) => {
         const q = String(value).toLowerCase();
         const e = row.original;

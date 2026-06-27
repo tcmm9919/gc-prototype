@@ -448,6 +448,26 @@ export function LLMUsageContent() {
         globalFilterPlaceholder="Поиск по агенту, модели..."
         renderExpanded={(r) => <ExpandedRow req={r} />}
         pageSize={50}
+        renderMobileCard={(r) => {
+          const total = r.inputTokens + r.outputTokens + r.toolTokens + r.reasoningTokens;
+          return (
+            <div className="flex flex-col gap-2">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="truncate text-sm font-medium text-foreground">{r.agentName}</div>
+                  <div className="truncate font-mono text-xs text-muted-foreground">{r.model}</div>
+                </div>
+                <StatusBadge tone={r.status === "Ошибка" ? "danger" : "success"}>{r.status}</StatusBadge>
+              </div>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border pt-2.5 text-xs text-muted-foreground">
+                <span>Токены <span className="font-medium tabular-nums text-foreground">{formatNumber(total)}</span></span>
+                <span className="tabular-nums">{formatKzt(r.costUSD, 2)}</span>
+                <span className="tabular-nums">{formatNumber(r.latencyMs)} ms</span>
+                <span className="ml-auto tabular-nums">{formatDateTime(r.timestamp)}</span>
+              </div>
+            </div>
+          );
+        }}
         toolbar={<TokenPricesDialog />}
         globalFilterFn={(row, _c, value) => {
           const q = String(value).toLowerCase();

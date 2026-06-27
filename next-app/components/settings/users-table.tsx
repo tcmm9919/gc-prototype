@@ -168,6 +168,30 @@ export function UsersTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по имени, email, роли..."
       pageSize={15}
+      renderMobileCard={(u) => (
+        <div className="flex flex-col gap-3">
+          <div className="flex items-start gap-2.5">
+            <AvatarCircle initials={initialsFromName(u.fullName)} size="sm" hue={u.avatarHue ?? 200} />
+            <div className="flex min-w-0 flex-1 flex-col gap-0.5 leading-tight">
+              <div className="flex items-start justify-between gap-2">
+                <span className="min-w-0 truncate font-medium text-foreground">{u.fullName}</span>
+                <StatusBadge tone={u.role === "ai_agent" ? "muted" : "info"}>{ROLE_LABEL[u.role]}</StatusBadge>
+              </div>
+              <span className="truncate font-mono text-xs text-muted-foreground">{u.email}</span>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border pt-3 text-xs text-muted-foreground">
+            {u.status === "active" ? (
+              <StatusBadge tone="success">Активен</StatusBadge>
+            ) : u.status === "inactive" ? (
+              <StatusBadge tone="muted">Неактивен</StatusBadge>
+            ) : (
+              <StatusBadge tone="muted">Отключён</StatusBadge>
+            )}
+            <span className="ml-auto tabular-nums">{formatDate(u.createdAt)}</span>
+          </div>
+        </div>
+      )}
       toolbar={
         <AddUserDialog
           trigger={
