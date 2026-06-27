@@ -16,7 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { StatusBadge } from "@/components/ext/status-badge"
 import { Money } from "@/components/ext/money-kzt"
 import { formatDateTime } from "@/lib/format"
@@ -35,6 +35,7 @@ export function CaseDetail({ id }: { id: string }) {
   const data = useMockData()
   const cs = data.cases.find((c) => c.id === id) ?? data.cases[0]
   const [tab, setTab] = React.useState("info")
+  const [actTab, setActTab] = React.useState("comments")
   const [status, setStatus] = React.useState<Case["status"]>(cs?.status ?? "open")
   const [assignee, setAssignee] = React.useState<string>(cs?.responsibleId ?? "")
   if (!cs) return null
@@ -179,23 +180,31 @@ export function CaseDetail({ id }: { id: string }) {
                           </ul>
                         </div>
                       ) : null}
-
-                      <div className="rounded-2xl border border-border bg-card p-6">
-                        <h4 className="mb-4 font-heading text-[15px] font-semibold">Хронология</h4>
-                        <ol className="relative ml-2 space-y-6 border-l border-foreground/[0.08] pl-7 dark:border-white/[0.10]">
-                          <TimelineRow time="06.05.2026 16:52" event="Кейс закрыт автоматически" by="Compliance Officer AI" />
-                          <TimelineRow time="06.05.2026 16:52" event="Повторная проверка правил — всё чисто" by="Compliance Officer AI" />
-                          <TimelineRow time="06.05.2026 16:50" event="Документ получен" by="клиент" />
-                          <TimelineRow time="06.05.2026 16:49" event="Запущен сценарий Income Proof Remediation" by="Compliance Officer AI" />
-                          <TimelineRow time="06.05.2026 16:49" event="Кейс открыт автоматически" by="Compliance Officer AI" />
-                        </ol>
-                      </div>
                     </div>
                   )}
 
                   {tab === "activity" && (
-                    <div className="flex flex-col gap-4">
+                    <Tabs value={actTab} onValueChange={setActTab} className="gap-4">
+                      <TabsList className="grid w-full grid-cols-4 rounded-xl bg-muted/60 p-1">
+                        {[
+                          { value: "comments", label: "Комментарии", count: cs.commentCount },
+                          { value: "attachments", label: "Вложения", count: cs.evidenceCount },
+                          { value: "checklist", label: "Чек-лист", count: cs.subtaskCount },
+                          { value: "timeline", label: "Хронология" },
+                        ].map((t) => (
+                          <TabsTrigger
+                            key={t.value}
+                            value={t.value}
+                            className="rounded-lg px-2 py-1.5 text-[13px] font-medium text-muted-foreground data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                          >
+                            {t.label}
+                            {t.count !== undefined ? <span className="ml-1.5 tabular-nums text-muted-foreground/70">{t.count}</span> : null}
+                          </TabsTrigger>
+                        ))}
+                      </TabsList>
+
                       {/* Комментарии */}
+                      <TabsContent value="comments" className="mt-0">
                       <div className="rounded-2xl border border-border bg-card p-5">
                         <h4 className="mb-3 font-heading text-[15px] font-semibold">Комментарии <span className="ml-1 font-normal text-muted-foreground">{cs.commentCount}</span></h4>
                         <Textarea placeholder="Написать комментарий..." rows={2} />
@@ -215,8 +224,10 @@ export function CaseDetail({ id }: { id: string }) {
                           )}
                         </ul>
                       </div>
+                      </TabsContent>
 
                       {/* Вложения */}
+                      <TabsContent value="attachments" className="mt-0">
                       <div className="rounded-2xl border border-border bg-card p-5">
                         <div className="mb-3 flex items-center justify-between gap-3">
                           <h4 className="font-heading text-[15px] font-semibold">Вложения <span className="ml-1 font-normal text-muted-foreground">{cs.evidenceCount}</span></h4>
@@ -231,8 +242,10 @@ export function CaseDetail({ id }: { id: string }) {
                           <p className="text-sm text-muted-foreground">Вложений нет.</p>
                         )}
                       </div>
+                      </TabsContent>
 
                       {/* Чек-лист */}
+                      <TabsContent value="checklist" className="mt-0">
                       <div className="rounded-2xl border border-border bg-card p-5">
                         <h4 className="mb-3 font-heading text-[15px] font-semibold">Чек-лист <span className="ml-1 font-normal text-muted-foreground">{cs.subtaskCount}</span></h4>
                         <div className="flex gap-2">
@@ -252,7 +265,22 @@ export function CaseDetail({ id }: { id: string }) {
                           )}
                         </ul>
                       </div>
-                    </div>
+                      </TabsContent>
+
+                      {/* Хронология */}
+                      <TabsContent value="timeline" className="mt-0">
+                      <div className="rounded-2xl border border-border bg-card p-6">
+                        <h4 className="mb-4 font-heading text-[15px] font-semibold">Хронология</h4>
+                        <ol className="relative ml-2 space-y-6 border-l border-foreground/[0.08] pl-7 dark:border-white/[0.10]">
+                          <TimelineRow time="06.05.2026 16:52" event="Кейс закрыт автоматически" by="Compliance Officer AI" />
+                          <TimelineRow time="06.05.2026 16:52" event="Повторная проверка правил — всё чисто" by="Compliance Officer AI" />
+                          <TimelineRow time="06.05.2026 16:50" event="Документ получен" by="клиент" />
+                          <TimelineRow time="06.05.2026 16:49" event="Запущен сценарий Income Proof Remediation" by="Compliance Officer AI" />
+                          <TimelineRow time="06.05.2026 16:49" event="Кейс открыт автоматически" by="Compliance Officer AI" />
+                        </ol>
+                      </div>
+                      </TabsContent>
+                    </Tabs>
                   )}
 
                 </motion.div>
