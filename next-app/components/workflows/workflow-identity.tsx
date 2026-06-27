@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { formatDateTime } from "@/lib/format";
 
-const TYPE_LABEL = { client: "Клиентский", group: "Групповой" } as const;
+const TYPE_LABEL = { client: "Клиентский", group: "Групповой", embedded: "Встроенный" } as const;
 const STATUS_LABEL = { active: "Активен", paused: "На паузе", draft: "Черновик" } as const;
 const STATUS_TONE = { active: "success", paused: "warning", draft: "muted" } as const;
 

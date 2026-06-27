@@ -20,7 +20,7 @@ import {
 import { CSS } from "@dnd-kit/utilities"
 import { GripVertical, Save, Search, Trash2 } from "lucide-react"
 
-import { useMockData, type WorkflowStep } from "@/lib/mock"
+import { useMockData, type WorkflowStep, type ScenarioType } from "@/lib/mock"
 import {
   ACTIVITY_BY_TYPE,
   WORKFLOW_ACTIVITIES,
@@ -71,6 +71,13 @@ export function WorkflowBuilder() {
   const existing = editId
     ? data.scenarios.find((s) => s.id === editId)
     : undefined
+
+  const TYPE_LABEL: Record<ScenarioType, string> = {
+    client: "Клиентский",
+    group: "Групповой",
+    embedded: "Встроенный",
+  }
+  const type = (existing?.type ?? params.get("type") ?? "client") as ScenarioType
 
   const [name, setName] = React.useState(existing?.name ?? "Новый сценарий")
   const [steps, setSteps] = React.useState<WorkflowStep[]>(
@@ -134,21 +141,26 @@ export function WorkflowBuilder() {
   return (
     <div className="space-y-4 pt-7 pb-12">
       <div className="flex items-center justify-between gap-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href="/workflows">Сценарии</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>
-                {existing ? "Редактирование" : "Новый сценарий"}
-              </BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <div className="flex flex-col gap-1">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink asChild>
+                  <Link href="/workflows">Сценарии</Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>
+                  {existing ? "Редактирование" : "Новый сценарий"}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <p className="text-sm text-muted-foreground">
+            Тип: <span className="font-medium text-foreground">{TYPE_LABEL[type]}</span>
+          </p>
+        </div>
         <Button onClick={() => setSaveOpen(true)}>
           <Save className="size-4" />
           Сохранить
