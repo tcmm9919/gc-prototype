@@ -734,6 +734,12 @@ function AIReviewBlock({ cases }: { cases: Case[] }) {
 export function ExecutorDashboard() {
   const data = useMockData();
 
+  // Дашборд считает относительное время (formatRelativeFuture/Ago) через Date.now(),
+  // которое на сервере и клиенте различается → hydration mismatch. Рендерим контент
+  // только после маунта: первый клиентский рендер совпадает с серверным (оба пустые).
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+
   const queueAlerts = React.useMemo(() => {
     return data.alerts
       .filter((a) => a.status !== "closed" && a.deadline !== undefined && a.client_chat_status !== "client_responded")
@@ -753,6 +759,9 @@ export function ExecutorDashboard() {
         return bTime - aTime;
       });
   }, [data.cases]);
+
+  // До маунта — ничего (см. mounted выше): снимает hydration mismatch от Date.now().
+  if (!mounted) return null;
 
   // Empty state — нет ничего
   const isEmpty =
