@@ -197,7 +197,44 @@ function UsersTab({
           />
         </div>
 
-        <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+        {/* Mobile: карточки вместо таблицы — иначе цифры расхода прячутся за гориз. скроллом. */}
+        <div className="flex flex-col gap-2 md:hidden">
+          {rows.map((u) => (
+            <div key={u.id} className="rounded-xl border border-border bg-card p-4">
+              <div className="flex items-start justify-between gap-3">
+                <div className="min-w-0">
+                  <div className="truncate font-medium text-foreground">{u.name}</div>
+                  <div className="truncate text-xs text-muted-foreground">{u.email}</div>
+                </div>
+                <StatusBadge tone="muted">{u.group}</StatusBadge>
+              </div>
+              <div className="mt-3 flex flex-col gap-3 border-t border-border pt-3">
+                <div>
+                  <div className="flex items-baseline justify-between gap-2 text-xs">
+                    <span className="text-muted-foreground">Сутки</span>
+                    <span className="tabular-nums text-foreground">{fmt(u.dailyTokens)} / {fmtLimit(u.dailyLimit)}</span>
+                  </div>
+                  <div className="mt-1.5"><LoadCell used={u.dailyTokens} limit={u.dailyLimit} /></div>
+                </div>
+                <div>
+                  <div className="flex items-baseline justify-between gap-2 text-xs">
+                    <span className="text-muted-foreground">30 дней</span>
+                    <span className="tabular-nums text-foreground">{fmt(u.monthlyTokens)} / {fmtLimit(u.monthlyLimit)}</span>
+                  </div>
+                  <div className="mt-1.5"><LoadCell used={u.monthlyTokens} limit={u.monthlyLimit} /></div>
+                </div>
+              </div>
+              <div className="mt-3 text-xs text-muted-foreground">Источник лимита: {SOURCE_LABEL[u.source]}</div>
+            </div>
+          ))}
+          {rows.length === 0 ? (
+            <div className="rounded-xl border border-border bg-card px-4 py-12 text-center text-muted-foreground">
+              Никто не найден по запросу «{query}».
+            </div>
+          ) : null}
+        </div>
+
+        <div className="hidden overflow-x-auto rounded-2xl border border-border bg-card md:block">
           <table className="w-full min-w-[820px] text-sm">
             <thead>
               <tr className="border-b border-border text-left text-[13px] text-muted-foreground">
