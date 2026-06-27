@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { Plus, Power, PowerOff, RotateCcw, Trash2 } from "lucide-react";
-import { useMockData, useMockStore, type Rule, type RuleEntity } from "@/lib/mock";
+import { useMockData, useMockStore, type Rule, type RuleCategory, type AlertSeverity } from "@/lib/mock";
 import { toast } from "sonner";
 import { type DataTableView } from "@/components/ext/data-table";
 import { DataTable } from "@/components/ext/data-table";
@@ -13,30 +13,25 @@ import { Button } from "@/components/ui/button";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { RelativeTime } from "@/components/ext/relative-time";
 
-const ENTITY_LABEL: Record<RuleEntity, string> = {
-  client: "Клиент",
-  transaction: "Транзакция",
-  group: "Группа",
+const CATEGORY_LABEL: Record<RuleCategory, string> = {
+  transaction: "Транзакции",
+  client: "Клиенты",
+  screening: "Скрининг",
+  behavior: "Поведение",
 };
+const SEVERITY_LABEL: Record<AlertSeverity, string> = { critical: "Критический", high: "Высокий", medium: "Средний", low: "Низкий" };
+const SEVERITY_TONE: Record<AlertSeverity, "danger" | "warning" | "info"> = { critical: "danger", high: "warning", medium: "warning", low: "info" };
 
 const RULES_VIEWS: DataTableView<Rule>[] = [
   { id: "all", label: "Все" },
-  {
-    id: "active",
-    label: "Активные",
-    predicate: (r) => r.enabled === true,
-  },
-  {
-    id: "disabled",
-    label: "Выключенные",
-    predicate: (r) => r.enabled === false,
-  },
+  { id: "active", label: "Активные", predicate: (r) => r.enabled === true && !r.draft },
+  { id: "disabled", label: "Выключенные", predicate: (r) => r.enabled === false && !r.draft },
+  { id: "draft", label: "Черновик", predicate: (r) => r.draft === true },
 ];
 
 export function RulesTable() {
   const router = useRouter();
   const data = useMockData();
-  const userById = React.useMemo(() => new Map(data.users.map((u) => [u.id, u])), [data.users]);
 
   const columns: ColumnDef<Rule>[] = [
     {
@@ -60,29 +55,32 @@ export function RulesTable() {
       ),
     },
     {
-      accessorKey: "description",
-      header: "Описание",
-      meta: { width: "minmax(0, 2.2fr)" },
-      cell: ({ getValue }) => <span className="text-muted-foreground line-clamp-1">{getValue() as string}</span>,
+      accessorKey: "category",
+      header: "Категория",
+      meta: { width: "minmax(0, 0.95fr)" },
+      cell: ({ getValue }) => CATEGORY_LABEL[(getValue() as RuleCategory) ?? "transaction"] ?? "—",
     },
     {
-      accessorKey: "entity",
-      header: "Сущность",
-      meta: { width: "minmax(0, 0.9fr)" },
-      cell: ({ getValue }) => ENTITY_LABEL[getValue() as RuleEntity],
+      id: "severity",
+      header: "Важность",
+      meta: { width: "minmax(0, 0.85fr)" },
+      cell: ({ row }) => {
+        const s = row.original.severity ?? "high";
+        return <StatusBadge tone={SEVERITY_TONE[s]}>{SEVERITY_LABEL[s]}</StatusBadge>;
+      },
     },
     {
       accessorKey: "enabled",
       header: "Статус",
       meta: { width: "minmax(0, 0.85fr)" },
-      cell: ({ getValue }) =>
-        getValue() ? <StatusBadge tone="success">Включено</StatusBadge> : <StatusBadge tone="muted">Выключено</StatusBadge>,
-    },
-    {
-      accessorKey: "authorId",
-      header: "Автор",
-      meta: { width: "minmax(0, 1.2fr)" },
-      cell: ({ getValue }) => userById.get(getValue() as string)?.fullName ?? "—",
+      cell: ({ row }) =>
+        row.original.draft ? (
+          <StatusBadge tone="info">Черновик</StatusBadge>
+        ) : row.original.enabled ? (
+          <StatusBadge tone="success">Включено</StatusBadge>
+        ) : (
+          <StatusBadge tone="muted">Выключено</StatusBadge>
+        ),
     },
     {
       accessorKey: "version",

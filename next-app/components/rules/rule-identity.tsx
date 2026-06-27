@@ -10,8 +10,8 @@ import { Button } from "@/components/ui/button"
 import { StatusBadge } from "@/components/ext/status-badge"
 import { formatDateTime } from "@/lib/format"
 
-const ENTITY_LABEL: Record<string, string> = { client: "Клиенты", transaction: "Транзакции", group: "Группы" }
-const SEVERITY_LABEL = { low: "Низкая", medium: "Средняя", high: "Высокая", critical: "Критическая" } as const
+const CATEGORY_LABEL: Record<string, string> = { transaction: "Транзакции", client: "Клиенты", screening: "Скрининг", behavior: "Поведение" }
+const SEVERITY_LABEL = { low: "Низкий", medium: "Средний", high: "Высокий", critical: "Критический" } as const
 const SEVERITY_TONE = { low: "info", medium: "warning", high: "warning", critical: "danger" } as const
 
 export function RuleIdentity({ rule }: { rule: Rule }) {
@@ -27,9 +27,13 @@ export function RuleIdentity({ rule }: { rule: Rule }) {
             <span className="text-[10px] font-semibold tracking-[0.4px] text-muted-foreground uppercase">Правило</span>
             <h2 className="font-heading text-[16px] font-bold leading-tight tracking-[-0.02em]">{rule.name}</h2>
             <div className="flex flex-wrap gap-1.5">
-              <StatusBadge tone="muted">{ENTITY_LABEL[rule.entity] ?? rule.entity}</StatusBadge>
+              <StatusBadge tone="muted">{CATEGORY_LABEL[rule.category ?? "transaction"] ?? rule.category}</StatusBadge>
               <StatusBadge tone={SEVERITY_TONE[sev]}>{SEVERITY_LABEL[sev]}</StatusBadge>
-              <StatusBadge tone={rule.enabled ? "success" : "muted"}>{rule.enabled ? "Включено" : "Выключено"}</StatusBadge>
+              {rule.draft ? (
+                <StatusBadge tone="info">Черновик</StatusBadge>
+              ) : (
+                <StatusBadge tone={rule.enabled ? "success" : "muted"}>{rule.enabled ? "Включено" : "Выключено"}</StatusBadge>
+              )}
             </div>
             <span className="font-mono text-xs text-muted-foreground">{rule.id}</span>
           </div>
