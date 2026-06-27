@@ -2,12 +2,19 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { Bot, Wrench, Search, ArrowRight, Sparkles, Plus } from "lucide-react";
+import { Bot, Wrench, Search, ArrowRight, FileText, Sparkles, Plus } from "lucide-react";
 
 import { useMockData, type Agent } from "@/lib/mock";
 import { StatusBadge } from "@/components/ext/status-badge";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 
 type Filter = "all" | "active" | "disabled";
@@ -28,6 +35,7 @@ export function AgentsGrid() {
   const data = useMockData();
   const [query, setQuery] = React.useState("");
   const [filter, setFilter] = React.useState<Filter>("all");
+  const [insAgent, setInsAgent] = React.useState<Agent | null>(null);
 
   const filtered = React.useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -91,23 +99,37 @@ export function AgentsGrid() {
       ) : (
         <>
           {/* Featured */}
-          {featured ? <FeaturedAgent agent={featured} /> : null}
+          {featured ? <FeaturedAgent agent={featured} onShowInstruction={setInsAgent} /> : null}
 
           {/* Grid плиток */}
           {rest.length > 0 ? (
             <div className="grid grid-cols-1 gap-3 @[36rem]:grid-cols-2 @[60rem]:grid-cols-3">
               {rest.map((a) => (
-                <AgentTile key={a.id} agent={a} />
+                <AgentTile key={a.id} agent={a} onShowInstruction={setInsAgent} />
               ))}
             </div>
           ) : null}
         </>
       )}
+
+      <Dialog open={insAgent !== null} onOpenChange={(o) => !o && setInsAgent(null)}>
+        <DialogContent className="max-h-[80vh] overflow-y-auto sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>{insAgent?.name}</DialogTitle>
+            <DialogDescription>
+              Инструкция агента · модель <span className="font-mono">{insAgent?.model}</span>
+            </DialogDescription>
+          </DialogHeader>
+          <pre className="whitespace-pre-wrap rounded-xl bg-foreground/[0.03] p-4 font-mono text-xs leading-relaxed text-muted-foreground dark:bg-white/[0.04]">
+            {insAgent?.instructionsMd}
+          </pre>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
 
-function FeaturedAgent({ agent }: { agent: Agent }) {
+function FeaturedAgent({ agent, onShowInstruction }: { agent: Agent; onShowInstruction: (a: Agent) => void }) {
   const { ok, total } = rate(agent);
   return (
     <Link
@@ -134,17 +156,27 @@ function FeaturedAgent({ agent }: { agent: Agent }) {
             <Stat label="Инструменты" value={agent.tools.length} />
             <Stat label="Запуски" value={total ? `${ok}/${total} ок` : "—"} />
           </div>
-          <span className="mt-4 inline-flex items-center gap-1 text-sm font-medium text-primary">
-            Открыть карточку
-            <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-          </span>
+          <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+            <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+              Открыть карточку
+              <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
+            </span>
+            <button
+              type="button"
+              onClick={(e) => { e.preventDefault(); e.stopPropagation(); onShowInstruction(agent); }}
+              className="relative z-10 inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            >
+              <FileText className="size-4" />
+              Показать инструкцию
+            </button>
+          </div>
         </div>
       </div>
     </Link>
   );
 }
 
-function AgentTile({ agent }: { agent: Agent }) {
+function AgentTile({ agent, onShowInstruction }: { agent: Agent; onShowInstruction: (a: Agent) => void }) {
   const { ok, total } = rate(agent);
   return (
     <Link
@@ -160,9 +192,17 @@ function AgentTile({ agent }: { agent: Agent }) {
       <div className="min-w-0">
         <h3 className="truncate font-heading text-[15px] font-semibold">{agent.name}</h3>
         <p className="mt-0.5 line-clamp-2 text-xs text-muted-foreground">{agent.description}</p>
+        <p className="mt-1 truncate font-mono text-[11px] text-muted-foreground/80">{agent.model}</p>
       </div>
       <div className="mt-auto flex items-center justify-between gap-2 border-t border-border/60 pt-3 text-xs text-muted-foreground">
-        <span className="truncate font-mono">{agent.model}</span>
+        <button
+          type="button"
+          onClick={(e) => { e.preventDefault(); e.stopPropagation(); onShowInstruction(agent); }}
+          className="relative z-10 inline-flex items-center gap-1.5 font-medium transition-colors hover:text-foreground"
+        >
+          <FileText className="size-3.5" />
+          Инструкция
+        </button>
         <span className="flex shrink-0 items-center gap-2.5">
           <span className="inline-flex items-center gap-1">
             <Wrench className="size-3" />

@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { AlertTriangle, Bot, RefreshCcw } from "lucide-react"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -274,6 +275,15 @@ export default function Page() {
                   Когда агент эскалирует
                 </label>
               </div>
+            </div>
+
+            <div className="flex justify-end gap-2 border-t border-border pt-4">
+              <Button variant="outline" onClick={() => toast("Изменения отменены")}>
+                Отмена
+              </Button>
+              <Button onClick={() => toast.success("Настройки сохранены")}>
+                Сохранить
+              </Button>
             </div>
           </section>
 

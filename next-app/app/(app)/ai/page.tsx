@@ -1,8 +1,14 @@
 import Link from "next/link";
-import { ArrowRight, Bot, Shield, MessageSquare, Sparkles, Search, ArrowUpRight } from "lucide-react";
+import { ArrowRight, Bot, Check, Shield, MessageSquare, Sparkles, Search, ArrowUpRight } from "lucide-react";
 import { StateSwitch } from "@/components/ext/state-switch";
 
 const CHAT_CHIPS = ["Риск-профиль клиента", "Похожие операции", "Разбор оповещения", "Черновик SAR"];
+
+const CHAT_BULLETS = [
+  "Документы PDF — загрузка и анализ файлов прямо в чате",
+  "История диалогов — все разговоры сохраняются и доступны в панели",
+  "Контекст платформы — ассистент знает о клиентах, транзакциях и делах",
+];
 
 const TILES = [
   {
@@ -12,6 +18,10 @@ const TILES = [
     eyebrow: "Paper Agents · кастомные инструкции",
     description: "Настраиваемые AI-агенты с собственными инструкциями и инструментами для автоматизации задач.",
     cta: "Управление агентами",
+    bullets: [
+      "Кастомные инструкции — полный контроль над поведением агента",
+      "Интеграция со сценариями — агенты подключаются к автоматизации",
+    ],
   },
   {
     href: "/ai/compliance-agent",
@@ -20,6 +30,10 @@ const TILES = [
     eyebrow: "Авто-агент · обработка оповещений",
     description: "Автоматически анализирует оповещения, эскалирует или запускает сценарии для клиентов.",
     cta: "Открыть агента",
+    bullets: [
+      "Авто-разбор оповещений — решение по каждому срабатыванию",
+      "Письма менеджеру — итоги и эскалации по настроенным правилам",
+    ],
   },
 ];
 
@@ -62,6 +76,16 @@ export default function Page() {
               </span>
             </Link>
 
+            {/* Возможности чата */}
+            <ul className="flex flex-col gap-1.5">
+              {CHAT_BULLETS.map((b) => (
+                <li key={b} className="flex items-start gap-2 text-sm text-muted-foreground">
+                  <Check className="mt-0.5 size-4 shrink-0 text-primary" />
+                  <span>{b}</span>
+                </li>
+              ))}
+            </ul>
+
             {/* Быстрые промпты */}
             <div className="flex flex-wrap gap-1.5">
               {CHAT_CHIPS.map((c) => (
@@ -92,7 +116,15 @@ export default function Page() {
                 <h3 className="font-heading text-lg font-semibold">{t.title}</h3>
                 <p className="text-xs text-muted-foreground">{t.eyebrow}</p>
               </div>
-              <p className="flex-1 text-sm text-muted-foreground">{t.description}</p>
+              <p className="text-sm text-muted-foreground">{t.description}</p>
+              <ul className="flex flex-1 flex-col gap-1">
+                {t.bullets.map((b) => (
+                  <li key={b} className="flex items-start gap-2 text-xs text-muted-foreground">
+                    <Check className="mt-0.5 size-3.5 shrink-0 text-primary" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
               <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
                 {t.cta}
                 <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
