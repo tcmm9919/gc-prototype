@@ -2,8 +2,9 @@
 
 import * as React from "react";
 import type { ColumnDef } from "@tanstack/react-table";
-import { Filter, Coins } from "lucide-react";
+import { Filter, Coins, ChevronRight } from "lucide-react";
 
+import { cn } from "@/lib/utils";
 import { useMockData, type LLMAgentName, type LLMModelName, type LLMUsageRequest } from "@/lib/mock";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -119,7 +120,7 @@ function KpiCard({ label, value, accent }: { label: string; value: React.ReactNo
     <Card className="border-border py-0">
       <CardContent className="space-y-1 px-4 py-3">
         <span className="text-xs text-muted-foreground">{label}</span>
-        <div className={`text-xl font-semibold tabular-nums ${accent ? "text-primary" : ""}`}>{value}</div>
+        <div className={`text-base sm:text-xl font-semibold leading-tight tabular-nums ${accent ? "text-primary" : ""}`}>{value}</div>
       </CardContent>
     </Card>
   );
@@ -127,6 +128,102 @@ function KpiCard({ label, value, accent }: { label: string; value: React.ReactNo
 
 function formatCostUsd(usd: number): string {
   return "$" + usd.toFixed(usd < 0.01 ? 4 : 2);
+}
+
+// Сырой объект ответа провайдера (Yandex Foundation Models, формат Responses API).
+// Собирается из полей запроса так, чтобы вложенные узлы совпадали с их сайтом:
+// usage {6 keys}, output [2 items], prompt {4 keys}.
+function buildRawResponse(req: LLMUsageRequest): Record<string, unknown> {
+  const folder = "b1g1b12adp0dgc2gos4r";
+  const createdAt = Math.floor(new Date(req.timestamp).getTime() / 1000);
+  const shortId = req.id.replace(/-/g, "").slice(0, 12);
+  return {
+    id: req.id,
+    model: `gpt://${folder}/${req.model}`,
+    top_p: 1,
+    usage: {
+      input_tokens: req.inputTokens,
+      output_tokens: req.outputTokens,
+      tool_tokens: req.toolTokens,
+      reasoning_tokens: req.reasoningTokens,
+      cached_tokens: req.cacheTokens,
+      total_tokens: req.inputTokens + req.outputTokens + req.toolTokens + req.reasoningTokens,
+    },
+    valid: req.status !== "Ошибка",
+    object: "response",
+    output: [
+      { type: "reasoning", id: `rs_${shortId}` },
+      { type: "message", role: "assistant", status: "completed" },
+    ],
+    prompt: {
+      id: `pmpt_${shortId}`,
+      version: "1",
+      cached: req.cacheTokens > 0,
+      variables: {},
+    },
+    status: req.status === "Ошибка" ? "failed" : "completed",
+    background: false,
+    created_at: createdAt,
+    truncation: "disabled",
+    temperature: 0.3,
+    tool_choice: "auto",
+    service_tier: "default",
+    max_output_tokens: 6000,
+    parallel_tool_calls: false,
+  };
+}
+
+function jsonSummary(v: object): string {
+  return Array.isArray(v) ? `[${v.length} items]` : `{${Object.keys(v).length} keys}`;
+}
+
+function fmtPrimitive(v: unknown): string {
+  if (v === null) return "null";
+  if (typeof v === "boolean") return v ? "true" : "false";
+  if (typeof v === "number") return String(v);
+  return String(v);
+}
+
+/** Рекурсивная строка JSON-дерева: примитивы — инлайн, объекты/массивы — раскрываемые. */
+function JsonRow({ name, value, depth = 0 }: { name: string; value: unknown; depth?: number }) {
+  const isObj = value !== null && typeof value === "object";
+  const [open, setOpen] = React.useState(false);
+
+  if (!isObj) {
+    return (
+      <div className="grid grid-cols-[minmax(110px,170px)_1fr] gap-3 py-0.5">
+        <span className="text-muted-foreground">{name}</span>
+        <span className="break-all text-foreground">{fmtPrimitive(value)}</span>
+      </div>
+    );
+  }
+
+  const entries: [string, unknown][] = Array.isArray(value)
+    ? value.map((v, i) => [String(i), v])
+    : Object.entries(value as Record<string, unknown>);
+
+  return (
+    <div className="py-0.5">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="grid w-full grid-cols-[minmax(110px,170px)_1fr] gap-3 text-left"
+      >
+        <span className="text-muted-foreground">{name}</span>
+        <span className="inline-flex items-center gap-1 text-primary">
+          <ChevronRight className={cn("size-3 transition-transform", open && "rotate-90")} />
+          {jsonSummary(value as object)}
+        </span>
+      </button>
+      {open ? (
+        <div className="mt-1 ml-2 border-l border-border/60 pl-3">
+          {entries.map(([k, v]) => (
+            <JsonRow key={k} name={k} value={v} depth={depth + 1} />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
 }
 
 function ExpandedRow({ req }: { req: LLMUsageRequest }) {
@@ -174,6 +271,15 @@ function ExpandedRow({ req }: { req: LLMUsageRequest }) {
             <p className="text-xs text-muted-foreground">Всего</p>
             <p className="font-medium tabular-nums text-primary">{formatCostUsd(req.costUSD)}</p>
           </div>
+        </div>
+      </div>
+
+      <div className="lg:col-span-2">
+        <p className="mb-2 text-xs font-medium text-muted-foreground">Ответ Yandex (полный)</p>
+        <div className="max-h-80 overflow-auto rounded-md border border-border/60 bg-muted/30 px-3 py-2 font-mono text-xs leading-relaxed">
+          {Object.entries(buildRawResponse(req)).map(([k, v]) => (
+            <JsonRow key={k} name={k} value={v} />
+          ))}
         </div>
       </div>
     </div>

@@ -17,7 +17,6 @@ import {
   type VisibilityState,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -104,6 +103,19 @@ export function DataTable<T>({
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const [expandedIds, setExpandedIds] = React.useState<Set<string>>(new Set());
+
+  // Видимая ширина скролл-контейнера — чтобы раскрытая панель вмещалась в неё
+  // (а не растягивалась на всю min-width широкой таблицы и не давала гориз. скролл).
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const [viewportW, setViewportW] = React.useState(0);
+  React.useEffect(() => {
+    const el = scrollRef.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const ro = new ResizeObserver(() => setViewportW(el.clientWidth));
+    ro.observe(el);
+    setViewportW(el.clientWidth);
+    return () => ro.disconnect();
+  }, []);
 
   const toggleExpanded = React.useCallback((id: string) => {
     setExpandedIds((prev) => {
@@ -255,7 +267,7 @@ export function DataTable<T>({
         </div>
 
         {/* Таблица — белая карточка на сером канвасе (контраст белый/серый отделяет её; контур только в dark) */}
-        <div className={cn("rounded-2xl border bg-card overflow-x-auto overflow-y-auto max-h-[calc(100vh-15rem)]", bordered ? "border-border" : "border-transparent dark:border-border mt-2")}>
+        <div ref={scrollRef} className={cn("rounded-2xl border bg-card overflow-x-auto overflow-y-auto max-h-[calc(100vh-15rem)]", bordered ? "border-border" : "border-transparent dark:border-border mt-2")}>
           {/* Header row */}
           {rows.length > 0 && (
             <div
@@ -322,6 +334,9 @@ export function DataTable<T>({
                     isSelected && "!bg-primary/[0.06] dark:!bg-primary/[0.08]",
                     rowClassName?.(row.original),
                   )}
+                  // Тянем строку-группу на всю ширину скролл-контента, чтобы sticky
+                  // у раскрытой панели имел диапазон по всей таблице (иначе липнет к уехавшему блоку).
+                  style={renderExpanded ? { minWidth: tableMinWidth } : undefined}
                 >
                   {/* Main row */}
                   <div
@@ -390,23 +405,19 @@ export function DataTable<T>({
                     )}
                   </div>
 
-                  {/* Expanded panel */}
-                  <AnimatePresence initial={false}>
-                    {renderExpanded && isExpanded && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="overflow-hidden"
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <div className="px-6 py-4 border-t border-foreground/[0.06] dark:border-white/[0.06]">
-                          {renderExpanded(row.original)}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {/* Expanded panel — sticky к левому краю и шириной с видимую область.
+                      Без overflow-hidden/transform: они ломают горизонтальный sticky. */}
+                  {renderExpanded && isExpanded && (
+                    <div
+                      className="sticky left-0 animate-in fade-in slide-in-from-top-1 duration-200"
+                      style={viewportW ? { width: viewportW } : undefined}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <div className="px-6 py-4 border-t border-foreground/[0.06] dark:border-white/[0.06]">
+                        {renderExpanded(row.original)}
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })
