@@ -23,17 +23,10 @@ import { GripVertical, Save, Search, Trash2 } from "lucide-react"
 import { useMockData, type WorkflowStep, type ScenarioType } from "@/lib/mock"
 import {
   ACTIVITY_BY_TYPE,
+  ACTIVITIES_BY_SCENARIO,
   WORKFLOW_ACTIVITIES,
   type WorkflowActivityType,
 } from "@/lib/mock/seeds/workflow-activities"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import {
@@ -72,11 +65,6 @@ export function WorkflowBuilder() {
     ? data.scenarios.find((s) => s.id === editId)
     : undefined
 
-  const TYPE_LABEL: Record<ScenarioType, string> = {
-    client: "Клиентский",
-    group: "Групповой",
-    embedded: "Встроенный",
-  }
   const type = (existing?.type ?? params.get("type") ?? "client") as ScenarioType
 
   const [name, setName] = React.useState(existing?.name ?? "Новый сценарий")
@@ -92,12 +80,20 @@ export function WorkflowBuilder() {
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } })
   )
 
+  // Палитра зависит от типа сценария (клиентский / групповой / встроенный).
+  const available = React.useMemo(
+    () =>
+      (ACTIVITIES_BY_SCENARIO[type] ?? WORKFLOW_ACTIVITIES.map((a) => a.type))
+        .map((t) => ACTIVITY_BY_TYPE[t])
+        .filter(Boolean),
+    [type]
+  )
   const filteredActivities = React.useMemo(
     () =>
-      WORKFLOW_ACTIVITIES.filter((a) =>
+      available.filter((a) =>
         search ? a.name.toLowerCase().includes(search.toLowerCase()) : true
       ),
-    [search]
+    [available, search]
   )
 
   const addStep = (type: WorkflowActivityType) => {
@@ -139,39 +135,12 @@ export function WorkflowBuilder() {
   }
 
   return (
-    <div className="space-y-4 pt-7 pb-12">
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href="/workflows">Сценарии</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>
-                  {existing ? "Редактирование" : "Новый сценарий"}
-                </BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <p className="text-sm text-muted-foreground">
-            Тип: <span className="font-medium text-foreground">{TYPE_LABEL[type]}</span>
-          </p>
-        </div>
-        <Button onClick={() => setSaveOpen(true)}>
-          <Save className="size-4" />
-          Сохранить
-        </Button>
-      </div>
-
+    <div className="flex h-[calc(100vh-6rem)] flex-col gap-4 pt-4">
       <DndContext sensors={sensors} onDragEnd={onDragEnd}>
-        <div className="grid min-h-[500px] grid-cols-1 gap-4 lg:grid-cols-12">
+        <div className="grid min-h-0 flex-1 grid-cols-1 gap-4 lg:grid-cols-12">
           {/* Палитра */}
-          <Card className="col-span-1 overflow-hidden lg:col-span-3">
-            <div className="space-y-2 border-b border-border p-4">
+          <Card className="col-span-1 flex min-h-0 flex-col overflow-hidden border-border py-0 gap-0 lg:col-span-3">
+            <div className="shrink-0 space-y-2 border-b border-border p-4">
               <h3 className="text-sm font-semibold">Доступные активности</h3>
               <div className="relative">
                 <Search className="absolute top-1/2 left-2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -183,7 +152,7 @@ export function WorkflowBuilder() {
                 />
               </div>
             </div>
-            <div className="max-h-[600px] space-y-1 overflow-y-auto p-3">
+            <div className="min-h-0 flex-1 space-y-1 overflow-y-auto p-3">
               {filteredActivities.map((a) => (
                 <button
                   key={a.type}
@@ -201,8 +170,8 @@ export function WorkflowBuilder() {
           </Card>
 
           {/* Пайплайн */}
-          <Card className="col-span-1 overflow-hidden lg:col-span-6">
-            <div className="border-b border-border p-4">
+          <Card className="col-span-1 flex min-h-0 flex-col overflow-hidden border-border py-0 gap-0 lg:col-span-6">
+            <div className="shrink-0 border-b border-border p-4">
               <h3 className="text-sm font-semibold">
                 Пайплайн{" "}
                 <span className="ml-1 text-muted-foreground">
@@ -210,7 +179,7 @@ export function WorkflowBuilder() {
                 </span>
               </h3>
             </div>
-            <div className="min-h-[400px] space-y-2 p-4">
+            <div className="min-h-0 flex-1 space-y-2 overflow-y-auto p-4">
               {steps.length === 0 ? (
                 <div className="rounded-md border border-dashed border-border px-3 py-12 text-center text-sm text-muted-foreground">
                   Перетащите активности из палитры слева или кликните по ним,
@@ -237,11 +206,11 @@ export function WorkflowBuilder() {
           </Card>
 
           {/* Конфигурация */}
-          <Card className="col-span-1 overflow-hidden lg:col-span-3">
-            <div className="border-b border-border p-4">
+          <Card className="col-span-1 flex min-h-0 flex-col overflow-hidden border-border py-0 gap-0 lg:col-span-3">
+            <div className="shrink-0 border-b border-border p-4">
               <h3 className="text-sm font-semibold">Конфигурация</h3>
             </div>
-            <CardContent className="p-4">
+            <CardContent className="min-h-0 flex-1 overflow-y-auto p-4">
               {!selectedStep || !selectedMeta ? (
                 <p className="py-12 text-center text-sm text-muted-foreground">
                   Выберите шаг для настройки
@@ -314,6 +283,9 @@ export function WorkflowBuilder() {
                               }
                             />
                           ) : null}
+                          {f.hint ? (
+                            <p className="text-[10px] leading-snug text-muted-foreground">{f.hint}</p>
+                          ) : null}
                         </div>
                       ))
                     )}
@@ -326,6 +298,17 @@ export function WorkflowBuilder() {
 
         <DragOverlay />
       </DndContext>
+
+      {/* Нижняя фиксированная панель действий */}
+      <div className="shrink-0 -mx-8 flex items-center justify-end gap-2 border-t border-border bg-card px-8 py-3">
+        <Button variant="outline" asChild>
+          <Link href="/workflows">Отмена</Link>
+        </Button>
+        <Button onClick={() => setSaveOpen(true)}>
+          <Save className="size-4" />
+          Сохранить
+        </Button>
+      </div>
 
       <Dialog open={saveOpen} onOpenChange={setSaveOpen}>
         <DialogContent className="sm:max-w-md">
