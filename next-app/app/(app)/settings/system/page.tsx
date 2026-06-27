@@ -112,8 +112,25 @@ export default function Page() {
     <StateSwitch skeleton="table" emptyTitle="Системных настроек нет">
       <div className="space-y-4">
         <Card className="border-border">
-          {/* overflow-x-auto + min-w → на узких экранах таблица скроллится, а не ломается */}
-          <div role="table" aria-label="Системные настройки" className="overflow-x-auto">
+          {/* Mobile: список — ключ, описание, дата + JSON-значение блоком с переносом
+              (иначе значение режется за горизонтальным скроллом таблицы). */}
+          <div className="divide-y divide-border/60 md:hidden">
+            {config.map((row) => (
+              <div key={row.key} className="flex flex-col gap-1.5 p-4">
+                <div className="flex items-baseline justify-between gap-2">
+                  <span className="font-mono text-xs font-medium text-foreground">{row.key}</span>
+                  <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground">{row.updatedAt}</span>
+                </div>
+                {row.description ? <div className="text-xs text-muted-foreground">{row.description}</div> : null}
+                <pre className="mt-0.5 overflow-x-auto whitespace-pre-wrap break-all rounded-lg bg-foreground/[0.04] p-2.5 font-mono text-[11px] leading-relaxed text-muted-foreground dark:bg-white/[0.04]">
+                  {prettifyJson(row.value)}
+                </pre>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop: таблица. overflow-x-auto + min-w → скроллится, а не ломается. */}
+          <div role="table" aria-label="Системные настройки" className="hidden overflow-x-auto md:block">
             <div role="rowgroup">
               <div
                 role="row"

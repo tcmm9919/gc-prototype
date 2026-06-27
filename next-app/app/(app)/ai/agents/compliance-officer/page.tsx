@@ -337,7 +337,34 @@ export default function Page() {
             Обновить
           </Button>
         </div>
-        <div className="overflow-x-auto">
+        {/* Mobile: список строк вместо таблицы (колонки прятались за гориз. скроллом). */}
+        <div className="divide-y divide-border/60 md:hidden">
+          {ACTIVITY.map((row, i) => (
+            <div key={i} className="flex flex-col gap-1.5 p-4">
+              <div className="flex items-start justify-between gap-3">
+                <span className="text-sm font-medium">{row.action}</span>
+                <span
+                  className={`shrink-0 inline-flex rounded border px-1.5 py-0.5 font-mono text-xs ${
+                    row.status === "ok"
+                      ? "border-emerald-500/30 bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"
+                      : "border-destructive/30 bg-destructive/15 text-destructive"
+                  }`}
+                >
+                  {row.status}
+                </span>
+              </div>
+              <div className="text-xs tabular-nums text-muted-foreground">{row.time}</div>
+              {row.details ? <p className="text-xs text-muted-foreground">{row.details}</p> : null}
+              {row.link ? (
+                <Link href={row.link.href} className="text-xs text-primary hover:underline">
+                  {row.link.label} ↗
+                </Link>
+              ) : null}
+            </div>
+          ))}
+        </div>
+
+        <div className="hidden overflow-x-auto md:block">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-muted/30 text-xs font-medium uppercase tracking-wider text-muted-foreground">
