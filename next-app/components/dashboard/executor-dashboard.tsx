@@ -207,9 +207,9 @@ function QueueRow({ alert }: { alert: Alert }) {
           openAlert();
         }
       }}
-      className="relative grid grid-cols-[4px_1fr_auto] gap-4 p-4 rounded-xl bg-foreground/[0.03] hover:bg-foreground/[0.06] dark:bg-white/[0.05] dark:hover:bg-white/[0.08] transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="relative grid grid-cols-[4px_1fr] gap-x-3 gap-y-3 sm:grid-cols-[4px_1fr_auto] sm:gap-4 p-4 rounded-xl bg-foreground/[0.03] hover:bg-foreground/[0.06] dark:bg-white/[0.05] dark:hover:bg-white/[0.08] transition-colors cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
-      <span className={cn("w-1 rounded-full", zoneBarColor)} aria-hidden />
+      <span className={cn("row-span-2 w-1 rounded-full sm:row-span-1", zoneBarColor)} aria-hidden />
       <div className="flex flex-col gap-1.5 min-w-0">
         <div className="flex items-baseline gap-2">
           <span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
@@ -245,7 +245,7 @@ function QueueRow({ alert }: { alert: Alert }) {
           {client?.fullName || "—"} · #{alert.id}
         </div>
       </div>
-      <div className="flex flex-col items-end gap-2 shrink-0">
+      <div className="col-start-2 flex flex-row items-center justify-between gap-2 sm:col-start-3 sm:row-start-1 sm:flex-col sm:items-end">
         <span className={cn("text-[13px] font-medium tabular-nums", zoneTimeColor)}>
           {formatRelativeFuture(alert.deadline)}
         </span>
@@ -860,7 +860,7 @@ export function ExecutorDashboard() {
       {/* временно скрыт: передаём [] вместо queueAlerts → баннер не рендерится */}
       <SLABanner alerts={[]} />
 
-      <div className="grid lg:grid-cols-3 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         <div className="lg:col-span-2 flex flex-col gap-6">
           <MyQueue alerts={queueAlerts} />
           <AIReviewBlock cases={aiCases} />

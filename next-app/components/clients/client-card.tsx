@@ -17,6 +17,13 @@ import {
 
 import { useClient, useMockData } from "@/lib/mock"
 import { cn } from "@/lib/utils"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 import { ClientDemoProvider } from "./client-demo-context"
 import { ClientIdentity } from "./client-identity"
@@ -79,14 +86,34 @@ export function ClientCard({ id }: { id: string }) {
   return (
     <div className="pb-6 pt-5">
       <ClientDemoProvider key={client.id}>
-        <div className="grid items-start gap-6 lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)_320px]">
+        <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)_320px]">
           {/* LEFT — разделы (вверху) + быстрые действия (под рейлом), sticky */}
           <aside className="flex flex-col gap-4 self-start lg:sticky lg:top-20 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+            {/* Мобила: разделы — дропдаун вместо вертикального рейла */}
+            <div className="lg:hidden">
+              <Select value={currentTab} onValueChange={setTab}>
+                <SelectTrigger className="h-11 w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {SECTIONS.map((s) => {
+                    const count = counts[s.value]
+                    return (
+                      <SelectItem key={s.value} value={s.value}>
+                        {s.label}
+                        {count != null ? ` · ${count}` : ""}
+                      </SelectItem>
+                    )
+                  })}
+                </SelectContent>
+              </Select>
+            </div>
+
             <nav
               role="tablist"
               aria-orientation="vertical"
               aria-label="Разделы клиента"
-              className="flex flex-col gap-0.5 rounded-2xl border border-border bg-card p-2"
+              className="hidden flex-col gap-0.5 rounded-2xl border border-border bg-card p-2 lg:flex"
             >
               {SECTIONS.map((s) => {
                 const active = currentTab === s.value

@@ -143,6 +143,27 @@ export function CasesTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по ID, типу, клиенту..."
       onRowClick={(c) => router.push(`/cases/${c.id}`)}
+      renderMobileCard={(k) => {
+        const client = clientById.get(k.clientId);
+        const resp = k.responsibleId === "USR-AI" ? "Compliance Officer AI" : (userById.get(k.responsibleId)?.fullName ?? "—");
+        return (
+          <div className="flex flex-col gap-2.5">
+            <div className="flex items-start justify-between gap-3">
+              <span className="min-w-0 truncate font-medium text-foreground">{client?.fullName ?? "Без клиента"}</span>
+              <span className="shrink-0 font-mono text-xs text-muted-foreground">{k.id}</span>
+            </div>
+            {k.description ? <p className="text-sm text-muted-foreground line-clamp-2">{k.description}</p> : null}
+            <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <User className="size-3.5 shrink-0" />
+              <span className="truncate">{resp}</span>
+              <span className="ml-auto shrink-0"><RelativeTime iso={k.openedAt} /></span>
+            </div>
+            <div className="mt-0.5 flex flex-wrap items-center gap-1.5 border-t border-border pt-3">
+              <StatusBadge tone={STATUS_TONE[k.status]}>{STATUS_LABEL[k.status]}</StatusBadge>
+            </div>
+          </div>
+        );
+      }}
       renderExpanded={(kase) => {
         const client = data.clients.find((c) => c.id === kase.clientId);
         return (

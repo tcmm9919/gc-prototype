@@ -104,7 +104,7 @@ export function ModelDoc({
       </header>
 
       {/* Body + TOC */}
-      <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_15rem]">
+      <div className="mt-6 grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,1fr)_15rem]">
         <div className="flex min-w-0 flex-col gap-4">
           {sections.map((s) => (
             <section key={s.id} id={s.id} className="scroll-mt-24 rounded-2xl border border-border bg-card p-5 md:p-6">

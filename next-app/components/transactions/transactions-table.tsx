@@ -213,6 +213,39 @@ export function TransactionsTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по ID, клиенту, назначению..."
       onRowClick={(t) => router.push(`/transactions/${t.id}`)}
+      renderMobileCard={(t) => {
+        const c = clientById.get(t.clientId);
+        return (
+          <div className="flex flex-col gap-2.5">
+            {/* Заголовок: клиент + ID */}
+            <div className="flex items-start justify-between gap-3">
+              <span className="min-w-0 truncate font-medium text-foreground">{c?.fullName ?? t.clientId}</span>
+              <span className="shrink-0 font-mono text-xs text-muted-foreground">{shortId(t.id)}</span>
+            </div>
+            {/* Сумма (крупно) + дата */}
+            <div className="flex items-baseline justify-between gap-3">
+              <span className="text-[17px] font-semibold tabular-nums leading-tight text-foreground">
+                {formatAmount(t.amount, t.currency)}
+              </span>
+              <span className="shrink-0 text-xs tabular-nums text-muted-foreground">{formatDate(t.date)}</span>
+            </div>
+            {t.currency !== "KZT" ? (
+              <span className="text-xs tabular-nums text-muted-foreground">≈ {formatAmount(t.amountKZT, "KZT")}</span>
+            ) : null}
+            {/* Назначение */}
+            <p className="flex items-baseline gap-1.5 text-sm text-muted-foreground">
+              <span className="shrink-0 font-mono text-xs">{t.purposeCode}</span>
+              <span className="line-clamp-1">{t.purposeDescription}</span>
+            </p>
+            {/* Бейджи */}
+            <div className="mt-0.5 flex flex-wrap items-center gap-1.5 border-t border-border pt-3">
+              <StatusBadge tone={COMPLIANCE_TONE[t.complianceStatus]}>{t.complianceStatus}</StatusBadge>
+              <StatusBadge tone={PRIORITY_TONE[t.priority]}>{PRIORITY_LABELS[t.priority]}</StatusBadge>
+              <RiskBadge level={t.riskLevel} />
+            </div>
+          </div>
+        );
+      }}
       renderExpanded={(tx) => {
         const client = data.clients.find((c) => c.id === tx.clientId);
         const t = tx as Transaction & { branchName?: string; type?: string; channel?: string; additionalInfo?: string };

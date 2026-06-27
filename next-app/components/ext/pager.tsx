@@ -56,7 +56,7 @@ export function PagerFooter({
           value={pageSize}
           onChange={(e) => onPageSize(Number(e.target.value))}
           aria-label="Размер страницы"
-          className="h-8 rounded-md border border-border bg-card px-2 text-xs text-foreground outline-none focus:ring-0"
+          className="h-11 md:h-8 rounded-md border border-border bg-card px-2 text-xs text-foreground outline-none focus:ring-0"
         >
           {sizes.map((s) => (
             <option key={s} value={s}>
@@ -64,14 +64,14 @@ export function PagerFooter({
             </option>
           ))}
         </select>
-        <Button variant="outline" size="sm" className="h-8" disabled={page <= 1} onClick={() => onPage(page - 1)}>
+        <Button variant="outline" size="sm" className="h-11 md:h-8" disabled={page <= 1} onClick={() => onPage(page - 1)}>
           <ChevronLeft className="size-4" />
           Назад
         </Button>
         <span className="min-w-14 text-center text-xs tabular-nums text-muted-foreground">
           {page} / {pageCount}
         </span>
-        <Button variant="outline" size="sm" className="h-8" disabled={page >= pageCount} onClick={() => onPage(page + 1)}>
+        <Button variant="outline" size="sm" className="h-11 md:h-8" disabled={page >= pageCount} onClick={() => onPage(page + 1)}>
           Вперёд
           <ChevronRight className="size-4" />
         </Button>

@@ -3,8 +3,9 @@
 import * as React from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { Bell, Check, ChevronRight, Languages } from "lucide-react";
+import { Bell, Check, ChevronRight, Languages, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useSidebar } from "@/components/ui/sidebar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -68,6 +69,22 @@ const LANGUAGES = [
   { code: "en", label: "English" },
 ];
 
+/** Бургер для открытия off-canvas сайдбара — только на мобиле (<768). */
+function MobileMenuButton() {
+  const { toggleSidebar } = useSidebar();
+  return (
+    <Button
+      variant="ghost"
+      size="icon"
+      onClick={toggleSidebar}
+      aria-label="Меню"
+      className="-ml-2 mr-1 shrink-0 rounded-full md:hidden"
+    >
+      <Menu className="size-5" />
+    </Button>
+  );
+}
+
 function LanguageMenu() {
   const [lang, setLang] = React.useState("ru");
   return (
@@ -120,7 +137,8 @@ export function AppHeader() {
               : id;
 
     return (
-      <header className="sticky top-0 z-30 flex h-14 items-center bg-card px-8">
+      <header className="sticky top-0 z-30 flex h-14 items-center bg-card px-4 sm:px-8">
+        <MobileMenuButton />
         <nav className="flex items-center gap-2 text-[14px]" aria-label="Хлебные крошки">
           <Link
             href={parent.list}
@@ -152,7 +170,8 @@ export function AppHeader() {
       crumbs.push({ label, href: acc });
     }
     return (
-      <header className="sticky top-0 z-30 flex h-14 items-center bg-card px-8">
+      <header className="sticky top-0 z-30 flex h-14 items-center bg-card px-4 sm:px-8">
+        <MobileMenuButton />
         <nav className="flex items-center gap-2 text-[14px]" aria-label="Хлебные крошки">
           {crumbs.map((c, i) => {
             const isLast = i === crumbs.length - 1;
@@ -183,7 +202,8 @@ export function AppHeader() {
     };
     const seg = decodeURIComponent(segments[1]);
     return (
-      <header className="sticky top-0 z-30 flex h-14 items-center bg-card px-8">
+      <header className="sticky top-0 z-30 flex h-14 items-center bg-card px-4 sm:px-8">
+        <MobileMenuButton />
         <nav className="flex items-center gap-2 text-[14px]" aria-label="Хлебные крошки">
           <Link href="/instructions" className="text-muted-foreground transition-colors hover:text-foreground">
             ML Модели
@@ -206,8 +226,9 @@ export function AppHeader() {
     normalizedPath.startsWith("/workflows/"); // /workflows/builder и /new — высокие; список — нет
 
   return (
-    <header className={`sticky top-0 z-30 flex items-center justify-between gap-3 px-8 bg-card ${isTallHeader ? "h-16" : "h-14 pt-2"}`}>
-      <div className="flex min-w-0 items-center gap-2.5">
+    <header className={`sticky top-0 z-30 flex items-center justify-between gap-3 px-4 sm:px-8 bg-card ${isTallHeader ? "h-16" : "h-14 pt-2"}`}>
+      <div className="flex min-w-0 items-center gap-1.5">
+        <MobileMenuButton />
         <h1 className="truncate text-[14px] font-semibold text-foreground">{title}</h1>
       </div>
 

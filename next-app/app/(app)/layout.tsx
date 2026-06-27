@@ -24,7 +24,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <AppHeader />
               </Suspense>
               <Suspense fallback={null}>
-                <div className="px-8 pt-1">{children}</div>
+                <div className="px-4 pt-1 sm:px-8">{children}</div>
               </Suspense>
             </AppMain>
           </SidebarInset>

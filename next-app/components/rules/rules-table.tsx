@@ -133,6 +133,32 @@ export function RulesTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по названию или описанию..."
       onRowClick={(r) => router.push(`/rules/${r.id}`)}
+      renderMobileCard={(r) => {
+        const s = r.severity ?? "high";
+        return (
+          <div className="flex flex-col gap-2.5">
+            <div className="flex items-start justify-between gap-3">
+              <span className="min-w-0 truncate font-medium text-foreground">{r.name}</span>
+              <span className="shrink-0 font-mono text-xs text-muted-foreground">{r.id}</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-muted-foreground">
+              <span>{CATEGORY_LABEL[r.category ?? "transaction"] ?? "—"}</span>
+              <span className="font-mono tabular-nums">v{r.version ?? 1}</span>
+              <span className="ml-auto"><RelativeTime iso={r.updatedAt} /></span>
+            </div>
+            <div className="mt-0.5 flex flex-wrap items-center gap-1.5 border-t border-border pt-3">
+              <StatusBadge tone={SEVERITY_TONE[s]}>{SEVERITY_LABEL[s]}</StatusBadge>
+              {r.draft ? (
+                <StatusBadge tone="info">Черновик</StatusBadge>
+              ) : r.enabled ? (
+                <StatusBadge tone="success">Включено</StatusBadge>
+              ) : (
+                <StatusBadge tone="muted">Выключено</StatusBadge>
+              )}
+            </div>
+          </div>
+        );
+      }}
       pageSize={20}
       toolbar={
         <Button asChild size="xl">

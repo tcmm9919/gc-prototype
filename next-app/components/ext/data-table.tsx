@@ -19,6 +19,7 @@ import {
 import { ArrowUpDown, ChevronDown, ChevronLeft, ChevronRight, Search, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -56,6 +57,12 @@ interface DataTableProps<T> {
   onRowClick?: (row: T) => void;
   /** Доступное имя кликабельной строки (для скринридеров). Иначе имя собирается из текста ячеек. */
   rowLabel?: (row: T) => string;
+  /**
+   * Кастомная мобильная карточка (<md). Получает сырой объект строки и рисует
+   * полноценную карточку с заголовком и своим лейаутом — вместо авто-стека
+   * «подпись — значение» из колонок. На десктопе игнорируется (таблица как есть).
+   */
+  renderMobileCard?: (row: T) => React.ReactNode;
   pageSize?: number;
   rowClassName?: (row: T) => string;
   bulkActions?: (selectedRows: T[], clearSelection: () => void) => React.ReactNode;
@@ -96,7 +103,9 @@ export function DataTable<T>({
   rowClassName,
   bulkActions,
   bordered = false,
+  renderMobileCard,
 }: DataTableProps<T>) {
+  const isMobile = useIsMobile();
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
@@ -194,11 +203,41 @@ export function DataTable<T>({
     48;
   const selectedRows = table.getFilteredSelectedRowModel().rows.map((r) => r.original);
 
+  // Подпись колонки для карточного режима: берём только строковый header.
+  // ReactNode/функция-header → без подписи (значение рендерится во всю ширину).
+  const headerLabel = (def: ColumnDef<T>): string | null =>
+    typeof def.header === "string" ? def.header : null;
+
+  // Поиск + фильтры — единый блок, переиспользуется в десктоп-строке панели и в
+  // мобильном липком баре (контролируемый input, оба инстанса читают globalFilter).
+  const searchAndFilters = (
+    <div className="flex flex-col gap-2 min-w-0 md:flex-row md:items-center md:flex-wrap">
+      <div className="relative w-full md:w-72 md:max-w-full md:shrink-0">
+        <Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+        <Input
+          type="search"
+          aria-label={globalFilterPlaceholder}
+          placeholder={globalFilterPlaceholder}
+          value={globalFilter ?? ""}
+          onChange={(e) => setGlobalFilter(e.target.value)}
+          className="h-11 md:h-8 w-full rounded-lg border-border bg-card pl-8 text-[13px] focus-visible:ring-1"
+        />
+      </div>
+      {filters && (
+        // Mobile: фильтры в одну строку с горизонтальным скроллом (без переноса);
+        // десктоп: перенос. -mx-* + px-* дают скролл «от края до края» экрана.
+        <div className="-mx-4 flex items-center gap-1.5 overflow-x-auto px-4 [scrollbar-width:none] md:mx-0 md:flex-wrap md:overflow-visible md:px-0 [&::-webkit-scrollbar]:hidden [&_button]:h-11 [&_button]:shrink-0 md:[&_button]:h-8 [&_button]:gap-1.5 [&_button]:rounded-lg [&_button]:!border-transparent [&_button]:!bg-foreground/[0.06] [&_button]:px-2.5 [&_button]:text-[13px] [&_button]:font-normal [&_button]:shadow-none [&_button>svg]:size-3.5 [&_button:hover]:!bg-foreground/10">
+          {filters}
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <>
       <div className={cn("flex flex-col gap-3", !bordered && "pb-6")}>
         {/* Панель управления — отдельная область (белая карточка на верхнеуровневых списках) */}
-        <div className={cn("flex flex-col gap-3", !bordered && "-mx-8 -mt-1 border-b border-border bg-card px-8 py-3")}>
+        <div className={cn("flex flex-col gap-3", !bordered && "md:-mx-8 md:-mt-1 md:border-b md:border-border md:bg-card md:px-8 md:py-3")}>
         {/* Saved views */}
         {views && views.length > 0 && (
           <div className="inline-flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-lg bg-foreground/[0.06] p-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -240,38 +279,50 @@ export function DataTable<T>({
           </div>
         )}
 
-        {/* Toolbar: [search + filters] слева, [actions] справа.
-            flex-wrap + ml-auto → на узких экранах action-кнопки уходят на свою
-            строку, а не наезжают на фильтры (без flex-1, который раздувал строку). */}
-        <div className="flex min-h-10 items-center gap-2.5 flex-wrap">
-          <div className="flex items-center gap-2 flex-wrap min-w-0">
-            <div className="relative w-72 max-w-full shrink-0">
-              <Search className="absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                type="search"
-                aria-label={globalFilterPlaceholder}
-                placeholder={globalFilterPlaceholder}
-                value={globalFilter ?? ""}
-                onChange={(e) => setGlobalFilter(e.target.value)}
-                className="h-8 w-full rounded-lg border-border bg-card pl-8 text-[13px] focus-visible:ring-1"
-              />
-            </div>
-            {filters && (
-              <div className="flex flex-wrap items-center gap-1.5 [&_button]:h-8 [&_button]:gap-1.5 [&_button]:rounded-lg [&_button]:!border-transparent [&_button]:!bg-foreground/[0.06] [&_button]:px-2.5 [&_button]:text-[13px] [&_button]:font-normal [&_button]:shadow-none [&_button>svg]:size-3.5 [&_button:hover]:!bg-foreground/10">
-                {filters}
-              </div>
-            )}
+        {/* Mobile: тулбар-кнопки (экспорт и т.п.) — отдельной строкой, уезжают при
+            скролле. Десктоп: рендерятся в строке поиска справа (ниже). */}
+        {toolbar && (
+          <div className="flex w-full flex-col gap-2 md:hidden [&_button]:w-full">
+            {toolbar}
           </div>
-          {toolbar && <div className="flex items-center gap-2 shrink-0 ml-auto">{toolbar}</div>}
+        )}
+
+        {/* Десктоп: строка поиск+фильтры+действия внутри белой панели.
+            На мобиле скрыта — там поиск живёт в липком баре (ниже, сиблингом карточек). */}
+        <div className="hidden md:flex md:min-h-10 md:flex-row md:items-center md:flex-wrap md:gap-2.5">
+          {searchAndFilters}
+          {toolbar && (
+            <div className="md:flex md:w-auto md:flex-row md:items-center md:gap-2 md:ml-auto">
+              {toolbar}
+            </div>
+          )}
         </div>
         </div>
 
+        {/* Mobile: липкий бар поиск+фильтры под верхней шапкой (top-14). Вынесен из
+            панели и стоит сиблингом карточек — иначе sticky «отлипает» на коротком
+            родителе. На десктопе скрыт (поиск в панели выше). */}
+        {!bordered && (
+          <div className="sticky top-14 z-20 -mx-4 -mt-3 border-b border-border bg-card px-4 py-2.5 md:hidden">
+            {searchAndFilters}
+          </div>
+        )}
+
         {/* Таблица — белая карточка на сером канвасе (контраст белый/серый отделяет её; контур только в dark) */}
-        <div ref={scrollRef} className={cn("rounded-2xl border bg-card overflow-x-auto overflow-y-auto max-h-[calc(100vh-15rem)]", bordered ? "border-border" : "border-transparent dark:border-border mt-2")}>
+        <div
+          ref={scrollRef}
+          className={cn(
+            // Mobile: без острова — карточки лежат прямо на фоне (свой bg/border у каждой карточки).
+            "border-0 bg-transparent",
+            // Desktop: белый остров со скруглением, контуром и собственным скроллом.
+            "md:rounded-2xl md:border md:bg-card md:overflow-x-auto md:overflow-y-auto md:max-h-[calc(100vh-15rem)]",
+            bordered ? "md:border-border" : "md:border-transparent md:dark:border-border md:mt-2",
+          )}
+        >
           {/* Header row */}
           {rows.length > 0 && (
             <div
-              className="sticky top-0 z-10 grid gap-4 px-6 py-4 text-[13px] font-normal text-muted-foreground bg-card"
+              className="sticky top-0 z-10 hidden md:grid gap-4 px-6 py-4 text-[13px] font-normal text-muted-foreground bg-card"
               style={{ gridTemplateColumns: gridTemplate, minWidth: tableMinWidth }}
             >
               {bulkActions && (
@@ -330,13 +381,19 @@ export function DataTable<T>({
                   data-state={isSelected ? "selected" : undefined}
                   className={cn(
                     "transition-colors",
-                    "even:bg-foreground/[0.025] dark:even:bg-white/[0.025]",
-                    isSelected && "!bg-primary/[0.06] dark:!bg-primary/[0.08]",
+                    // Зебра/выделение — только на десктоп-таблице; на мобиле каждая
+                    // строка обособлена в свою карточку, фон зебры не нужен.
+                    "md:even:bg-foreground/[0.025] md:dark:even:bg-white/[0.025]",
+                    isSelected && "md:!bg-primary/[0.06] md:dark:!bg-primary/[0.08]",
+                    // Карточный режим (<md): только вертикальный зазор между карточками;
+                    // боковые отступы (16px) даёт паддинг страницы, без добавочного px.
+                    "py-1.5 md:p-0",
                     rowClassName?.(row.original),
                   )}
                   // Тянем строку-группу на всю ширину скролл-контента, чтобы sticky
                   // у раскрытой панели имел диапазон по всей таблице (иначе липнет к уехавшему блоку).
-                  style={renderExpanded ? { minWidth: tableMinWidth } : undefined}
+                  // На мобиле minWidth не задаём — иначе карточка распирала бы экран вбок.
+                  style={renderExpanded && !isMobile ? { minWidth: tableMinWidth } : undefined}
                 >
                   {/* Main row */}
                   <div
@@ -351,18 +408,27 @@ export function DataTable<T>({
                       }
                     }}
                     className={cn(
-                      "grid gap-4 px-6 py-4 transition-colors text-[14px]",
+                      // <md: вертикальная карточка; ≥md: грид-строка как раньше.
+                      "transition-colors",
+                      "flex flex-col gap-2 rounded-xl border border-border bg-card p-4",
+                      "md:grid md:gap-4 md:rounded-none md:border-0 md:bg-transparent md:px-6 md:py-4 md:text-[14px]",
+                      isSelected && "!border-primary/40 md:!border-0",
                       onRowClick &&
                         "cursor-pointer hover:bg-foreground/[0.03] dark:hover:bg-white/[0.04] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary/40",
                     )}
-                    style={{ gridTemplateColumns: gridTemplate, minWidth: tableMinWidth }}
+                    style={isMobile ? undefined : { gridTemplateColumns: gridTemplate, minWidth: tableMinWidth }}
                   >
-                    {bulkActions && (
+                    {bulkActions && !(isMobile && renderMobileCard) && (
                       <div
-                        className="min-w-0 flex items-center"
-                        style={{ width: 44 }}
+                        className={cn(
+                          "min-w-0 flex items-center md:!w-11",
+                          // На мобиле чекбокс в шапке карточки с подписью «Выбрать».
+                          "order-first justify-between md:justify-start",
+                        )}
+                        style={isMobile ? undefined : { width: 44 }}
                         onClick={(e) => e.stopPropagation()}
                       >
+                        <span className="text-xs text-muted-foreground md:hidden">Выбрать</span>
                         <Checkbox
                           checked={row.getIsSelected()}
                           onCheckedChange={(value) => row.toggleSelected(!!value)}
@@ -370,11 +436,30 @@ export function DataTable<T>({
                         />
                       </div>
                     )}
-                    {row.getVisibleCells().map((cell) => (
-                      <div key={cell.id} className="min-w-0 flex items-center overflow-hidden">
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                      </div>
-                    ))}
+                    {isMobile && renderMobileCard
+                      ? renderMobileCard(row.original)
+                      : row.getVisibleCells().map((cell) => {
+                          const label = headerLabel(cell.column.columnDef);
+                          return (
+                            <div
+                              key={cell.id}
+                              className={cn(
+                                // <md: ряд карточки «подпись — значение»; ≥md: грид-ячейка.
+                                "min-w-0 flex justify-between gap-3 items-baseline",
+                                "md:items-center md:justify-start md:overflow-hidden",
+                              )}
+                            >
+                              {label && (
+                                <span className="shrink-0 text-xs text-muted-foreground md:hidden">
+                                  {label}
+                                </span>
+                              )}
+                              <div className="min-w-0 text-right md:text-left">
+                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                              </div>
+                            </div>
+                          );
+                        })}
                     {renderExpanded && (
                       <div
                         role="button"
@@ -392,9 +477,14 @@ export function DataTable<T>({
                             toggleExpanded(rowId);
                           }
                         }}
-                        className="flex items-center justify-center min-w-0 cursor-pointer hover:bg-foreground/[0.05] dark:hover:bg-white/[0.06] rounded-md transition-colors"
-                        style={{ width: 36 }}
+                        className={cn(
+                          "flex items-center justify-center min-w-0 cursor-pointer hover:bg-foreground/[0.05] dark:hover:bg-white/[0.06] rounded-md transition-colors",
+                          // На мобиле — полноширинная кнопка-«ещё» внизу карточки.
+                          "mt-1 gap-1 text-xs text-muted-foreground md:mt-0 md:!w-9 md:text-[0px]",
+                        )}
+                        style={isMobile ? undefined : { width: 36 }}
                       >
+                        <span className="md:hidden">{isExpanded ? "Свернуть" : "Подробнее"}</span>
                         <ChevronDown
                           className={cn(
                             "size-4 text-muted-foreground transition-transform duration-200",
@@ -406,14 +496,18 @@ export function DataTable<T>({
                   </div>
 
                   {/* Expanded panel — sticky к левому краю и шириной с видимую область.
-                      Без overflow-hidden/transform: они ломают горизонтальный sticky. */}
+                      Без overflow-hidden/transform: они ломают горизонтальный sticky.
+                      На мобиле — обычный блок под карточкой (без sticky/фикс. ширины). */}
                   {renderExpanded && isExpanded && (
                     <div
-                      className="sticky left-0 animate-in fade-in slide-in-from-top-1 duration-200"
-                      style={viewportW ? { width: viewportW } : undefined}
+                      className={cn(
+                        "animate-in fade-in slide-in-from-top-1 duration-200",
+                        "md:sticky md:left-0",
+                      )}
+                      style={!isMobile && viewportW ? { width: viewportW } : undefined}
                       onClick={(e) => e.stopPropagation()}
                     >
-                      <div className="px-6 py-4 border-t border-foreground/[0.06] dark:border-white/[0.06]">
+                      <div className="px-3 pt-2 md:px-6 md:py-4 md:border-t md:border-foreground/[0.06] md:dark:border-white/[0.06]">
                         {renderExpanded(row.original)}
                       </div>
                     </div>
@@ -443,7 +537,7 @@ export function DataTable<T>({
               <Button
                 variant="ghost"
                 size="icon"
-                className="size-7 rounded-full"
+                className="size-11 md:size-7 rounded-full"
                 onClick={() => table.previousPage()}
                 disabled={!table.getCanPreviousPage()}
                 aria-label="Предыдущая страница"
@@ -453,7 +547,7 @@ export function DataTable<T>({
               <Button
                 variant="ghost"
                 size="icon"
-                className="size-7 rounded-full"
+                className="size-11 md:size-7 rounded-full"
                 onClick={() => table.nextPage()}
                 disabled={!table.getCanNextPage()}
                 aria-label="Следующая страница"

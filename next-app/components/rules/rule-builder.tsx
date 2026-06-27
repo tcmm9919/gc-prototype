@@ -136,7 +136,7 @@ export function RuleBuilder({ rule }: { rule?: Rule }) {
               <div key={c.id} className="flex flex-col gap-2 rounded-xl border border-border/60 bg-foreground/[0.03] p-3 dark:bg-white/[0.03]">
                 <div className="flex items-center justify-between">
                   <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground/70">{idx === 0 ? "Если" : "И"}</span>
-                  <Button type="button" variant="ghost" size="icon" className="size-7" onClick={() => removeCondition(c.id)} aria-label="Удалить условие">
+                  <Button type="button" variant="ghost" size="icon" className="size-11 md:size-7" onClick={() => removeCondition(c.id)} aria-label="Удалить условие">
                     <Trash2 className="size-3.5" />
                   </Button>
                 </div>
@@ -175,7 +175,7 @@ export function RuleBuilder({ rule }: { rule?: Rule }) {
                     <Input
                       value={String(c.value ?? "")}
                       onChange={(e) => update(c.id, { value: e.target.value })}
-                      className="h-8 min-w-48 flex-1"
+                      className="h-11 md:h-8 min-w-48 flex-1"
                       placeholder="Значение"
                       aria-label="Значение условия"
                     />

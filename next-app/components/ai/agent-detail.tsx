@@ -26,7 +26,7 @@ export function AgentDetail({ id }: { id: string }) {
 
   return (
     <div className="pb-6 pt-5">
-      <div className="grid items-start gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[300px_minmax(0,1fr)]">
         {/* LEFT — пассапорт */}
         <aside className="self-start lg:sticky lg:top-20">
           <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card p-5">

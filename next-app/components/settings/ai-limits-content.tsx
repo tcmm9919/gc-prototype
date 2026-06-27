@@ -431,7 +431,7 @@ function PersonalTab({ usage }: { usage: AiUserUsage[] }) {
   if (!selected) return null;
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[300px_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-4 lg:grid-cols-[300px_minmax(0,1fr)]">
       {/* Список пользователей */}
       <div className="overflow-hidden rounded-2xl border border-border bg-card">
         <div className="border-b border-border px-3 py-2.5 text-[11px] font-medium tracking-wider text-muted-foreground uppercase">

@@ -5,7 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
 
-import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, useSidebar } from "@/components/ui/sidebar";
+import { Sidebar, useSidebar } from "@/components/ui/sidebar";
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet";
 import { NAV_GROUPS, type NavItem } from "./nav-config";
 import { ProfileMenu } from "./profile-menu";
 import { useMockData } from "@/lib/mock";
@@ -13,7 +14,7 @@ import { cn } from "@/lib/utils";
 
 const NARROW_QUERY = "(max-width: 1023px)";
 
-/** Сворачивать сайдбар в компактный рейл на узких экранах (планшет/мобайл, <1024).
+/** Сворачивать сайдбар в компактный рейл на узких экранах (планшет, <1024).
  *  useSyncExternalStore — SSR-безопасно (сервер отдаёт false → совпадает с первым
  *  клиентским рендером, без hydration mismatch). */
 function useNarrowViewport() {
@@ -38,13 +39,52 @@ const COMPACT_WIDTH = "4.5rem";
 const EXPANDED_WIDTH = "16rem";
 
 export function AppSidebar() {
-  const pathname = usePathname() ?? "";
-  const data = useMockData();
-  const { state, toggleSidebar } = useSidebar();
+  const { state, isMobile, openMobile, setOpenMobile } = useSidebar();
   const narrow = useNarrowViewport();
   // На узких экранах (<1024) держим компактный 88px-рейл, иначе раскрытый сайдбар
   // (256px) съедает контент и таблицы. Тоггл по-прежнему работает на десктопе.
   const expanded = state === "expanded" && !narrow;
+
+  // Мобила (<768): сайдбар уезжает в off-canvas Sheet, открывается бургером в шапке.
+  if (isMobile) {
+    return (
+      <Sheet open={openMobile} onOpenChange={setOpenMobile}>
+        <SheetContent
+          side="left"
+          className="w-64 gap-0 border-r border-sidebar-border bg-sidebar p-0 [&>button]:hidden"
+        >
+          <SheetTitle className="sr-only">Навигация</SheetTitle>
+          <NavBody expanded onNavigate={() => setOpenMobile(false)} />
+        </SheetContent>
+      </Sheet>
+    );
+  }
+
+  return (
+    <Sidebar
+      collapsible="none"
+      variant="sidebar"
+      className="relative isolate z-30 overflow-hidden border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-out"
+      style={{ "--sidebar-width": expanded ? EXPANDED_WIDTH : COMPACT_WIDTH } as React.CSSProperties}
+    >
+      <NavBody expanded={expanded} showToggle />
+    </Sidebar>
+  );
+}
+
+/** Содержимое сайдбара — бренд + навигация + футер. Общее для десктоп-рейла и мобильного Sheet. */
+function NavBody({
+  expanded,
+  showToggle = false,
+  onNavigate,
+}: {
+  expanded: boolean;
+  showToggle?: boolean;
+  onNavigate?: () => void;
+}) {
+  const pathname = usePathname() ?? "";
+  const data = useMockData();
+  const { toggleSidebar } = useSidebar();
 
   const liveBadges = React.useMemo<Record<string, number>>(
     () => ({
@@ -59,20 +99,9 @@ export function AppSidebar() {
   const footerGroups = NAV_GROUPS.filter((g) => g.footer);
 
   return (
-    <Sidebar
-      collapsible="none"
-      variant="sidebar"
-      className="relative isolate z-30 overflow-hidden border-r border-sidebar-border bg-sidebar transition-[width] duration-200 ease-out"
-      style={{ "--sidebar-width": expanded ? EXPANDED_WIDTH : COMPACT_WIDTH } as React.CSSProperties}
-    >
-      {/* лаймовое свечение под стеклом — временно скрыто
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -right-16 top-[38%] size-72 -translate-y-1/2 rounded-full bg-primary/[0.13] blur-[90px]" />
-        <div className="absolute -right-8 top-[42%] size-48 -translate-y-1/2 rounded-full bg-primary/[0.09] blur-[80px]" />
-      </div> */}
-
+    <div className="flex h-full min-h-0 flex-col">
       {/* Бренд */}
-      <SidebarHeader className="gap-0 px-3 pt-4 pb-3">
+      <div className="gap-0 px-3 pt-4 pb-3">
         <div className={cn("flex items-center gap-2.5", !expanded && "justify-center")}>
           <div className="flex size-9 shrink-0 items-center justify-center rounded-[10px] bg-primary font-heading text-[15px] font-bold text-primary-foreground shadow-sm">
             F
@@ -83,18 +112,20 @@ export function AppSidebar() {
                 <span className="truncate font-heading text-[15px] font-semibold leading-tight tracking-tight">Freedom AI</span>
                 <span className="truncate text-[12px] leading-tight text-muted-foreground">Globerce Compliance</span>
               </div>
-              <button
-                type="button"
-                onClick={toggleSidebar}
-                aria-label="Свернуть"
-                className="shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:bg-foreground/[0.06] hover:text-foreground"
-              >
-                <ChevronsLeft className="size-4" />
-              </button>
+              {showToggle ? (
+                <button
+                  type="button"
+                  onClick={toggleSidebar}
+                  aria-label="Свернуть"
+                  className="shrink-0 rounded-md p-1 text-muted-foreground transition-colors hover:bg-foreground/[0.06] hover:text-foreground"
+                >
+                  <ChevronsLeft className="size-4" />
+                </button>
+              ) : null}
             </>
           ) : null}
         </div>
-        {!expanded ? (
+        {showToggle && !expanded ? (
           <button
             type="button"
             onClick={toggleSidebar}
@@ -104,10 +135,10 @@ export function AppSidebar() {
             <ChevronsRight className="size-4" />
           </button>
         ) : null}
-      </SidebarHeader>
+      </div>
 
       {/* Основные группы */}
-      <SidebarContent className="gap-0 px-2 pt-1">
+      <div className="min-h-0 flex-1 gap-0 overflow-y-auto px-2 pt-1">
         {mainGroups.map((group) => (
           <div key={group.label} className="flex flex-col gap-0.5 pb-2">
             {expanded ? (
@@ -116,30 +147,30 @@ export function AppSidebar() {
               </span>
             ) : null}
             {group.items.map((item) => (
-              <NavRow key={item.href} item={item} active={isActive(pathname, item.href)} badge={liveBadges[item.href]} expanded={expanded} />
+              <NavRow key={item.href} item={item} active={isActive(pathname, item.href)} badge={liveBadges[item.href]} expanded={expanded} onNavigate={onNavigate} />
             ))}
           </div>
         ))}
-      </SidebarContent>
+      </div>
 
       {/* Настройки + профиль */}
-      <SidebarFooter className="gap-1 px-2 pb-3">
+      <div className="gap-1 px-2 pt-1 pb-3">
         {footerGroups.map((group) => (
           <div key={group.label} className="flex flex-col gap-0.5">
             {group.items.map((item) => (
-              <NavRow key={item.href} item={item} active={isActive(pathname, item.href)} badge={liveBadges[item.href]} expanded={expanded} />
+              <NavRow key={item.href} item={item} active={isActive(pathname, item.href)} badge={liveBadges[item.href]} expanded={expanded} onNavigate={onNavigate} />
             ))}
           </div>
         ))}
         <div className="mt-1 border-t border-sidebar-border pt-2">
           <ProfileMenu expanded={expanded} />
         </div>
-      </SidebarFooter>
-    </Sidebar>
+      </div>
+    </div>
   );
 }
 
-function NavRow({ item, active, badge, expanded }: { item: NavItem; active: boolean; badge?: number; expanded: boolean }) {
+function NavRow({ item, active, badge, expanded, onNavigate }: { item: NavItem; active: boolean; badge?: number; expanded: boolean; onNavigate?: () => void }) {
   const Icon = item.icon;
 
   if (!expanded) {
@@ -147,6 +178,7 @@ function NavRow({ item, active, badge, expanded }: { item: NavItem; active: bool
       <Link
         href={item.href}
         title={item.label}
+        onClick={onNavigate}
         className={cn(
           "relative flex items-center justify-center rounded-lg py-2.5 text-foreground transition-colors",
           active ? "bg-foreground/[0.06]" : "hover:bg-foreground/[0.04]",
@@ -161,6 +193,7 @@ function NavRow({ item, active, badge, expanded }: { item: NavItem; active: bool
   return (
     <Link
       href={item.href}
+      onClick={onNavigate}
       className={cn(
         "flex h-9 items-center gap-3 rounded-lg px-3 text-[14px] font-medium text-foreground transition-colors",
         active ? "bg-foreground/[0.06]" : "hover:bg-foreground/[0.04]",

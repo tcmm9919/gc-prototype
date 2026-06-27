@@ -240,6 +240,38 @@ export function ClientsTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по имени, ID..."
       onRowClick={(c) => router.push(`/clients/${c.id}`)}
+      renderMobileCard={(c) => {
+        const u = userById.get(c.responsibleId)
+        return (
+          <div className="flex flex-col gap-3">
+            <div className="flex items-start gap-2.5">
+              <AvatarCircle
+                initials={initialsFromName(c.fullName)}
+                size="sm"
+                hue={(c.id.charCodeAt(3) * 47) % 360}
+              />
+              <div className="flex min-w-0 flex-1 flex-col gap-0.5 leading-tight">
+                <div className="flex items-start justify-between gap-2">
+                  <span className="min-w-0 truncate font-medium text-foreground">{c.fullName}</span>
+                  <RiskBadge level={c.riskLevel} />
+                </div>
+                <div className="flex flex-wrap items-center gap-1 text-xs text-muted-foreground">
+                  <span>{c.id}</span>
+                  <MicroPill tone="info">{c.segment}</MicroPill>
+                  {c.tags.slice(0, 2).map((t) => (
+                    <MicroPill key={t} tone="muted">{t}</MicroPill>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-border pt-3 text-xs text-muted-foreground">
+              <StatusDot tone={STATUS_TONE[c.status]}>{STATUS_LABELS[c.status]}</StatusDot>
+              <span>Скор <span className="font-medium tabular-nums text-foreground">{c.internalScore}</span></span>
+              <span className="ml-auto truncate">{u?.fullName ?? "—"}</span>
+            </div>
+          </div>
+        )
+      }}
       rowLabel={(c) => `Открыть клиента ${c.fullName}`}
       pageSize={20}
       globalFilterFn={(row, _col, value) => {

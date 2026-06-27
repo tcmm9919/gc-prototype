@@ -216,6 +216,29 @@ export function AlertsTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по ID, клиенту, правилу..."
       onRowClick={(a) => router.push(`/alerts/${a.id}`)}
+      renderMobileCard={(a) => {
+        const urgent = Boolean(a.deadline && a.status !== "closed" && isDeadlineUrgent(a.deadline));
+        return (
+          <div className="flex flex-col gap-2.5">
+            <div className="flex items-start justify-between gap-3">
+              <span className="min-w-0 truncate font-medium text-foreground">{a.ruleName}</span>
+              <span className="shrink-0 font-mono text-xs text-muted-foreground">{a.id}</span>
+            </div>
+            <p className="text-xs text-muted-foreground line-clamp-1">
+              Срабатывание правила{a.transactionId ? ` · транзакция ${a.transactionId}` : ""}
+            </p>
+            <div className="mt-0.5 flex flex-wrap items-center gap-1.5 border-t border-border pt-3">
+              <StatusBadge tone={SEVERITY_TONE[a.severity]}>{SEVERITY_LABEL[a.severity]}</StatusBadge>
+              <StatusBadge tone={STATUS_TONE[a.status]}>{STATUS_LABEL[a.status]}</StatusBadge>
+              {a.deadline && a.status !== "closed" ? (
+                <span className={urgent ? "ml-auto text-xs font-medium text-risk-critical" : "ml-auto text-xs text-muted-foreground"}>
+                  {formatRelativeFuture(a.deadline)}
+                </span>
+              ) : null}
+            </div>
+          </div>
+        );
+      }}
       renderExpanded={(alert) => {
         const tx = data.transactions.find((t) => t.id === alert.transactionId);
         const client = data.clients.find((c) => c.id === alert.clientId);

@@ -61,7 +61,7 @@ export function ClientDocuments() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
                     <span className="font-medium text-sm break-all">{d.name}</span>
-                    <Button variant="ghost" size="icon" className="size-7 -mt-1 -mr-1" aria-label="Скачать">
+                    <Button variant="ghost" size="icon" className="size-11 md:size-7 -mt-1 -mr-1" aria-label="Скачать">
                       <Download className="size-4" />
                     </Button>
                   </div>

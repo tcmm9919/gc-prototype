@@ -306,7 +306,7 @@ export function ChatScreen() {
         <div className="px-3 pt-3">
           <div className="relative">
             <Search className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input placeholder="Поиск..." className="h-8 pl-8 text-sm" />
+            <Input placeholder="Поиск..." className="h-11 md:h-8 pl-8 text-sm" />
           </div>
         </div>
         <div className="flex-1 overflow-y-auto overflow-x-hidden px-2 py-1.5">
@@ -350,7 +350,7 @@ export function ChatScreen() {
         </div>
       </aside>
 
-      <section className="flex min-w-0 flex-col bg-card">
+      <section className="flex min-h-0 min-w-0 flex-col overflow-hidden bg-card">
         <header className="flex items-center gap-2 px-4 py-2.5 md:px-5">
           <Button variant="ghost" size="icon" className="shrink-0 md:hidden" onClick={() => setNavOpen(true)} aria-label="Открыть список диалогов">
             <Menu className="size-5" />
@@ -359,7 +359,7 @@ export function ChatScreen() {
         </header>
 
         {isEmpty ? (
-          <div className="flex-1 overflow-y-auto">
+          <div className="min-h-0 flex-1 overflow-y-auto">
             <div className="flex min-h-full flex-col items-center justify-center px-4 py-8">
               <div
                 className="relative mb-6 size-52 sm:size-60 [-webkit-mask-image:radial-gradient(75%_60%_at_50%_50%,#000_45%,transparent_85%)] [mask-image:radial-gradient(75%_60%_at_50%_50%,#000_45%,transparent_85%)]"
@@ -405,28 +405,10 @@ export function ChatScreen() {
                 ))}
               </div>
 
-              <div className="mt-3 w-full max-w-2xl">
-                <Composer
-                  draft={draft}
-                  setDraft={setDraft}
-                  onSend={() => send(draft)}
-                  attachment={attachment}
-                  setAttachment={setAttachment}
-                  fileRef={fileRef}
-                  onPickFile={pickFile}
-                  streaming={streaming}
-                  model={model}
-                  setModel={setModel}
-                  entities={mentionEntities}
-                  textareaRef={taRef}
-                  placeholder="Задайте вопрос ассистенту…"
-                />
-              </div>
             </div>
           </div>
         ) : (
-          <>
-            <div ref={scrollRef} className="flex-1 overflow-y-auto">
+          <div ref={scrollRef} className="min-h-0 flex-1 overflow-y-auto">
               <div className="mx-auto flex min-h-full max-w-3xl flex-col justify-end gap-6 px-4 py-6 md:px-6">
                 <AnimatePresence initial={false}>
                   {messages.map((m, i) => (
@@ -479,28 +461,27 @@ export function ChatScreen() {
                 ) : null}
               </div>
             </div>
-
-            <div className="py-3 md:py-4">
-              <div className="mx-auto max-w-3xl px-4 md:px-6">
-                <Composer
-                  draft={draft}
-                  setDraft={setDraft}
-                  onSend={() => send(draft)}
-                  attachment={attachment}
-                  setAttachment={setAttachment}
-                  fileRef={fileRef}
-                  onPickFile={pickFile}
-                  streaming={streaming}
-                  model={model}
-                  setModel={setModel}
-                  entities={mentionEntities}
-                  textareaRef={taRef}
-                  placeholder="Задайте вопрос или упомяните /CL-…, /TX-…"
-                />
-              </div>
-            </div>
-          </>
         )}
+
+        <div className="py-3 md:py-4">
+          <div className="mx-auto max-w-3xl px-4 md:px-6">
+            <Composer
+              draft={draft}
+              setDraft={setDraft}
+              onSend={() => send(draft)}
+              attachment={attachment}
+              setAttachment={setAttachment}
+              fileRef={fileRef}
+              onPickFile={pickFile}
+              streaming={streaming}
+              model={model}
+              setModel={setModel}
+              entities={mentionEntities}
+              textareaRef={taRef}
+              placeholder={isEmpty ? "Задайте вопрос ассистенту…" : "Задайте вопрос или упомяните /CL-…, /TX-…"}
+            />
+          </div>
+        </div>
       </section>
     </div>
   );

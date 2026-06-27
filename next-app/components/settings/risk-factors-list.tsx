@@ -128,7 +128,7 @@ export function RiskFactorsList({
       meta: { width: "84px" },
       cell: ({ row }) => (
         <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
-          <Button variant="ghost" size="icon" className="size-8" aria-label={`Редактировать «${row.original.name}»`} onClick={() => onEdit?.(row.original)}>
+          <Button variant="ghost" size="icon" className="size-11 md:size-8" aria-label={`Редактировать «${row.original.name}»`} onClick={() => onEdit?.(row.original)}>
             <Pencil className="size-4" />
           </Button>
           {row.original.system ? (
@@ -162,6 +162,33 @@ export function RiskFactorsList({
         columns={columns}
         globalFilterPlaceholder="Поиск по названию, источнику..."
         onRowClick={(f) => onEdit?.(f)}
+        renderMobileCard={(f) => {
+          const share = f.active ? Math.round((f.weight / totalWeight) * 100) : 0;
+          return (
+            <div className="flex flex-col gap-2.5">
+              <div className="flex items-start justify-between gap-3">
+                <span className="min-w-0 truncate font-medium text-foreground">{f.name}</span>
+                <span className="shrink-0 font-mono text-xs tabular-nums text-muted-foreground">вес {f.weight}</span>
+              </div>
+              {f.description ? <p className="text-xs text-muted-foreground line-clamp-2">{f.description}</p> : null}
+              <div className="flex items-center gap-2">
+                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-foreground/[0.08]">
+                  <div className="h-full rounded-full bg-primary" style={{ width: `${share}%` }} />
+                </div>
+                <span className="shrink-0 text-xs tabular-nums text-muted-foreground">{share}%</span>
+              </div>
+              <div className="mt-0.5 flex flex-wrap items-center gap-1.5 border-t border-border pt-3">
+                <StatusBadge tone="muted">{TYPE_LABEL[f.type]}</StatusBadge>
+                <StatusBadge tone={f.active ? "success" : "muted"}>{f.active ? "Активен" : "Выкл."}</StatusBadge>
+                {f.system ? (
+                  <span className="ml-auto inline-flex items-center gap-1 text-xs text-muted-foreground/60">
+                    <Lock className="size-3" />Системный
+                  </span>
+                ) : null}
+              </div>
+            </div>
+          );
+        }}
         rowLabel={(f) => `Риск-фактор ${f.name}`}
         pageSize={20}
         globalFilterFn={(row, _col, value) => {

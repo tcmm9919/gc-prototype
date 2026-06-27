@@ -84,6 +84,24 @@ export function WorkflowsTable() {
       columns={columns}
       globalFilterPlaceholder="Поиск по ID, названию..."
       onRowClick={(s) => router.push(`/workflows/${s.id}`)}
+      renderMobileCard={(s) => {
+        const desc = (s as ComplianceScenario & { description?: string }).description;
+        return (
+          <div className="flex flex-col gap-2.5">
+            <div className="flex items-start justify-between gap-3">
+              <span className="min-w-0 truncate font-medium text-foreground">{s.name}</span>
+              <span className="shrink-0 font-mono text-xs text-muted-foreground">#{s.id.replace(/^SC-?/, "")}</span>
+            </div>
+            {desc ? <p className="text-sm text-muted-foreground line-clamp-2">{desc}</p> : null}
+            <div className="mt-0.5 flex flex-wrap items-center gap-1.5 border-t border-border pt-3">
+              <StatusBadge tone={TYPE_TONE[s.type]}>{TYPE_LABEL[s.type]}</StatusBadge>
+              {s.createdAt ? (
+                <span className="ml-auto text-xs text-muted-foreground"><RelativeTime iso={s.createdAt} /></span>
+              ) : null}
+            </div>
+          </div>
+        );
+      }}
       pageSize={20}
       globalFilterFn={(row, _col, value) => {
         const s = row.original;
