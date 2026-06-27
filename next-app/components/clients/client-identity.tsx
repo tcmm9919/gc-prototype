@@ -1,11 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { ArrowUp, UserPlus, ShieldAlert, Sparkles } from "lucide-react"
+import { toast } from "sonner"
+import { ArrowUp, UserPlus, ShieldAlert, Sparkles, Wand2 } from "lucide-react"
 import type { Client } from "@/lib/mock"
 import { useMockData } from "@/lib/mock"
 import { Block } from "@/components/ext/block"
 import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
 import { RiskBadge } from "@/components/ext/risk-badge"
 import { StatusBadge } from "@/components/ext/status-badge"
 import { AssistantPanel } from "@/components/ext/assistant-panel"
@@ -53,6 +55,13 @@ export function ClientIdentity({ client }: { client: Client }) {
   const { demoScore, cycle } = useClientDemo()
   const score = demoScore ?? client.internalScore
   const riskCfg = getRiskConfig(score)
+  const [genPrompt, setGenPrompt] = React.useState("")
+
+  const generate = () => {
+    if (!genPrompt.trim()) return
+    toast.success("Сценарий сгенерирован из запроса")
+    setGenPrompt("")
+  }
 
   return (
     <div className="flex flex-col gap-4">
@@ -165,6 +174,36 @@ export function ClientIdentity({ client }: { client: Client }) {
                 </Button>
               }
             />
+          </div>
+        </div>
+      </Block>
+
+      {/* AI-генерация сценариев — NL-запрос (PRD) */}
+      <Block dense>
+        <div className="flex flex-col gap-2.5">
+          <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold tracking-wider text-primary uppercase">
+            <Wand2 className="size-3.5" />
+            AI-генерация сценариев
+          </span>
+          <Textarea
+            rows={3}
+            value={genPrompt}
+            onChange={(e) => setGenPrompt(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault()
+                generate()
+              }
+            }}
+            placeholder="Напишите запрос на естественном языке…"
+            className="resize-none text-sm"
+          />
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-[11px] text-muted-foreground">Shift+Enter — новая строка</span>
+            <Button size="sm" onClick={generate} disabled={!genPrompt.trim()}>
+              <Sparkles className="size-3.5" />
+              Сгенерировать
+            </Button>
           </div>
         </div>
       </Block>
