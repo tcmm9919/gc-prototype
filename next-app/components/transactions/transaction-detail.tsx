@@ -160,10 +160,15 @@ export function TransactionDetail({ id }: { id: string }) {
                             <Link href={`/clients/${client.id}`} className="block text-sm font-semibold text-primary hover:underline">{client.fullName}</Link>
                             <KV label="ИИН/БИН" value={client.iin ?? client.bin ?? "—"} mono />
                             <KV label="Резидентство" value={client.countryFullName ?? client.country ?? "—"} />
-                            <KV label="Тип участника" value={client.type === "legal" ? "legal" : "individual"} />
+                            <KV label="Тип участника" value={client.type === "legal" ? "Юр. лицо" : "Физ. лицо"} />
                             <KV label="Статус ПДЛ" value={client.pep ? "Да" : "Нет"} />
+                            <KV label="Родственник ПДЛ" value="—" />
+                            <KV label="ОКЭД" value="—" />
+                            <KV label="Документ личности" value={client.iin ? `Удостоверение личности РК №${client.iin}` : "—"} />
                             <KV label="Дата рождения" value={client.birthDate ?? "—"} />
                             <KV label="Место рождения" value={client.birthplace ?? "—"} />
+                            <KV label="Юридический адрес" value={client.accountBranch ?? "—"} />
+                            <KV label="Контактный телефон" value="—" />
                             <Button asChild variant="outline" size="sm" className="mt-1 w-fit">
                               <Link href={`/clients/${client.id}`}><User className="size-3.5" />Открыть карточку</Link>
                             </Button>
@@ -176,8 +181,18 @@ export function TransactionDetail({ id }: { id: string }) {
                         <p className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">Получатель</p>
                         {tx.counterparty?.name ? (
                           <>
-                            <KV label="Наименование" value={tx.counterparty.name} />
-                            <KV label="Страна" value={tx.counterparty.country ?? "—"} />
+                            <p className="text-sm font-semibold text-foreground">{tx.counterparty.name}</p>
+                            <KV label="ИИН/БИН" value={tx.counterparty.iinBin ?? "—"} mono />
+                            <KV label="Резидентство" value={tx.counterparty.residency ?? tx.counterparty.country ?? "—"} />
+                            <KV label="Тип участника" value={tx.counterparty.participantType ?? "—"} />
+                            <KV label="Статус ПДЛ" value={tx.counterparty.pdl == null ? "—" : tx.counterparty.pdl ? "Да" : "Нет"} />
+                            <KV label="Родственник ПДЛ" value={tx.counterparty.pdlRelative == null ? "—" : tx.counterparty.pdlRelative ? "Да" : "Нет"} />
+                            <KV label="ОКЭД" value={tx.counterparty.oked ?? "—"} />
+                            <KV label="Документ личности" value={tx.counterparty.idDoc ?? "—"} />
+                            <KV label="Дата рождения" value={tx.counterparty.birthDate ?? "—"} />
+                            <KV label="Место рождения" value={tx.counterparty.birthPlace ?? "—"} />
+                            <KV label="Юридический адрес" value={tx.counterparty.legalAddress ?? "—"} />
+                            <KV label="Контактный телефон" value={tx.counterparty.phone ?? "—"} />
                             <KV label="Счёт" value={tx.counterparty.iban ?? "—"} mono />
                           </>
                         ) : (
