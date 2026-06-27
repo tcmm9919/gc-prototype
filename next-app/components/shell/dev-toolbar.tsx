@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { History, Wrench } from "lucide-react";
+import { History, LogIn, Wrench } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -26,6 +26,14 @@ const STATE_OPTIONS: Array<{ key: MockState; label: string; short: string }> = [
   { key: "loading", label: "Загрузка", short: "L" },
   { key: "empty", label: "Пусто", short: "E" },
   { key: "error", label: "Ошибка", short: "R" },
+];
+
+const AUTH_SCREENS: Array<{ href: string; label: string }> = [
+  { href: "/login", label: "Логин" },
+  { href: "/2fa", label: "2FA" },
+  { href: "/register", label: "Регистр." },
+  { href: "/forgot-password", label: "Забыл пароль" },
+  { href: "/reset-password", label: "Сброс" },
 ];
 
 export function DevToolbar() {
@@ -93,6 +101,26 @@ export function DevToolbar() {
                   ))}
                 </SelectContent>
               </Select>
+            </div>
+            <div className="flex flex-col gap-1.5">
+              <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                <LogIn className="size-3.5" />
+                Логин-флоу
+              </span>
+              <div className="grid grid-cols-3 gap-1">
+                {AUTH_SCREENS.map((s) => (
+                  <Button
+                    key={s.href}
+                    size="sm"
+                    variant="outline"
+                    onClick={() => router.push(s.href)}
+                    className="h-8 px-1 text-[11px]"
+                    title={s.label}
+                  >
+                    {s.label}
+                  </Button>
+                ))}
+              </div>
             </div>
             <Button
               size="sm"
